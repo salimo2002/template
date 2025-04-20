@@ -26,6 +26,6 @@ final Color color;
           title,
         ),
       ),
-    );
+    );  
   }
 }
