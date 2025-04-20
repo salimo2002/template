@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:template/utils/constants.dart';
@@ -7,8 +6,11 @@ import 'package:template/utils/responsive_text.dart';
 class TextFieldBarcode extends StatelessWidget {
   const TextFieldBarcode({
     super.key,
+    required this.hintText,
+    required this.label,
   });
-
+  final String hintText;
+  final String label;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -27,7 +29,7 @@ class TextFieldBarcode extends StatelessWidget {
             textDirection: TextDirection.rtl,
             decoration: InputDecoration(
               hintTextDirection: TextDirection.rtl,
-              hintText: 'اسم المادة',
+              hintText: hintText,
               fillColor: kWhite,
               filled: true,
               enabledBorder: OutlineInputBorder(
@@ -43,10 +45,7 @@ class TextFieldBarcode extends StatelessWidget {
           ),
         ),
         SizedBox(width: 30),
-        Text(
-          'اسم المادة',
-          style: TextStyle(fontSize: getResponsiveText(context, 15)),
-        ),
+        Text(label, style: TextStyle(fontSize: getResponsiveText(context, 15))),
         SizedBox(width: 30),
       ],
     );
