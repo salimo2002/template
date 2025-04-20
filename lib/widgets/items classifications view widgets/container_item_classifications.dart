@@ -1,23 +1,23 @@
 
 import 'package:flutter/material.dart';
-import 'package:template/utils/constants.dart';
 import 'package:template/utils/responsive_text.dart';
 
 class ContainerItemClassifications extends StatelessWidget {
   const ContainerItemClassifications({
     super.key,
-    required this.nameClassificatio, required this.onTap,
+    required this.nameClassificatio, required this.onTap, required this.color,
   });
   final String nameClassificatio;
   final void Function() onTap;
+  final Color color;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(onTap: (){},
+    return GestureDetector(onTap:onTap,
       child: Container(
         height: 45,
         width: MediaQuery.sizeOf(context).width * .95,
         decoration: BoxDecoration(
-          color: kgrey,
+          color: color,
           border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.circular(2),
         ),
