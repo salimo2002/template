@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
-import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
-import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/text_field_barcode.dart';
-import 'package:template/widgets/text_field_details.dart';
 
 class NewItemView extends StatelessWidget {
   const NewItemView({super.key});
