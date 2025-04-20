@@ -10,7 +10,6 @@ class HomeView extends StatelessWidget {
   static String id = 'HomeView';
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
       drawer: Drawer(),
       appBar: AppBar(
@@ -41,8 +40,12 @@ class HomeView extends StatelessWidget {
                   PartsTitle(
                     title: 'انشاء فواتير و سندات جديد',
                     color: kblueAccent,
-                  ),  SizedBox(height: 5),
-   ButtonCheckPrice(title: 'استعلام عن سعر مادة', icon: Icons.warning_rounded),
+                  ),
+                  SizedBox(height: 5),
+                  ButtonCheckPrice(
+                    title: 'استعلام عن سعر مادة',
+                    icon: Icons.warning_rounded,
+                  ),
                   SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -53,7 +56,7 @@ class HomeView extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 5),
-                    Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomButton(text: 'ssss', icon: Icons.abc, onTap: () {}),
@@ -65,7 +68,6 @@ class HomeView extends StatelessWidget {
                 ],
               ),
             ),
-         
           ],
         ),
       ),
