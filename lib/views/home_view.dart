@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
+import 'package:template/views/material_card_view.dart';
+import 'package:template/widgets/custom_button_.dart';
 import 'package:template/widgets/parts_titel.dart';
 
 class HomeView extends StatelessWidget {
@@ -25,6 +27,9 @@ class HomeView extends StatelessWidget {
             PartsTitle(title: 'نسخة تجريبية محدودة', color: kred),
 
             PartsTitle(title: 'المتجر الإلكتروني', color: kblueAccent),
+            CustomButton(text: 'بطاقات المواد', icon: Icons.abc, onTap: () {
+              Navigator.pushNamed(context, MaterialCardView.id);
+            }),
           ],
         ),
       ),
