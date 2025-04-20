@@ -1,7 +1,6 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/widgets/button_check_price.dart';
 import 'package:template/widgets/custom_container.dart';

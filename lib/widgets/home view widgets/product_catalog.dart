@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/views/item_card_view.dart';
+import 'package:template/views/items_classifications_view.dart';
 import 'package:template/widgets/custom_container.dart';
 import 'package:template/widgets/parts_titel.dart';
 import 'package:template/widgets/row_custom_button.dart';
@@ -18,7 +19,7 @@ class ProductCatalog extends StatelessWidget {
        crossAxisAlignment: CrossAxisAlignment.center,
        children: [
          PartsTitle(
-           title: 'المواد وتصنيفها',
+           title: 'المواد وتصنيفاتها',
            color: kblueAccent,
          ),
         
@@ -38,7 +39,7 @@ class ProductCatalog extends StatelessWidget {
            icon1: Icons.file_download,
            icon2: Icons.dock_sharp,
            onTap1: () {},
-           onTap2: () {},
+           onTap2: () {Navigator.pushNamed(context, ItemsClassificationsView.id);},
            text1: 'جرد المستودع',
            text2: 'تصنيفات المواد',
          ), SizedBox(height: 5),

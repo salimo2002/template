@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/views/item_card_view.dart';
+import 'package:template/views/items_classifications_view.dart';
 import 'package:template/views/new_item_view.dart';
 
 void main(List<String> args) {
@@ -24,7 +25,7 @@ class Template extends StatelessWidget {
         HomeView.id: (context) => const HomeView(),
         ItemCardView.id: (context) => const ItemCardView(),
         NewItemView.id: (context) => const NewItemView(),
-
+        ItemsClassificationsView.id: (context) => const ItemsClassificationsView(),
       },
       initialRoute: HomeView.id,
     );
