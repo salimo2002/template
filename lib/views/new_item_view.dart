@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
-import 'package:template/utils/responsive_text.dart';
-import 'package:template/widgets/container_fields.dart';
-import 'package:template/widgets/text_field_barcode.dart';
-import 'package:template/widgets/text_field_details.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/drop_down_menu_and_details.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/text_field_barcode.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
 
 class NewItemView extends StatelessWidget {
   const NewItemView({super.key});
@@ -43,52 +43,7 @@ class NewItemView extends StatelessWidget {
                   ),
                   ContainerFields(
                     children: [
-                      Row(
-                        children: [
-                          SizedBox(width: 5),
-                          Expanded(
-                            child: Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: DropdownMenu(
-                                trailingIcon: SizedBox.shrink(),
-                                inputDecorationTheme: InputDecorationTheme(
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(color: kblueAccent),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: kblueAccent),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: kblueAccent),
-                                  ),
-                                  filled: true,
-                                  fillColor: kWhite,
-                                ),
-                                width: double.infinity,
-                                menuStyle: MenuStyle(
-                                  backgroundColor: WidgetStateProperty.all(
-                                    kWhite,
-                                  ),
-                                ),
-                                dropdownMenuEntries: [
-                                  DropdownMenuEntry<String>(
-                                    value: 'البسة',
-                                    label: 'عام',
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 20),
-                          Text(
-                            ' التصنيف',
-                            style: TextStyle(
-                              fontSize: getResponsiveText(context, 15),
-                            ),
-                          ),
-                          SizedBox(width: 20),
-                        ],
-                      ),
+                      DropDownMenuAndDetails(),
                     ],
                   ),
                 ],

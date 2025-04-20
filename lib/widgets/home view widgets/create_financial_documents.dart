@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
-import 'package:template/widgets/button_check_price.dart';
-import 'package:template/widgets/custom_container.dart';
-import 'package:template/widgets/parts_titel.dart';
-import 'package:template/widgets/row_custom_button.dart';
+import 'package:template/widgets/home%20view%20widgets/button_check_price.dart';
+import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
+import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
+import 'package:template/widgets/home%20view%20widgets/row_custom_button.dart';
 
 class CreateFinancialDocuments extends StatelessWidget {
   const CreateFinancialDocuments({

@@ -9,7 +9,7 @@ import 'package:template/widgets/home%20view%20widgets/lookup.dart';
 import 'package:template/widgets/home%20view%20widgets/product_catalog.dart';
 import 'package:template/widgets/home%20view%20widgets/store_section.dart';
 import 'package:template/widgets/home%20view%20widgets/view_invoices.dart';
-import 'package:template/widgets/parts_titel.dart';
+import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
