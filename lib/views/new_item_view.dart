@@ -1,15 +1,20 @@
+import 'dart:developer';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/drop_down_menu_and_details.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/text_field_barcode.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
+import 'package:template/utils/responsive_text.dart';
+import 'package:template/widgets/container_fields.dart';
+import 'package:template/widgets/switch_and_details.dart';
+import 'package:template/widgets/text_field_barcode.dart';
+import 'package:template/widgets/text_field_details.dart';
 
 class NewItemView extends StatelessWidget {
   const NewItemView({super.key});
   static String id = 'NewItemView';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +34,7 @@ class NewItemView extends StatelessWidget {
                     children: [
                       TextFieldAndDetails(
                         hintText: 'اسم المادة',
-                        label: 'اسم المادة',
+                        label: '  اسم المادة',
                       ),
                     ],
                   ),
@@ -43,7 +48,76 @@ class NewItemView extends StatelessWidget {
                   ),
                   ContainerFields(
                     children: [
-                      DropDownMenuAndDetails(),
+                      Row(
+                        children: [
+                          SizedBox(width: 5),
+                          Expanded(
+                            child: Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: DropdownMenu(
+                                trailingIcon: SizedBox.shrink(),
+                                inputDecorationTheme: InputDecorationTheme(
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: kblueAccent),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: kblueAccent),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: kblueAccent),
+                                  ),
+                                  filled: true,
+                                  fillColor: kWhite,
+                                ),
+                                width: double.infinity,
+                                menuStyle: MenuStyle(
+                                  backgroundColor: WidgetStateProperty.all(
+                                    kWhite,
+                                  ),
+                                ),
+                                dropdownMenuEntries: [
+                                  DropdownMenuEntry<String>(
+                                    value: 'البسة',
+                                    label: 'عام',
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          Text(
+                            ' التصنيف',
+                            style: TextStyle(
+                              fontSize: getResponsiveText(context, 15),
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                        ],
+                      ),
+                    ],
+                  ),
+                  ContainerFields(
+                    children: [
+                      SwitchAndDetails(valueSwitch: ValueNotifier(false)),
+                    ],
+                  ),
+                  ContainerFields(
+                    children: [
+                      TextFieldAndDetails(
+                        hintText: '',
+                        label: "الوحدة الاولى",
+                        initValue: 'قطعة',
+                      ),
+                      SizedBox(height: 5),
+                      TextFieldAndDetails(
+                        hintText: 'سعر الشراء',
+                        label: "   سعر الشراء",
+                      ),
+                      SizedBox(height: 5),
+                      TextFieldAndDetails(
+                        hintText: 'سعر المبيع',
+                        label: "   سعر المبيع",
+                      ),
                     ],
                   ),
                 ],
