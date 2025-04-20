@@ -7,7 +7,6 @@ import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/container_fields.dart';
-import 'package:template/widgets/switch_and_details.dart';
 import 'package:template/widgets/text_field_barcode.dart';
 import 'package:template/widgets/text_field_details.dart';
 
@@ -84,11 +83,11 @@ class NewItemView extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(width: 30),
+                          SizedBox(width: 20),
                           Text(
                             ' التصنيف',
                             style: TextStyle(
-                              fontSize: getResponsiveText(context, 12),
+                              fontSize: getResponsiveText(context, 15),
                             ),
                           ),
                           SizedBox(width: 20),

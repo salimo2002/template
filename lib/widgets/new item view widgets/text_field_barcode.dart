@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/responsive_text.dart';
-import 'package:template/widgets/custom_text_field.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
 
 class TextFieldAndBarcode extends StatelessWidget {
   const TextFieldAndBarcode({

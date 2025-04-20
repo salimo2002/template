@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/views/item_card_view.dart';
 import 'package:template/views/items_classifications_view.dart';
-import 'package:template/widgets/custom_container.dart';
-import 'package:template/widgets/parts_titel.dart';
-import 'package:template/widgets/row_custom_button.dart';
+import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
+import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
+import 'package:template/widgets/home%20view%20widgets/row_custom_button.dart';
 
 class ProductCatalog extends StatelessWidget {
   const ProductCatalog({

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:template/utils/responsive_text.dart';
-import 'package:template/widgets/custom_text_field.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
 
 class TextFieldAndDetails extends StatelessWidget {
   const TextFieldAndDetails({
