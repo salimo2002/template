@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
+import 'package:template/utils/font_style.dart';
+import 'package:template/utils/responsive_text.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
@@ -16,8 +18,8 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 190,
-        height: 75,
+        width: MediaQuery.sizeOf(context).width * .46,
+        height: MediaQuery.sizeOf(context).width * .17,
         decoration: BoxDecoration(
           border: Border.all(color: kblueAccent),
           borderRadius: BorderRadius.circular(5),
@@ -27,9 +29,18 @@ class CustomButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(size: 35, color: kblueAccent, icon),
+            SizedBox(height: 5),
+            Expanded(child: Icon(size: 35, color: kblueAccent, icon)),
             SizedBox(height: 10),
-            Text(text),
+            FittedBox(
+              child: Text(
+                text,
+                style: FontStyleApp.blackCustom18.copyWith(
+                  fontSize: getResponsiveText(context, 14),
+                ),
+              ),
+            ),
+            SizedBox(height: 5),
           ],
         ),
       ),
