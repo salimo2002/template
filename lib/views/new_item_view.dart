@@ -1,19 +1,37 @@
-import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
-import 'package:template/utils/responsive_text.dart';
-import 'package:template/widgets/container_fields.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/convert_operator_text_field.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/drop_down_menu_and_details.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/save_and_exite_button.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/text_field_barcode.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
 import 'package:template/widgets/switch_and_details.dart';
-import 'package:template/widgets/text_field_barcode.dart';
-import 'package:template/widgets/text_field_details.dart';
 
-class NewItemView extends StatelessWidget {
+class NewItemView extends StatefulWidget {
   const NewItemView({super.key});
   static String id = 'NewItemView';
+
+  @override
+  State<NewItemView> createState() => _NewItemViewState();
+}
+
+class _NewItemViewState extends State<NewItemView> {
+  final TextEditingController firstController = TextEditingController();
+  final TextEditingController secondController = TextEditingController();
+  final TextEditingController controllerOne = TextEditingController();
+  final TextEditingController controllerTow = TextEditingController();
+  @override
+  void initState() {
+    firstController.addListener(() {
+      secondController.text = firstController.text;
+    });
+    controllerOne.addListener(() {
+      controllerTow.text = controllerOne.text;
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +51,7 @@ class NewItemView extends StatelessWidget {
                   ContainerFields(
                     children: [
                       TextFieldAndDetails(
+                        controller: TextEditingController(),
                         hintText: 'اسم المادة',
                         label: '  اسم المادة',
                       ),
@@ -41,61 +60,13 @@ class NewItemView extends StatelessWidget {
                   ContainerFields(
                     children: [
                       TextFieldAndBarcode(
+                        controller: TextEditingController(),
                         hintText: 'الباركود',
                         label: 'الباركود',
                       ),
                     ],
                   ),
-                  ContainerFields(
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(width: 5),
-                          Expanded(
-                            child: Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: DropdownMenu(
-                                trailingIcon: SizedBox.shrink(),
-                                inputDecorationTheme: InputDecorationTheme(
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(color: kblueAccent),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: kblueAccent),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: kblueAccent),
-                                  ),
-                                  filled: true,
-                                  fillColor: kWhite,
-                                ),
-                                width: double.infinity,
-                                menuStyle: MenuStyle(
-                                  backgroundColor: WidgetStateProperty.all(
-                                    kWhite,
-                                  ),
-                                ),
-                                dropdownMenuEntries: [
-                                  DropdownMenuEntry<String>(
-                                    value: 'البسة',
-                                    label: 'عام',
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 20),
-                          Text(
-                            ' التصنيف',
-                            style: TextStyle(
-                              fontSize: getResponsiveText(context, 15),
-                            ),
-                          ),
-                          SizedBox(width: 20),
-                        ],
-                      ),
-                    ],
-                  ),
+                  ContainerFields(children: [DropDownMenuAndDetails()]),
                   ContainerFields(
                     children: [
                       SwitchAndDetails(valueSwitch: ValueNotifier(false)),
@@ -104,41 +75,84 @@ class NewItemView extends StatelessWidget {
                   ContainerFields(
                     children: [
                       TextFieldAndDetails(
-                        hintText: '',
+                        controller: firstController,
+                        hintText: 'الوحدة الاولى',
                         label: "الوحدة الاولى",
-                        initValue: 'قطعة',
                       ),
                       SizedBox(height: 5),
                       TextFieldAndDetails(
+                        controller: TextEditingController(),
                         hintText: 'سعر الشراء',
                         label: "   سعر الشراء",
                       ),
                       SizedBox(height: 5),
                       TextFieldAndDetails(
+                        controller: TextEditingController(),
                         hintText: 'سعر المبيع',
                         label: "   سعر المبيع",
                       ),
                     ],
                   ),
+                  ContainerFields(
+                    children: [
+                      TextFieldAndDetails(
+                        controller: controllerOne,
+                        hintText: 'الوحدة الثانية',
+                        label: "الوحدة الثانية",
+                      ),
+                      SizedBox(height: 5),
+                      ConvertOperatorTextField(
+                        textEditingController: secondController,
+                        label: 'معامل التحويل',
+                        hintText: 'معامل التحويل',
+                      ),
+                      SizedBox(height: 5),
+                      TextFieldAndDetails(
+                        hintText: 'سعر المبيع',
+                        label: '  سعر المبيع',
+                        controller: TextEditingController(),
+                      ),
+                      SizedBox(height: 5),
+                      TextFieldAndBarcode(
+                        hintText: 'الباركود',
+                        label: 'الباركود',
+                        controller: TextEditingController(),
+                      ),
+                    ],
+                  ),
+                  ContainerFields(
+                    children: [
+                      TextFieldAndDetails(
+                        controller: TextEditingController(),
+                        hintText: 'الوحدة الثالثة',
+                        label: "الوحدة الثالثة",
+                      ),
+                      SizedBox(height: 5),
+                      ConvertOperatorTextField(
+                        textEditingController: controllerTow,
+                        label: 'معامل التحويل',
+                        hintText: 'معامل التحويل',
+                      ),
+                      SizedBox(height: 5),
+                      TextFieldAndDetails(
+                        hintText: 'سعر المبيع',
+                        label: '  سعر المبيع',
+                        controller: TextEditingController(),
+                      ),
+                      SizedBox(height: 5),
+                      TextFieldAndBarcode(
+                        hintText: 'الباركود',
+                        label: 'الباركود',
+                        controller: TextEditingController(),
+                      ),
+                    ],
+                  ),
+                  
                 ],
               ),
             ),
           ),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-                ),
-                backgroundColor: WidgetStateProperty.all(kblueAccent),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('حفظ وانهاء', style: FontStyleApp.white18),
-            ),
-          ),
+          SizedBox(width: double.infinity, child: SaveAndExitButton()),
         ],
       ),
     );
