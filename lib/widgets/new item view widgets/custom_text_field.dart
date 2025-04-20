@@ -5,15 +5,15 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     required this.hintText,
-    this.initValue = '',
+    required this.controller,
   });
 
   final String hintText;
-  final String initValue;
+  final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      initialValue: initValue,
+      controller: controller,
       textDirection: TextDirection.rtl,
       decoration: InputDecoration(
         hintTextDirection: TextDirection.rtl,
