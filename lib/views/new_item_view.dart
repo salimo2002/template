@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
+import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/container_fields.dart';
 import 'package:template/widgets/text_field_barcode.dart';
 import 'package:template/widgets/text_field_details.dart';
@@ -26,82 +27,68 @@ class NewItemView extends StatelessWidget {
                 children: [
                   ContainerFields(
                     children: [
-                      TextFieldDetails(
+                      TextFieldAndDetails(
                         hintText: 'اسم المادة',
                         label: 'اسم المادة',
                       ),
-                      SizedBox(height: 10),
-                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
                     ],
                   ),
                   ContainerFields(
                     children: [
-                      TextFieldDetails(
-                        hintText: 'اسم المادة',
-                        label: 'اسم المادة',
+                      TextFieldAndBarcode(
+                        hintText: 'الباركود',
+                        label: 'الباركود',
                       ),
-                      SizedBox(height: 10),
-                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
                     ],
                   ),
                   ContainerFields(
                     children: [
-                      TextFieldDetails(
-                        hintText: 'اسم المادة',
-                        label: 'اسم المادة',
+                      Row(
+                        children: [
+                          SizedBox(width: 5),
+                          Expanded(
+                            child: Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: DropdownMenu(
+                                trailingIcon: SizedBox.shrink(),
+                                inputDecorationTheme: InputDecorationTheme(
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: kblueAccent),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: kblueAccent),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: kblueAccent),
+                                  ),
+                                  filled: true,
+                                  fillColor: kWhite,
+                                ),
+                                width: double.infinity,
+                                menuStyle: MenuStyle(
+                                  backgroundColor: WidgetStateProperty.all(
+                                    kWhite,
+                                  ),
+                                ),
+                                dropdownMenuEntries: [
+                                  DropdownMenuEntry<String>(
+                                    value: 'البسة',
+                                    label: 'عام',
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          Text(
+                            ' التصنيف',
+                            style: TextStyle(
+                              fontSize: getResponsiveText(context, 15),
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                        ],
                       ),
-                      SizedBox(height: 10),
-                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
-                    ],
-                  ),
-                  ContainerFields(
-                    children: [
-                      TextFieldDetails(
-                        hintText: 'اسم المادة',
-                        label: 'اسم المادة',
-                      ),
-                      SizedBox(height: 10),
-                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
-                    ],
-                  ),
-                  ContainerFields(
-                    children: [
-                      TextFieldDetails(
-                        hintText: 'اسم المادة',
-                        label: 'اسم المادة',
-                      ),
-                      SizedBox(height: 10),
-                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
-                    ],
-                  ),
-                  ContainerFields(
-                    children: [
-                      TextFieldDetails(
-                        hintText: 'اسم المادة',
-                        label: 'اسم المادة',
-                      ),
-                      SizedBox(height: 10),
-                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
-                    ],
-                  ),
-                  ContainerFields(
-                    children: [
-                      TextFieldDetails(
-                        hintText: 'اسم المادة',
-                        label: 'اسم المادة',
-                      ),
-                      SizedBox(height: 10),
-                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
-                    ],
-                  ),
-                  ContainerFields(
-                    children: [
-                      TextFieldDetails(
-                        hintText: 'اسم المادة',
-                        label: 'اسم المادة',
-                      ),
-                      SizedBox(height: 10),
-                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
                     ],
                   ),
                 ],
@@ -117,7 +104,9 @@ class NewItemView extends StatelessWidget {
                 ),
                 backgroundColor: WidgetStateProperty.all(kblueAccent),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
               child: Text('حفظ وانهاء', style: FontStyleApp.white18),
             ),
           ),

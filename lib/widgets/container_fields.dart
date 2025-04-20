@@ -5,15 +5,18 @@ class ContainerFields extends StatelessWidget {
   final List<Widget> children;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 5),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Color(0xfff3f3f3),
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: Colors.black),
+    return Padding(
+      padding: const EdgeInsets.only(top: 10, right: 5, left: 5),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 5),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Color(0xfff3f3f3),
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: Colors.black),
+        ),
+        child: Column(mainAxisSize: MainAxisSize.min, children: children),
       ),
-      child: Column(mainAxisSize: MainAxisSize.min, children: children),
     );
   }
 }

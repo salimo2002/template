@@ -25,7 +25,8 @@ class Template extends StatelessWidget {
         HomeView.id: (context) => const HomeView(),
         ItemCardView.id: (context) => const ItemCardView(),
         NewItemView.id: (context) => const NewItemView(),
-        ItemsClassificationsView.id: (context) => const ItemsClassificationsView(),
+        ItemsClassificationsView.id:
+            (context) => const ItemsClassificationsView(),
       },
       initialRoute: HomeView.id,
     );

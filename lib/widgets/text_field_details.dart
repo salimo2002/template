@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:template/utils/constants.dart';
 import 'package:template/utils/responsive_text.dart';
+import 'package:template/widgets/custom_text_field.dart';
 
-class TextFieldDetails extends StatelessWidget {
-  const TextFieldDetails({
+class TextFieldAndDetails extends StatelessWidget {
+  const TextFieldAndDetails({
     super.key,
     required this.hintText,
     required this.label,
@@ -16,29 +16,12 @@ class TextFieldDetails extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        const SizedBox(width: 10),
-        Expanded(
-          child: TextField(
-            textDirection: TextDirection.rtl,
-            decoration: InputDecoration(
-              hintTextDirection: TextDirection.rtl,
-              hintText: hintText,
-              fillColor: kWhite,
-              filled: true,
-              enabledBorder: borderStyle(),
-              border: borderStyle(),
-              focusedBorder: borderStyle(),
-            ),
-          ),
-        ),
-        const SizedBox(width: 30),
+        const SizedBox(width: 5),
+        Expanded(child: CustomTextField(hintText: hintText)),
+        const SizedBox(width: 20),
         Text(label, style: TextStyle(fontSize: getResponsiveText(context, 15))),
-        const SizedBox(width: 30),
+        const SizedBox(width: 20),
       ],
     );
-  }
-
-  OutlineInputBorder borderStyle() {
-    return OutlineInputBorder(borderSide: BorderSide(color: kblueAccent));
   }
 }
