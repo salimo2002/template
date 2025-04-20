@@ -23,7 +23,7 @@ class Template extends StatelessWidget {
         HomeView.id: (context) => HomeView(),
         MaterialCardView.id: (context) => MaterialCardView(),
       },
-      initialRoute: HomeView.id,
+      initialRoute: MaterialCardView.id,
     );
   }
 }
