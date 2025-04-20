@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/text_field_barcode.dart';
 
 class NewItemView extends StatelessWidget {
@@ -13,18 +14,111 @@ class NewItemView extends StatelessWidget {
         title: 'مادة جديدة',
         showIcons: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 5),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Color(0xfff3f3f3),
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: Colors.black),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  ContainerFields(
+                    children: [
+                      TextFieldDetails(
+                        hintText: 'اسم المادة',
+                        label: 'اسم المادة',
+                      ),
+                      SizedBox(height: 10),
+                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
+                    ],
+                  ),
+                  ContainerFields(
+                    children: [
+                      TextFieldDetails(
+                        hintText: 'اسم المادة',
+                        label: 'اسم المادة',
+                      ),
+                      SizedBox(height: 10),
+                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
+                    ],
+                  ),
+                  ContainerFields(
+                    children: [
+                      TextFieldDetails(
+                        hintText: 'اسم المادة',
+                        label: 'اسم المادة',
+                      ),
+                      SizedBox(height: 10),
+                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
+                    ],
+                  ),
+                  ContainerFields(
+                    children: [
+                      TextFieldDetails(
+                        hintText: 'اسم المادة',
+                        label: 'اسم المادة',
+                      ),
+                      SizedBox(height: 10),
+                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
+                    ],
+                  ),
+                  ContainerFields(
+                    children: [
+                      TextFieldDetails(
+                        hintText: 'اسم المادة',
+                        label: 'اسم المادة',
+                      ),
+                      SizedBox(height: 10),
+                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
+                    ],
+                  ),
+                  ContainerFields(
+                    children: [
+                      TextFieldDetails(
+                        hintText: 'اسم المادة',
+                        label: 'اسم المادة',
+                      ),
+                      SizedBox(height: 10),
+                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
+                    ],
+                  ),
+                  ContainerFields(
+                    children: [
+                      TextFieldDetails(
+                        hintText: 'اسم المادة',
+                        label: 'اسم المادة',
+                      ),
+                      SizedBox(height: 10),
+                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
+                    ],
+                  ),
+                  ContainerFields(
+                    children: [
+                      TextFieldDetails(
+                        hintText: 'اسم المادة',
+                        label: 'اسم المادة',
+                      ),
+                      SizedBox(height: 10),
+                      TextFieldBarcode(hintText: 'الباركود', label: 'الباركود'),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
-          child: TextFieldBarcode(),
-        ),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                ),
+                backgroundColor: WidgetStateProperty.all(kblueAccent),
+              ),
+              onPressed: () {},
+              child: Text('حفظ وانهاء', style: FontStyleApp.white18),
+            ),
+          ),
+        ],
       ),
     );
   }
