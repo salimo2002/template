@@ -1,6 +1,5 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/widgets/home%20view%20widgets/button_check_price.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
@@ -8,9 +7,7 @@ import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
 import 'package:template/widgets/home%20view%20widgets/row_custom_button.dart';
 
 class CreateFinancialDocuments extends StatelessWidget {
-  const CreateFinancialDocuments({
-    super.key,
-  });
+  const CreateFinancialDocuments({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,19 +15,16 @@ class CreateFinancialDocuments extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PartsTitle(
-            title: 'انشاء فواتير و سندات جديد',
-            color: kblueAccent,
-          ),
+          PartsTitle(title: 'انشاء فواتير و سندات جديد', color: kblueAccent),
           SizedBox(height: 5),
           ButtonCheckPrice(
             title: 'استعلام عن سعر مادة',
-            icon: Icons.warning_rounded,
+            icon: FontAwesomeIcons.solidQuestionCircle,
           ),
           SizedBox(height: 5),
           RowCustomButton(
-            icon1: Icons.file_copy,
-            icon2: Icons.file_copy_outlined,
+            icon1: FontAwesomeIcons.fileCirclePlus,
+            icon2: FontAwesomeIcons.fileCirclePlus,
             onTap1: () {},
             onTap2: () {},
             text2: 'فاتورة مبيعات جديدة',
@@ -38,8 +32,8 @@ class CreateFinancialDocuments extends StatelessWidget {
           ),
           SizedBox(height: 5),
           RowCustomButton(
-            icon1: Icons.file_download,
-            icon2: Icons.dock_sharp,
+            icon1: FontAwesomeIcons.fileCircleMinus,
+            icon2: FontAwesomeIcons.creditCard,
             onTap1: () {},
             onTap2: () {},
             text1: 'فاتورة مرتجعات جديدة',

@@ -29,16 +29,18 @@ class CustomButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 5),
             Expanded(child: Icon(size: 35, color: kblueAccent, icon)),
             SizedBox(height: 10),
             FittedBox(
               child: Text(
                 text,
-                style: FontStyleApp.black18.copyWith(
-                  fontSize: getResponsiveText(context, 18),
+                style: FontStyleApp.blackCustom18.copyWith(
+                  fontSize: getResponsiveText(context, 14),
                 ),
               ),
             ),
+            SizedBox(height: 5),
           ],
         ),
       ),
