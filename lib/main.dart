@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/views/home_view.dart';
-import 'package:template/views/material_card_view.dart';
+import 'package:template/views/item_card_view.dart';
+import 'package:template/views/new_item_view.dart';
 
 void main(List<String> args) {
   runApp(Template());
@@ -20,10 +21,11 @@ class Template extends StatelessWidget {
         ),
       ),
       routes: {
-        HomeView.id: (context) => HomeView(),
-        MaterialCardView.id: (context) => MaterialCardView(),
+        HomeView.id: (context) => const HomeView(),
+        ItemCardView.id: (context) => const ItemCardView(),
+        NewItemView.id: (context) => const NewItemView(),
       },
-      initialRoute: MaterialCardView.id,
+      initialRoute: ItemCardView.id,
     );
   }
 }
