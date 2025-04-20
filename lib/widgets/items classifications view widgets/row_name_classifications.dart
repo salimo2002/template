@@ -15,19 +15,21 @@ class RowNameClassifications extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: IconButton(onPressed: (){}, icon: Icon(Icons.add_circle),),
       ),
-       SizedBox(width: MediaQuery.sizeOf(context).width*.82,height:33 ,
-         child: TextField(
-                     textDirection: TextDirection.rtl,
-                     decoration: InputDecoration(
-                       hintTextDirection: TextDirection.rtl,
-                       hintText: hintText,
-                       fillColor: kWhite,
-                       filled: true,
-                       enabledBorder: borderStyle(),
-                       border: borderStyle(),
-                       focusedBorder: borderStyle(),
+       Flexible(
+         child: SizedBox(width: MediaQuery.sizeOf(context).width*.9,height:33 ,
+           child: TextField(
+                       textDirection: TextDirection.rtl,
+                       decoration: InputDecoration(
+                         hintTextDirection: TextDirection.rtl,
+                         hintText: hintText,
+                         fillColor: kWhite,
+                         filled: true,
+                         enabledBorder: borderStyle(),
+                         border: borderStyle(),
+                         focusedBorder: borderStyle(),
+                       ),
                      ),
-                   ),
+         ),
        ),
     ],);
   }

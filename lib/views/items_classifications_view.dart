@@ -4,6 +4,7 @@ import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/container_item_classifications.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/container_name_classifications.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/custom_alert_dialog.dart';
+
 class ItemsClassificationsView extends StatelessWidget {
   const ItemsClassificationsView({super.key});
   static String id = 'ItemClassificationsView';
@@ -28,7 +29,7 @@ class ItemsClassificationsView extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    return CustomAlertDialog(initialValue: 'عام',);
+                    return CustomAlertDialog(initialValue: 'عام');
                   },
                 );
               },
@@ -37,12 +38,14 @@ class ItemsClassificationsView extends StatelessWidget {
             ContainerItemClassifications(
               color: kgrey,
               nameClassificatio: 'ألبسة',
-              onTap: () { showDialog(
+              onTap: () {
+                showDialog(
                   context: context,
                   builder: (context) {
-                    return CustomAlertDialog(initialValue: 'ألبسة',);
+                    return CustomAlertDialog(initialValue: 'ألبسة');
                   },
-                );},
+                );
+              },
             ),
           ],
         ),

@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({super.key, required this.hintText});
+  const CustomTextField({
+    super.key,
+    required this.hintText,
+    this.initValue = '',
+  });
 
   final String hintText;
-
+  final String initValue;
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      initialValue: initValue,
       textDirection: TextDirection.rtl,
       decoration: InputDecoration(
         hintTextDirection: TextDirection.rtl,
