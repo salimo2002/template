@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
+import 'package:template/utils/font_style.dart';
+import 'package:template/utils/responsive_text.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
@@ -18,7 +20,9 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         hintTextDirection: TextDirection.rtl,
         hintText: hintText,
-        hintStyle: TextStyle(color: kBlack),
+        hintStyle: FontStyleApp.blackCustom18.copyWith(
+          fontSize: getResponsiveText(context, 14),
+        ),
         fillColor: kWhite,
         filled: true,
         enabledBorder: borderStyle(),
