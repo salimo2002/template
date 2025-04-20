@@ -1,8 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
-import 'package:template/utils/font_style.dart';
-import 'package:template/utils/responsive_text.dart';
 
 class RowNameClassifications extends StatelessWidget {
   const RowNameClassifications({
@@ -17,13 +15,12 @@ class RowNameClassifications extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: IconButton(onPressed: (){}, icon: Icon(Icons.add_circle),),
       ),
-       SizedBox(width: MediaQuery.sizeOf(context).width*.81,
+       SizedBox(width: MediaQuery.sizeOf(context).width*.82,height:33 ,
          child: TextField(
                      textDirection: TextDirection.rtl,
                      decoration: InputDecoration(
                        hintTextDirection: TextDirection.rtl,
                        hintText: hintText,
-                       hintStyle: FontStyleApp.black18.copyWith(fontSize: getResponsiveText(context, 18),),
                        fillColor: kWhite,
                        filled: true,
                        enabledBorder: borderStyle(),

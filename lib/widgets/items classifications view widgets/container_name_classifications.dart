@@ -10,7 +10,7 @@ class ContainerNameClassifications extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(height: 50,
+    return Container(height: 40,
       width: double.infinity,
       decoration: BoxDecoration(
         color: kblueAccent,
