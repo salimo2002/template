@@ -16,7 +16,7 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 175,
+        width: 190,
         height: 75,
         decoration: BoxDecoration(
           border: Border.all(color: kblueAccent),
@@ -27,7 +27,7 @@ class CustomButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(size: 50, color: kblueAccent, icon),
+            Icon(size: 35, color: kblueAccent, icon),
             SizedBox(height: 10),
             Text(text),
           ],

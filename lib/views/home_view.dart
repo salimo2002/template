@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
+import 'package:template/widgets/button_check_price.dart';
 import 'package:template/widgets/custom_button_.dart';
 import 'package:template/widgets/parts_titel.dart';
 
 class HomeView extends StatelessWidget {
-  
   const HomeView({super.key});
   static String id = 'HomeView';
   @override
   Widget build(BuildContext context) {
-    List listItem=['فاتورة مبيعات جديدة','فتورة مشتريات جديدة','سند جديد','فاتورة مرتجعات جديدة'];
-    List listItemIcons=[Icons.file_download_done,Icons.file_copy,Icons.file_copy_outlined,Icons.file_open];
+   
     return Scaffold(
       drawer: Drawer(),
       appBar: AppBar(
@@ -31,36 +30,42 @@ class HomeView extends StatelessWidget {
 
             Container(
               width: double.infinity,
-              height: 400,
               decoration: BoxDecoration(
                 border: Border.all(color: kblueAccent),
                 borderRadius: BorderRadius.circular(5),
                 color: kWhite,
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  PartsTitle(title: 'انشاء فواتير و سندات جديد', color: kblueAccent),
-                  Expanded(
-                    child: GridView.builder(
-                      itemCount: 4,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,crossAxisSpacing: 2
-                      ),
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 1,vertical: 30),
-                          child: CustomButton(
-                            text: listItem[index],
-                            icon: listItemIcons[index],
-                            onTap: () {},
-                          ),
-                        );
-                      },
-                    ),
+                  PartsTitle(
+                    title: 'انشاء فواتير و سندات جديد',
+                    color: kblueAccent,
+                  ),  SizedBox(height: 5),
+   ButtonCheckPrice(title: 'استعلام عن سعر مادة', icon: Icons.warning_rounded),
+                  SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomButton(text: 'ssss', icon: Icons.abc, onTap: () {}),
+                      SizedBox(width: 5),
+                      CustomButton(text: 'ssss', icon: Icons.abc, onTap: () {}),
+                    ],
                   ),
+                  SizedBox(height: 5),
+                    Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomButton(text: 'ssss', icon: Icons.abc, onTap: () {}),
+                      SizedBox(width: 5),
+                      CustomButton(text: 'ssss', icon: Icons.abc, onTap: () {}),
+                    ],
+                  ),
+                  SizedBox(height: 5),
                 ],
               ),
             ),
+         
           ],
         ),
       ),
