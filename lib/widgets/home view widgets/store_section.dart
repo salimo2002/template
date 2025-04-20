@@ -16,7 +16,7 @@ class StoreSection extends StatelessWidget {
           PartsTitle(title: 'المتجر الإلكتروني', color: kblueAccent),
           SizedBox(height: 5),
           ButtonCheckPrice(
-            title: 'المتجر الاكتروني',
+            title: 'المتجر الإلكتروني',
             icon: FontAwesomeIcons.store,
           ),
           SizedBox(height: 5),

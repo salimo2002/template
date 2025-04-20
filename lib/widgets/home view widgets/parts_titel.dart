@@ -10,7 +10,7 @@ class PartsTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 30,
+      height: 29,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: color,
@@ -19,7 +19,7 @@ class PartsTitle extends StatelessWidget {
         child: FittedBox(
           child: Text(
             style: FontStyleApp.white18.copyWith(
-              fontSize: getResponsiveText(context, 18),
+              fontSize: getResponsiveText(context, 14),
             ),
             title,
           ),
