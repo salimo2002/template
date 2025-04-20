@@ -7,9 +7,11 @@ class TextFieldAndDetails extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.label,
+    this.initValue = '',
   });
   final String hintText;
   final String label;
+  final String initValue;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -17,10 +19,12 @@ class TextFieldAndDetails extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         const SizedBox(width: 5),
-        Expanded(child: CustomTextField(hintText: hintText)),
+        Expanded(
+          child: CustomTextField(hintText: hintText, initValue: initValue),
+        ),
         const SizedBox(width: 20),
-        Text(label, style: TextStyle(fontSize: getResponsiveText(context, 15))),
-        const SizedBox(width: 20),
+        Text(label, style: TextStyle(fontSize: getResponsiveText(context, 12))),
+        const SizedBox(width: 10),
       ],
     );
   }

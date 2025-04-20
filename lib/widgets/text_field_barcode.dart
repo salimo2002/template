@@ -27,7 +27,7 @@ class TextFieldAndBarcode extends StatelessWidget {
         SizedBox(width: 10),
         Expanded(child: CustomTextField(hintText: hintText)),
         SizedBox(width: 30),
-        Text(label, style: TextStyle(fontSize: getResponsiveText(context, 15))),
+        Text(label, style: TextStyle(fontSize: getResponsiveText(context, 12))),
         SizedBox(width: 30),
       ],
     );
