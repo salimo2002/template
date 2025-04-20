@@ -12,7 +12,7 @@ class PartsTitle extends StatelessWidget {
       width: double.infinity,
       height: 29,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(4),
         color: color,
       ),
       child: Center(
