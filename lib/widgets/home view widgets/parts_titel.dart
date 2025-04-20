@@ -1,14 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 
 class PartsTitle extends StatelessWidget {
-  const PartsTitle({
-    super.key, required this.title, required this.color,
-  });
-final String title;
-final Color color;
+  const PartsTitle({super.key, required this.title, required this.color});
+  final String title;
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,13 +16,15 @@ final Color color;
         color: color,
       ),
       child: Center(
-        child: Text(
-          style: FontStyleApp.white18.copyWith(
-            fontSize: getResponsiveText(context, 18),
+        child: FittedBox(
+          child: Text(
+            style: FontStyleApp.white18.copyWith(
+              fontSize: getResponsiveText(context, 18),
+            ),
+            title,
           ),
-          title,
         ),
       ),
-    );  
+    );
   }
 }

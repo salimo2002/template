@@ -14,22 +14,27 @@ class ButtonCheckPrice extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 40,
-        decoration: BoxDecoration(border: Border.all(color: kblueAccent),
+        decoration: BoxDecoration(
+          border: Border.all(color: kblueAccent),
           borderRadius: BorderRadius.circular(5),
           color: kWhite,
         ),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center,
-          children: [Spacer(),
-          
-            Text(
-              style: FontStyleApp.black18.copyWith(
-                fontSize: getResponsiveText(context, 18),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Spacer(),
+
+            FittedBox(
+              child: Text(
+                style: FontStyleApp.black18.copyWith(
+                  fontSize: getResponsiveText(context, 18),
+                ),
+                title,
               ),
-              title,
-            ),Spacer(),
-            Icon(icon,color: kblueAccent,),
-            SizedBox(width:5,)
-            
+            ),
+            Spacer(),
+            Icon(icon, color: kblueAccent),
+            SizedBox(width: 5),
           ],
         ),
       ),
