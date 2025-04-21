@@ -13,7 +13,7 @@ class ViewInvoices extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PartsTitle(title: 'استعراض الفواتير', color: kblueAccent),
+          PartsTitle(title: 'استعراض الفواتير', color: kBlueAccent),
 
           SizedBox(height: 5),
           RowCustomButton(

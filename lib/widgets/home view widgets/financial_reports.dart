@@ -14,7 +14,7 @@ class FinancialReports extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PartsTitle(title: 'التقارير المالية', color: kblueAccent),
+          PartsTitle(title: 'التقارير المالية', color: kBlueAccent),
 
           SizedBox(height: 5),
           RowCustomButton(

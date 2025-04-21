@@ -6,6 +6,7 @@ import 'package:template/views/items_classifications_view.dart';
 import 'package:template/views/new_item_view.dart';
 
 void main(List<String> args) {
+      
   runApp(Template());
 }
 
@@ -14,6 +15,7 @@ class Template extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

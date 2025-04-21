@@ -13,7 +13,7 @@ class StoreSection extends StatelessWidget {
     return CustomContainer(
       child: Column(
         children: [
-          PartsTitle(title: 'المتجر الإلكتروني', color: kblueAccent),
+          PartsTitle(title: 'المتجر الإلكتروني', color: kBlueAccent),
           SizedBox(height: 5),
           ButtonCheckPrice(
             title: 'المتجر الإلكتروني',

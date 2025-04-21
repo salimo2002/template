@@ -25,7 +25,7 @@ class SwitchAndDetails extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     color: kWhite,
-                    border: Border.all(color: kblueAccent),
+                    border: Border.all(color: kBlueAccent),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -37,7 +37,7 @@ class SwitchAndDetails extends StatelessWidget {
                         onChanged: (value) {
                           valueSwitch.value = value;
                         },
-                        activeTrackColor: kblueAccent,
+                        activeTrackColor: kBlueAccent,
                       ),
                       Spacer(),
                       Text(

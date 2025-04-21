@@ -14,7 +14,7 @@ class DebtsAndSupplies extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PartsTitle(title: 'الديون و المستحقات', color: kblueAccent),
+          PartsTitle(title: 'الديون و المستحقات', color: kBlueAccent),
 
           SizedBox(height: 5),
           RowCustomButton(

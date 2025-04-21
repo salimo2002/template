@@ -15,7 +15,7 @@ class ButtonCheckPrice extends StatelessWidget {
         width: double.infinity,
         height: 40,
         decoration: BoxDecoration(
-          border: Border.all(color: kblueAccent),
+          border: Border.all(color: kBlueAccent),
           borderRadius: BorderRadius.circular(5),
           color: kWhite,
         ),
@@ -33,7 +33,7 @@ class ButtonCheckPrice extends StatelessWidget {
               ),
             ),
             Spacer(),
-            Icon(icon, color: kblueAccent),
+            Icon(icon, color: kBlueAccent),
             SizedBox(width: 5),
           ],
         ),

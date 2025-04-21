@@ -40,118 +40,120 @@ class _NewItemViewState extends State<NewItemView> {
         title: 'مادة جديدة',
         showIcons: false,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              child: Column(
-                children: [
-                  ContainerFields(
-                    children: [
-                      TextFieldAndDetails(
-                        controller: TextEditingController(),
-                        hintText: 'اسم المادة',
-                        label: '  اسم المادة',
-                      ),
-                    ],
-                  ),
-                  ContainerFields(
-                    children: [
-                      TextFieldAndBarcode(
-                        controller: TextEditingController(),
-                        hintText: 'الباركود',
-                        label: 'الباركود',
-                      ),
-                    ],
-                  ),
-                  ContainerFields(children: [DropDownMenuAndDetails()]),
-                  ContainerFields(
-                    children: [
-                      SwitchAndDetails(valueSwitch: ValueNotifier(false)),
-                    ],
-                  ),
-                  ContainerFields(
-                    children: [
-                      TextFieldAndDetails(
-                        controller: firstController,
-                        hintText: 'الوحدة الاولى',
-                        label: "الوحدة الاولى",
-                      ),
-                      SizedBox(height: 5),
-                      TextFieldAndDetails(
-                        controller: TextEditingController(),
-                        hintText: 'سعر الشراء',
-                        label: "   سعر الشراء",
-                      ),
-                      SizedBox(height: 5),
-                      TextFieldAndDetails(
-                        controller: TextEditingController(),
-                        hintText: 'سعر المبيع',
-                        label: "   سعر المبيع",
-                      ),
-                    ],
-                  ),
-                  ContainerFields(
-                    children: [
-                      TextFieldAndDetails(
-                        controller: controllerOne,
-                        hintText: 'الوحدة الثانية',
-                        label: "الوحدة الثانية",
-                      ),
-                      SizedBox(height: 5),
-                      ConvertOperatorTextField(
-                        textEditingController: secondController,
-                        label: 'معامل التحويل',
-                        hintText: 'معامل التحويل',
-                      ),
-                      SizedBox(height: 5),
-                      TextFieldAndDetails(
-                        hintText: 'سعر المبيع',
-                        label: '  سعر المبيع',
-                        controller: TextEditingController(),
-                      ),
-                      SizedBox(height: 5),
-                      TextFieldAndBarcode(
-                        hintText: 'الباركود',
-                        label: 'الباركود',
-                        controller: TextEditingController(),
-                      ),
-                    ],
-                  ),
-                  ContainerFields(
-                    children: [
-                      TextFieldAndDetails(
-                        controller: TextEditingController(),
-                        hintText: 'الوحدة الثالثة',
-                        label: "الوحدة الثالثة",
-                      ),
-                      SizedBox(height: 5),
-                      ConvertOperatorTextField(
-                        textEditingController: controllerTow,
-                        label: 'معامل التحويل',
-                        hintText: 'معامل التحويل',
-                      ),
-                      SizedBox(height: 5),
-                      TextFieldAndDetails(
-                        hintText: 'سعر المبيع',
-                        label: '  سعر المبيع',
-                        controller: TextEditingController(),
-                      ),
-                      SizedBox(height: 5),
-                      TextFieldAndBarcode(
-                        hintText: 'الباركود',
-                        label: 'الباركود',
-                        controller: TextEditingController(),
-                      ),
-                    ],
-                  ),
-                ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  children: [
+                    ContainerFields(
+                      children: [
+                        TextFieldAndDetails(
+                          controller: TextEditingController(),
+                          hintText: 'اسم المادة',
+                          label: '  اسم المادة',
+                        ),
+                      ],
+                    ),
+                    ContainerFields(
+                      children: [
+                        TextFieldAndBarcode(
+                          controller: TextEditingController(),
+                          hintText: 'الباركود',
+                          label: 'الباركود',
+                        ),
+                      ],
+                    ),
+                    ContainerFields(children: [DropDownMenuAndDetails()]),
+                    ContainerFields(
+                      children: [
+                        SwitchAndDetails(valueSwitch: ValueNotifier(false)),
+                      ],
+                    ),
+                    ContainerFields(
+                      children: [
+                        TextFieldAndDetails(
+                          controller: firstController,
+                          hintText: 'الوحدة الاولى',
+                          label: "الوحدة الاولى",
+                        ),
+                        SizedBox(height: 5),
+                        TextFieldAndDetails(
+                          controller: TextEditingController(),
+                          hintText: 'سعر الشراء',
+                          label: "   سعر الشراء",
+                        ),
+                        SizedBox(height: 5),
+                        TextFieldAndDetails(
+                          controller: TextEditingController(),
+                          hintText: 'سعر المبيع',
+                          label: "   سعر المبيع",
+                        ),
+                      ],
+                    ),
+                    ContainerFields(
+                      children: [
+                        TextFieldAndDetails(
+                          controller: controllerOne,
+                          hintText: 'الوحدة الثانية',
+                          label: "الوحدة الثانية",
+                        ),
+                        SizedBox(height: 5),
+                        ConvertOperatorTextField(
+                          textEditingController: secondController,
+                          label: 'معامل التحويل',
+                          hintText: 'معامل التحويل',
+                        ),
+                        SizedBox(height: 5),
+                        TextFieldAndDetails(
+                          hintText: 'سعر المبيع',
+                          label: '  سعر المبيع',
+                          controller: TextEditingController(),
+                        ),
+                        SizedBox(height: 5),
+                        TextFieldAndBarcode(
+                          hintText: 'الباركود',
+                          label: 'الباركود',
+                          controller: TextEditingController(),
+                        ),
+                      ],
+                    ),
+                    ContainerFields(
+                      children: [
+                        TextFieldAndDetails(
+                          controller: TextEditingController(),
+                          hintText: 'الوحدة الثالثة',
+                          label: "الوحدة الثالثة",
+                        ),
+                        SizedBox(height: 5),
+                        ConvertOperatorTextField(
+                          textEditingController: controllerTow,
+                          label: 'معامل التحويل',
+                          hintText: 'معامل التحويل',
+                        ),
+                        SizedBox(height: 5),
+                        TextFieldAndDetails(
+                          hintText: 'سعر المبيع',
+                          label: '  سعر المبيع',
+                          controller: TextEditingController(),
+                        ),
+                        SizedBox(height: 5),
+                        TextFieldAndBarcode(
+                          hintText: 'الباركود',
+                          label: 'الباركود',
+                          controller: TextEditingController(),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(width: double.infinity, child: SaveAndExitButton()),
-        ],
+            SizedBox(width: double.infinity, child: SaveAndExitButton()),
+          ],
+        ),
       ),
     );
   }

@@ -14,7 +14,7 @@ class Lookup extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PartsTitle(title: 'الإستعلام عن', color: kblueAccent),
+          PartsTitle(title: 'الإستعلام عن', color: kBlueAccent),
 
           SizedBox(height: 5),
           RowCustomButton(

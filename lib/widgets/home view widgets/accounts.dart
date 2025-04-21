@@ -14,7 +14,7 @@ class Accounts extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PartsTitle(title: 'الحسابات', color: kblueAccent),
+          PartsTitle(title: 'الحسابات', color: kBlueAccent),
 
           SizedBox(height: 5),
           RowCustomButton(
