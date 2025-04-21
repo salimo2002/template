@@ -17,6 +17,7 @@ class ItemCardView extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: FloatingActionButton(
+        shape: CircleBorder(),
         tooltip: 'ادخال بطاقة مادة',
         backgroundColor: kBlueAccent,
         onPressed: () {
@@ -26,12 +27,12 @@ class ItemCardView extends StatelessWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(5),
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 0.3),
           child: ListView.builder(
             itemCount: 2,
             itemBuilder: (context, index) {
               return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5.5),
+                padding: const EdgeInsets.symmetric(vertical: 5),
                 child: ContainerItemCountity(),
               );
             },

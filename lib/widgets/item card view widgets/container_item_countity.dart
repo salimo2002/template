@@ -11,7 +11,7 @@ class ContainerItemCountity extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 125,
+      height: 145,
       decoration: BoxDecoration(
         border: Border.all(color: kBlueAccent),
         color: kGrey,
@@ -20,21 +20,22 @@ class ContainerItemCountity extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          SizedBox(height: 14),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FittedBox(
                 child: Text(
                   'بنطال',
-                  style: FontStyleApp.blackCustom18.copyWith(
-                    fontSize: getResponsiveText(context, 16),
+                  style: FontStyleApp.black18.copyWith(
+                    fontSize: getResponsiveText(context, 17),
                   ),
                 ),
               ),
               FittedBox(
                 child: Text(
                   ' -1',
-                  style: FontStyleApp.blackCustom18.copyWith(
+                  style: FontStyleApp.black18.copyWith(
                     fontSize: getResponsiveText(context, 14),
                   ),
                 ),
@@ -56,9 +57,9 @@ class ContainerItemCountity extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Container(
               width: double.infinity,
-              height: 60,
+              height: 70,
               decoration: BoxDecoration(
-                border: Border.all(color: kBlack),
+                border: Border.all(color: kBlacCustomk),
                 color: kWhite,
                 borderRadius: BorderRadius.circular(3),
               ),

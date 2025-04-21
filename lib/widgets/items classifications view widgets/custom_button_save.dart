@@ -19,12 +19,14 @@ class CustomButtonSave extends StatelessWidget {
           border: Border.all(color: const Color.fromARGB(255, 138, 137, 137)),
           borderRadius: BorderRadius.circular(4),
         ),
-        child: Text(
-          textAlign: TextAlign.center,
-          'حفظ',
-          style: TextStyle(
-            fontSize: getResponsiveText(context, 14),
-            color: const Color.fromARGB(255, 82, 82, 82),
+        child: Center(
+          child: Text(
+            textAlign: TextAlign.center,
+            'حفظ',
+            style: TextStyle(
+              fontSize: getResponsiveText(context, 14),
+              color: const Color.fromARGB(255, 82, 82, 82),
+            ),
           ),
         ),
       ),

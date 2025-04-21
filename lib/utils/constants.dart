@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const kBlack = Colors.black;
+const kBlacCustomk = Color.fromARGB(130, 0, 0, 0);
 const kWhite = Colors.white;
 const kGreen = Colors.green;
 const kBlueAccent = Color(0xff0080ff);
