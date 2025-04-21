@@ -1,0 +1,36 @@
+import 'package:flutter/material.dart';
+import 'package:template/utils/responsive_text.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/small_text_field.dart';
+
+class ConvertOperatorTextField extends StatelessWidget {
+  const ConvertOperatorTextField({
+    super.key,
+    required this.textEditingController,
+    required this.label, required this.hintText,
+  });
+  final TextEditingController textEditingController;
+  final String label;
+  final String hintText;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        const SizedBox(width: 5),
+        SmallTextField(textEditingController: textEditingController),
+        const SizedBox(width: 5),
+        Expanded(
+          child: CustomTextField(
+            hintText: hintText,
+            controller: TextEditingController(),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Text(label, style: TextStyle(fontSize: getResponsiveText(context, 12))),
+        const SizedBox(width: 10),
+      ],
+    );
+  }
+}

@@ -9,9 +9,11 @@ class TextFieldAndBarcode extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.label,
+    required this.controller,
   });
   final String hintText;
   final String label;
+  final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -20,12 +22,14 @@ class TextFieldAndBarcode extends StatelessWidget {
       children: [
         SizedBox(width: 5),
         IconButton(
-          color: kblueAccent,
+          color: kBlueAccent,
           onPressed: () {},
-          icon: Icon(FontAwesomeIcons.barcode, color: kblueAccent),
+          icon: Icon(FontAwesomeIcons.barcode, color: kBlueAccent),
         ),
         SizedBox(width: 10),
-        Expanded(child: CustomTextField(hintText: hintText)),
+        Expanded(
+          child: CustomTextField(hintText: hintText, controller: controller),
+        ),
         SizedBox(width: 30),
         Text(label, style: TextStyle(fontSize: getResponsiveText(context, 12))),
         SizedBox(width: 30),

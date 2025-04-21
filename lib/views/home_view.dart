@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
+import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/home%20view%20widgets/accounts.dart';
 import 'package:template/widgets/home%20view%20widgets/create_financial_documents.dart';
 import 'package:template/widgets/home%20view%20widgets/debts_and_supplies.dart';
@@ -19,28 +20,35 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       drawer: Drawer(),
       appBar: AppBar(
-        title: Text('تداول', style: FontStyleApp.white18),
-        backgroundColor: kblueAccent,
+        title: Text(
+          'تداول',
+          style: FontStyleApp.white18.copyWith(
+            fontSize: getResponsiveText(context, 18),
+          ),
+        ),
+        backgroundColor: kBlueAccent,
         actions: [
           IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_outlined)),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: SingleChildScrollView(
-          child: Column(
-            spacing: 5,
-            children: [
-              PartsTitle(title: 'نسخة تجريبية محدودة', color: kred),
-              StoreSection(),
-              CreateFinancialDocuments(),
-              ViewInvoices(),
-               ProductCatalog(),
-               Lookup(),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: SingleChildScrollView(
+            child: Column(
+              spacing: 5,
+              children: [
+                PartsTitle(title: 'نسخة تجريبية محدودة', color: kRed),
+                StoreSection(),
+                CreateFinancialDocuments(),
+                ViewInvoices(),
+                ProductCatalog(),
+                Lookup(),
                 Accounts(),
-               DebtsAndSupplies(),
-              FinancialReports(),
-            ],
+                DebtsAndSupplies(),
+                FinancialReports(),
+              ],
+            ),
           ),
         ),
       ),

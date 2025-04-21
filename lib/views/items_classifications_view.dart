@@ -16,38 +16,40 @@ class ItemsClassificationsView extends StatelessWidget {
         title: 'تصنيفات المواد',
         showIcons: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(5),
-        child: Column(
-          children: [
-            ContainerNameClassifications(),
-            SizedBox(height: MediaQuery.sizeOf(context).height * .005),
-            ContainerItemClassifications(
-              color: kgrey,
-              nameClassificatio: 'عام',
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return CustomAlertDialog(initialValue: 'عام');
-                  },
-                );
-              },
-            ),
-            SizedBox(height: 6),
-            ContainerItemClassifications(
-              color: kgrey,
-              nameClassificatio: 'ألبسة',
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return CustomAlertDialog(initialValue: 'ألبسة');
-                  },
-                );
-              },
-            ),
-          ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(5),
+          child: Column(
+            children: [
+              ContainerNameClassifications(),
+              SizedBox(height: MediaQuery.sizeOf(context).height * .005),
+              ContainerItemClassifications(
+                color: kGrey,
+                nameClassificatio: 'عام',
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return CustomAlertDialog(initialValue: 'عام');
+                    },
+                  );
+                },
+              ),
+              SizedBox(height: 6),
+              ContainerItemClassifications(
+                color: kGrey,
+                nameClassificatio: 'ألبسة',
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return CustomAlertDialog(initialValue: 'ألبسة');
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

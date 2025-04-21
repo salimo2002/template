@@ -1,12 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/responsive_text.dart';
 
 class CustomButtonSave extends StatelessWidget {
-  const CustomButtonSave({
-    super.key,
-  });
+  const CustomButtonSave({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,20 +15,16 @@ class CustomButtonSave extends StatelessWidget {
         height: 30,
         width: 100,
         decoration: BoxDecoration(
-          color: kgrey,
+          color: kGrey,
           border: Border.all(color: const Color.fromARGB(255, 138, 137, 137)),
           borderRadius: BorderRadius.circular(4),
         ),
-        child: Text(textAlign:TextAlign.center,
+        child: Text(
+          textAlign: TextAlign.center,
           'حفظ',
           style: TextStyle(
             fontSize: getResponsiveText(context, 14),
-            color: const Color.fromARGB(
-              255,
-              82,
-              82,
-              82,
-            ),
+            color: const Color.fromARGB(255, 82, 82, 82),
           ),
         ),
       ),
