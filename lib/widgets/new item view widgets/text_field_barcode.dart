@@ -17,6 +17,7 @@ class TextFieldAndBarcode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
