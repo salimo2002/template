@@ -1,16 +1,13 @@
-import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
-import 'package:template/widgets/container_fields.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/text_field_barcode.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
 import 'package:template/widgets/switch_and_details.dart';
-import 'package:template/widgets/text_field_barcode.dart';
-import 'package:template/widgets/text_field_details.dart';
-
 class NewItemView extends StatelessWidget {
   const NewItemView({super.key});
   static String id = 'NewItemView';
@@ -32,7 +29,7 @@ class NewItemView extends StatelessWidget {
                 children: [
                   ContainerFields(
                     children: [
-                      TextFieldAndDetails(
+                      TextFieldAndBarcode(
                         hintText: 'اسم المادة',
                         label: '  اسم المادة',
                       ),
