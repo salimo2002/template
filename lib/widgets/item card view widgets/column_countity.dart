@@ -16,17 +16,21 @@ class ColumnCountity extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          nameCountity,
-          style: FontStyleApp.blueAccent18.copyWith(
-            fontSize: getResponsiveText(context, 14),
+        FittedBox(
+          child: Text(
+            nameCountity,
+            style: FontStyleApp.blueAccent18.copyWith(
+              fontSize: getResponsiveText(context, 14),
+            ),
           ),
         ),
         SizedBox(height: 5),
-        Text(
-          countity,
-          style: FontStyleApp.blackCustom18.copyWith(
-            fontSize: getResponsiveText(context, 14),
+        FittedBox(
+          child: Text(
+            countity,
+            style: FontStyleApp.blackCustom18.copyWith(
+              fontSize: getResponsiveText(context, 14),
+            ),
           ),
         ),
       ],

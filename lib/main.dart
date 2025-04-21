@@ -6,7 +6,6 @@ import 'package:template/views/items_classifications_view.dart';
 import 'package:template/views/new_item_view.dart';
 
 void main(List<String> args) {
-      
   runApp(Template());
 }
 
@@ -15,12 +14,16 @@ class Template extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         iconButtonTheme: IconButtonThemeData(
           style: ButtonStyle(iconColor: WidgetStateProperty.all(kWhite)),
+        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: kBlueAccent),
+        radioTheme: RadioThemeData(
+          fillColor: WidgetStateProperty.all(kBlueAccent),
+          overlayColor: WidgetStateProperty.all(Colors.transparent),
         ),
       ),
       routes: {

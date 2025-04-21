@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
-import 'package:template/utils/font_style.dart';
-import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/convert_operator_text_field.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/default_unit.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/drop_down_menu_and_details.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/row_default_unit.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/save_and_exite_button.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_barcode.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/uploaded_image.dart';
 import 'package:template/widgets/switch_and_details.dart';
 
 class NewItemView extends StatefulWidget {
@@ -38,16 +36,19 @@ class _NewItemViewState extends State<NewItemView> {
     firstController.addListener(() {
       secondController.text = firstController.text;
       labels.value[0] = firstController.text;
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       labels.notifyListeners();
     });
 
     controllerOne.addListener(() {
       controllerTow.text = controllerOne.text;
       labels.value[1] = controllerOne.text;
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       labels.notifyListeners();
     });
     threeController.addListener(() {
       labels.value[2] = threeController.text;
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       labels.notifyListeners();
     });
     super.initState();
@@ -81,6 +82,8 @@ class _NewItemViewState extends State<NewItemView> {
                 physics: AlwaysScrollableScrollPhysics(),
                 child: Column(
                   children: [
+                    SizedBox(height: 5),
+                    UploadedImage(),
                     ContainerFields(
                       children: [
                         TextFieldAndDetails(
@@ -180,31 +183,10 @@ class _NewItemViewState extends State<NewItemView> {
                         ),
                       ],
                     ),
-        
+
                     ContainerFields(
                       children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: kWhite,
-                                  border: Border.all(color: kBlueAccent),
-                                ),
-                                child: DefaultUnt(
-                                  labels: labels,
-                                  isSelected: isSelected,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              'الوحدة الافتراضية',
-                              style: FontStyleApp.blackCustom18.copyWith(
-                                fontSize: getResponsiveText(context, 15),
-                              ),
-                            ),
-                          ],
-                        ),
+                        RowDefaultUnit(labels: labels, isSelected: isSelected),
                       ],
                     ),
                   ],

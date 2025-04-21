@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:template/utils/constants.dart';
 
 class DefaultUnt extends StatelessWidget {
-  const DefaultUnt({
-    super.key,
-    required this.isSelected,
-    required this.labels,
-  });
+  const DefaultUnt({super.key, required this.isSelected, required this.labels});
 
   final ValueNotifier<int?> isSelected;
   final ValueNotifier<List<String>> labels;
@@ -24,6 +21,11 @@ class DefaultUnt extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   RadioMenuButton<int>(
+                    style: ButtonStyle(
+                      visualDensity: VisualDensity.compact,
+                      overlayColor: WidgetStateProperty.all(Colors.transparent),
+                      iconColor: WidgetStateProperty.all(kBlueAccent),
+                    ),
                     value: 1,
                     groupValue: val,
                     onChanged: (value) => isSelected.value = value!,
@@ -31,6 +33,9 @@ class DefaultUnt extends StatelessWidget {
                   ),
                   if (value[1].isNotEmpty)
                     RadioMenuButton<int>(
+                      style: ButtonStyle(
+                        iconColor: WidgetStateProperty.all(kBlueAccent),
+                      ),
                       value: 2,
                       groupValue: val,
                       onChanged: (value) => isSelected.value = value!,
@@ -38,6 +43,9 @@ class DefaultUnt extends StatelessWidget {
                     ),
                   if (value[2].isNotEmpty)
                     RadioMenuButton<int>(
+                      style: ButtonStyle(
+                        iconColor: WidgetStateProperty.all(kBlueAccent),
+                      ),
                       value: 3,
                       groupValue: val,
                       onChanged: (value) => isSelected.value = value!,

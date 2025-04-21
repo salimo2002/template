@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
@@ -6,9 +5,7 @@ import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/column_countity.dart';
 
 class ContainerItemCountity extends StatelessWidget {
-  const ContainerItemCountity({
-    super.key,
-  });
+  const ContainerItemCountity({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,29 +23,35 @@ class ContainerItemCountity extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
-                'بنطال',
-                style: FontStyleApp.blackCustom18.copyWith(
-                  fontSize: getResponsiveText(context, 16),
+              FittedBox(
+                child: Text(
+                  'بنطال',
+                  style: FontStyleApp.blackCustom18.copyWith(
+                    fontSize: getResponsiveText(context, 16),
+                  ),
                 ),
               ),
-              Text(
-                ' -1',
-                style: FontStyleApp.blackCustom18.copyWith(
-                  fontSize: getResponsiveText(context, 14),
+              FittedBox(
+                child: Text(
+                  ' -1',
+                  style: FontStyleApp.blackCustom18.copyWith(
+                    fontSize: getResponsiveText(context, 14),
+                  ),
                 ),
               ),
               SizedBox(width: 10),
             ],
           ),
           SizedBox(height: 10),
-          Text(
-            'عام',
-            style: FontStyleApp.green14.copyWith(
-              fontSize: getResponsiveText(context, 14),
+          FittedBox(
+            child: Text(
+              'عام',
+              style: FontStyleApp.green14.copyWith(
+                fontSize: getResponsiveText(context, 14),
+              ),
             ),
           ),
-    
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Container(
