@@ -8,16 +8,23 @@ class SmallTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.sizeOf(context).width * .15,
-      child: TextField(
-        controller: textEditingController,
-        readOnly: true,
-        decoration: InputDecoration(
-          hintTextDirection: TextDirection.rtl,
-          filled: true,
-          fillColor: Colors.white10,
-          enabledBorder: borderStyle(),
-          border: borderStyle(),
-          focusedBorder: borderStyle(),
+      child: SizedBox(
+        height: 34,
+        child: TextField(
+          controller: textEditingController,
+          readOnly: true,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 0,
+              horizontal: 16,
+            ),
+            hintTextDirection: TextDirection.rtl,
+            filled: true,
+            fillColor: Colors.white10,
+            enabledBorder: borderStyle(),
+            border: borderStyle(),
+            focusedBorder: borderStyle(),
+          ),
         ),
       ),
     );

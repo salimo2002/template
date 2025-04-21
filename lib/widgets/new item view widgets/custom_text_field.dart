@@ -14,20 +14,28 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      textDirection: TextDirection.rtl,
-      decoration: InputDecoration(
-        hintTextDirection: TextDirection.rtl,
-        hintText: hintText,
-        hintStyle: FontStyleApp.blackCustom18.copyWith(
-          fontSize: getResponsiveText(context, 14),
+    return SizedBox(
+      height: 34,
+      child: TextFormField(
+        controller: controller,
+        textDirection: TextDirection.rtl,
+        decoration: InputDecoration(
+          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 12,
+          ),
+          hintTextDirection: TextDirection.rtl,
+          hintText: hintText,
+          hintStyle: FontStyleApp.blackCustom18.copyWith(
+            fontSize: getResponsiveText(context, 14),
+          ),
+          fillColor: kWhite,
+          filled: true,
+          enabledBorder: borderStyle(),
+          border: borderStyle(),
+          focusedBorder: borderStyle(),
         ),
-        fillColor: kWhite,
-        filled: true,
-        enabledBorder: borderStyle(),
-        border: borderStyle(),
-        focusedBorder: borderStyle(),
       ),
     );
   }

@@ -11,7 +11,6 @@ class SwitchAndDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.max,
       children: [
         SizedBox(width: 5),
         Expanded(
@@ -29,15 +28,17 @@ class SwitchAndDetails extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
-                    mainAxisSize: MainAxisSize.max,
                     children: [
-                      CupertinoSwitch(
-                        value: valueSwitch.value,
-                        inactiveTrackColor: Colors.grey,
-                        onChanged: (value) {
-                          valueSwitch.value = value;
-                        },
-                        activeTrackColor: kBlueAccent,
+                      SizedBox(
+                        height: 30,
+                        child: CupertinoSwitch(
+                          value: valueSwitch.value,
+                          inactiveTrackColor: Colors.grey,
+                          onChanged: (value) {
+                            valueSwitch.value = value;
+                          },
+                          activeTrackColor: kBlueAccent,
+                        ),
                       ),
                       Spacer(),
                       Text(
@@ -48,7 +49,7 @@ class SwitchAndDetails extends StatelessWidget {
                           fontSize: getResponsiveText(context, 10),
                         ),
                       ),
-                      SizedBox(width: 8),
+                      SizedBox(width: 10),
                     ],
                   ),
                 ),

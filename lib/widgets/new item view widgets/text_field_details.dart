@@ -7,7 +7,7 @@ class TextFieldAndDetails extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.label,
-     required this.controller,
+    required this.controller,
   });
   final String hintText;
   final String label;
@@ -16,12 +16,10 @@ class TextFieldAndDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         const SizedBox(width: 5),
         Expanded(
-          child: CustomTextField(hintText: hintText, controller: controller,),
+          child: CustomTextField(hintText: hintText, controller: controller),
         ),
         const SizedBox(width: 20),
         Text(label, style: TextStyle(fontSize: getResponsiveText(context, 12))),

@@ -1,11 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 
 class UploadedImage extends StatelessWidget {
-  const UploadedImage({
-    super.key,
-  });
+  const UploadedImage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,16 +10,13 @@ class UploadedImage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.close, color: kBlack),
-          ),
+          IconButton(onPressed: () {}, icon: Icon(Icons.close, color: kBlack)),
           SizedBox(width: 5),
           Container(
-            width: 65,
-            height: 65,
+            width: 67,
+            height: 67,
             decoration: BoxDecoration(
-              border: Border.all(color: kBlack),
+              border: Border.all(color: kBlacCustomk),
               borderRadius: BorderRadius.circular(4),
             ),
           ),

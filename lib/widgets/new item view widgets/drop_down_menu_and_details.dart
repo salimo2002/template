@@ -8,6 +8,8 @@ class DropDownMenuAndDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(width: 5),
         Expanded(
@@ -31,7 +33,7 @@ class DropDownMenuAndDetails extends StatelessWidget {
               width: MediaQuery.sizeOf(context).width * .75,
               menuStyle: MenuStyle(
                 maximumSize: WidgetStatePropertyAll(
-                  Size(MediaQuery.sizeOf(context).width * .75, 50),
+                  Size(MediaQuery.sizeOf(context).width * .75, 60),
                 ),
                 backgroundColor: WidgetStateProperty.all(kWhite),
               ),

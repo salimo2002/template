@@ -84,6 +84,7 @@ class _NewItemViewState extends State<NewItemView> {
                   children: [
                     SizedBox(height: 5),
                     UploadedImage(),
+                    SizedBox(height: 7),
                     ContainerFields(
                       children: [
                         TextFieldAndDetails(
