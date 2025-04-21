@@ -22,9 +22,9 @@ class TextFieldAndBarcode extends StatelessWidget {
       children: [
         SizedBox(width: 5),
         IconButton(
-          color: kblueAccent,
+          color: kBlueAccent,
           onPressed: () {},
-          icon: Icon(FontAwesomeIcons.barcode, color: kblueAccent),
+          icon: Icon(FontAwesomeIcons.barcode, color: kBlueAccent),
         ),
         SizedBox(width: 10),
         Expanded(

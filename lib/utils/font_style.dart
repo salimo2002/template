@@ -9,5 +9,7 @@ class FontStyleApp {
     color: Color.fromARGB(130, 0, 0, 0),
   );
 
-  static const kblueAccent18 = TextStyle(fontSize: 18, color: kblueAccent);
+  static const green14 = TextStyle(fontSize: 14, color: kGreen);
+
+  static const blueAccent18 = TextStyle(fontSize: 18, color: kBlueAccent);
 }

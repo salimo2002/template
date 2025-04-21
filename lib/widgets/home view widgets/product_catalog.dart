@@ -16,7 +16,7 @@ class ProductCatalog extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PartsTitle(title: 'المواد وتصنيفاتها', color: kblueAccent),
+          PartsTitle(title: 'المواد وتصنيفاتها', color: kBlueAccent),
 
           SizedBox(height: 5),
           RowCustomButton(

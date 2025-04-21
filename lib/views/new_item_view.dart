@@ -151,67 +151,6 @@ class _NewItemViewState extends State<NewItemView> {
                       ),
                     ],
                   ),
-                  ContainerFields(
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const SizedBox(width: 5),
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: kWhite,
-                                border: Border.all(color: kblueAccent),
-                              ),
-                              child: Column(
-                                children: [
-                                  RadioMenuButton(
-                                    value: true,
-                                    groupValue: 1,
-                                    onChanged: (value) {
-                                    },
-                                    child: Text(
-                                      'الوحدة الافتراضية',
-                                      style: TextStyle(
-                                        fontSize: getResponsiveText(
-                                          context,
-                                          12,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  RadioMenuButton(
-                                    value: true,
-                                    groupValue: 1,
-                                    onChanged: (value) {
-                                    },
-                                    child: Text(
-                                      'الوحدة الافتراضية',
-                                      style: TextStyle(
-                                        fontSize: getResponsiveText(
-                                          context,
-                                          12,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          Text(
-                            'الوحدة الافتراضية',
-                            style: TextStyle(
-                              fontSize: getResponsiveText(context, 12),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                        ],
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),

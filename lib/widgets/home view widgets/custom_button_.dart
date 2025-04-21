@@ -21,7 +21,7 @@ class CustomButton extends StatelessWidget {
         width: MediaQuery.sizeOf(context).width * .46,
         height: MediaQuery.sizeOf(context).width * .17,
         decoration: BoxDecoration(
-          border: Border.all(color: kblueAccent),
+          border: Border.all(color: kBlueAccent),
           borderRadius: BorderRadius.circular(5),
           color: kWhite,
         ),
@@ -30,7 +30,7 @@ class CustomButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 5),
-            Expanded(child: Icon(size: 35, color: kblueAccent, icon)),
+            Expanded(child: Icon(size: 35, color: kBlueAccent, icon)),
             SizedBox(height: 10),
             FittedBox(
               child: Text(

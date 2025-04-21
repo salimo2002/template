@@ -26,27 +26,29 @@ class HomeView extends StatelessWidget {
             fontSize: getResponsiveText(context, 18),
           ),
         ),
-        backgroundColor: kblueAccent,
+        backgroundColor: kBlueAccent,
         actions: [
           IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_outlined)),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: SingleChildScrollView(
-          child: Column(
-            spacing: 5,
-            children: [
-              PartsTitle(title: 'نسخة تجريبية محدودة', color: kred),
-              StoreSection(),
-              CreateFinancialDocuments(),
-              ViewInvoices(),
-              ProductCatalog(),
-              Lookup(),
-              Accounts(),
-              DebtsAndSupplies(),
-              FinancialReports(),
-            ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: SingleChildScrollView(
+            child: Column(
+              spacing: 5,
+              children: [
+                PartsTitle(title: 'نسخة تجريبية محدودة', color: kRed),
+                StoreSection(),
+                CreateFinancialDocuments(),
+                ViewInvoices(),
+                ProductCatalog(),
+                Lookup(),
+                Accounts(),
+                DebtsAndSupplies(),
+                FinancialReports(),
+              ],
+            ),
           ),
         ),
       ),

@@ -37,5 +37,5 @@ class RowNameClassifications extends StatelessWidget {
 }
 
 OutlineInputBorder borderStyle() {
-  return OutlineInputBorder(borderSide: BorderSide(color: kblueAccent));
+  return OutlineInputBorder(borderSide: BorderSide(color: kBlueAccent));
 }

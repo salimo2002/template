@@ -1,13 +1,9 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/responsive_text.dart';
 
 class DropDownMenuAndDetails extends StatelessWidget {
-  const DropDownMenuAndDetails({
-    super.key,
-  });
+  const DropDownMenuAndDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +17,13 @@ class DropDownMenuAndDetails extends StatelessWidget {
               trailingIcon: SizedBox.shrink(),
               inputDecorationTheme: InputDecorationTheme(
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: kblueAccent),
+                  borderSide: BorderSide(color: kBlueAccent),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: kblueAccent),
+                  borderSide: BorderSide(color: kBlueAccent),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: kblueAccent),
+                  borderSide: BorderSide(color: kBlueAccent),
                 ),
                 filled: true,
                 fillColor: kWhite,
@@ -35,20 +31,12 @@ class DropDownMenuAndDetails extends StatelessWidget {
               width: MediaQuery.sizeOf(context).width * .75,
               menuStyle: MenuStyle(
                 maximumSize: WidgetStatePropertyAll(
-                  Size(
-                    MediaQuery.sizeOf(context).width * .75,
-                    50,
-                  ),
+                  Size(MediaQuery.sizeOf(context).width * .75, 50),
                 ),
-                backgroundColor: WidgetStateProperty.all(
-                  kWhite,
-                ),
+                backgroundColor: WidgetStateProperty.all(kWhite),
               ),
               dropdownMenuEntries: [
-                DropdownMenuEntry<String>(
-                  value: 'البسة',
-                  label: 'عام',
-                ),
+                DropdownMenuEntry<String>(value: 'البسة', label: 'عام'),
               ],
             ),
           ),
@@ -56,9 +44,7 @@ class DropDownMenuAndDetails extends StatelessWidget {
         SizedBox(width: 20),
         Text(
           ' التصنيف',
-          style: TextStyle(
-            fontSize: getResponsiveText(context, 15),
-          ),
+          style: TextStyle(fontSize: getResponsiveText(context, 15)),
         ),
         SizedBox(width: 20),
       ],

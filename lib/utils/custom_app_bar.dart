@@ -3,10 +3,14 @@ import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 
-AppBar customAppBar({required BuildContext context,required String title,required bool showIcons}) {
+AppBar customAppBar({
+  required BuildContext context,
+  required String title,
+  required bool showIcons,
+}) {
   return AppBar(
     automaticallyImplyLeading: false,
-    backgroundColor: kblueAccent,
+    backgroundColor: kBlueAccent,
     title: Text(
       title,
       style: FontStyleApp.white18.copyWith(

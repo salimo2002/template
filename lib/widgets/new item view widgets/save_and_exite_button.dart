@@ -1,12 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 
 class SaveAndExitButton extends StatelessWidget {
-  const SaveAndExitButton({
-    super.key,
-  });
+  const SaveAndExitButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +12,7 @@ class SaveAndExitButton extends StatelessWidget {
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(borderRadius: BorderRadius.zero),
         ),
-        backgroundColor: WidgetStateProperty.all(kblueAccent),
+        backgroundColor: WidgetStateProperty.all(kBlueAccent),
       ),
       onPressed: () {
         Navigator.pop(context);
