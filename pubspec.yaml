@@ -32,7 +32,6 @@ dependencies:
   flutter:
     sdk: flutter
   font_awesome_icon_class: ^0.0.6
-
 dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_test:
