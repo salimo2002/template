@@ -1,13 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
-import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/convert_operator_text_field.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/drop_down_menu_and_details.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/radio_details.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/save_and_exite_button.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_barcode.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
