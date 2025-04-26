@@ -11,7 +11,7 @@ class ContainerItemCountity extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 145,
+      height: MediaQuery.sizeOf(context).height * .17,
       decoration: BoxDecoration(
         border: Border.all(color: kBlueAccent),
         color: kGrey,
@@ -57,7 +57,7 @@ class ContainerItemCountity extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Container(
               width: double.infinity,
-              height: 70,
+              height: MediaQuery.sizeOf(context).height * .08,
               decoration: BoxDecoration(
                 border: Border.all(color: kBlacCustomk),
                 color: kWhite,

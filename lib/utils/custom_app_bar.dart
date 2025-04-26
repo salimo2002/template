@@ -9,7 +9,7 @@ AppBar customAppBar({
   required bool showIcons,
 }) {
   return AppBar(
-    automaticallyImplyLeading: false,
+    // automaticallyImplyLeading: false,
     backgroundColor: kBlueAccent,
     title: Text(
       title,
