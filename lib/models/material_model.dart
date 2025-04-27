@@ -50,8 +50,6 @@ class MaterialModel {
   Map<String, String> toMap() {
     return {
       'database_name': 'itechsy_test',
-
-      // هذه الحقول التي تريد تعبئتها
       'MAT_NUMBER': materialNumber,
       'MAT_NAME': materialName,
       'MAT_CODE': materialCode,
@@ -62,16 +60,9 @@ class MaterialModel {
       'MAT_UNIT2_PRICE3': materialUnit2Price3.toString(),
       'MAT_KIND': materialKind.toString(),
       'mat_unit_default':
-          materialUnitDefault.toString(), // العمود في قاعدة بياناتك بهذه الحالة
-      'mat_image': materialImage, // كذلك
+          materialUnitDefault.toString(),
+      'mat_image': materialImage,
       'PARENT_ID': parentId.toString(),
-
-      // إذا أردت تعبئة حقول إضافية يمكنك إضافتها هنا،
-      // مثلاً لإرسال اللغة الإنجليزية:
-      // 'MAT_ENGLISH'      : someEnglishName,
-      // أو اللون:
-      // 'COLOR'            : someColorValue,
-      // الخ…
     };
   }
 }

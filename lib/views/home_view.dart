@@ -1,4 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/material%20cubit/material_cubit.dart';
+import 'package:template/material%20cubit/material_status.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
@@ -13,9 +18,21 @@ import 'package:template/widgets/home%20view%20widgets/store_section.dart';
 import 'package:template/widgets/home%20view%20widgets/view_invoices.dart';
 import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
   static String id = 'HomeView';
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  @override
+  void initState() {
+    context.read<MaterialCubit>().fetchMaterials();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,8 +48,7 @@ class HomeView extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () async {
-              // تهيئة نموذج المادة بقيم تجريبية
-              await MaterialServices().fetchMaterials();
+              MaterialServices.fetchMaterials();
             },
             icon: Icon(Icons.more_vert_outlined),
           ),

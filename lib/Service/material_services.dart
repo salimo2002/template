@@ -16,24 +16,21 @@ class MaterialServices {
   static final String _urlUpdateNameById =
       'https://www.itech-sy.com/api/material_update.php';
 
-  //جلب بانات
-  Future<void> fetchMaterials() async {
+  static Future<List<dynamic>> fetchMaterials() async {
     final url = Uri.parse(_urlFetchMaterials);
 
     final response = await http.post(
       url,
       body: {'database_name': 'itechsy_test', 'source': 'material'},
     );
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      print(data.runtimeType);
-
-      log(data.toString());
-    } else {}
+    try {
+      List<dynamic> data = jsonDecode(response.body);
+      return data;
+    } catch (e) {
+      throw Exception('خطأ في الاتصال');
+    }
   }
 
-  //اضافة مادة جديددة
   static Future<int> addMaterial(MaterialModel mat) async {
     final url = Uri.parse(_urlAddMaterial);
     final response = await http.post(url, body: mat.toMap());
@@ -49,7 +46,6 @@ class MaterialServices {
     throw Exception('فشل الإضافة: $json');
   }
 
-  /// حذف مادة عن طريق رقمها
   static Future<bool> deleteMaterial(int id) async {
     final url = Uri.parse(_urlDeleteMaterial);
     final response = await http.post(
@@ -64,7 +60,6 @@ class MaterialServices {
     throw Exception('Delete failed: ${json['error']}');
   }
 
-  //تعديل مادة عن طريق رقمها
   static Future<bool> updateNameById(int id, String newName) async {
     final url = Uri.parse(_urlUpdateNameById);
     final body = {
