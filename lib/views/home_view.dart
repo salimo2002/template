@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
@@ -30,7 +31,8 @@ class HomeView extends StatelessWidget {
         backgroundColor: kBlueAccent,
         actions: [
           IconButton(
-            onPressed: ()async {
+            onPressed: () async {
+              // تهيئة نموذج المادة بقيم تجريبية
               await MaterialServices().fetchMaterials();
             },
             icon: Icon(Icons.more_vert_outlined),

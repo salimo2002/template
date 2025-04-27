@@ -10,7 +10,7 @@ class MaterialModel {
   final double materialUnit2Price3;
   final int materialKind;
   final int materialUnitDefault;
-  final String maerialImage;
+  final String materialImage;
   final int parentId;
 
   MaterialModel({
@@ -25,41 +25,53 @@ class MaterialModel {
     required this.materialUnit2Price3,
     required this.materialKind,
     required this.materialUnitDefault,
-    required this.maerialImage,
+    required this.materialImage,
     required this.parentId,
   });
-  factory MaterialModel.fromJson(json) {
+
+  /// ينشئ نسخة من JSON
+  factory MaterialModel.fromJson(Map<String, dynamic> json) {
     return MaterialModel(
-      materialId: json['MAT_ID'],
-      materialNumber: json['MAT_NUMBER'],
-      materialName: json['MAT_NAME'],
-      materialCode: json['MAT_CODE'],
-      materialPrice1: json['MAT_PRICE1'],
-      materialPrice3: json['MAT_PRICE3'],
-      materialUnit2: json['MAT_UNIT2'],
-      materialUnit2Number: json['MAT_UNIT2_NUM'],
-      materialUnit2Price3: json['MAT_UNIT2_PRICE3'],
-      materialKind: json['MAT_KIND'],
-      materialUnitDefault: json['mat_unit_default'],
-      maerialImage: json['mat_image'],
-      parentId: json['PARENT_ID'],
+      materialId: (json['MAT_ID'] as num).toInt(),
+      materialNumber: json['MAT_NUMBER'] as String,
+      materialName: json['MAT_NAME'] as String,
+      materialCode: json['MAT_CODE'] as String,
+      materialPrice1: (json['MAT_PRICE1'] as num).toDouble(),
+      materialPrice3: (json['MAT_PRICE3'] as num).toDouble(),
+      materialUnit2: json['MAT_UNIT2'] as String,
+      materialUnit2Number: (json['MAT_UNIT2_NUM'] as num).toDouble(),
+      materialUnit2Price3: (json['MAT_UNIT2_PRICE3'] as num).toDouble(),
+      materialKind: (json['MAT_KIND'] as num).toInt(),
+      materialUnitDefault: (json['mat_unit_default'] as num).toInt(),
+      materialImage: json['mat_image'] as String,
+      parentId: (json['PARENT_ID'] as num).toInt(),
     );
   }
-  Map<String, dynamic> toMap() {
+  Map<String, String> toMap() {
     return {
-      'MAT_ID': materialId,
+      'database_name': 'itechsy_test',
+
+      // هذه الحقول التي تريد تعبئتها
       'MAT_NUMBER': materialNumber,
       'MAT_NAME': materialName,
       'MAT_CODE': materialCode,
-      'MAT_PRICE1': materialPrice1,
-      'MAT_PRICE3': materialPrice3,
+      'MAT_PRICE1': materialPrice1.toString(),
+      'MAT_PRICE3': materialPrice3.toString(),
       'MAT_UNIT2': materialUnit2,
-      'MAT_UNIT2_NUM': materialUnit2Number,
-      'MAT_UNIT2_PRICE3': materialUnit2Price3,
-      'MAT_KIND': materialKind,
-      'mat_unit_default': materialUnitDefault,
-      'mat_image': maerialImage,
-      'PARENT_ID': parentId,
+      'MAT_UNIT2_NUM': materialUnit2Number.toString(),
+      'MAT_UNIT2_PRICE3': materialUnit2Price3.toString(),
+      'MAT_KIND': materialKind.toString(),
+      'mat_unit_default':
+          materialUnitDefault.toString(), // العمود في قاعدة بياناتك بهذه الحالة
+      'mat_image': materialImage, // كذلك
+      'PARENT_ID': parentId.toString(),
+
+      // إذا أردت تعبئة حقول إضافية يمكنك إضافتها هنا،
+      // مثلاً لإرسال اللغة الإنجليزية:
+      // 'MAT_ENGLISH'      : someEnglishName,
+      // أو اللون:
+      // 'COLOR'            : someColorValue,
+      // الخ…
     };
   }
 }
