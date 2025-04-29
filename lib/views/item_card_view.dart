@@ -48,7 +48,8 @@ class ItemCardView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child: ContainerItemCountity(
                         index: index,
-                        material: context.read<MaterialCubit>().materials[index],
+                        material:
+                            context.read<MaterialCubit>().materials[index],
                       ),
                     );
                   },

@@ -42,6 +42,7 @@ class CustomTextField extends StatelessWidget {
           border: borderStyle(),
           focusedBorder: borderStyle(),
           errorBorder: borderErrorStyle(),
+          focusedErrorBorder: borderErrorStyle(),
           errorStyle: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
@@ -52,9 +53,7 @@ class CustomTextField extends StatelessWidget {
     return OutlineInputBorder(borderSide: BorderSide(color: kBlueAccent));
   }
 
-  UnderlineInputBorder borderErrorStyle() {
-    return UnderlineInputBorder(
-      borderSide: BorderSide(color: Colors.red, style: BorderStyle.none),
-    );
+  OutlineInputBorder borderErrorStyle() {
+    return const OutlineInputBorder(borderSide: BorderSide(color: Colors.red));
   }
 }

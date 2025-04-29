@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/Service/material_services.dart';
 import 'package:template/material%20cubit/material_status.dart';
@@ -13,6 +11,7 @@ class MaterialCubit extends Cubit<MaterialStatus> {
   Future<void> fetchMaterials() async {
     emit(LoadingState());
     try {
+      materials = [];
       result = await MaterialServices.fetchMaterials();
       for (var element in result) {
         materials.add(MaterialModel.fromJson(element));

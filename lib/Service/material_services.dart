@@ -25,6 +25,7 @@ class MaterialServices {
     );
     try {
       List<dynamic> data = jsonDecode(response.body);
+      log(data.toString());
       return data;
     } catch (e) {
       throw Exception('خطأ في الاتصال');

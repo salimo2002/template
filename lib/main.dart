@@ -6,6 +6,7 @@ import 'package:template/views/home_view.dart';
 import 'package:template/views/item_card_view.dart';
 import 'package:template/views/items_classifications_view.dart';
 import 'package:template/views/new_item_view.dart';
+import 'package:template/views/s.dart';
 
 void main(List<String> args) {
   runApp(Template());
@@ -38,6 +39,7 @@ class Template extends StatelessWidget {
           NewItemView.id: (context) => const NewItemView(),
           ItemsClassificationsView.id:
               (context) => const ItemsClassificationsView(),
+          S.id: (context) => S(),
         },
         initialRoute: HomeView.id,
       ),

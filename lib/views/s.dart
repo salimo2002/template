@@ -1,9 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:template/Service/material_services.dart';
-import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/models/material_model.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
@@ -16,15 +13,15 @@ import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.
 import 'package:template/widgets/new%20item%20view%20widgets/uploaded_image.dart';
 import 'package:template/widgets/switch_and_details.dart';
 
-class NewItemView extends StatefulWidget {
-  const NewItemView({super.key});
-  static String id = 'NewItemView';
+class S extends StatefulWidget {
+  const S({super.key});
+  static String id = 'S';
 
   @override
-  State<NewItemView> createState() => _NewItemViewState();
+  State<S> createState() => _NewItemViewState();
 }
 
-class _NewItemViewState extends State<NewItemView> {
+class _NewItemViewState extends State<S> {
   final TextEditingController materialName = TextEditingController();
   final TextEditingController baraCode1 = TextEditingController();
   final TextEditingController unit1 = TextEditingController();
@@ -51,8 +48,6 @@ class _NewItemViewState extends State<NewItemView> {
   @override
   void initState() {
     unit1.addListener(() {
-      final argumentsMaterial = ModalRoute.of(context)!.settings.arguments;
-
       unit2Num.text = unit1.text;
       labels.value[0] = unit1.text;
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
@@ -80,6 +75,9 @@ class _NewItemViewState extends State<NewItemView> {
 
   @override
   Widget build(BuildContext context) {
+    final argumentsMaterial =
+        ModalRoute.of(context)!.settings.arguments as MaterialModel;
+
     return Scaffold(
       appBar: customAppBar(
         context: context,
@@ -227,43 +225,7 @@ class _NewItemViewState extends State<NewItemView> {
                   ),
                 ),
               ),
-              SaveAndExitButton(
-                onPressed: () async {
-                  if (globalKey.currentState!.validate()) {
-                    try {
-                      final material = MaterialModel(
-                        materialUnit: unit111.text,
-                        materialId: 0,
-                        materialNumber: "2", ////////////////////////////d
-                        materialName: materialName.text,
-                        materialCode: baraCode1.text,
-                        materialPrice1:
-                            double.tryParse(purchasePrice.text) ?? 0.0,
-                        materialPrice3: double.tryParse(price1.text) ?? 0.0,
-                        materialUnit2: unit2.text,
-                        materialUnit2Number:
-                            double.tryParse(unit2Num.text) ?? 1.0,
-                        materialUnit2Price3:
-                            double.tryParse(price2.text) ?? 0.0,
-                        materialKind: selectedKind.value,
-                        materialUnitDefault: isSelected.value ?? 1,
-                        materialImage: materialImagePath,
-                        parentId: 0,
-                      );
-                      await MaterialServices.addMaterial(material);
-                      if (!mounted) return;
-                      await context.read<MaterialCubit>().fetchMaterials();
-                      Navigator.pop(context);
-                    } catch (e) {
-                      if (mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('فشل في إضافة المادة')),
-                        );
-                      }
-                    }
-                  }
-                },
-              ),
+              SaveAndExitButton(onPressed: () async {}),
             ],
           ),
         ),

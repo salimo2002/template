@@ -5,12 +5,13 @@ class MaterialModel {
   final String materialCode;
   final double materialPrice1;
   final double materialPrice3;
+  final String materialUnit;
   final String materialUnit2;
   final double materialUnit2Number;
   final double materialUnit2Price3;
   final int materialKind;
   final int materialUnitDefault;
-  final String materialImage; 
+  final String materialImage;
   final int parentId;
 
   MaterialModel({
@@ -20,6 +21,7 @@ class MaterialModel {
     required this.materialCode,
     required this.materialPrice1,
     required this.materialPrice3,
+    required this.materialUnit,
     required this.materialUnit2,
     required this.materialUnit2Number,
     required this.materialUnit2Price3,
@@ -33,14 +35,15 @@ class MaterialModel {
     return MaterialModel(
       materialId: int.parse(json['mat_id']),
       materialNumber: json['mat_number'],
-      materialName: json['mat_name'] ,
-      materialCode: json['mat_code'] ,
+      materialName: json['mat_name'],
+      materialCode: json['mat_code'],
       materialPrice1: double.parse(json['mat_price1']),
       materialPrice3: double.parse(json['mat_price3']),
-      materialUnit2: json['mat_unit2'] ,
+      materialUnit: json['mat_unit'],
+      materialUnit2: json['mat_unit2'],
       materialUnit2Number: double.parse(json['mat_unit2_num']),
       materialUnit2Price3: double.parse(json['mat_unit2_price3']),
-      materialKind:int.parse(json['mat_kind']), 
+      materialKind: int.parse(json['mat_kind']),
       materialUnitDefault: int.parse(json['mat_unit_default']),
       materialImage: json['mat_image'],
       parentId: int.parse(json['parent_id']),
@@ -54,12 +57,12 @@ class MaterialModel {
       'MAT_CODE': materialCode,
       'MAT_PRICE1': materialPrice1.toString(),
       'MAT_PRICE3': materialPrice3.toString(),
+      'MAT_UNIT': materialUnit,
       'MAT_UNIT2': materialUnit2,
       'MAT_UNIT2_NUM': materialUnit2Number.toString(),
       'MAT_UNIT2_PRICE3': materialUnit2Price3.toString(),
       'MAT_KIND': materialKind.toString(),
-      'mat_unit_default':
-          materialUnitDefault.toString(),
+      'mat_unit_default': materialUnitDefault.toString(),
       'mat_image': materialImage,
       'PARENT_ID': parentId.toString(),
     };

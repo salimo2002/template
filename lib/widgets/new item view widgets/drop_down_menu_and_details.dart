@@ -3,53 +3,55 @@ import 'package:template/utils/constants.dart';
 import 'package:template/utils/responsive_text.dart';
 
 class DropDownMenuAndDetails extends StatelessWidget {
-  const DropDownMenuAndDetails({super.key, required this.categories});
+  const DropDownMenuAndDetails({
+    super.key,
+    required this.categories,
+    required this.selectedIndex,
+    required this.onChanged,
+  });
+
   final List<String> categories;
+  final int selectedIndex;
+  final ValueChanged<int?> onChanged;
+
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(width: 5),
+        const SizedBox(width: 5),
         Expanded(
           child: Directionality(
             textDirection: TextDirection.rtl,
-            child: DropdownMenu(
-              trailingIcon: SizedBox.shrink(),
-              inputDecorationTheme: InputDecorationTheme(
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: kBlueAccent),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: kBlueAccent),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: kBlueAccent),
-                ),
+            child: DropdownButtonFormField<String>(
+              value: categories[selectedIndex],
+              decoration: InputDecoration(
+                border: OutlineInputBorder(borderSide: BorderSide(color: kBlueAccent)),
+                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: kBlueAccent)),
+                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: kBlueAccent)),
                 filled: true,
                 fillColor: kWhite,
               ),
-              width: MediaQuery.sizeOf(context).width * .75,
-              menuStyle: MenuStyle(
-                maximumSize: WidgetStatePropertyAll(
-                  Size(MediaQuery.sizeOf(context).width * .75, 200),
-                ),
-                backgroundColor: WidgetStateProperty.all(kWhite),
-              ),
-              dropdownMenuEntries:
-                  categories.map<DropdownMenuEntry<String>>((e) {
-                    return DropdownMenuEntry<String>(label: e, value: e);
-                  }).toList(),
+              items: categories.map((e) {
+                return DropdownMenuItem<String>(
+                  value: e,
+                  child: Text(e),
+                );
+              }).toList(),
+              onChanged: (val) {
+                final newIndex = categories.indexOf(val!);
+                onChanged(newIndex);
+              },
             ),
           ),
         ),
-        SizedBox(width: 20),
+        const SizedBox(width: 20),
         Text(
-          ' التصنيف',
+          'التصنيف',
           style: TextStyle(fontSize: getResponsiveText(context, 15)),
         ),
-        SizedBox(width: 20),
+        const SizedBox(width: 20),
       ],
     );
   }
