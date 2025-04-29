@@ -29,22 +29,21 @@ class MaterialModel {
     required this.parentId,
   });
 
-  /// ينشئ نسخة من JSON
   factory MaterialModel.fromJson(Map<String, dynamic> json) {
     return MaterialModel(
-      materialId: (json['MAT_ID'] as num).toInt(),
-      materialNumber: json['MAT_NUMBER'] as String,
-      materialName: json['MAT_NAME'] as String,
-      materialCode: json['MAT_CODE'] as String,
-      materialPrice1: (json['MAT_PRICE1'] as num).toDouble(),
-      materialPrice3: (json['MAT_PRICE3'] as num).toDouble(),
-      materialUnit2: json['MAT_UNIT2'] as String,
-      materialUnit2Number: (json['MAT_UNIT2_NUM'] as num).toDouble(),
-      materialUnit2Price3: (json['MAT_UNIT2_PRICE3'] as num).toDouble(),
-      materialKind: (json['MAT_KIND'] as num).toInt(),
-      materialUnitDefault: (json['mat_unit_default'] as num).toInt(),
-      materialImage: json['mat_image'] as String,
-      parentId: (json['PARENT_ID'] as num).toInt(),
+      materialId: int.parse(json['mat_id']),
+      materialNumber: json['mat_number'],
+      materialName: json['mat_name'] ,
+      materialCode: json['mat_code'] ,
+      materialPrice1: double.parse(json['mat_price1']),
+      materialPrice3: double.parse(json['mat_price3']),
+      materialUnit2: json['mat_unit2'] ,
+      materialUnit2Number: double.parse(json['mat_unit2_num']),
+      materialUnit2Price3: double.parse(json['mat_unit2_price3']),
+      materialKind:int.parse(json['mat_kind']), 
+      materialUnitDefault: int.parse(json['mat_unit_default']),
+      materialImage: json['mat_image'],
+      parentId: int.parse(json['parent_id']),
     );
   }
   Map<String, String> toMap() {

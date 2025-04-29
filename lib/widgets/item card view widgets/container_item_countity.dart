@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/column_countity.dart';
 
 class ContainerItemCountity extends StatelessWidget {
-  const ContainerItemCountity({super.key});
-
+  const ContainerItemCountity({super.key, required this.material, required this.index});
+  final MaterialModel material;
+  final int index;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,7 +28,7 @@ class ContainerItemCountity extends StatelessWidget {
             children: [
               FittedBox(
                 child: Text(
-                  'بنطال',
+                  material.materialName,
                   style: FontStyleApp.black18.copyWith(
                     fontSize: getResponsiveText(context, 17),
                   ),
@@ -34,7 +36,7 @@ class ContainerItemCountity extends StatelessWidget {
               ),
               FittedBox(
                 child: Text(
-                  ' -1',
+                  index.toString(),
                   style: FontStyleApp.black18.copyWith(
                     fontSize: getResponsiveText(context, 14),
                   ),

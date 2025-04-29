@@ -21,16 +21,14 @@ class NewItemView extends StatefulWidget {
 class _NewItemViewState extends State<NewItemView> {
   final TextEditingController firstController = TextEditingController();
   final TextEditingController secondController = TextEditingController();
-  final TextEditingController threeController = TextEditingController();
   final TextEditingController controllerOne = TextEditingController();
   final TextEditingController controllerTow = TextEditingController();
-  ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
-  ValueNotifier<List<String>> labels = ValueNotifier<List<String>>([
+  final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
+  final ValueNotifier<List<String>> labels = ValueNotifier<List<String>>([
     '',
     '',
     '',
   ]);
-  List<String> s = [''];
   @override
   void initState() {
     firstController.addListener(() {
@@ -46,11 +44,7 @@ class _NewItemViewState extends State<NewItemView> {
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       labels.notifyListeners();
     });
-    threeController.addListener(() {
-      labels.value[2] = threeController.text;
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      labels.notifyListeners();
-    });
+
     super.initState();
   }
 
@@ -58,7 +52,6 @@ class _NewItemViewState extends State<NewItemView> {
   void dispose() {
     firstController.dispose();
     secondController.dispose();
-    threeController.dispose();
     controllerOne.dispose();
     controllerTow.dispose();
     labels.dispose();
@@ -157,34 +150,6 @@ class _NewItemViewState extends State<NewItemView> {
                         ),
                       ],
                     ),
-                    ContainerFields(
-                      children: [
-                        TextFieldAndDetails(
-                          controller: threeController,
-                          hintText: 'الوحدة الثالثة',
-                          label: "الوحدة الثالثة",
-                        ),
-                        SizedBox(height: 5),
-                        ConvertOperatorTextField(
-                          textEditingController: controllerTow,
-                          label: 'معامل التحويل',
-                          hintText: 'معامل التحويل',
-                        ),
-                        SizedBox(height: 5),
-                        TextFieldAndDetails(
-                          hintText: 'سعر المبيع',
-                          label: '  سعر المبيع',
-                          controller: TextEditingController(),
-                        ),
-                        SizedBox(height: 5),
-                        TextFieldAndBarcode(
-                          hintText: 'الباركود',
-                          label: 'الباركود',
-                          controller: TextEditingController(),
-                        ),
-                      ],
-                    ),
-
                     ContainerFields(
                       children: [
                         RowDefaultUnit(labels: labels, isSelected: isSelected),
