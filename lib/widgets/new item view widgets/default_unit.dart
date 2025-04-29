@@ -3,7 +3,6 @@ import 'package:template/utils/constants.dart';
 
 class DefaultUnt extends StatelessWidget {
   const DefaultUnt({super.key, required this.isSelected, required this.labels});
-
   final ValueNotifier<int?> isSelected;
   final ValueNotifier<List<String>> labels;
 

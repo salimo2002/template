@@ -7,11 +7,15 @@ class ConvertOperatorTextField extends StatelessWidget {
   const ConvertOperatorTextField({
     super.key,
     required this.textEditingController,
-    required this.label, required this.hintText,
+    required this.label,
+    required this.hintText,
+    this.keyType = TextInputType.text,
   });
   final TextEditingController textEditingController;
   final String label;
   final String hintText;
+  final TextInputType? keyType;
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -23,6 +27,7 @@ class ConvertOperatorTextField extends StatelessWidget {
         const SizedBox(width: 5),
         Expanded(
           child: CustomTextField(
+            keyType: keyType,
             hintText: hintText,
             controller: TextEditingController(),
           ),

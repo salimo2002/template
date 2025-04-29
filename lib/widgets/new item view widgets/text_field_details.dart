@@ -8,10 +8,14 @@ class TextFieldAndDetails extends StatelessWidget {
     required this.hintText,
     required this.label,
     required this.controller,
+    this.keyType = TextInputType.text,
+    this.validator,
   });
   final String hintText;
   final String label;
   final TextEditingController controller;
+  final TextInputType? keyType;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,12 @@ class TextFieldAndDetails extends StatelessWidget {
       children: [
         const SizedBox(width: 5),
         Expanded(
-          child: CustomTextField(hintText: hintText, controller: controller),
+          child: CustomTextField(
+            hintText: hintText,
+            controller: controller,
+            keyType: keyType,
+            validator: validator,
+          ),
         ),
         const SizedBox(width: 20),
         Text(label, style: TextStyle(fontSize: getResponsiveText(context, 12))),

@@ -3,8 +3,8 @@ import 'package:template/utils/constants.dart';
 import 'package:template/utils/responsive_text.dart';
 
 class DropDownMenuAndDetails extends StatelessWidget {
-  const DropDownMenuAndDetails({super.key});
-
+  const DropDownMenuAndDetails({super.key, required this.categories});
+  final List<String> categories;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -33,13 +33,14 @@ class DropDownMenuAndDetails extends StatelessWidget {
               width: MediaQuery.sizeOf(context).width * .75,
               menuStyle: MenuStyle(
                 maximumSize: WidgetStatePropertyAll(
-                  Size(MediaQuery.sizeOf(context).width * .75, 60),
+                  Size(MediaQuery.sizeOf(context).width * .75, 200),
                 ),
                 backgroundColor: WidgetStateProperty.all(kWhite),
               ),
-              dropdownMenuEntries: [
-                DropdownMenuEntry<String>(value: 'البسة', label: 'عام'),
-              ],
+              dropdownMenuEntries:
+                  categories.map<DropdownMenuEntry<String>>((e) {
+                    return DropdownMenuEntry<String>(label: e, value: e);
+                  }).toList(),
             ),
           ),
         ),

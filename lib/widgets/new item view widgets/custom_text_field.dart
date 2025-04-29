@@ -8,15 +8,21 @@ class CustomTextField extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.controller,
+    this.keyType = TextInputType.text,
+    this.validator,
   });
 
   final String hintText;
   final TextEditingController controller;
+  final TextInputType? keyType;
+  final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 34,
       child: TextFormField(
+        validator: validator,
+        keyboardType: keyType,
         controller: controller,
         textDirection: TextDirection.rtl,
         decoration: InputDecoration(
@@ -35,6 +41,8 @@ class CustomTextField extends StatelessWidget {
           enabledBorder: borderStyle(),
           border: borderStyle(),
           focusedBorder: borderStyle(),
+          errorBorder: borderErrorStyle(),
+          errorStyle: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -42,5 +50,11 @@ class CustomTextField extends StatelessWidget {
 
   OutlineInputBorder borderStyle() {
     return OutlineInputBorder(borderSide: BorderSide(color: kBlueAccent));
+  }
+
+  UnderlineInputBorder borderErrorStyle() {
+    return UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.red, style: BorderStyle.none),
+    );
   }
 }

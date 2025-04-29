@@ -10,7 +10,6 @@ class ContainerFields extends StatelessWidget {
       padding: const EdgeInsets.only(top: 5, right: 5, left: 5),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5),
-        // height: 100
         width: double.infinity,
         decoration: BoxDecoration(
           color: Color(0xfff3f3f3),

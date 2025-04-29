@@ -3,8 +3,8 @@ import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 
 class SaveAndExitButton extends StatelessWidget {
-  const SaveAndExitButton({super.key});
-
+  const SaveAndExitButton({super.key, required this.onPressed});
+  final VoidCallback onPressed;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -14,9 +14,7 @@ class SaveAndExitButton extends StatelessWidget {
         ),
         backgroundColor: WidgetStateProperty.all(kBlueAccent),
       ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
+      onPressed: onPressed,
       child: Text('حفظ وانهاء', style: FontStyleApp.white18),
     );
   }

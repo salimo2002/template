@@ -10,7 +10,7 @@ class MaterialModel {
   final double materialUnit2Price3;
   final int materialKind;
   final int materialUnitDefault;
-  final String materialImage;
+  final String materialImage; 
   final int parentId;
 
   MaterialModel({
