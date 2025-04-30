@@ -7,12 +7,13 @@ class DropDownMenuAndDetails extends StatelessWidget {
     super.key,
     required this.categories,
     required this.selectedIndex,
-    required this.onChanged,
+    required this.onChanged, this.onCTap,
   });
 
   final List<String> categories;
   final int selectedIndex;
   final ValueChanged<int?> onChanged;
+  final void Function(String?)? onCTap;
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +40,7 @@ class DropDownMenuAndDetails extends StatelessWidget {
                   child: Text(e),
                 );
               }).toList(),
-              onChanged: (val) {
-                final newIndex = categories.indexOf(val!);
-                onChanged(newIndex);
-              },
+              onChanged:onCTap,
             ),
           ),
         ),

@@ -9,9 +9,10 @@ class ConvertOperatorTextField extends StatelessWidget {
     required this.textEditingController,
     required this.label,
     required this.hintText,
-    this.keyType = TextInputType.text,
+    this.keyType = TextInputType.text, required this.convertOperatorTextField,
   });
   final TextEditingController textEditingController;
+   final TextEditingController convertOperatorTextField;
   final String label;
   final String hintText;
   final TextInputType? keyType;
@@ -29,7 +30,7 @@ class ConvertOperatorTextField extends StatelessWidget {
           child: CustomTextField(
             keyType: keyType,
             hintText: hintText,
-            controller: TextEditingController(),
+            controller: convertOperatorTextField,
           ),
         ),
         const SizedBox(width: 10),
