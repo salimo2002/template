@@ -73,4 +73,34 @@ class MaterialServices {
     if (resp.statusCode == 200 && json['success'] == true) return true;
     throw Exception('Update failed: ${json['error']}');
   }
+
+  static Future<bool> updateMaterialById(int id, MaterialModel model) async {
+    final url = Uri.parse(_urlUpdateNameById); // غيّر الرابط حسب السيرفر
+    final body = {
+      'database_name': 'itechsy_test',
+      'MAT_ID': id.toString(),
+      'MAT_NUMBER': model.materialNumber,
+      'MAT_NAME': model.materialName,
+      'MAT_CODE': model.materialCode,
+      'MAT_PRICE1': model.materialPrice1.toString(),
+      'MAT_PRICE3': model.materialPrice3.toString(),
+      'MAT_UNIT': model.materialUnit,
+      'MAT_UNIT2': model.materialUnit2,
+      'MAT_UNIT2_NUM': model.materialUnit2Number.toString(),
+      'MAT_UNIT2_PRICE3': model.materialUnit2Price3.toString(),
+      'MAT_KIND': model.materialKind.toString(),
+      'mat_unit_default': model.materialUnitDefault.toString(),
+      'mat_image': model.materialImage,
+      'PARENT_ID': model.parentId.toString(),
+    };
+
+    final response = await http.post(url, body: body);
+    final json = jsonDecode(response.body);
+
+    if (response.statusCode == 200 && json['success'] == true) {
+      return true;
+    } else {
+      throw Exception('Update failed: ${json['error']}');
+    }
+  }
 }

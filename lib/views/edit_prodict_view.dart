@@ -1,6 +1,10 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:template/Service/material_services.dart';
+import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/models/material_model.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
@@ -13,15 +17,15 @@ import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.
 import 'package:template/widgets/new%20item%20view%20widgets/uploaded_image.dart';
 import 'package:template/widgets/switch_and_details.dart';
 
-class S extends StatefulWidget {
-  const S({super.key});
+class EditProdictView extends StatefulWidget {
+  const EditProdictView({super.key});
   static String id = 'S';
 
   @override
-  State<S> createState() => _NewItemViewState();
+  State<EditProdictView> createState() => _NewItemViewState();
 }
 
-class _NewItemViewState extends State<S> {
+class _NewItemViewState extends State<EditProdictView> {
   final TextEditingController materialName = TextEditingController();
   final TextEditingController baraCode1 = TextEditingController();
   final TextEditingController unit1 = TextEditingController();
@@ -74,10 +78,24 @@ class _NewItemViewState extends State<S> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     final argumentsMaterial =
         ModalRoute.of(context)!.settings.arguments as MaterialModel;
+    materialName.text = argumentsMaterial.materialName;
+    baraCode1.text = argumentsMaterial.materialCode;
+    unit111.text = argumentsMaterial.materialUnit;
+    purchasePrice.text = argumentsMaterial.materialPrice1.toString();
+    price1.text = argumentsMaterial.materialPrice3.toString();
+    unit2.text = argumentsMaterial.materialUnit2;
+    unit2Num.text = argumentsMaterial.materialUnit2Number.toString();
+    price2.text = argumentsMaterial.materialPrice3.toString();
+    price2.text = argumentsMaterial.materialCode.toString();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(
         context: context,
@@ -225,7 +243,53 @@ class _NewItemViewState extends State<S> {
                   ),
                 ),
               ),
-              SaveAndExitButton(onPressed: () async {}),
+              SaveAndExitButton(
+                onPressed: () async {
+                  if (!globalKey.currentState!.validate()) return;
+
+                  final argumentsMaterial =
+                      ModalRoute.of(context)!.settings.arguments
+                          as MaterialModel;
+
+                  MaterialModel updatedMaterial = MaterialModel(
+                    materialId: argumentsMaterial.materialId,
+                    materialNumber: baraCode1.text,
+                    materialName: materialName.text,
+                    materialCode: baraCode1.text,
+                    materialPrice1: double.tryParse(purchasePrice.text) ?? 0.0,
+                    materialPrice3: double.tryParse(price1.text) ?? 0.0,
+                    materialUnit: unit111.text,
+                    materialUnit2: unit2.text,
+                    materialUnit2Number: double.tryParse(unit2Num.text) ?? 0.0,
+                    materialUnit2Price3: double.tryParse(price2.text) ?? 0.0,
+                    materialKind: selectedKind.value,
+                    materialUnitDefault: isSelected.value ?? 1,
+                    materialImage: materialImagePath,
+                    parentId: argumentsMaterial.parentId,
+                  );
+
+                  try {
+                    bool success = await MaterialServices.updateMaterialById(
+                      argumentsMaterial.materialId,
+                      updatedMaterial,
+                    );
+
+                    if (success) {
+                      await context.read<MaterialCubit>().fetchMaterials();
+                      Navigator.pop(context);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('فشل في تحديث المادة')),
+                      );
+                    }
+                  } catch (e) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text('حدث خطأ: $e')));
+                    log(e.toString());
+                  }
+                },
+              ),
             ],
           ),
         ),

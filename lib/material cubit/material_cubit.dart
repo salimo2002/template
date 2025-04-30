@@ -30,4 +30,13 @@ class MaterialCubit extends Cubit<MaterialStatus> {
       emit(FaliureState(errorMessage: e.toString()));
     }
   }
+  
+  Future<void> updateMaterial(MaterialModel material) async {
+    try {
+      await MaterialServices.addMaterial(material);
+      emit(SuccessState(materials: materials));
+    } catch (e) {
+      emit(FaliureState(errorMessage: e.toString()));
+    }
+  }
 }

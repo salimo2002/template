@@ -16,6 +16,7 @@ class TextFieldAndDetails extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType? keyType;
   final String? Function(String?)? validator;
+  
 
   @override
   Widget build(BuildContext context) {

@@ -27,6 +27,7 @@ class ItemCardView extends StatelessWidget {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.startFloat,
             floatingActionButton: FloatingActionButton(
+              heroTag: "uniqueTag1",
               shape: CircleBorder(),
               tooltip: 'ادخال بطاقة مادة',
               backgroundColor: kBlueAccent,

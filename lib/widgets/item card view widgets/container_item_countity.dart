@@ -3,8 +3,7 @@ import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
-import 'package:template/views/item_card_view.dart';
-import 'package:template/views/s.dart';
+import 'package:template/views/edit_prodict_view.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/column_countity.dart';
 
 class ContainerItemCountity extends StatelessWidget {
@@ -20,7 +19,7 @@ class ContainerItemCountity extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(arguments: material, context, S.id);
+        Navigator.pushNamed(arguments: material, context, EditProdictView.id);
       },
       child: Container(
         width: double.infinity,
