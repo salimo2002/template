@@ -75,7 +75,7 @@ class MaterialServices {
   }
 
   static Future<bool> updateMaterialById(int id, MaterialModel model) async {
-    final url = Uri.parse(_urlUpdateNameById); // غيّر الرابط حسب السيرفر
+    final url = Uri.parse(_urlUpdateNameById); 
     final body = {
       'database_name': 'itechsy_test',
       'MAT_ID': id.toString(),

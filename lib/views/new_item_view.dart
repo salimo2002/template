@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -51,7 +52,7 @@ class _NewItemViewState extends State<NewItemView> {
   @override
   void initState() {
     unit1.addListener(() {
-      final argumentsMaterial = ModalRoute.of(context)!.settings.arguments;
+      ModalRoute.of(context)!.settings.arguments;
 
       unit2Num.text = unit1.text;
       labels.value[0] = unit1.text;
@@ -231,10 +232,14 @@ class _NewItemViewState extends State<NewItemView> {
                 onPressed: () async {
                   if (globalKey.currentState!.validate()) {
                     try {
+                      final random = Random();
+                      final materialNumber = random.nextInt(1000000).toString();
+
                       final material = MaterialModel(
                         materialUnit: unit111.text,
                         materialId: 0,
-                        materialNumber: "2", ////////////////////////////d
+                        materialNumber:
+                            materialNumber, //////////////هاد الرقم المادة حطيتو عشوائي
                         materialName: materialName.text,
                         materialCode: baraCode1.text,
                         materialPrice1:
