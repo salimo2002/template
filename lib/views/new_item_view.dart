@@ -29,7 +29,6 @@ class _NewItemViewState extends State<NewItemView> {
   final TextEditingController materialName = TextEditingController();
   final TextEditingController baraCode1 = TextEditingController();
   final TextEditingController unit1 = TextEditingController();
-  final TextEditingController unit111 = TextEditingController();
   final TextEditingController purchasePrice = TextEditingController();
   final TextEditingController price1 = TextEditingController();
   final TextEditingController unit2 = TextEditingController();
@@ -173,7 +172,7 @@ class _NewItemViewState extends State<NewItemView> {
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
-                            controller: unit111,
+                            controller: unit1,
                             hintText: 'الوحدة الاولى',
                             label: "الوحدة الاولى",
                           ),
@@ -243,7 +242,7 @@ class _NewItemViewState extends State<NewItemView> {
                       final materialNumber = random.nextInt(1000000).toString();
 
                       final material = MaterialModel(
-                        materialUnit: unit111.text,
+                        materialUnit: unit1.text,
                         materialId: 0,
                         materialNumber:
                             materialNumber, //////////////هاد الرقم المادة حطيتو عشوائي
