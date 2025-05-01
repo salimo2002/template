@@ -46,7 +46,7 @@ class ContainerItemCountity extends StatelessWidget {
                 ),
                 FittedBox(
                   child: Text(
-                    index.toString(),
+                    ' -${index.toString()}',
                     style: FontStyleApp.black18.copyWith(
                       fontSize: getResponsiveText(context, 14),
                     ),
@@ -58,7 +58,7 @@ class ContainerItemCountity extends StatelessWidget {
             SizedBox(height: 10),
             FittedBox(
               child: Text(
-                'عام',
+                'عام', //هنا اسم التصنيف
                 style: FontStyleApp.green14.copyWith(
                   fontSize: getResponsiveText(context, 14),
                 ),

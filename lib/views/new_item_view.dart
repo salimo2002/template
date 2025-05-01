@@ -36,8 +36,8 @@ class _NewItemViewState extends State<NewItemView> {
   final TextEditingController unit2Num = TextEditingController();
   final TextEditingController price2 = TextEditingController();
   final TextEditingController baraCode2 = TextEditingController();
-    final TextEditingController convertOperatorTextField = TextEditingController();
-
+  final TextEditingController convertOperatorTextField =
+      TextEditingController();
 
   final List<String> categories = ['عام', 'البسة'];
   final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
@@ -201,7 +201,8 @@ class _NewItemViewState extends State<NewItemView> {
                             label: "الوحدة الثانية",
                           ),
                           const SizedBox(height: 5),
-                          ConvertOperatorTextField(convertOperatorTextField: convertOperatorTextField,
+                          ConvertOperatorTextField(
+                            convertOperatorTextField: convertOperatorTextField,
                             textEditingController: unit2Num,
                             label: 'معامل التحويل',
                             hintText: 'معامل التحويل',
@@ -253,10 +254,11 @@ class _NewItemViewState extends State<NewItemView> {
                         materialPrice3: double.tryParse(price1.text) ?? 0.0,
                         materialUnit2: unit2.text,
                         materialUnit2Number:
-                            double.tryParse(convertOperatorTextField.text) ?? 1.0,
+                            double.tryParse(convertOperatorTextField.text) ??
+                            1.0,
                         materialUnit2Price3:
                             double.tryParse(price2.text) ?? 0.0,
-                        materialKind: selectedKind.value,
+                        materialKind: 0,
                         materialUnitDefault: isSelected.value ?? 1,
                         materialImage: materialImagePath,
                         parentId: 0,

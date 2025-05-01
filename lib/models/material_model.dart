@@ -61,7 +61,7 @@ class MaterialModel {
       'MAT_UNIT2': materialUnit2,
       'MAT_UNIT2_NUM': materialUnit2Number.toString(),
       'MAT_UNIT2_PRICE3': materialUnit2Price3.toString(),
-      'MAT_KIND': materialKind.toString(),
+      'MAT_KIND': (0).toString(),
       'mat_unit_default': materialUnitDefault.toString(),
       'mat_image': materialImage,
       'PARENT_ID': parentId.toString(),

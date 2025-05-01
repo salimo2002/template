@@ -263,7 +263,8 @@ class _NewItemViewState extends State<EditProdictView> {
                     materialPrice3: double.tryParse(price1.text) ?? 0.0,
                     materialUnit: unit111.text,
                     materialUnit2: unit2.text,
-                    materialUnit2Number: double.tryParse(convertOperatorTextField.text) ?? 0.0,
+                    materialUnit2Number:
+                        double.tryParse(convertOperatorTextField.text) ?? 0.0,
                     materialUnit2Price3: double.tryParse(price2.text) ?? 0.0,
                     materialKind: selectedKind.value,
                     materialUnitDefault: isSelected.value ?? 1,
