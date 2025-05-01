@@ -1,56 +1,153 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/category%20cubit/category_cubit.dart';
+import 'package:template/category%20cubit/category_status.dart';
+import 'package:template/models/category_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/font_style.dart';
+import 'package:template/utils/responsive_text.dart';
+import 'package:template/views/home_view.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/container_item_classifications.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/container_name_classifications.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/custom_alert_dialog.dart';
 
-class ItemsClassificationsView extends StatelessWidget {
+class ItemsClassificationsView extends StatefulWidget {
   const ItemsClassificationsView({super.key});
   static String id = 'ItemClassificationsView';
+
+  @override
+  State<ItemsClassificationsView> createState() =>
+      _ItemsClassificationsViewState();
+}
+
+class _ItemsClassificationsViewState extends State<ItemsClassificationsView> {
+  GlobalKey<FormState> globalKey = GlobalKey();
+  TextEditingController categoryName = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: customAppBar(
-        context: context,
-        title: 'تصنيفات المواد',
-        showIcons: false,
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(5),
-          child: Column(
-            children: [
-              ContainerNameClassifications(),
-              SizedBox(height: MediaQuery.sizeOf(context).height * .005),
-              ContainerItemClassifications(
-                color: kGrey,
-                nameClassificatio: 'عام',
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return CustomAlertDialog(initialValue: 'عام');
-                    },
-                  );
-                },
+    return BlocListener<CategoryCubit, CategoryStatus>(
+      listener: (context, state) {
+        if (state is SuccessStateCategory) {
+              context.read<CategoryCubit>().fetchCategory();
+
+        }
+      },
+      child: BlocBuilder<CategoryCubit, CategoryStatus>(
+        builder: (context, state) {
+          if (state is SuccessStateCategory) {
+            return Scaffold(
+              appBar: customAppBar(
+                context: context,
+                title: 'تصنيفات المواد',
+                showIcons: false,
               ),
-              SizedBox(height: 6),
-              ContainerItemClassifications(
-                color: kGrey,
-                nameClassificatio: 'ألبسة',
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return CustomAlertDialog(initialValue: 'ألبسة');
-                    },
-                  );
-                },
+              body: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Column(
+                    children: [
+                      ContainerNameClassifications(
+                        categoryName: categoryName,
+                        globalKey: globalKey,
+                        onPressed: () async {
+                          if (globalKey.currentState!.validate()) {
+                            context.read<CategoryCubit>().insertCategory(
+                              CategoryModel(
+                                matName: categoryName.text,
+                                matNumber: Random().nextInt(10000).toString(),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: MediaQuery.sizeOf(context).height * .005,
+                      ),
+                      context.read<CategoryCubit>().categories.isEmpty
+                          ? Text(
+                            'لايوجد تصنيفات',
+                            style: FontStyleApp.black18.copyWith(
+                              fontSize: getResponsiveText(context, 24),
+                            ),
+                          )
+                          : Expanded(
+                            child: ListView.builder(
+                              itemCount:
+                                  context
+                                      .read<CategoryCubit>()
+                                      .categories
+                                      .length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: ContainerItemClassifications(
+                                    color: kGrey,
+                                    nameClassificatio:
+                                        context
+                                            .read<CategoryCubit>()
+                                            .categories[index]
+                                            .matName,
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return CustomAlertDialog(
+                                            initialValue:
+                                                context
+                                                    .read<CategoryCubit>()
+                                                    .categories[index]
+                                                    .matName,
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                    ],
+                  ),
+                ),
               ),
-            ],
-          ),
-        ),
+            );
+          } else if (state is FaliureStateCategory) {
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'حدث خطأ حاول مجددا',
+                      style: FontStyleApp.black18.copyWith(
+                        fontSize: getResponsiveText(context, 18),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          HomeView.id,
+                          (route) => false,
+                        );
+                      },
+                      icon: Icon(Icons.refresh, color: kBlack),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(color: kBlueAccent),
+              ),
+            );
+          }
+        },
       ),
     );
   }

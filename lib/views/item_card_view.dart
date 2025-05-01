@@ -42,19 +42,32 @@ class ItemCardView extends StatelessWidget {
                   horizontal: 5,
                   vertical: 0.3,
                 ),
-                child: ListView.builder(
-                  itemCount: context.read<MaterialCubit>().materials.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: ContainerItemCountity(
-                        index: index,
-                        material:
-                            context.read<MaterialCubit>().materials[index],
-                      ),
-                    );
-                  },
-                ),
+                child:
+                    context.read<MaterialCubit>().materials.isEmpty
+                        ? Center(
+                          child: Text(
+                            'لايوجد مواد',
+                            style: FontStyleApp.black18.copyWith(
+                              fontSize: getResponsiveText(context, 24),
+                            ),
+                          ),
+                        )
+                        : ListView.builder(
+                          itemCount:
+                              context.read<MaterialCubit>().materials.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child: ContainerItemCountity(
+                                index: index,
+                                material:
+                                    context
+                                        .read<MaterialCubit>()
+                                        .materials[index],
+                              ),
+                            );
+                          },
+                        ),
               ),
             ),
           );

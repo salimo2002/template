@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
@@ -27,6 +28,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     context.read<MaterialCubit>().fetchMaterials();
+    context.read<CategoryCubit>().fetchCategory();
     super.initState();
   }
 

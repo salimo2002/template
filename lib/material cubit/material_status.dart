@@ -6,7 +6,6 @@ class LoadingState extends MaterialStatus {}
 
 class SuccessState extends MaterialStatus {
   final List<dynamic> materials;
-
   SuccessState({required this.materials});
 }
 

@@ -1,19 +1,21 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/Service/material_services.dart';
 import 'package:template/material%20cubit/material_status.dart';
+import 'package:template/models/category_model.dart';
 import 'package:template/models/material_model.dart';
 
 class MaterialCubit extends Cubit<MaterialStatus> {
   MaterialCubit() : super(InitState());
-  List<dynamic> result = [];
+  List<dynamic> resultMaterial = [];
+
   List<MaterialModel> materials = [];
 
   Future<void> fetchMaterials() async {
     emit(LoadingState());
     try {
       materials = [];
-      result = await MaterialServices.fetchMaterials();
-      for (var element in result) {
+      resultMaterial = await MaterialServices.fetchMaterials();
+      for (var element in resultMaterial) {
         materials.add(MaterialModel.fromJson(element));
       }
       emit(SuccessState(materials: materials));
@@ -30,7 +32,7 @@ class MaterialCubit extends Cubit<MaterialStatus> {
       emit(FaliureState(errorMessage: e.toString()));
     }
   }
-  
+
   Future<void> updateMaterial(MaterialModel material) async {
     try {
       await MaterialServices.addMaterial(material);

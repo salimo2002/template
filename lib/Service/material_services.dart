@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import 'package:template/models/category_model.dart';
 import 'package:template/models/material_model.dart';
 
 class MaterialServices {
@@ -15,6 +16,42 @@ class MaterialServices {
 
   static final String _urlUpdateNameById =
       'https://www.itech-sy.com/api/material_update.php';
+  static final String _urlAddCategory =
+      'https://www.itech-sy.com/api/category_insert.php';
+  static final String _urlFetchCategory =
+      'https://www.itech-sy.com/api/category_all_get.php';
+
+  static Future<int> addCategory(CategoryModel mat) async {
+    final url = Uri.parse(_urlAddCategory);
+    final response = await http.post(url, body: mat.toMap());
+
+    if (response.statusCode != 200) {
+      throw Exception('خطأ في الاتصال: ${response.statusCode}');
+    }
+
+    final json = jsonDecode(response.body);
+    if (json['material_id'] != null) {
+      log('yes');
+      return int.parse(json['material_id'].toString());
+    }
+    throw Exception('فشل الإضافة: $json');
+  }
+
+  static Future<List<dynamic>> fetchCategory() async {
+    final url = Uri.parse(_urlFetchCategory);
+
+    final response = await http.post(
+      url,
+      body: {'database_name': 'itechsy_test', 'source': 'material'},
+    );
+    try {
+      List<dynamic> data = jsonDecode(response.body);
+      log(data.toString());
+      return data;
+    } catch (e) {
+      throw Exception('خطأ في الاتصال');
+    }
+  }
 
   static Future<List<dynamic>> fetchMaterials() async {
     final url = Uri.parse(_urlFetchMaterials);
@@ -75,7 +112,7 @@ class MaterialServices {
   }
 
   static Future<bool> updateMaterialById(int id, MaterialModel model) async {
-    final url = Uri.parse(_urlUpdateNameById); 
+    final url = Uri.parse(_urlUpdateNameById);
     final body = {
       'database_name': 'itechsy_test',
       'MAT_ID': id.toString(),

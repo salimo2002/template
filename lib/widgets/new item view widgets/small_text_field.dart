@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:template/widgets/items%20classifications%20view%20widgets/row_name_classifications.dart';
+import 'package:template/widgets/items%20classifications%20view%20widgets/custom_text_form_field.dart';
 
 class SmallTextField extends StatelessWidget {
   const SmallTextField({super.key, required this.textEditingController});

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/views/home_view.dart';
@@ -17,10 +18,20 @@ class Template extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<MaterialCubit>(
-      create: (context) {
-        return MaterialCubit();
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<MaterialCubit>(
+          create: (context) {
+            return MaterialCubit();
+          },
+        ),
+        BlocProvider<CategoryCubit>(
+          create: (context) {
+            return CategoryCubit();
+          },
+        ),
+      ],
+
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
