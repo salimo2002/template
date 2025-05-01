@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:template/Service/material_services.dart';
+import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/models/material_model.dart';
 import 'package:template/utils/custom_app_bar.dart';
@@ -55,7 +56,6 @@ class _NewItemViewState extends State<NewItemView> {
   void initState() {
     unit1.addListener(() {
       ModalRoute.of(context)!.settings.arguments;
-
       unit2Num.text = unit1.text;
       labels.value[0] = unit1.text;
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member

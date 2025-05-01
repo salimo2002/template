@@ -7,7 +7,8 @@ class DropDownMenuAndDetails extends StatelessWidget {
     super.key,
     required this.categories,
     required this.selectedIndex,
-    required this.onChanged, this.onCTap,
+    required this.onChanged,
+    this.onCTap,
   });
 
   final List<String> categories;
@@ -28,19 +29,23 @@ class DropDownMenuAndDetails extends StatelessWidget {
             child: DropdownButtonFormField<String>(
               value: categories[selectedIndex],
               decoration: InputDecoration(
-                border: OutlineInputBorder(borderSide: BorderSide(color: kBlueAccent)),
-                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: kBlueAccent)),
-                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: kBlueAccent)),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: kBlueAccent),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: kBlueAccent),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: kBlueAccent),
+                ),
                 filled: true,
                 fillColor: kWhite,
               ),
-              items: categories.map((e) {
-                return DropdownMenuItem<String>(
-                  value: e,
-                  child: Text(e),
-                );
-              }).toList(),
-              onChanged:onCTap,
+              items:
+                  categories.map((e) {
+                    return DropdownMenuItem<String>(value: e, child: Text(e));
+                  }).toList(),
+              onChanged: onCTap,
             ),
           ),
         ),
