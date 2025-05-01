@@ -29,16 +29,15 @@ class _NewItemViewState extends State<EditProdictView> {
   final TextEditingController materialName = TextEditingController();
   final TextEditingController baraCode1 = TextEditingController();
   final TextEditingController unit1 = TextEditingController();
-  final TextEditingController unit111 = TextEditingController();
   final TextEditingController purchasePrice = TextEditingController();
   final TextEditingController price1 = TextEditingController();
   final TextEditingController unit2 = TextEditingController();
   final TextEditingController unit2Num = TextEditingController();
   final TextEditingController price2 = TextEditingController();
   final TextEditingController baraCode2 = TextEditingController();
-
   final TextEditingController convertOperatorTextField =
       TextEditingController();
+
   final List<String> categories = ['عام', 'البسة'];
   final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
   final ValueNotifier<int> selectedKind = ValueNotifier<int>(0);
@@ -87,13 +86,14 @@ class _NewItemViewState extends State<EditProdictView> {
         ModalRoute.of(context)!.settings.arguments as MaterialModel;
     materialName.text = argumentsMaterial.materialName;
     baraCode1.text = argumentsMaterial.materialCode;
-    unit111.text = argumentsMaterial.materialUnit;
+    unit1.text = argumentsMaterial.materialUnit;
+    unit2.text = argumentsMaterial.materialUnit2;
     purchasePrice.text = argumentsMaterial.materialPrice1.toString();
     price1.text = argumentsMaterial.materialPrice3.toString();
-    unit2.text = argumentsMaterial.materialUnit2;
+    price2.text = argumentsMaterial.materialUnit2Price3.toString();
     unit2Num.text = argumentsMaterial.materialUnit2Number.toString();
-    price2.text = argumentsMaterial.materialPrice3.toString();
-    price2.text = argumentsMaterial.materialCode.toString();
+    convertOperatorTextField.text =
+        argumentsMaterial.materialUnit2Number.toString();
   }
 
   @override
@@ -184,7 +184,7 @@ class _NewItemViewState extends State<EditProdictView> {
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
-                            controller: unit111,
+                            controller: unit1,
                             hintText: 'الوحدة الاولى',
                             label: "الوحدة الاولى",
                           ),
@@ -256,12 +256,12 @@ class _NewItemViewState extends State<EditProdictView> {
 
                   MaterialModel updatedMaterial = MaterialModel(
                     materialId: argumentsMaterial.materialId,
-                    materialNumber: baraCode1.text,
+                    materialNumber: argumentsMaterial.materialNumber,
                     materialName: materialName.text,
                     materialCode: baraCode1.text,
                     materialPrice1: double.tryParse(purchasePrice.text) ?? 0.0,
                     materialPrice3: double.tryParse(price1.text) ?? 0.0,
-                    materialUnit: unit111.text,
+                    materialUnit: unit1.text,
                     materialUnit2: unit2.text,
                     materialUnit2Number:
                         double.tryParse(convertOperatorTextField.text) ?? 0.0,
