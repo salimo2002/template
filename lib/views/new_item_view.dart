@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:template/Service/material_services.dart';
-import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/models/material_model.dart';
 import 'package:template/utils/custom_app_bar.dart';
@@ -262,16 +260,14 @@ class _NewItemViewState extends State<NewItemView> {
                         materialImage: materialImagePath,
                         parentId: 0,
                       );
-                      await MaterialServices.addMaterial(material);
-                      if (!mounted) return;
-                      await context.read<MaterialCubit>().fetchMaterials();
+                      await context.read<MaterialCubit>().insertMaterial(
+                        material,
+                      );
                       Navigator.pop(context);
                     } catch (e) {
-                      if (mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('فشل في إضافة المادة')),
-                        );
-                      }
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('فشل في إضافة المادة')),
+                      );
                     }
                   }
                 },

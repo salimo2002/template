@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
@@ -26,17 +25,14 @@ class RowDefaultUnit extends StatelessWidget {
               color: kWhite,
               border: Border.all(color: kBlueAccent),
             ),
-            child: DefaultUnt(
-              labels: labels,
-              isSelected: isSelected,
-            ),
+            child: DefaultUnt(labels: labels, isSelected: isSelected),
           ),
         ),
         SizedBox(width: 10),
         Text(
           'الوحدة الافتراضية',
           style: FontStyleApp.blackCustom18.copyWith(
-            fontSize: getResponsiveText(context, 13),
+            fontSize: getResponsiveText(context, 10),
           ),
         ),
         SizedBox(width: 10),

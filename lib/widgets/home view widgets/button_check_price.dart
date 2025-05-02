@@ -27,7 +27,7 @@ class ButtonCheckPrice extends StatelessWidget {
             FittedBox(
               child: Text(
                 style: FontStyleApp.blackCustom18.copyWith(
-                  fontSize: getResponsiveText(context, 18),
+                  fontSize: getResponsiveText(context, 12),
                 ),
                 title,
               ),

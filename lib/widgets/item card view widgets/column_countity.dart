@@ -20,7 +20,7 @@ class ColumnCountity extends StatelessWidget {
           child: Text(
             nameCountity,
             style: FontStyleApp.blueAccent18.copyWith(
-              fontSize: getResponsiveText(context, 14),
+              fontSize: getResponsiveText(context, 12),
             ),
           ),
         ),
@@ -29,7 +29,7 @@ class ColumnCountity extends StatelessWidget {
           child: Text(
             countity,
             style: FontStyleApp.blackCustom18.copyWith(
-              fontSize: getResponsiveText(context, 14),
+              fontSize: getResponsiveText(context, 12),
             ),
           ),
         ),

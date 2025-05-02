@@ -7,15 +7,14 @@ class SaveAndExitButton extends StatelessWidget {
   final VoidCallback onPressed;
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ButtonStyle(
-        shape: WidgetStatePropertyAll(
-          RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-        ),
-        backgroundColor: WidgetStateProperty.all(kBlueAccent),
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        width: double.infinity,
+        height: 40,
+        decoration: BoxDecoration(color: kBlueAccent),
+        child: Center(child: Text('حفظ وإنهاء', style: FontStyleApp.white18)),
       ),
-      onPressed: onPressed,
-      child: Text('حفظ وانهاء', style: FontStyleApp.white18),
     );
   }
 }

@@ -31,8 +31,7 @@ class _ItemsClassificationsViewState extends State<ItemsClassificationsView> {
     return BlocListener<CategoryCubit, CategoryStatus>(
       listener: (context, state) {
         if (state is SuccessStateCategory) {
-              context.read<CategoryCubit>().fetchCategory();
-
+          context.read<CategoryCubit>().fetchCategory();
         }
       },
       child: BlocBuilder<CategoryCubit, CategoryStatus>(
@@ -70,7 +69,7 @@ class _ItemsClassificationsViewState extends State<ItemsClassificationsView> {
                           ? Text(
                             'لايوجد تصنيفات',
                             style: FontStyleApp.black18.copyWith(
-                              fontSize: getResponsiveText(context, 24),
+                              fontSize: getResponsiveText(context, 18),
                             ),
                           )
                           : Expanded(

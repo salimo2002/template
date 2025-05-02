@@ -29,14 +29,14 @@ class CustomButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 5),
-            Expanded(child: Icon(size: 35, color: kBlueAccent, icon)),
+            SizedBox(height: 10),
+            Expanded(child: Icon(size: 25, color: kBlueAccent, icon)),
             SizedBox(height: 10),
             FittedBox(
               child: Text(
                 text,
                 style: FontStyleApp.blackCustom18.copyWith(
-                  fontSize: getResponsiveText(context, 14),
+                  fontSize: getResponsiveText(context, 11),
                 ),
               ),
             ),

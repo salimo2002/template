@@ -21,13 +21,12 @@ class ItemCardView extends StatelessWidget {
           return Scaffold(
             appBar: customAppBar(
               context: context,
-              title: 'بطاقة مادة',
+              title: 'بطاقات المواد',
               showIcons: true,
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.startFloat,
             floatingActionButton: FloatingActionButton(
-              heroTag: "uniqueTag1",
               shape: CircleBorder(),
               tooltip: 'ادخال بطاقة مادة',
               backgroundColor: kBlueAccent,
@@ -48,7 +47,7 @@ class ItemCardView extends StatelessWidget {
                           child: Text(
                             'لايوجد مواد',
                             style: FontStyleApp.black18.copyWith(
-                              fontSize: getResponsiveText(context, 24),
+                              fontSize: getResponsiveText(context, 18),
                             ),
                           ),
                         )

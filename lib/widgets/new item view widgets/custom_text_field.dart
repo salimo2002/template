@@ -10,7 +10,6 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     this.keyType = TextInputType.text,
     this.validator,
-    
   });
   final String hintText;
   final TextEditingController controller;
@@ -21,7 +20,6 @@ class CustomTextField extends StatelessWidget {
     return SizedBox(
       height: 34,
       child: TextFormField(
-        
         validator: validator,
         keyboardType: keyType,
         controller: controller,
@@ -35,7 +33,7 @@ class CustomTextField extends StatelessWidget {
           hintTextDirection: TextDirection.rtl,
           hintText: hintText,
           hintStyle: FontStyleApp.blackCustom18.copyWith(
-            fontSize: getResponsiveText(context, 14),
+            fontSize: getResponsiveText(context, 12),
           ),
           fillColor: kWhite,
           filled: true,

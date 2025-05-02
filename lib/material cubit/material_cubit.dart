@@ -28,7 +28,9 @@ class MaterialCubit extends Cubit<MaterialStatus> {
 
   Future<void> insertMaterial(MaterialModel material) async {
     try {
+      emit(LoadingState());
       await MaterialServices.addMaterial(material);
+      await fetchMaterials();
       emit(SuccessState(materials: materials));
     } catch (e) {
       emit(FaliureState(errorMessage: e.toString()));
@@ -38,6 +40,17 @@ class MaterialCubit extends Cubit<MaterialStatus> {
   Future<void> updateMaterial(MaterialModel material) async {
     try {
       await MaterialServices.addMaterial(material);
+      emit(SuccessState(materials: materials));
+    } catch (e) {
+      emit(FaliureState(errorMessage: e.toString()));
+    }
+  }
+
+  Future<void> deleteMaterial(MaterialModel material) async {
+    try {
+      emit(LoadingState());
+      await MaterialServices.deleteMaterial(material.materialId);
+      await fetchMaterials();
       emit(SuccessState(materials: materials));
     } catch (e) {
       emit(FaliureState(errorMessage: e.toString()));

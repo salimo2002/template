@@ -19,7 +19,7 @@ class PartsTitle extends StatelessWidget {
         child: FittedBox(
           child: Text(
             style: FontStyleApp.white18.copyWith(
-              fontSize: getResponsiveText(context, 14),
+              fontSize: getResponsiveText(context, 12),
             ),
             title,
           ),
