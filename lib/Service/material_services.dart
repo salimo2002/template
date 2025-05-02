@@ -133,11 +133,11 @@ class MaterialServices {
     throw Exception('Update failed: ${json['error']}');
   }
 
-  static Future<bool> updateMaterialById(int id, MaterialModel model) async {
+  static Future<bool> updateMaterialById( MaterialModel model) async {
     final url = Uri.parse(_urlUpdateNameById);
     final body = {
       'database_name': 'itechsy_test',
-      'MAT_ID': id.toString(),
+      'MAT_ID': model.materialId.toString(),
       'MAT_NUMBER': model.materialNumber,
       'MAT_NAME': model.materialName,
       'MAT_CODE': model.materialCode,

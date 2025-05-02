@@ -1,3 +1,6 @@
+
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/Service/material_services.dart';
 import 'package:template/material%20cubit/material_status.dart';
@@ -35,10 +38,13 @@ class MaterialCubit extends Cubit<MaterialStatus> {
 
   Future<void> updateMaterial(MaterialModel material) async {
     try {
-      await MaterialServices.addMaterial(material);
+      emit(LoadingState());
+      await MaterialServices.updateMaterialById(material);
+      await MaterialServices.fetchMaterials();
       emit(SuccessState(materials: materials));
     } catch (e) {
       emit(FaliureState(errorMessage: e.toString()));
+      log(e.toString());
     }
   }
 

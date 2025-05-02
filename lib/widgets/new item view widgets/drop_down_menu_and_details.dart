@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/responsive_text.dart';
 
 class DropDownMenuAndDetails extends StatelessWidget {
   const DropDownMenuAndDetails({
     super.key,
-    required this.categories,
     required this.selectedIndex,
     required this.onChanged,
     this.onCTap,
   });
 
-  final List<String> categories;
   final int selectedIndex;
   final ValueChanged<int?> onChanged;
   final void Function(String?)? onCTap;
@@ -27,7 +27,11 @@ class DropDownMenuAndDetails extends StatelessWidget {
           child: Directionality(
             textDirection: TextDirection.rtl,
             child: DropdownButtonFormField<String>(
-              value: categories[selectedIndex],
+              value:
+                  context
+                      .read<CategoryCubit>()
+                      .categories[selectedIndex]
+                      .matName,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: kBlueAccent),
@@ -42,8 +46,11 @@ class DropDownMenuAndDetails extends StatelessWidget {
                 fillColor: kWhite,
               ),
               items:
-                  categories.map((e) {
-                    return DropdownMenuItem<String>(value: e, child: Text(e));
+                  context.read<CategoryCubit>().categories.map((e) {
+                    return DropdownMenuItem<String>(
+                      value: e.matName,
+                      child: Text(e.matName),
+                    );
                   }).toList(),
               onChanged: onCTap,
             ),

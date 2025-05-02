@@ -24,6 +24,7 @@ class TextFieldAndDetails extends StatelessWidget {
         const SizedBox(width: 5),
         Expanded(
           child: CustomTextField(
+            validator: validator,
             hintText: hintText,
             controller: controller,
             keyType: keyType,

@@ -41,7 +41,6 @@ class _NewItemViewState extends State<NewItemView> {
   final TextEditingController convertOperatorTextField =
       TextEditingController();
 
-  final List<String> categories = ['عام', 'البسة'];
   final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
   final ValueNotifier<int> selectedKind = ValueNotifier<int>(0);
   final GlobalKey<FormState> globalKey = GlobalKey();
@@ -50,9 +49,8 @@ class _NewItemViewState extends State<NewItemView> {
     '',
     '',
   ]);
-
-  String materialImagePath = '';
-
+  ValueNotifier<String> imageUpdate = ValueNotifier('');
+  File file = File('');
   @override
   void initState() {
     unit1.addListener(() {
@@ -105,27 +103,22 @@ class _NewItemViewState extends State<NewItemView> {
                   child: Column(
                     children: [
                       const SizedBox(height: 5),
-                      UploadedImage(
-                        onTap: () async {
-                          final picked = await ImagePicker().pickImage(
-                            source: ImageSource.gallery,
+                      ValueListenableBuilder<String>(
+                        valueListenable: imageUpdate,
+                        builder: (context, value, child) {
+                          return UploadedImage(
+                            url: imageUpdate.value,
+                            onTap: () async {
+                              final picked = await ImagePicker().pickImage(
+                                source: ImageSource.gallery,
+                              );
+                              if (picked != null) {
+                                imageUpdate.value = picked.path;
+                              }
+                            },
                           );
-                          if (picked != null) {
-                            setState(() {
-                              materialImagePath = picked.path;
-                            });
-                          }
                         },
                       ),
-
-                      if (materialImagePath.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.file(
-                            File(materialImagePath),
-                            height: 100,
-                          ),
-                        ),
                       const SizedBox(height: 7),
                       ContainerFields(
                         children: [
@@ -158,9 +151,8 @@ class _NewItemViewState extends State<NewItemView> {
                             builder: (context, value, _) {
                               return DropDownMenuAndDetails(
                                 onCTap: (val) {
-                                  final newIndex = categories.indexOf(val!);
+                                  //بتحبني
                                 },
-                                categories: categories,
                                 selectedIndex: value,
                                 onChanged: (newIndex) {
                                   selectedKind.value = newIndex!;
@@ -286,7 +278,7 @@ class _NewItemViewState extends State<NewItemView> {
                                     double.tryParse(price2.text) ?? 0.0,
                                 materialKind: 0,
                                 materialUnitDefault: isSelected.value ?? 1,
-                                materialImage: materialImagePath,
+                                materialImage: imageUpdate.value,
                                 parentId: 0,
                               ),
                             );
