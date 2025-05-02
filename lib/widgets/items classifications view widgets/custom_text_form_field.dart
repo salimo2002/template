@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({super.key, required this.initialValue});
-  final String initialValue;
+  const CustomTextFormField({super.key, required this.categoryNameUpdate});
+
+  final TextEditingController categoryNameUpdate;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 33,
       child: TextFormField(
-        initialValue: initialValue,
+        controller: categoryNameUpdate,
         textDirection: TextDirection.rtl,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(left: 240),

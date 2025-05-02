@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/Service/material_services.dart';
 import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/category%20cubit/category_status.dart';
 import 'package:template/models/category_model.dart';
@@ -26,12 +27,14 @@ class _ItemsClassificationsViewState extends State<ItemsClassificationsView> {
   final GlobalKey<FormState> globalKey = GlobalKey();
   final TextEditingController categoryName = TextEditingController();
 
+  final TextEditingController categoryNameUpdate = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CategoryCubit, CategoryStatus>(
       builder: (context, state) {
         if (state is SuccessStateCategory) {
-          final categories = state.categories;
+          List categories = state.categories;
 
           return Scaffold(
             appBar: customAppBar(
@@ -51,6 +54,7 @@ class _ItemsClassificationsViewState extends State<ItemsClassificationsView> {
                         if (globalKey.currentState!.validate()) {
                           context.read<CategoryCubit>().insertCategory(
                             CategoryModel(
+                              matId: 0,
                               matName: categoryName.text,
                               matNumber: Random().nextInt(10000).toString(),
                             ),
@@ -78,12 +82,33 @@ class _ItemsClassificationsViewState extends State<ItemsClassificationsView> {
                                   nameClassificatio:
                                       state.categories[index].matName,
                                   onTap: () {
+                                    categoryNameUpdate.text =
+                                        categories[index].matName;
                                     showDialog(
                                       context: context,
                                       builder: (context) {
                                         return CustomAlertDialog(
-                                          initialValue:
-                                              categories[index].matName,
+                                          categoryNameUpdate:
+                                              categoryNameUpdate,
+                                          onTap: () async {
+                                            Navigator.pop(context);
+                                            await context
+                                                .read<CategoryCubit>()
+                                                .updateCategory(
+                                                  CategoryModel(
+                                                    matId:
+                                                        state
+                                                            .categories[index]
+                                                            .matId,
+                                                    matName:
+                                                        categoryNameUpdate.text,
+                                                    matNumber:
+                                                        state
+                                                            .categories[index]
+                                                            .matNumber,
+                                                  ),
+                                                );
+                                          },
                                         );
                                       },
                                     );

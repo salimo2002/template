@@ -7,6 +7,20 @@ class CategoryCubit extends Cubit<CategoryStatus> {
   CategoryCubit() : super(InitStateCategory());
   List<dynamic> resultCategories = [];
   List<CategoryModel> categories = [];
+
+  Future<void> updateCategory(CategoryModel category) async {
+    try {
+      emit(LoadingStateCategory());
+      await MaterialServices.updateCategory(category);
+      resultCategories = await MaterialServices.fetchCategory();
+      categories =
+          resultCategories.map((e) => CategoryModel.fromJson(e)).toList();
+      emit(SuccessStateCategory(categories: categories));
+    } catch (e) {
+      emit(FaliureStateCategory(errorMessage: e.toString()));
+    }
+  }
+
   Future<void> insertCategory(CategoryModel category) async {
     try {
       emit(LoadingStateCategory());

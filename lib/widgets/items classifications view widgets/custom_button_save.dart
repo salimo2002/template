@@ -3,14 +3,12 @@ import 'package:template/utils/constants.dart';
 import 'package:template/utils/responsive_text.dart';
 
 class CustomButtonSave extends StatelessWidget {
-  const CustomButtonSave({super.key});
-
+  const CustomButtonSave({super.key,required this.onTap});
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pop(context);
-      },
+      onTap: onTap,
       child: Container(
         height: 30,
         width: 100,

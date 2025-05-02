@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:template/models/category_model.dart';
 import 'package:template/models/material_model.dart';
@@ -20,6 +21,27 @@ class MaterialServices {
       'https://www.itech-sy.com/api/category_insert.php';
   static final String _urlFetchCategory =
       'https://www.itech-sy.com/api/category_all_get.php';
+
+  static final String _urlCategoryUpdate =
+      'https://www.itech-sy.com/api/category_update.php';
+
+  static Future<void> updateCategory(CategoryModel mat) async {
+    final url = Uri.parse(_urlCategoryUpdate);
+
+    final response = await http.post(
+      url,
+      body: {
+        'database_name': 'itechsy_test',
+        'mat_id': mat.matId.toString(),
+        'mat_name': mat.matName,
+      },
+    );
+    debugPrint(response.body);
+    final result = jsonDecode(response.body);
+    if (result['success'] != true) {
+      throw Exception('فشل في تعديل التصنيف');
+    }
+  }
 
   static Future<int> addCategory(CategoryModel mat) async {
     final url = Uri.parse(_urlAddCategory);

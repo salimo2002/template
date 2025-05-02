@@ -4,23 +4,21 @@ import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
+  const   CustomTextField({
     super.key,
     required this.hintText,
     required this.controller,
     this.keyType = TextInputType.text,
-    this.validator,
+    
   });
   final String hintText;
   final TextEditingController controller;
   final TextInputType? keyType;
-  final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 34,
       child: TextFormField(
-        validator: validator,
         keyboardType: keyType,
         controller: controller,
         textDirection: TextDirection.rtl,
