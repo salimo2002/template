@@ -75,6 +75,8 @@ class _ItemsClassificationsViewState extends State<ItemsClassificationsView> {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 8),
                                 child: ContainerItemClassifications(
+                                  matId:
+                                      state.categories[index].matId.toString(),
                                   color: kGrey,
                                   nameClassificatio:
                                       state.categories[index].matName,
