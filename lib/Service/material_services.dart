@@ -24,6 +24,35 @@ class MaterialServices {
 
   static final String _urlCategoryUpdate =
       'https://www.itech-sy.com/api/category_update.php';
+  static final String _urlCategoryDelet =
+      'https://www.itech-sy.com/api/category_delet.php';
+
+  static Future<bool> categoryDeletById({required String matId}) async {
+    final uri = Uri.parse(_urlCategoryDelet);
+
+    try {
+      final response = await http.post(
+        uri,
+        body: {'database_name': 'itechsy_test', 'mat_id': matId},
+      );
+
+      if (response.statusCode == 200) {
+        final body = response.body;
+        if (body.contains('"success":true')) {
+          return true;
+        } else {
+          print('فشل في الحذف: $body');
+          return false;
+        }
+      } else {
+        print('استجابة غير ناجحة: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('خطأ أثناء الحذف: $e');
+      return false;
+    }
+  }
 
   static Future<void> updateCategory(CategoryModel mat) async {
     final url = Uri.parse(_urlCategoryUpdate);
@@ -120,7 +149,6 @@ class MaterialServices {
     throw Exception('Delete failed: ${json['error']}');
   }
 
-  
   static Future<bool> updateMaterialById(MaterialModel model) async {
     final url = Uri.parse(_urlUpdateNameById);
     final body = {

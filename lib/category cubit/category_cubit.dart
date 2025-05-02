@@ -8,6 +8,19 @@ class CategoryCubit extends Cubit<CategoryStatus> {
   List<dynamic> resultCategories = [];
   List<CategoryModel> categories = [];
 
+  Future<void> categoryDeletById({required String matId}) async {
+    try {
+      emit(LoadingStateCategory());
+      await MaterialServices.categoryDeletById(matId: matId);
+      resultCategories = await MaterialServices.fetchCategory();
+      categories =
+          resultCategories.map((e) => CategoryModel.fromJson(e)).toList();
+      emit(SuccessStateCategory(categories: categories));
+    } catch (e) {
+      emit(FaliureStateCategory(errorMessage: e.toString()));
+    }
+  }
+
   Future<void> updateCategory(CategoryModel category) async {
     try {
       emit(LoadingStateCategory());
