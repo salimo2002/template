@@ -19,7 +19,7 @@ import 'package:template/widgets/switch_and_details.dart';
 
 class EditProdictView extends StatefulWidget {
   const EditProdictView({super.key});
-  static String id = 'S';
+  static String id = 'EditProdictView';
 
   @override
   State<EditProdictView> createState() => _NewItemViewState();

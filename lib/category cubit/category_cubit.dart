@@ -9,7 +9,11 @@ class CategoryCubit extends Cubit<CategoryStatus> {
   List<CategoryModel> categories = [];
   Future<void> insertCategory(CategoryModel category) async {
     try {
+      emit(LoadingStateCategory());
       await MaterialServices.addCategory(category);
+      resultCategories = await MaterialServices.fetchCategory();
+      categories =
+          resultCategories.map((e) => CategoryModel.fromJson(e)).toList();
       emit(SuccessStateCategory(categories: categories));
     } catch (e) {
       emit(FaliureStateCategory(errorMessage: e.toString()));

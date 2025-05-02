@@ -27,6 +27,7 @@ class ItemCardView extends StatelessWidget {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.startFloat,
             floatingActionButton: FloatingActionButton(
+              heroTag: null,
               shape: CircleBorder(),
               tooltip: 'ادخال بطاقة مادة',
               backgroundColor: kBlueAccent,
@@ -52,17 +53,13 @@ class ItemCardView extends StatelessWidget {
                           ),
                         )
                         : ListView.builder(
-                          itemCount:
-                              context.read<MaterialCubit>().materials.length,
+                          itemCount: state.materials.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5),
                               child: ContainerItemCountity(
                                 index: index + 1,
-                                material:
-                                    context
-                                        .read<MaterialCubit>()
-                                        .materials[index],
+                                material: state.materials[index],
                               ),
                             );
                           },
