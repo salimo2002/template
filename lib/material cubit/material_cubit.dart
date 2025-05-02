@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +39,8 @@ class MaterialCubit extends Cubit<MaterialStatus> {
     try {
       emit(LoadingState());
       await MaterialServices.updateMaterialById(material);
-      await MaterialServices.fetchMaterials();
+      resultMaterial = await MaterialServices.fetchCategory();
+      materials = resultMaterial.map((e) => MaterialModel.fromJson(e)).toList();
       emit(SuccessState(materials: materials));
     } catch (e) {
       emit(FaliureState(errorMessage: e.toString()));

@@ -120,20 +120,8 @@ class MaterialServices {
     throw Exception('Delete failed: ${json['error']}');
   }
 
-  static Future<bool> updateNameById(int id, String newName) async {
-    final url = Uri.parse(_urlUpdateNameById);
-    final body = {
-      'database_name': 'itechsy_test',
-      'MAT_ID': id.toString(),
-      'MAT_NAME': newName,
-    };
-    final resp = await http.post(url, body: body);
-    final json = jsonDecode(resp.body);
-    if (resp.statusCode == 200 && json['success'] == true) return true;
-    throw Exception('Update failed: ${json['error']}');
-  }
-
-  static Future<bool> updateMaterialById( MaterialModel model) async {
+  
+  static Future<bool> updateMaterialById(MaterialModel model) async {
     final url = Uri.parse(_urlUpdateNameById);
     final body = {
       'database_name': 'itechsy_test',

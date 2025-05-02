@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -264,42 +266,40 @@ class _NewItemViewState extends State<EditProdictView> {
                       ),
                     );
                   } else if (state is SuccessState) {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      HomeView.id,
-                      (route) => false,
-                    );
+                    Navigator.pop(context);
                   }
                 },
                 builder: (context, state) {
                   if (state is SuccessState) {
                     return SaveAndExitButton(
                       onPressed: () async {
-                        if (!globalKey.currentState!.validate()) return;
-                        context.read<MaterialCubit>().updateMaterial(
-                          MaterialModel(
-                            materialId: argumentsMaterial.materialId,
-                            materialNumber: argumentsMaterial.materialNumber,
-                            materialName: materialName.text,
-                            materialCode: baraCode1.text,
-                            materialPrice1:
-                                double.tryParse(purchasePrice.text) ?? 0.0,
-                            materialPrice3: double.tryParse(price1.text) ?? 0.0,
-                            materialUnit: unit1.text,
-                            materialUnit2: unit2.text,
-                            materialUnit2Number:
-                                double.tryParse(
-                                  convertOperatorTextField.text,
-                                ) ??
-                                0.0,
-                            materialUnit2Price3:
-                                double.tryParse(price2.text) ?? 0.0,
-                            materialKind: selectedKind.value,
-                            materialUnitDefault: isSelected.value ?? 1,
-                            materialImage: materialImagePath,
-                            parentId: argumentsMaterial.parentId,
-                          ),
-                        );
+                        if (globalKey.currentState!.validate()) {
+                          await context.read<MaterialCubit>().updateMaterial(
+                            MaterialModel(
+                              materialId: argumentsMaterial.materialId,
+                              materialNumber: argumentsMaterial.materialNumber,
+                              materialName: materialName.text,
+                              materialCode: baraCode1.text,
+                              materialPrice1:
+                                  double.tryParse(purchasePrice.text) ?? 0.0,
+                              materialPrice3:
+                                  double.tryParse(price1.text) ?? 0.0,
+                              materialUnit: unit1.text,
+                              materialUnit2: unit2.text,
+                              materialUnit2Number:
+                                  double.tryParse(
+                                    convertOperatorTextField.text,
+                                  ) ??
+                                  0.0,
+                              materialUnit2Price3:
+                                  double.tryParse(price2.text) ?? 0.0,
+                              materialKind: selectedKind.value,
+                              materialUnitDefault: isSelected.value ?? 1,
+                              materialImage: materialImagePath,
+                              parentId: argumentsMaterial.parentId,
+                            ),
+                          );
+                        }
                       },
                     );
                   } else if (state is LoadingState) {
