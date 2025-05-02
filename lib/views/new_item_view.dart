@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
+import 'package:template/material%20cubit/material_status.dart';
 import 'package:template/models/material_model.dart';
+import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/font_style.dart';
+import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/convert_operator_text_field.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/drop_down_menu_and_details.dart';
@@ -40,7 +44,6 @@ class _NewItemViewState extends State<NewItemView> {
   final List<String> categories = ['عام', 'البسة'];
   final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
   final ValueNotifier<int> selectedKind = ValueNotifier<int>(0);
-
   final GlobalKey<FormState> globalKey = GlobalKey();
   final ValueNotifier<List<String>> labels = ValueNotifier<List<String>>([
     '',
@@ -53,7 +56,6 @@ class _NewItemViewState extends State<NewItemView> {
   @override
   void initState() {
     unit1.addListener(() {
-      ModalRoute.of(context)!.settings.arguments;
       unit2Num.text = unit1.text;
       labels.value[0] = unit1.text;
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
@@ -71,7 +73,13 @@ class _NewItemViewState extends State<NewItemView> {
 
   @override
   void dispose() {
+    materialName.dispose();
+    baraCode1.dispose();
+    purchasePrice.dispose();
+    price1.dispose();
     unit1.dispose();
+    price2.dispose();
+    baraCode2.dispose();
     unit2Num.dispose();
     unit2.dispose();
     labels.dispose();
@@ -232,43 +240,69 @@ class _NewItemViewState extends State<NewItemView> {
                   ),
                 ),
               ),
-              SaveAndExitButton(
-                onPressed: () async {
-                  if (globalKey.currentState!.validate()) {
-                    try {
-                      final random = Random();
-                      final materialNumber = random.nextInt(1000000).toString();
-
-                      final material = MaterialModel(
-                        materialUnit: unit1.text,
-                        materialId: 0,
-                        materialNumber:
-                            materialNumber, //////////////هاد الرقم المادة حطيتو عشوائي
-                        materialName: materialName.text,
-                        materialCode: baraCode1.text,
-                        materialPrice1:
-                            double.tryParse(purchasePrice.text) ?? 0.0,
-                        materialPrice3: double.tryParse(price1.text) ?? 0.0,
-                        materialUnit2: unit2.text,
-                        materialUnit2Number:
-                            double.tryParse(convertOperatorTextField.text) ??
-                            1.0,
-                        materialUnit2Price3:
-                            double.tryParse(price2.text) ?? 0.0,
-                        materialKind: 0,
-                        materialUnitDefault: isSelected.value ?? 1,
-                        materialImage: materialImagePath,
-                        parentId: 0,
-                      );
-                      await context.read<MaterialCubit>().insertMaterial(
-                        material,
-                      );
-                      Navigator.pop(context);
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('فشل في إضافة المادة')),
-                      );
-                    }
+              BlocConsumer<MaterialCubit, MaterialStatus>(
+                listener: (context, state) {
+                  if (state is FaliureState) {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: kRed,
+                        content: Text(
+                          'حدث خطأ أثناء الإضافة',
+                          style: FontStyleApp.white18.copyWith(
+                            fontSize: getResponsiveText(context, 12),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  if (state is SuccessState) {
+                    return SaveAndExitButton(
+                      onPressed: () async {
+                        if (globalKey.currentState!.validate()) {
+                          try {
+                            final materialNumber =
+                                Random().nextInt(1000000).toString();
+                            await context.read<MaterialCubit>().insertMaterial(
+                              MaterialModel(
+                                materialUnit: unit1.text,
+                                materialId: 0,
+                                materialNumber: materialNumber,
+                                materialName: materialName.text,
+                                materialCode: baraCode1.text,
+                                materialPrice1:
+                                    double.tryParse(purchasePrice.text) ?? 0.0,
+                                materialPrice3:
+                                    double.tryParse(price1.text) ?? 0.0,
+                                materialUnit2: unit2.text,
+                                materialUnit2Number:
+                                    double.tryParse(
+                                      convertOperatorTextField.text,
+                                    ) ??
+                                    1.0,
+                                materialUnit2Price3:
+                                    double.tryParse(price2.text) ?? 0.0,
+                                materialKind: 0,
+                                materialUnitDefault: isSelected.value ?? 1,
+                                materialImage: materialImagePath,
+                                parentId: 0,
+                              ),
+                            );
+                            Navigator.pop(context);
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('فشل في إضافة المادة')),
+                            );
+                          }
+                        }
+                      },
+                    );
+                  } else if (state is LoadingState) {
+                    return CircularProgressIndicator(color: kBlueAccent);
+                  } else {
+                    return SizedBox();
                   }
                 },
               ),

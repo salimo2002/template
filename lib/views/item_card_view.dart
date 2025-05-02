@@ -75,13 +75,15 @@ class ItemCardView extends StatelessWidget {
           return Scaffold(
             body: Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'حدث خطأ حاول مجددا',
-                    style: FontStyleApp.white18.copyWith(
+                    style: FontStyleApp.black18.copyWith(
                       fontSize: getResponsiveText(context, 18),
                     ),
                   ),
+                  SizedBox(height: 10),
                   IconButton(
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
@@ -90,7 +92,7 @@ class ItemCardView extends StatelessWidget {
                         (route) => false,
                       );
                     },
-                    icon: Icon(Icons.refresh),
+                    icon: Icon(Icons.refresh, color: kBlueAccent, size: 40),
                   ),
                 ],
               ),

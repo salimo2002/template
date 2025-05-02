@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:template/Service/material_services.dart';
 import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/category%20cubit/category_status.dart';
 import 'package:template/models/category_model.dart';
@@ -26,7 +25,6 @@ class ItemsClassificationsView extends StatefulWidget {
 class _ItemsClassificationsViewState extends State<ItemsClassificationsView> {
   final GlobalKey<FormState> globalKey = GlobalKey();
   final TextEditingController categoryName = TextEditingController();
-
   final TextEditingController categoryNameUpdate = TextEditingController();
 
   @override
@@ -35,7 +33,6 @@ class _ItemsClassificationsViewState extends State<ItemsClassificationsView> {
       builder: (context, state) {
         if (state is SuccessStateCategory) {
           List categories = state.categories;
-
           return Scaffold(
             appBar: customAppBar(
               context: context,

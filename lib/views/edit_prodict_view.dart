@@ -91,7 +91,7 @@ class _NewItemViewState extends State<EditProdictView> {
     purchasePrice.text = argumentsMaterial.materialPrice1.toString();
     price1.text = argumentsMaterial.materialPrice3.toString();
     price2.text = argumentsMaterial.materialUnit2Price3.toString();
-    unit2Num.text = argumentsMaterial.materialUnit2Number.toString();
+    unit2Num.text = argumentsMaterial.materialUnit.toString();
     convertOperatorTextField.text =
         argumentsMaterial.materialUnit2Number.toString();
   }
