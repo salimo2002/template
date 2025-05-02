@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
@@ -10,6 +11,13 @@ import 'package:template/views/new_item_view.dart';
 import 'package:template/views/edit_prodict_view.dart';
 
 void main(List<String> args) {
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: kWhite,
+      systemNavigationBarColor: kWhite,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ),
+  );
   runApp(Template());
 }
 
