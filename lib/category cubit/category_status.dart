@@ -1,3 +1,5 @@
+import 'package:template/models/category_model.dart';
+
 abstract class CategoryStatus {}
 
 class InitStateCategory extends CategoryStatus {}
@@ -5,7 +7,7 @@ class InitStateCategory extends CategoryStatus {}
 class LoadingStateCategory extends CategoryStatus {}
 
 class SuccessStateCategory extends CategoryStatus {
-  final List<dynamic> categories;
+  final List<CategoryModel> categories;
   SuccessStateCategory({required this.categories});
 }
 

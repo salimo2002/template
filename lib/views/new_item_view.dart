@@ -50,7 +50,7 @@ class _NewItemViewState extends State<NewItemView> {
     '',
   ]);
   ValueNotifier<String> imageUpdate = ValueNotifier('');
-  File file = File('');
+
   @override
   void initState() {
     unit1.addListener(() {

@@ -1,3 +1,5 @@
+import 'package:template/models/material_model.dart';
+
 abstract class MaterialStatus {}
 
 class InitState extends MaterialStatus {}
@@ -5,7 +7,7 @@ class InitState extends MaterialStatus {}
 class LoadingState extends MaterialStatus {}
 
 class SuccessState extends MaterialStatus {
-  final List<dynamic> materials;
+  final List<MaterialModel> materials;
   SuccessState({required this.materials});
 }
 

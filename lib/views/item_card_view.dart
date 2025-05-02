@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/material%20cubit/material_status.dart';
+import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
@@ -18,6 +19,7 @@ class ItemCardView extends StatelessWidget {
     return BlocBuilder<MaterialCubit, MaterialStatus>(
       builder: (context, state) {
         if (state is SuccessState) {
+          List<MaterialModel> materials = state.materials;
           return Scaffold(
             appBar: customAppBar(
               context: context,
@@ -43,7 +45,7 @@ class ItemCardView extends StatelessWidget {
                   vertical: 0.3,
                 ),
                 child:
-                    context.read<MaterialCubit>().materials.isEmpty
+                    materials.isEmpty
                         ? Center(
                           child: Text(
                             'لايوجد مواد',
@@ -53,13 +55,13 @@ class ItemCardView extends StatelessWidget {
                           ),
                         )
                         : ListView.builder(
-                          itemCount: state.materials.length,
+                          itemCount: materials.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5),
                               child: ContainerItemCountity(
                                 index: index + 1,
-                                material: state.materials[index],
+                                material: materials[index],
                               ),
                             );
                           },
