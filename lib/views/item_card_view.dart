@@ -62,6 +62,7 @@ class ItemCardView extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 5),
                               child: ContainerItemCountity(
                                 openItemCard: () {
+                                  Navigator.pop(context);
                                   Navigator.pushNamed(
                                     context,
                                     EditProdictView.id,
