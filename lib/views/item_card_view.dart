@@ -7,6 +7,7 @@ import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
+import 'package:template/views/edit_prodict_view.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/views/new_item_view.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/container_item_countity.dart';
@@ -60,6 +61,13 @@ class ItemCardView extends StatelessWidget {
                             return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5),
                               child: ContainerItemCountity(
+                                openItemCard: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    EditProdictView.id,
+                                    arguments: materials[index],
+                                  );
+                                },
                                 index: index + 1,
                                 material: materials[index],
                               ),

@@ -13,12 +13,12 @@ class ContainerItemCountity extends StatelessWidget {
   const ContainerItemCountity({
     super.key,
     required this.material,
-    required this.index,
+    required this.index, required this.openItemCard,
   });
 
   final MaterialModel material;
   final int index;
-
+  final VoidCallback openItemCard;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -36,14 +36,7 @@ class ContainerItemCountity extends StatelessWidget {
               child: ListTile(
                 leading: Icon(Icons.visibility),
                 title: Text('فتح بطاقة المادة'),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(
-                    context,
-                    EditProdictView.id,
-                    arguments: material,
-                  );
-                },
+                onTap: openItemCard,
               ),
             ),
             PopupMenuItem(

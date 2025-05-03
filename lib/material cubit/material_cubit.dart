@@ -10,8 +10,10 @@ class MaterialCubit extends Cubit<MaterialStatus> {
   List<dynamic> resultMaterial = [];
   List<MaterialModel> materials = [];
 
-  Future<void> fetchMaterials() async {
-    emit(LoadingState());
+  Future<void> fetchMaterials({bool isRefresh = false}) async {
+    if (!isRefresh) {
+      emit(LoadingState());
+    }
     try {
       materials = [];
       resultMaterial = await MaterialServices.fetchMaterials();
@@ -28,7 +30,7 @@ class MaterialCubit extends Cubit<MaterialStatus> {
     try {
       emit(LoadingState());
       await MaterialServices.addMaterial(material);
-      await fetchMaterials();
+      await fetchMaterials(isRefresh: true);
       emit(SuccessState(materials: materials));
     } catch (e) {
       emit(FaliureState(errorMessage: e.toString()));
@@ -39,8 +41,7 @@ class MaterialCubit extends Cubit<MaterialStatus> {
     try {
       emit(LoadingState());
       await MaterialServices.updateMaterialById(material);
-      resultMaterial = await MaterialServices.fetchCategory();
-      materials = resultMaterial.map((e) => MaterialModel.fromJson(e)).toList();
+      await fetchMaterials(isRefresh: true);
       emit(SuccessState(materials: materials));
     } catch (e) {
       emit(FaliureState(errorMessage: e.toString()));
@@ -52,7 +53,7 @@ class MaterialCubit extends Cubit<MaterialStatus> {
     try {
       emit(LoadingState());
       await MaterialServices.deleteMaterial(material.materialId);
-      await fetchMaterials();
+      await fetchMaterials(isRefresh: true);
       emit(SuccessState(materials: materials));
     } catch (e) {
       emit(FaliureState(errorMessage: e.toString()));

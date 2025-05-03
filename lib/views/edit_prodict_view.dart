@@ -271,6 +271,17 @@ class _NewItemViewState extends State<EditProdictView> {
                     );
                   } else if (state is SuccessState) {
                     Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: kBlueAccent,
+                        content: Text(
+                          'تم تعديل المادة بنجاح',
+                          style: FontStyleApp.white18.copyWith(
+                            fontSize: getResponsiveText(context, 12),
+                          ),
+                        ),
+                      ),
+                    );
                   }
                 },
                 builder: (context, state) {
@@ -297,7 +308,7 @@ class _NewItemViewState extends State<EditProdictView> {
                                   0.0,
                               materialUnit2Price3:
                                   double.tryParse(price2.text) ?? 0.0,
-                              materialKind: selectedKind.value,
+                              materialKind: 0,
                               materialUnitDefault: isSelected.value ?? 1,
                               materialImage: materialImagePath,
                               parentId: argumentsMaterial.parentId,
@@ -307,7 +318,10 @@ class _NewItemViewState extends State<EditProdictView> {
                       },
                     );
                   } else if (state is LoadingState) {
-                    return CircularProgressIndicator(color: kBlueAccent);
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CircularProgressIndicator(color: kBlueAccent),
+                    );
                   } else {
                     return SizedBox();
                   }

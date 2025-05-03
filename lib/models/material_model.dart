@@ -36,7 +36,7 @@ class MaterialModel {
       materialId: int.parse(json['mat_id']),
       materialNumber: json['mat_number'],
       materialName: json['mat_name'],
-      materialCode: json['mat_code'],
+      materialCode: json['mat_code']??'',
       materialPrice1: double.parse(json['mat_price1']),
       materialPrice3: double.parse(json['mat_price3']),
       materialUnit: json['mat_unit'],
