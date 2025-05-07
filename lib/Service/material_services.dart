@@ -41,15 +41,12 @@ class MaterialServices {
         if (body.contains('"success":true')) {
           return true;
         } else {
-          print('فشل في الحذف: $body');
           return false;
         }
       } else {
-        print('استجابة غير ناجحة: ${response.statusCode}');
         return false;
       }
     } catch (e) {
-      print('خطأ أثناء الحذف: $e');
       return false;
     }
   }
@@ -97,7 +94,7 @@ class MaterialServices {
     );
     try {
       List<dynamic> data = jsonDecode(response.body);
-      log(data.toString());
+
       return data;
     } catch (e) {
       throw Exception('خطأ في الاتصال');
@@ -113,7 +110,7 @@ class MaterialServices {
     );
     try {
       List<dynamic> data = jsonDecode(response.body);
-      log(data.toString());
+
       return data;
     } catch (e) {
       throw Exception('خطأ في الاتصال');

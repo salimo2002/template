@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/Service/account_service%20.dart';
 import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
+import 'package:template/models/account_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
@@ -12,7 +14,6 @@ import 'package:template/widgets/home%20view%20widgets/debts_and_supplies.dart';
 import 'package:template/widgets/home%20view%20widgets/financial_reports.dart';
 import 'package:template/widgets/home%20view%20widgets/lookup.dart';
 import 'package:template/widgets/home%20view%20widgets/product_catalog.dart';
-import 'package:template/widgets/home%20view%20widgets/store_section.dart';
 import 'package:template/widgets/home%20view%20widgets/view_invoices.dart';
 import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
 
@@ -48,6 +49,23 @@ class _HomeViewState extends State<HomeView> {
           IconButton(
             onPressed: () async {
               MaterialServices.fetchMaterials();
+              AccountService.createAccount(
+                account: AccountModel(
+                  accNumber: 449,
+                  accName: 'شركة المستقبل',
+                  accPhone: '0123456789',
+                  accMobile: '0987654321',
+                  accEmail: 'future@example.com',
+                  accAddress: 'الرياض، السصبعودسسية',
+                  parentId: 0,
+                  accKind: 1,
+                  accRefrence: 0,
+                  accSecurity: 0,
+                  catImage: 0,
+                  accTaxNo: 'null',
+                  curId: 1,
+                ),
+              );
             },
             icon: Icon(Icons.more_vert_outlined),
           ),
@@ -61,7 +79,7 @@ class _HomeViewState extends State<HomeView> {
               spacing: 5,
               children: [
                 PartsTitle(title: 'نسخة تجريبية محدودة', color: kRed),
-                StoreSection(),
+
                 CreateFinancialDocuments(),
                 ViewInvoices(),
                 ProductCatalog(),
