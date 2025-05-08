@@ -79,7 +79,6 @@ class _HomeViewState extends State<HomeView> {
               spacing: 5,
               children: [
                 PartsTitle(title: 'نسخة تجريبية محدودة', color: kRed),
-
                 CreateFinancialDocuments(),
                 ViewInvoices(),
                 ProductCatalog(),

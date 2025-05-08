@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:template/utils/constants.dart';
+import 'package:template/views/tree_accounts_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
 import 'package:template/widgets/home%20view%20widgets/row_custom_button.dart';
@@ -39,7 +40,9 @@ class Accounts extends StatelessWidget {
           RowCustomButton(
             icon1: FontAwesomeIcons.tree,
             icon2: Icons.list_alt,
-            onTap1: () {},
+            onTap1: () {
+              Navigator.pushNamed(context, TreeAccountsView.id);
+            },
             onTap2: () {},
             text1: 'شجرة الحسابات',
             text2: 'قائمة كل الحسابات',
