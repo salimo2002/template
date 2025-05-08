@@ -35,22 +35,23 @@ class AccountModel {
   factory AccountModel.fromJson(Map<String, dynamic> json) {
     return AccountModel(
       accNumber: int.tryParse(json['ACC_NUMBER']?.toString() ?? '0') ?? 0,
-      accName: json['ACC_NAME'],
+      accName: json['ACC_NAME'] ?? '',
       accPhone: json['ACC_PHONE'],
       accMobile: json['ACC_MOBILE'],
       accEmail: json['ACC_EMAIL'],
       accAddress: json['ACC_ADDRESS'],
-      parentId: int.parse(json['PARENT_ID'].toString()),
-      accKind: int.parse(json['ACC_KIND'].toString()),
-      accRefrence: int.parse(json['ACC_REFRENCE'].toString()),
-      accSecurity: int.parse(json['ACC_SECURITY']?.toString() ?? '0'),
+      parentId: int.tryParse(json['PARENT_ID']?.toString() ?? '0') ?? 0,
+      accKind: int.tryParse(json['ACC_KIND']?.toString() ?? '0') ?? 0,
+      accRefrence: int.tryParse(json['ACC_REFRENCE']?.toString() ?? '0') ?? 0,
+      accSecurity: int.tryParse(json['ACC_SECURITY']?.toString() ?? '0') ?? 0,
       catImage: json['CAT_IMAGE'],
       accTaxNo: json['ACC_TAX_NO'],
-      curId: int.parse(json['cur_id']?.toString() ?? '0'),
+      curId: int.tryParse(json['cur_id']?.toString() ?? '0') ?? 0,
       pthId: json['pth_id'],
       catId: json['cat_ids'],
     );
   }
+
   Map<String, dynamic> toMap() {
     return {
       'database_name': 'itechsy_test',

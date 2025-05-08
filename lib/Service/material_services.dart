@@ -14,7 +14,6 @@ class MaterialServices {
 
   static final String _urlUpdateNameById =
       'https://www.itech-sy.com/api/material_update.php';
-  
 
   static Future<List<dynamic>> fetchMaterials() async {
     final url = Uri.parse(_urlFetchMaterials);

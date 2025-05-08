@@ -18,29 +18,16 @@ class AccountService {
 
   static Future<List<dynamic>> fetchAccounts() async {
     final url = Uri.parse(_urlFetchAccounts);
-
+    final response = await http.post(
+      url,
+      body: {'database_name': 'itechsy_test', 'source': 'account'},
+    );
     try {
-      final response = await http
-          .post(url, body: {'database_name': 'itechsy_test'})
-          .timeout(const Duration(seconds: 30));
+      List<dynamic> data = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
-        List<dynamic> data = jsonDecode(response.body);
-        print(data.toString());
-        return data
-            .map<AccountModel>((json) => AccountModel.fromJson(json))
-            .toList();
-      } else {
-        throw Exception('فشل في جلب البيانات: ${response.statusCode}');
-      }
-    } on http.ClientException catch (e) {
-      throw Exception('خطأ في الاتصال بالخادم: ${e.message}');
-    } on TimeoutException {
-      throw Exception('انتهى وقت الانتظار، يرجى المحاولة مرة أخرى');
-    } on FormatException {
-      throw Exception('خطأ في تنسيق البيانات المستلمة');
+      return data;
     } catch (e) {
-      throw Exception('حدث خطأ غير متوقع: $e');
+      throw Exception('خطأ في الاتصال');
     }
   }
 

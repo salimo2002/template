@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/account%20service/accounts_cubit.dart';
 import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/utils/constants.dart';
@@ -37,6 +38,11 @@ class Template extends StatelessWidget {
         BlocProvider<CategoryCubit>(
           create: (context) {
             return CategoryCubit();
+          },
+        ),
+        BlocProvider<AccountsCubit>(
+          create: (context) {
+            return AccountsCubit();
           },
         ),
       ],
