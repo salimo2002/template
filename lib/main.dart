@@ -5,6 +5,7 @@ import 'package:template/account%20service/accounts_cubit.dart';
 import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/utils/constants.dart';
+import 'package:template/views/add_account_view.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/views/item_card_view.dart';
 import 'package:template/views/items_classifications_view.dart';
@@ -67,6 +68,7 @@ class Template extends StatelessWidget {
               (context) => const ItemsClassificationsView(),
           EditProdictView.id: (context) => EditProdictView(),
           TreeAccountsView.id: (context) => TreeAccountsView(),
+          AddAccountView.id: (context) => AddAccountView(),
         },
         initialRoute: HomeView.id,
       ),
