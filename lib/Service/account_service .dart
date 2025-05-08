@@ -1,7 +1,6 @@
 // ignore: file_names
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:template/models/account_model.dart';
 
@@ -54,12 +53,7 @@ class AccountService {
           .timeout(const Duration(seconds: 30));
 
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.body);
-
-        if (responseData.containsKey('error')) {
-          throw Exception(responseData['error']);
-        }
-        log(responseData);
+        final responseData = jsonEncode(response.body);
         return responseData;
       } else {
         throw Exception('فشل في إنشاء الحساب: ${response.statusCode}');
