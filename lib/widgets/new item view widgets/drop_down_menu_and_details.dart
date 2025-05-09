@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/category%20cubit/category_cubit.dart';
@@ -7,15 +9,13 @@ import 'package:template/utils/responsive_text.dart';
 class DropDownMenuAndDetails extends StatelessWidget {
   const DropDownMenuAndDetails({
     super.key,
-    required this.selectedIndex,
-    required this.onChanged,
-    this.onCTap,
+    this.onTap,
+    this.onChanged,
+    required this.value,
   });
-
-  final int selectedIndex;
-  final ValueChanged<int?> onChanged;
-  final void Function(String?)? onCTap;
-
+  final String value;
+  final void Function()? onTap;
+  final void Function(String?)? onChanged;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -27,11 +27,7 @@ class DropDownMenuAndDetails extends StatelessWidget {
           child: Directionality(
             textDirection: TextDirection.rtl,
             child: DropdownButtonFormField<String>(
-              value:
-                  context
-                      .read<CategoryCubit>()
-                      .categories[selectedIndex]
-                      .matName,
+              value: "محروقات",
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: kBlueAccent),
@@ -48,11 +44,12 @@ class DropDownMenuAndDetails extends StatelessWidget {
               items:
                   context.read<CategoryCubit>().categories.map((e) {
                     return DropdownMenuItem<String>(
+                      onTap: onTap,
                       value: e.matName,
                       child: Text(e.matName),
                     );
                   }).toList(),
-              onChanged: onCTap,
+              onChanged: onChanged,
             ),
           ),
         ),

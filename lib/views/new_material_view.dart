@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/material%20cubit/material_status.dart';
 import 'package:template/models/material_model.dart';
@@ -38,10 +39,10 @@ class _NewMaterialViewState extends State<NewMaterialView> {
   final TextEditingController baraCode2 = TextEditingController();
   final TextEditingController convertOperatorTextField =
       TextEditingController();
-
   final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
-  final ValueNotifier<int> selectedKind = ValueNotifier<int>(0);
   final GlobalKey<FormState> globalKey = GlobalKey();
+  late int parentId;
+  String categoryInitValue = '';
   final ValueNotifier<List<String>> labels = ValueNotifier<List<String>>([
     '',
     '',
@@ -144,18 +145,16 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                       ),
                       ContainerFields(
                         children: [
-                          ValueListenableBuilder<int>(
-                            valueListenable: selectedKind,
-                            builder: (context, value, _) {
-                              return DropDownMenuAndDetails(
-                                onCTap: (val) {
-                                  //بتحبني
-                                },
-                                selectedIndex: value,
-                                onChanged: (newIndex) {
-                                  selectedKind.value = newIndex!;
-                                },
-                              );
+                          DropDownMenuAndDetails(
+                            value: categoryInitValue,
+                            onChanged: (p0) {
+                              context.read<CategoryCubit>().categories.forEach((
+                                element,
+                              ) {
+                                if (p0 == element.matName) {
+                                  parentId = element.matId;
+                                }
+                              });
                             },
                           ),
                         ],
@@ -247,42 +246,37 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                   if (state is SuccessState) {
                     return SaveAndExitButton(
                       onPressed: () async {
-                        if (globalKey.currentState!.validate()) {
-                          try {
-                            final materialNumber =
-                                Random().nextInt(1000000).toString();
-                            await context.read<MaterialCubit>().insertMaterial(
-                              MaterialModel(
-                                materialUnit: unit1.text,
-                                materialId: 0,
-                                materialNumber: materialNumber,
-                                materialName: materialName.text,
-                                materialCode: baraCode1.text,
-                                materialPrice1:
-                                    double.tryParse(purchasePrice.text) ?? 0.0,
-                                materialPrice3:
-                                    double.tryParse(price1.text) ?? 0.0,
-                                materialUnit2: unit2.text,
-                                materialUnit2Number:
-                                    double.tryParse(
-                                      convertOperatorTextField.text,
-                                    ) ??
-                                    1.0,
-                                materialUnit2Price3:
-                                    double.tryParse(price2.text) ?? 0.0,
-                                materialKind: 0,
-                                materialUnitDefault: isSelected.value ?? 1,
-                                materialImage: imageUpdate.value,
-                                parentId: 0,
-                                materiaUnit2Baracode: baraCode2.text,
-                              ),
-                            );
-                            Navigator.pop(context);
-                          } catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('فشل في إضافة المادة')),
-                            );
-                          }
+                        if (globalKey.currentState!.validate() &&
+                            categoryInitValue == '') {
+                          final materialNumber =
+                              Random().nextInt(1000000).toString();
+                          await context.read<MaterialCubit>().insertMaterial(
+                            MaterialModel(
+                              materialUnit: unit1.text,
+                              materialId: 0,
+                              materialNumber: materialNumber,
+                              materialName: materialName.text,
+                              materialCode: baraCode1.text,
+                              materialPrice1:
+                                  double.tryParse(purchasePrice.text) ?? 0.0,
+                              materialPrice3:
+                                  double.tryParse(price1.text) ?? 0.0,
+                              materialUnit2: unit2.text,
+                              materialUnit2Number:
+                                  double.tryParse(
+                                    convertOperatorTextField.text,
+                                  ) ??
+                                  1.0,
+                              materialUnit2Price3:
+                                  double.tryParse(price2.text) ?? 0.0,
+                              materialKind: 0,
+                              materialUnitDefault: isSelected.value ?? 1,
+                              materialImage: imageUpdate.value,
+                              parentId: parentId,
+                              materiaUnit2Baracode: baraCode2.text,
+                            ),
+                          );
+                          Navigator.pop(context);
                         }
                       },
                     );

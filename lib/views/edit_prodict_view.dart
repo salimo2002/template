@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/material%20cubit/material_status.dart';
 import 'package:template/models/material_model.dart';
@@ -50,6 +53,8 @@ class _NewItemViewState extends State<EditProdictView> {
   late MaterialModel argumentsMaterial;
   String materialImagePath = '';
   String image = '';
+  String category = '';
+late  int newCategoryMatId ;
 
   @override
   void initState() {
@@ -104,6 +109,12 @@ class _NewItemViewState extends State<EditProdictView> {
     convertOperatorTextField.text =
         argumentsMaterial.materialUnit2Number.toString();
     image = argumentsMaterial.materialImage;
+    context.read<CategoryCubit>().categories.forEach((element) {
+      if (argumentsMaterial.parentId == element.matId) {
+        category = element.matName;
+        newCategoryMatId = element.matId;
+      }
+    });
   }
 
   @override
@@ -172,12 +183,18 @@ class _NewItemViewState extends State<EditProdictView> {
                             valueListenable: selectedKind,
                             builder: (context, value, _) {
                               return DropDownMenuAndDetails(
-                                onCTap: (val) {
-                                  //بتحبني
-                                },
-                                selectedIndex: value,
-                                onChanged: (newIndex) {
-                                  selectedKind.value = newIndex!;
+                                value: category,
+                                onChanged: (categoryName) {
+                                  category = categoryName!;
+                                  context
+                                      .read<CategoryCubit>()
+                                      .categories
+                                      .forEach((element) {
+                                        if (categoryName == element.matName) {
+                                          newCategoryMatId = element.matId;
+                                          log(newCategoryMatId.toString());
+                                        }
+                                      });
                                 },
                               );
                             },
@@ -306,7 +323,7 @@ class _NewItemViewState extends State<EditProdictView> {
                               materialKind: 0,
                               materialUnitDefault: isSelected.value ?? 1,
                               materialImage: materialImagePath,
-                              parentId: argumentsMaterial.parentId,
+                              parentId: newCategoryMatId,
                               materiaUnit2Baracode: baraCode2.text,
                             ),
                           );
