@@ -41,6 +41,7 @@ class _TextFieldAndBarcodeState extends State<TextFieldAndBarcode> {
               onPressed: _toggleScanner,
               icon: const Icon(FontAwesomeIcons.barcode, color: kBlueAccent),
             ),
+            SizedBox(width: 10),
             Expanded(
               child: CustomTextField(
                 hintText: widget.hintText,
@@ -52,6 +53,7 @@ class _TextFieldAndBarcodeState extends State<TextFieldAndBarcode> {
               widget.label,
               style: TextStyle(fontSize: getResponsiveText(context, 12)),
             ),
+            SizedBox(width: 10),
           ],
         ),
         if (showScanner)

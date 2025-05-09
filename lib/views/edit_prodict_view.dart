@@ -95,6 +95,7 @@ class _NewItemViewState extends State<EditProdictView> {
         ModalRoute.of(context)!.settings.arguments as MaterialModel;
     materialName.text = argumentsMaterial.materialName;
     baraCode1.text = argumentsMaterial.materialCode;
+    baraCode2.text = argumentsMaterial.materiaUnit2Baracode;
     unit1.text = argumentsMaterial.materialUnit;
     unit2.text = argumentsMaterial.materialUnit2;
     purchasePrice.text = argumentsMaterial.materialPrice1.toString();
@@ -312,6 +313,7 @@ class _NewItemViewState extends State<EditProdictView> {
                               materialUnitDefault: isSelected.value ?? 1,
                               materialImage: materialImagePath,
                               parentId: argumentsMaterial.parentId,
+                              materiaUnit2Baracode: baraCode2.text,
                             ),
                           );
                         }

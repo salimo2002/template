@@ -171,15 +171,15 @@ class _NewItemViewState extends State<NewItemView> {
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: purchasePrice,
-                            hintText: 'سعر الشراء',
-                            label: "   سعر الشراء",
+                            hintText: 'سعر الجملة',
+                            label: "   سعر الجملة",
                             keyType: TextInputType.number,
                           ),
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: price1,
-                            hintText: 'سعر المبيع',
-                            label: "   سعر المبيع",
+                            hintText: 'سعر المستهلك',
+                            label: "سعر المستهلك",
                             keyType: TextInputType.number,
                           ),
                         ],
@@ -201,8 +201,8 @@ class _NewItemViewState extends State<NewItemView> {
                           ),
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
-                            hintText: 'سعر المبيع',
-                            label: '  سعر المبيع',
+                            hintText: 'سعر المستهلك',
+                            label: 'سعر المستهلك',
                             controller: price2,
                             keyType: TextInputType.number,
                           ),
@@ -274,6 +274,7 @@ class _NewItemViewState extends State<NewItemView> {
                                 materialUnitDefault: isSelected.value ?? 1,
                                 materialImage: imageUpdate.value,
                                 parentId: 0,
+                                materiaUnit2Baracode: baraCode2.text
                               ),
                             );
                             Navigator.pop(context);
