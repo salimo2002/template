@@ -187,11 +187,6 @@ class _NewItemViewState extends State<EditProdictView> {
                       ),
                       ContainerFields(
                         children: [
-                          SwitchAndDetails(valueSwitch: ValueNotifier(false)),
-                        ],
-                      ),
-                      ContainerFields(
-                        children: [
                           TextFieldAndDetails(
                             controller: unit1,
                             hintText: 'الوحدة الاولى',
