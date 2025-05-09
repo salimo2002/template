@@ -27,41 +27,99 @@ class _ItemsClassificationsViewState extends State<ItemsClassificationsView> {
   final TextEditingController categoryName = TextEditingController();
   final TextEditingController categoryNameUpdate = TextEditingController();
 
+  List<CategoryModel> filteredCategories = [];
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CategoryCubit, CategoryStatus>(
       builder: (context, state) {
         if (state is SuccessStateCategory) {
-          List categories = state.categories;
+          List<CategoryModel> categories = state.categories;
+          if (filteredCategories.isEmpty) {
+            filteredCategories = categories;
+          }
           return Scaffold(
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.startFloat,
             appBar: customAppBar(
               context: context,
               title: 'تصنيفات المواد',
               showIcons: false,
+            ),
+            floatingActionButton: FloatingActionButton(
+              heroTag: null,
+              shape: const CircleBorder(),
+              tooltip: 'ادخال بطاقة مادة',
+              backgroundColor: kBlueAccent,
+              child: const Icon(Icons.add_circle, color: kWhite),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return CustomAlertDialog(
+                      text: 'اضافة تصنيف',
+                      globalKey: globalKey,
+                      validator: (p0) {
+                        if (p0 == null || p0 == '') {
+                          return 'الرجاء ادخال اسم التصنيف';
+                        }
+                        return null;
+                      },
+                      categoryNameUpdate: categoryNameUpdate,
+                      onTap: () async {
+                        if (globalKey.currentState!.validate()) {
+                          context.read<CategoryCubit>().insertCategory(
+                            CategoryModel(
+                              matId: 0,
+                              matName: categoryNameUpdate.text,
+                              matNumber: Random().nextInt(10000).toString(),
+                            ),
+                          );
+                          categoryNameUpdate.clear();
+                          Navigator.pop(context);
+                        }
+                      },
+                    );
+                  },
+                );
+              },
             ),
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(5),
                 child: Column(
                   children: [
-                    ContainerNameClassifications(
+                    SearchByName(
+                      onChanged: (p0) {
+                        final query = categoryName.text.trim();
+                        setState(() {
+                          filteredCategories =
+                              categories
+                                  .where(
+                                    (cat) =>
+                                        cat.matName.contains(query) ||
+                                        cat.matName.startsWith(query),
+                                  )
+                                  .toList();
+                        });
+                      },
                       categoryName: categoryName,
-                      globalKey: globalKey,
-                      onPressed: () async {
-                        if (globalKey.currentState!.validate()) {
-                          context.read<CategoryCubit>().insertCategory(
-                            CategoryModel(
-                              matId: 0,
-                              matName: categoryName.text,
-                              matNumber: Random().nextInt(10000).toString(),
-                            ),
-                          );
-                          categoryName.clear();
-                        }
+                      onPressed: () {
+                        final query = categoryName.text.trim();
+                        setState(() {
+                          filteredCategories =
+                              categories
+                                  .where(
+                                    (cat) =>
+                                        cat.matName.contains(query) ||
+                                        cat.matName.startsWith(query),
+                                  )
+                                  .toList();
+                        });
                       },
                     ),
                     SizedBox(height: MediaQuery.sizeOf(context).height * .005),
-                    categories.isEmpty
+                    filteredCategories.isEmpty
                         ? Text(
                           'لايوجد تصنيفات',
                           style: FontStyleApp.black18.copyWith(
@@ -70,23 +128,29 @@ class _ItemsClassificationsViewState extends State<ItemsClassificationsView> {
                         )
                         : Expanded(
                           child: ListView.builder(
-                            itemCount: categories.length,
+                            itemCount: filteredCategories.length,
                             itemBuilder: (context, index) {
+                              final category = filteredCategories[index];
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 8),
                                 child: ContainerItemClassifications(
-                                  matId:
-                                      state.categories[index].matId.toString(),
+                                  matId: category.matId.toString(),
                                   color: kGrey,
-                                  nameClassificatio:
-                                      state.categories[index].matName,
+                                  nameClassificatio: category.matName,
                                   onTap: () {
-                                    categoryNameUpdate.text =
-                                        categories[index].matName;
+                                    categoryNameUpdate.text = category.matName;
                                     showDialog(
                                       context: context,
                                       builder: (context) {
                                         return CustomAlertDialog(
+                                          text: 'تعديل التصنيف',
+                                          globalKey: globalKey,
+                                          validator: (p0) {
+                                            if (p0 == null || p0 == '') {
+                                              return 'ادخل قيمة';
+                                            }
+                                            return null;
+                                          },
                                           categoryNameUpdate:
                                               categoryNameUpdate,
                                           onTap: () async {
@@ -95,16 +159,11 @@ class _ItemsClassificationsViewState extends State<ItemsClassificationsView> {
                                                 .read<CategoryCubit>()
                                                 .updateCategory(
                                                   CategoryModel(
-                                                    matId:
-                                                        state
-                                                            .categories[index]
-                                                            .matId,
+                                                    matId: category.matId,
                                                     matName:
                                                         categoryNameUpdate.text,
                                                     matNumber:
-                                                        state
-                                                            .categories[index]
-                                                            .matNumber,
+                                                        category.matNumber,
                                                   ),
                                                 );
                                           },
@@ -142,14 +201,14 @@ class _ItemsClassificationsViewState extends State<ItemsClassificationsView> {
                         (route) => false,
                       );
                     },
-                    icon: Icon(Icons.refresh, color: kBlack),
+                    icon: const Icon(Icons.refresh, color: kBlack),
                   ),
                 ],
               ),
             ),
           );
         } else {
-          return Scaffold(
+          return const Scaffold(
             body: Center(child: CircularProgressIndicator(color: kBlueAccent)),
           );
         }

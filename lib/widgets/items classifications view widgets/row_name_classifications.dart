@@ -6,54 +6,42 @@ class RowNameClassifications extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.categoryName,
-    required this.globalKey,
-    required this.onPressed,
+    required this.onPressed, this.onChanged,
   });
   final String hintText;
   final TextEditingController categoryName;
-  final GlobalKey<FormState> globalKey;
   final VoidCallback onPressed;
+  final void Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: globalKey,
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: IconButton(
-              onPressed: onPressed,
-              icon: Icon(Icons.add_circle),
-            ),
-          ),
-          Flexible(
-            child: SizedBox(
-              width: MediaQuery.sizeOf(context).width * .808,
-              height: 33,
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'ادخل اسم التصنيف';
-                  }
-                  return null;
-                },
-                controller: categoryName,
-                textDirection: TextDirection.rtl,
-                decoration: InputDecoration(
-                  hintTextDirection: TextDirection.rtl,
-                  hintText: hintText,
-                  fillColor: kWhite,
-                  filled: true,
-                  enabledBorder: borderStyle(),
-                  border: borderStyle(),
-                  focusedBorder: borderStyle(),
-                  errorBorder: borderErrorStyle(),
-                ),
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: IconButton(onPressed: onPressed, icon: Icon(Icons.search)),
+        ),
+        Flexible(
+          child: SizedBox(
+            width: MediaQuery.sizeOf(context).width * .808,
+            height: 33,
+            child: TextFormField(
+              onChanged: onChanged,
+              controller: categoryName,
+              textDirection: TextDirection.rtl,
+              decoration: InputDecoration(
+                hintTextDirection: TextDirection.rtl,
+                hintText: hintText,
+                fillColor: kWhite,
+                filled: true,
+                enabledBorder: borderStyle(),
+                border: borderStyle(),
+                focusedBorder: borderStyle(),
+                errorBorder: borderErrorStyle(),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

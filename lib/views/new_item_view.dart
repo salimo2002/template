@@ -17,7 +17,6 @@ import 'package:template/widgets/new%20item%20view%20widgets/save_and_exite_butt
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_barcode.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/uploaded_image.dart';
-import 'package:template/widgets/switch_and_details.dart';
 
 class NewItemView extends StatefulWidget {
   const NewItemView({super.key});
@@ -161,11 +160,7 @@ class _NewItemViewState extends State<NewItemView> {
                           ),
                         ],
                       ),
-                      ContainerFields(
-                        children: [
-                          SwitchAndDetails(valueSwitch: ValueNotifier(false)),
-                        ],
-                      ),
+
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(

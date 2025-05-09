@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
-import 'package:template/widgets/tree%20widgets/custom_text.dart';
 
 class TreeAccountsView extends StatelessWidget {
   const TreeAccountsView({super.key});
@@ -39,6 +38,7 @@ class TreeAccountsView extends StatelessWidget {
             Directionality(
               textDirection: TextDirection.rtl,
               child: ExpansionTile(
+                initiallyExpanded: true,
                 iconColor: Colors.transparent,
                 collapsedIconColor: Colors.transparent,
                 title: IconAndDividerInTree(text: 'شحرة السحابات'),
@@ -111,7 +111,12 @@ class IconAndDividerInTree extends StatelessWidget {
         SizedBox(width: 10),
         Container(width: 1, height: 40, color: kBlack),
         SizedBox(width: 10),
-        CustomText(text: text),
+        Text(
+          style: FontStyleApp.black18.copyWith(
+            fontSize: getResponsiveText(context, 12),
+          ),
+          text,
+        ),
       ],
     );
   }

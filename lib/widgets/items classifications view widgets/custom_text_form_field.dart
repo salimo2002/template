@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({super.key, required this.categoryNameUpdate});
-
+  const CustomTextFormField({
+    super.key,
+    required this.categoryNameUpdate,
+    this.validator,
+  });
+  final String? Function(String?)? validator;
   final TextEditingController categoryNameUpdate;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 33,
       child: TextFormField(
+        validator: validator,
         controller: categoryNameUpdate,
         textDirection: TextDirection.rtl,
         decoration: InputDecoration(

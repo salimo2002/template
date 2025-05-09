@@ -18,7 +18,6 @@ class AccountsCubit extends Cubit<AccountsStatusAccounts> {
       for (var element in resultMaterial) {
         accounts.add(AccountModel.fromJson(element));
       }
-
       emit(SuccessStateAccounts(accounts: accounts));
     } on Exception catch (e) {
       emit(FaliureStateAccounts(errorMessage: e.toString()));
