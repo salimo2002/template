@@ -18,15 +18,15 @@ import 'package:template/widgets/new%20item%20view%20widgets/text_field_barcode.
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/uploaded_image.dart';
 
-class NewItemView extends StatefulWidget {
-  const NewItemView({super.key});
-  static String id = 'NewItemView';
+class NewMaterialView extends StatefulWidget {
+  const NewMaterialView({super.key});
+  static String id = 'NewMaterialView';
 
   @override
-  State<NewItemView> createState() => _NewItemViewState();
+  State<NewMaterialView> createState() => _NewMaterialViewState();
 }
 
-class _NewItemViewState extends State<NewItemView> {
+class _NewMaterialViewState extends State<NewMaterialView> {
   final TextEditingController materialName = TextEditingController();
   final TextEditingController baraCode1 = TextEditingController();
   final TextEditingController unit1 = TextEditingController();
@@ -274,7 +274,7 @@ class _NewItemViewState extends State<NewItemView> {
                                 materialUnitDefault: isSelected.value ?? 1,
                                 materialImage: imageUpdate.value,
                                 parentId: 0,
-                                materiaUnit2Baracode: baraCode2.text
+                                materiaUnit2Baracode: baraCode2.text,
                               ),
                             );
                             Navigator.pop(context);

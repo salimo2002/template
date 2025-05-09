@@ -157,17 +157,14 @@ class ContainerItemCountity extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    ColumnCountity(countity: '0', nameCountity: 'المخزون'),
                     ColumnCountity(
-                      countity: '0',
-                      nameCountity: 'الكمية المتوفرة',
+                      countity: material.materialPrice3.toString(),
+                      nameCountity: 'سعر المستهلك',
                     ),
                     ColumnCountity(
-                      countity: '0',
-                      nameCountity: 'الكمية المباعة',
-                    ),
-                    ColumnCountity(
-                      countity: '0',
-                      nameCountity: 'الكمية الكلية',
+                      countity: material.materialPrice1.toString(),
+                      nameCountity: 'سعر الجملة',
                     ),
                   ],
                 ),

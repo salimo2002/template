@@ -16,7 +16,6 @@ import 'package:template/widgets/new%20item%20view%20widgets/save_and_exite_butt
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_barcode.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/uploaded_image.dart';
-import 'package:template/widgets/switch_and_details.dart';
 
 class EditProdictView extends StatefulWidget {
   const EditProdictView({super.key});
@@ -195,15 +194,15 @@ class _NewItemViewState extends State<EditProdictView> {
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: purchasePrice,
-                            hintText: 'سعر الشراء',
-                            label: "   سعر الشراء",
+                            hintText: 'سعر الجملة',
+                            label: "سعر الجملة",
                             keyType: TextInputType.number,
                           ),
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: price1,
-                            hintText: 'سعر المبيع',
-                            label: "   سعر المبيع",
+                            hintText: 'سعر المستهلك',
+                            label: "سعر المستهلك",
                             keyType: TextInputType.number,
                           ),
                         ],
@@ -225,8 +224,8 @@ class _NewItemViewState extends State<EditProdictView> {
                           ),
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
-                            hintText: 'سعر المبيع',
-                            label: '  سعر المبيع',
+                            hintText: 'سعر المستهلك',
+                            label: 'سعر المستهلك',
                             controller: price2,
                             keyType: TextInputType.number,
                           ),

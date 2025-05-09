@@ -13,16 +13,17 @@ import 'package:template/widgets/items%20classifications%20view%20widgets/contai
 import 'package:template/widgets/items%20classifications%20view%20widgets/container_name_classifications.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/custom_alert_dialog.dart';
 
-class ItemsClassificationsView extends StatefulWidget {
-  const ItemsClassificationsView({super.key});
-  static String id = 'ItemClassificationsView';
+class MaterialClassificationsView extends StatefulWidget {
+  const MaterialClassificationsView({super.key});
+  static String id = 'MaterialClassificationsView';
 
   @override
-  State<ItemsClassificationsView> createState() =>
-      _ItemsClassificationsViewState();
+  State<MaterialClassificationsView> createState() =>
+      _MaterialClassificationsViewState();
 }
 
-class _ItemsClassificationsViewState extends State<ItemsClassificationsView> {
+class _MaterialClassificationsViewState
+    extends State<MaterialClassificationsView> {
   final GlobalKey<FormState> globalKey = GlobalKey();
   final TextEditingController categoryName = TextEditingController();
   final TextEditingController categoryNameUpdate = TextEditingController();
