@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/material%20cubit/material_status.dart';
 import 'package:template/models/material_model.dart';
@@ -16,7 +19,6 @@ import 'package:template/widgets/new%20item%20view%20widgets/save_and_exite_butt
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_barcode.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/uploaded_image.dart';
-import 'package:template/widgets/switch_and_details.dart';
 
 class EditProdictView extends StatefulWidget {
   const EditProdictView({super.key});
@@ -51,6 +53,8 @@ class _NewItemViewState extends State<EditProdictView> {
   late MaterialModel argumentsMaterial;
   String materialImagePath = '';
   String image = '';
+  String category = '';
+late  int newCategoryMatId ;
 
   @override
   void initState() {
@@ -95,6 +99,7 @@ class _NewItemViewState extends State<EditProdictView> {
         ModalRoute.of(context)!.settings.arguments as MaterialModel;
     materialName.text = argumentsMaterial.materialName;
     baraCode1.text = argumentsMaterial.materialCode;
+    baraCode2.text = argumentsMaterial.materiaUnit2Baracode;
     unit1.text = argumentsMaterial.materialUnit;
     unit2.text = argumentsMaterial.materialUnit2;
     purchasePrice.text = argumentsMaterial.materialPrice1.toString();
@@ -104,6 +109,12 @@ class _NewItemViewState extends State<EditProdictView> {
     convertOperatorTextField.text =
         argumentsMaterial.materialUnit2Number.toString();
     image = argumentsMaterial.materialImage;
+    context.read<CategoryCubit>().categories.forEach((element) {
+      if (argumentsMaterial.parentId == element.matId) {
+        category = element.matName;
+        newCategoryMatId = element.matId;
+      }
+    });
   }
 
   @override
@@ -172,21 +183,22 @@ class _NewItemViewState extends State<EditProdictView> {
                             valueListenable: selectedKind,
                             builder: (context, value, _) {
                               return DropDownMenuAndDetails(
-                                onCTap: (val) {
-                                  //بتحبني
-                                },
-                                selectedIndex: value,
-                                onChanged: (newIndex) {
-                                  selectedKind.value = newIndex!;
+                                value: category,
+                                onChanged: (categoryName) {
+                                  category = categoryName!;
+                                  context
+                                      .read<CategoryCubit>()
+                                      .categories
+                                      .forEach((element) {
+                                        if (categoryName == element.matName) {
+                                          newCategoryMatId = element.matId;
+                                          log(newCategoryMatId.toString());
+                                        }
+                                      });
                                 },
                               );
                             },
                           ),
-                        ],
-                      ),
-                      ContainerFields(
-                        children: [
-                          SwitchAndDetails(valueSwitch: ValueNotifier(false)),
                         ],
                       ),
                       ContainerFields(
@@ -199,15 +211,15 @@ class _NewItemViewState extends State<EditProdictView> {
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: purchasePrice,
-                            hintText: 'سعر الشراء',
-                            label: "   سعر الشراء",
+                            hintText: 'سعر الجملة',
+                            label: "سعر الجملة",
                             keyType: TextInputType.number,
                           ),
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: price1,
-                            hintText: 'سعر المبيع',
-                            label: "   سعر المبيع",
+                            hintText: 'سعر المستهلك',
+                            label: "سعر المستهلك",
                             keyType: TextInputType.number,
                           ),
                         ],
@@ -229,8 +241,8 @@ class _NewItemViewState extends State<EditProdictView> {
                           ),
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
-                            hintText: 'سعر المبيع',
-                            label: '  سعر المبيع',
+                            hintText: 'سعر المستهلك',
+                            label: 'سعر المستهلك',
                             controller: price2,
                             keyType: TextInputType.number,
                           ),
@@ -311,7 +323,8 @@ class _NewItemViewState extends State<EditProdictView> {
                               materialKind: 0,
                               materialUnitDefault: isSelected.value ?? 1,
                               materialImage: materialImagePath,
-                              parentId: argumentsMaterial.parentId,
+                              parentId: newCategoryMatId,
+                              materiaUnit2Baracode: baraCode2.text,
                             ),
                           );
                         }

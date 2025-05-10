@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/responsive_text.dart';
@@ -29,27 +28,22 @@ class SwitchAndDetails extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      SizedBox(
-                        height: 30,
-                        child: CupertinoSwitch(
-                          value: valueSwitch.value,
-                          inactiveTrackColor: Colors.grey,
-                          onChanged: (value) {
-                            valueSwitch.value = value;
-                          },
-                          activeTrackColor: kBlueAccent,
-                        ),
-                      ),
                       Spacer(),
                       Text(
-                        'السماح بالمزامنة مع المتجر',
+                        'هذا الحساب مورد و عميل معاً',
                         style: TextStyle(
                           color: kBlack,
                           fontWeight: FontWeight.bold,
-                          fontSize: getResponsiveText(context, 10),
+                          fontSize: getResponsiveText(context, 14),
                         ),
                       ),
                       SizedBox(width: 10),
+                      Checkbox(
+                        value: value,
+                        onChanged: (value) {
+                          valueSwitch.value = value!;
+                        },
+                      ),
                     ],
                   ),
                 ),

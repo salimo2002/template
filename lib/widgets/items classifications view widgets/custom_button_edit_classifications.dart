@@ -4,7 +4,8 @@ import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 
 class CustomButtonEditClassifications extends StatelessWidget {
-  const CustomButtonEditClassifications({super.key, });
+  const CustomButtonEditClassifications({super.key, required this.text});
+  final String text;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +18,7 @@ class CustomButtonEditClassifications extends StatelessWidget {
       child: Center(
         child: Text(
           textAlign: TextAlign.center,
-          'تعديل التصنيف',
+          text,
           style: FontStyleApp.white18.copyWith(
             fontSize: getResponsiveText(context, 14),
           ),

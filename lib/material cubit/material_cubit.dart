@@ -18,6 +18,7 @@ class MaterialCubit extends Cubit<MaterialStatus> {
       resultMaterial = await MaterialServices.fetchMaterials();
       for (var element in resultMaterial) {
         materials.add(MaterialModel.fromJson(element));
+
       }
       emit(SuccessState(materials: materials));
     } on Exception catch (e) {

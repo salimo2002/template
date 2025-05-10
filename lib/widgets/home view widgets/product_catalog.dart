@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:template/utils/constants.dart';
-import 'package:template/views/item_card_view.dart';
-import 'package:template/views/items_classifications_view.dart';
+import 'package:template/views/material_card_view.dart';
+import 'package:template/views/material_classifications_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
 import 'package:template/widgets/home%20view%20widgets/row_custom_button.dart';
@@ -24,7 +24,7 @@ class ProductCatalog extends StatelessWidget {
             icon2: FontAwesomeIcons.tags,
             onTap1: () {},
             onTap2: () {
-              Navigator.pushNamed(context, ItemCardView.id);
+              Navigator.pushNamed(context, MaterialCardView.id);
             },
             text2: 'بطاقات المواد',
             text1: 'فاتورة مواد أول المدة',
@@ -35,7 +35,7 @@ class ProductCatalog extends StatelessWidget {
             icon2: FontAwesomeIcons.boxArchive,
             onTap1: () {},
             onTap2: () {
-              Navigator.pushNamed(context, ItemsClassificationsView.id);
+              Navigator.pushNamed(context, MaterialClassificationsView.id);
             },
             text1: 'جرد المستودع',
             text2: 'تصنيفات المواد',

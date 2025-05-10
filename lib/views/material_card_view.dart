@@ -9,12 +9,12 @@ import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/edit_prodict_view.dart';
 import 'package:template/views/home_view.dart';
-import 'package:template/views/new_item_view.dart';
+import 'package:template/views/new_material_view.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/container_item_countity.dart';
 
-class ItemCardView extends StatelessWidget {
-  const ItemCardView({super.key});
-  static String id = 'ItemCardView';
+class MaterialCardView extends StatelessWidget {
+  const MaterialCardView({super.key});
+  static String id = 'MaterialCardView';
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MaterialCubit, MaterialStatus>(
@@ -35,7 +35,7 @@ class ItemCardView extends StatelessWidget {
               tooltip: 'ادخال بطاقة مادة',
               backgroundColor: kBlueAccent,
               onPressed: () {
-                Navigator.pushNamed(context, NewItemView.id);
+                Navigator.pushNamed(context, NewMaterialView.id);
               },
               child: Icon(Icons.add_circle, color: kWhite),
             ),

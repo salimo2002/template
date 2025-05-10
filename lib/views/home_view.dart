@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/Service/account_service%20.dart';
+import 'package:template/account%20service/accounts_cubit.dart';
 import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/utils/constants.dart';
@@ -12,7 +14,6 @@ import 'package:template/widgets/home%20view%20widgets/debts_and_supplies.dart';
 import 'package:template/widgets/home%20view%20widgets/financial_reports.dart';
 import 'package:template/widgets/home%20view%20widgets/lookup.dart';
 import 'package:template/widgets/home%20view%20widgets/product_catalog.dart';
-import 'package:template/widgets/home%20view%20widgets/store_section.dart';
 import 'package:template/widgets/home%20view%20widgets/view_invoices.dart';
 import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
 
@@ -29,6 +30,7 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     context.read<MaterialCubit>().fetchMaterials();
     context.read<CategoryCubit>().fetchCategory();
+    context.read<AccountsCubit>().fetchAccounts();
     super.initState();
   }
 
@@ -48,6 +50,7 @@ class _HomeViewState extends State<HomeView> {
           IconButton(
             onPressed: () async {
               MaterialServices.fetchMaterials();
+              AccountService.fetchAccounts();
             },
             icon: Icon(Icons.more_vert_outlined),
           ),
@@ -61,7 +64,6 @@ class _HomeViewState extends State<HomeView> {
               spacing: 5,
               children: [
                 PartsTitle(title: 'نسخة تجريبية محدودة', color: kRed),
-                StoreSection(),
                 CreateFinancialDocuments(),
                 ViewInvoices(),
                 ProductCatalog(),

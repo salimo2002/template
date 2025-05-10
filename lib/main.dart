@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/account%20service/accounts_cubit.dart';
 import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/utils/constants.dart';
+import 'package:template/views/add_account_view.dart';
 import 'package:template/views/home_view.dart';
-import 'package:template/views/item_card_view.dart';
-import 'package:template/views/items_classifications_view.dart';
-import 'package:template/views/new_item_view.dart';
+import 'package:template/views/material_card_view.dart';
+import 'package:template/views/material_classifications_view.dart';
+import 'package:template/views/new_material_view.dart';
 import 'package:template/views/edit_prodict_view.dart';
+import 'package:template/views/tree_accounts_view.dart';
 
 void main(List<String> args) {
   SystemChrome.setSystemUIOverlayStyle(
@@ -38,6 +41,11 @@ class Template extends StatelessWidget {
             return CategoryCubit();
           },
         ),
+        BlocProvider<AccountsCubit>(
+          create: (context) {
+            return AccountsCubit();
+          },
+        ),
       ],
 
       child: MaterialApp(
@@ -54,11 +62,13 @@ class Template extends StatelessWidget {
         ),
         routes: {
           HomeView.id: (context) => const HomeView(),
-          ItemCardView.id: (context) => const ItemCardView(),
-          NewItemView.id: (context) => const NewItemView(),
-          ItemsClassificationsView.id:
-              (context) => const ItemsClassificationsView(),
+          MaterialCardView.id: (context) => const MaterialCardView(),
+          NewMaterialView.id: (context) => const NewMaterialView(),
+          MaterialClassificationsView.id:
+              (context) => const MaterialClassificationsView(),
           EditProdictView.id: (context) => EditProdictView(),
+          TreeAccountsView.id: (context) => TreeAccountsView(),
+          AddAccountView.id: (context) => AddAccountView(),
         },
         initialRoute: HomeView.id,
       ),

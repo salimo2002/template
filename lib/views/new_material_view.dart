@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/material%20cubit/material_status.dart';
 import 'package:template/models/material_model.dart';
@@ -17,17 +18,16 @@ import 'package:template/widgets/new%20item%20view%20widgets/save_and_exite_butt
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_barcode.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/uploaded_image.dart';
-import 'package:template/widgets/switch_and_details.dart';
 
-class NewItemView extends StatefulWidget {
-  const NewItemView({super.key});
-  static String id = 'NewItemView';
+class NewMaterialView extends StatefulWidget {
+  const NewMaterialView({super.key});
+  static String id = 'NewMaterialView';
 
   @override
-  State<NewItemView> createState() => _NewItemViewState();
+  State<NewMaterialView> createState() => _NewMaterialViewState();
 }
 
-class _NewItemViewState extends State<NewItemView> {
+class _NewMaterialViewState extends State<NewMaterialView> {
   final TextEditingController materialName = TextEditingController();
   final TextEditingController baraCode1 = TextEditingController();
   final TextEditingController unit1 = TextEditingController();
@@ -39,10 +39,10 @@ class _NewItemViewState extends State<NewItemView> {
   final TextEditingController baraCode2 = TextEditingController();
   final TextEditingController convertOperatorTextField =
       TextEditingController();
-
   final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
-  final ValueNotifier<int> selectedKind = ValueNotifier<int>(0);
   final GlobalKey<FormState> globalKey = GlobalKey();
+  late int parentId;
+  String categoryInitValue = '';
   final ValueNotifier<List<String>> labels = ValueNotifier<List<String>>([
     '',
     '',
@@ -145,27 +145,21 @@ class _NewItemViewState extends State<NewItemView> {
                       ),
                       ContainerFields(
                         children: [
-                          ValueListenableBuilder<int>(
-                            valueListenable: selectedKind,
-                            builder: (context, value, _) {
-                              return DropDownMenuAndDetails(
-                                onCTap: (val) {
-                                  //بتحبني
-                                },
-                                selectedIndex: value,
-                                onChanged: (newIndex) {
-                                  selectedKind.value = newIndex!;
-                                },
-                              );
+                          DropDownMenuAndDetails(
+                            value: categoryInitValue,
+                            onChanged: (p0) {
+                              context.read<CategoryCubit>().categories.forEach((
+                                element,
+                              ) {
+                                if (p0 == element.matName) {
+                                  parentId = element.matId;
+                                }
+                              });
                             },
                           ),
                         ],
                       ),
-                      ContainerFields(
-                        children: [
-                          SwitchAndDetails(valueSwitch: ValueNotifier(false)),
-                        ],
-                      ),
+
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
@@ -176,15 +170,15 @@ class _NewItemViewState extends State<NewItemView> {
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: purchasePrice,
-                            hintText: 'سعر الشراء',
-                            label: "   سعر الشراء",
+                            hintText: 'سعر الجملة',
+                            label: "   سعر الجملة",
                             keyType: TextInputType.number,
                           ),
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: price1,
-                            hintText: 'سعر المبيع',
-                            label: "   سعر المبيع",
+                            hintText: 'سعر المستهلك',
+                            label: "سعر المستهلك",
                             keyType: TextInputType.number,
                           ),
                         ],
@@ -206,8 +200,8 @@ class _NewItemViewState extends State<NewItemView> {
                           ),
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
-                            hintText: 'سعر المبيع',
-                            label: '  سعر المبيع',
+                            hintText: 'سعر المستهلك',
+                            label: 'سعر المستهلك',
                             controller: price2,
                             keyType: TextInputType.number,
                           ),
@@ -252,41 +246,37 @@ class _NewItemViewState extends State<NewItemView> {
                   if (state is SuccessState) {
                     return SaveAndExitButton(
                       onPressed: () async {
-                        if (globalKey.currentState!.validate()) {
-                          try {
-                            final materialNumber =
-                                Random().nextInt(1000000).toString();
-                            await context.read<MaterialCubit>().insertMaterial(
-                              MaterialModel(
-                                materialUnit: unit1.text,
-                                materialId: 0,
-                                materialNumber: materialNumber,
-                                materialName: materialName.text,
-                                materialCode: baraCode1.text,
-                                materialPrice1:
-                                    double.tryParse(purchasePrice.text) ?? 0.0,
-                                materialPrice3:
-                                    double.tryParse(price1.text) ?? 0.0,
-                                materialUnit2: unit2.text,
-                                materialUnit2Number:
-                                    double.tryParse(
-                                      convertOperatorTextField.text,
-                                    ) ??
-                                    1.0,
-                                materialUnit2Price3:
-                                    double.tryParse(price2.text) ?? 0.0,
-                                materialKind: 0,
-                                materialUnitDefault: isSelected.value ?? 1,
-                                materialImage: imageUpdate.value,
-                                parentId: 0,
-                              ),
-                            );
-                            Navigator.pop(context);
-                          } catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('فشل في إضافة المادة')),
-                            );
-                          }
+                        if (globalKey.currentState!.validate() &&
+                            categoryInitValue == '') {
+                          final materialNumber =
+                              Random().nextInt(1000000).toString();
+                          await context.read<MaterialCubit>().insertMaterial(
+                            MaterialModel(
+                              materialUnit: unit1.text,
+                              materialId: 0,
+                              materialNumber: materialNumber,
+                              materialName: materialName.text,
+                              materialCode: baraCode1.text,
+                              materialPrice1:
+                                  double.tryParse(purchasePrice.text) ?? 0.0,
+                              materialPrice3:
+                                  double.tryParse(price1.text) ?? 0.0,
+                              materialUnit2: unit2.text,
+                              materialUnit2Number:
+                                  double.tryParse(
+                                    convertOperatorTextField.text,
+                                  ) ??
+                                  1.0,
+                              materialUnit2Price3:
+                                  double.tryParse(price2.text) ?? 0.0,
+                              materialKind: 0,
+                              materialUnitDefault: isSelected.value ?? 1,
+                              materialImage: imageUpdate.value,
+                              parentId: parentId,
+                              materiaUnit2Baracode: baraCode2.text,
+                            ),
+                          );
+                          Navigator.pop(context);
                         }
                       },
                     );
