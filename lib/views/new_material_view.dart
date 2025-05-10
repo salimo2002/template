@@ -42,7 +42,6 @@ class _NewMaterialViewState extends State<NewMaterialView> {
   final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
   final GlobalKey<FormState> globalKey = GlobalKey();
   late int parentId;
-  String categoryInitValue = '';
   final ValueNotifier<List<String>> labels = ValueNotifier<List<String>>([
     '',
     '',
@@ -146,7 +145,6 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                       ContainerFields(
                         children: [
                           DropDownMenuAndDetails(
-                            selectedIndex: 0,
                             value: categoryInitValue,
                             onChanged: (p0) {
                               context.read<CategoryCubit>().categories.forEach((
@@ -160,7 +158,6 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                           ),
                         ],
                       ),
-
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
@@ -195,7 +192,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                           ConvertOperatorTextField(
                             convertOperatorTextField: convertOperatorTextField,
                             textEditingController: unit2Num,
-                            label: 'معامل التحويل',
+                            label: '  معامل التحويل',
                             hintText: 'معامل التحويل',
                             keyType: TextInputType.number,
                           ),
@@ -247,8 +244,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                   if (state is SuccessState) {
                     return SaveAndExitButton(
                       onPressed: () async {
-                        if (globalKey.currentState!.validate() &&
-                            categoryInitValue == '') {
+                        if (globalKey.currentState!.validate()) {
                           final materialNumber =
                               Random().nextInt(1000000).toString();
                           await context.read<MaterialCubit>().insertMaterial(
