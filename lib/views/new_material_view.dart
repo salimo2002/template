@@ -146,6 +146,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                       ContainerFields(
                         children: [
                           DropDownMenuAndDetails(
+                            selectedIndex: 0,
                             value: categoryInitValue,
                             onChanged: (p0) {
                               context.read<CategoryCubit>().categories.forEach((

@@ -54,7 +54,7 @@ class _NewItemViewState extends State<EditProdictView> {
   String materialImagePath = '';
   String image = '';
   String category = '';
-late  int newCategoryMatId ;
+  late int newCategoryMatId;
 
   @override
   void initState() {
@@ -183,6 +183,7 @@ late  int newCategoryMatId ;
                             valueListenable: selectedKind,
                             builder: (context, value, _) {
                               return DropDownMenuAndDetails(
+                                selectedIndex: 1,
                                 value: category,
                                 onChanged: (categoryName) {
                                   category = categoryName!;
