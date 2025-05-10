@@ -6,7 +6,6 @@ import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
-import 'package:template/views/edit_prodict_view.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/column_countity.dart';
 
 class ContainerItemCountity extends StatelessWidget {
