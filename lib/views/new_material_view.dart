@@ -145,7 +145,13 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                       ContainerFields(
                         children: [
                           DropDownMenuAndDetails(
-                            value: categoryInitValue,
+                            value:
+                                context.read<CategoryCubit>().categories.isEmpty
+                                    ? 'لايوجد تصنيفات'
+                                    : context
+                                        .read<CategoryCubit>()
+                                        .categories[0]
+                                        .matName,
                             onChanged: (p0) {
                               context.read<CategoryCubit>().categories.forEach((
                                 element,

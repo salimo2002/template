@@ -10,13 +10,11 @@ class DropDownMenuAndDetails extends StatelessWidget {
     this.onTap,
     this.onChanged,
     required this.value,
-    required this.selectedIndex,
   });
   final String value;
   final void Function()? onTap;
   final void Function(String?)? onChanged;
 
-  final int selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +27,8 @@ class DropDownMenuAndDetails extends StatelessWidget {
           child: Directionality(
             textDirection: TextDirection.rtl,
             child: DropdownButtonFormField<String>(
-              value: "محروقات",
+               value: value.isNotEmpty ? value : null,
+
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: kBlueAccent),

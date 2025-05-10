@@ -182,7 +182,7 @@ class _NewItemViewState extends State<EditProdictView> {
                             valueListenable: selectedKind,
                             builder: (context, value, _) {
                               return DropDownMenuAndDetails(
-                                selectedIndex: 1,
+                                
                                 value: category,
                                 onChanged: (categoryName) {
                                   category = categoryName!;
