@@ -41,7 +41,9 @@ class _NewMaterialViewState extends State<NewMaterialView> {
       TextEditingController();
   final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
   final GlobalKey<FormState> globalKey = GlobalKey();
-  late int parentId;
+  late int parentId =
+      0; ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   final ValueNotifier<List<String>> labels = ValueNotifier<List<String>>([
     '',
     '',
