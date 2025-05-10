@@ -69,6 +69,7 @@ class _MaterialClassificationsViewState
                       categoryNameUpdate: categoryNameUpdate,
                       onTap: () async {
                         if (globalKey.currentState!.validate()) {
+                          Navigator.pop(context);
                           context.read<CategoryCubit>().insertCategory(
                             CategoryModel(
                               matId: 0,
@@ -77,7 +78,6 @@ class _MaterialClassificationsViewState
                             ),
                           );
                           categoryNameUpdate.clear();
-                          Navigator.pop(context);
                         }
                       },
                     );

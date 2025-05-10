@@ -54,7 +54,7 @@ class _NewItemViewState extends State<EditProdictView> {
   String materialImagePath = '';
   String image = '';
   String category = '';
-late  int newCategoryMatId ;
+  late int newCategoryMatId;
 
   @override
   void initState() {
@@ -92,7 +92,6 @@ late  int newCategoryMatId ;
   }
 
   @override
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     argumentsMaterial =
@@ -109,16 +108,16 @@ late  int newCategoryMatId ;
     convertOperatorTextField.text =
         argumentsMaterial.materialUnit2Number.toString();
     image = argumentsMaterial.materialImage;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     context.read<CategoryCubit>().categories.forEach((element) {
       if (argumentsMaterial.parentId == element.matId) {
         category = element.matName;
         newCategoryMatId = element.matId;
       }
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(
         context: context,

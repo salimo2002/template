@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/category%20cubit/category_cubit.dart';
@@ -27,7 +25,7 @@ class DropDownMenuAndDetails extends StatelessWidget {
           child: Directionality(
             textDirection: TextDirection.rtl,
             child: DropdownButtonFormField<String>(
-              value: "محروقات",
+              value: value,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: kBlueAccent),
