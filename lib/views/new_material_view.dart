@@ -158,6 +158,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                               ) {
                                 if (p0 == element.matName) {
                                   parentId = element.matId;
+                                  print(parentId);
                                 }
                               });
                             },

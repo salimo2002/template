@@ -113,6 +113,9 @@ class _NewItemViewState extends State<EditProdictView> {
   @override
   Widget build(BuildContext context) {
     context.read<CategoryCubit>().categories.forEach((element) {
+      log(
+        'Checking element: ${element.matId}, ParentId: ${argumentsMaterial.parentId}',
+      );
       if (argumentsMaterial.parentId == element.matId) {
         category = element.matName;
         newCategoryMatId = element.matId;
@@ -182,7 +185,6 @@ class _NewItemViewState extends State<EditProdictView> {
                             valueListenable: selectedKind,
                             builder: (context, value, _) {
                               return DropDownMenuAndDetails(
-                                
                                 value: category,
                                 onChanged: (categoryName) {
                                   category = categoryName!;
@@ -282,6 +284,8 @@ class _NewItemViewState extends State<EditProdictView> {
                       ),
                     );
                   } else if (state is SuccessState) {
+                    log('Selected Category ID: $newCategoryMatId');
+
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -301,6 +305,9 @@ class _NewItemViewState extends State<EditProdictView> {
                     return SaveAndExitButton(
                       onPressed: () async {
                         if (globalKey.currentState!.validate()) {
+                          log(
+                            'messagesssssssssssssssssssssssssssssssssssssssssssss',
+                          );
                           await context.read<MaterialCubit>().updateMaterial(
                             MaterialModel(
                               materialId: argumentsMaterial.materialId,
