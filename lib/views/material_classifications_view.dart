@@ -28,6 +28,8 @@ class _MaterialClassificationsViewState
   final TextEditingController categoryName = TextEditingController();
   final TextEditingController categoryNameUpdate = TextEditingController();
 
+  final TextEditingController categoryNameInsert = TextEditingController();
+
   List<CategoryModel> filteredCategories = [];
 
   @override
@@ -36,9 +38,7 @@ class _MaterialClassificationsViewState
       builder: (context, state) {
         if (state is SuccessStateCategory) {
           List<CategoryModel> categories = state.categories;
-          if (filteredCategories.isEmpty) {
-            filteredCategories = categories;
-          }
+          filteredCategories = categories;
           return Scaffold(
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.startFloat,
@@ -66,18 +66,18 @@ class _MaterialClassificationsViewState
                         }
                         return null;
                       },
-                      categoryNameUpdate: categoryNameUpdate,
+                      categoryNameUpdate: categoryNameInsert,
                       onTap: () async {
                         if (globalKey.currentState!.validate()) {
                           Navigator.pop(context);
                           context.read<CategoryCubit>().insertCategory(
                             CategoryModel(
                               matId: 0,
-                              matName: categoryNameUpdate.text,
+                              matName: categoryNameInsert.text,
                               matNumber: Random().nextInt(10000).toString(),
                             ),
                           );
-                          categoryNameUpdate.clear();
+                          categoryNameInsert.clear();
                         }
                       },
                     );
