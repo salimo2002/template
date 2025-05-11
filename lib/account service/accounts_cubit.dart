@@ -50,10 +50,10 @@ class AccountsCubit extends Cubit<AccountsStatusAccounts> {
   }
 
   //تعديل ملف php لحذف عن طريق رقم الحساب
-  Future<void> deleteAccount(AccountModel accountModel) async {
+  Future<void> deleteAccount(int accId) async {
     try {
       emit(LoadingStateAccounts());
-      await AccountService.deleteAccount(accId: accountModel.accNumber);
+      await AccountService.deleteAccount(accId: accId);
       await fetchAccounts(isRefresh: true);
       emit(SuccessStateAccounts(accounts: accounts));
     } catch (e) {
