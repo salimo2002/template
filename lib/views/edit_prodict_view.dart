@@ -116,18 +116,6 @@ class _NewItemViewState extends State<EditProdictView> {
     convertOperatorTextField.text =
         argumentsMaterial.materialUnit2Number.toString();
     image = argumentsMaterial.materialImage;
-    final ValueNotifier<int> newCategoryMatId = ValueNotifier(0); //////////
-
-    newCategoryMatId.value = argumentsMaterial.parentId;
-
-    context.read<CategoryCubit>().categories.forEach((element) {
-      log(
-        'Checking element: ${element.matId}, ParentId: ${argumentsMaterial.parentId}',
-      );
-      if (argumentsMaterial.parentId == element.matId) {
-        category = element.matName;
-      }
-    });
   }
 
   @override
@@ -198,34 +186,21 @@ class _NewItemViewState extends State<EditProdictView> {
                               return DropDownMenuAndDetails(
                                 value: category,
                                 onChanged: (categoryName) {
-                                  log(
-                                    'Before change - newCategoryMatId: ${newCategoryMatId.value}',
-                                  );
-                                  if (categoryName != null) {
-                                    final categoryCubit =
-                                        context.read<CategoryCubit>();
-                                    final selectedCategory = categoryCubit
-                                        .categories
-                                        .firstWhere(
-                                          (element) =>
-                                              categoryName == element.matName,
-                                          orElse:
-                                              () =>
-                                                  categoryCubit
-                                                      .categories
-                                                      .first,
-                                        );
-
-                                    newCategoryMatId.value =
-                                        selectedCategory.matId;
-                                    log(
-                                      'Updated newCategoryMatId: ${newCategoryMatId.value}',
-                                    );
-                                    category = categoryName;
-                                  }
+                                  category = categoryName!;
+                                  context
+                                      .read<CategoryCubit>()
+                                      .categories
+                                      .forEach((element) {
+                                        if (categoryName == element.matName) {
+                                          newCategoryMatId.value =
+                                              element.matId;
+                                          log(newCategoryMatId.toString());
+                                        }
+                                      });
                                 },
                               );
                             },
+                            child: Text('data'),
                           ),
                         ],
                       ),
@@ -379,3 +354,16 @@ class _NewItemViewState extends State<EditProdictView> {
     );
   }
 }
+// DropDownMenuAndDetails(
+//                             value: category,
+//                             onChanged: (categoryName) {
+//                               category = categoryName!;
+//                               context.read<CategoryCubit>().categories.forEach((
+//                                 element,
+//                               ) {
+//                                 if (categoryName == element.matName) {
+//                                   newCategoryMatId = element.matId;
+//                                 }
+//                               });
+//                             },
+//                           ),
