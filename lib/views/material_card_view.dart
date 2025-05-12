@@ -35,7 +35,11 @@ class MaterialCardView extends StatelessWidget {
               tooltip: 'ادخال بطاقة مادة',
               backgroundColor: kBlueAccent,
               onPressed: () {
-                Navigator.pushNamed(context, NewMaterialView.id);
+                Navigator.pushNamed(
+                  context,
+                  NewMaterialView.id,
+                  arguments: {'materials': null, 'isNew': true},
+                );
               },
               child: Icon(Icons.add_circle, color: kWhite),
             ),
@@ -66,7 +70,7 @@ class MaterialCardView extends StatelessWidget {
                                   Navigator.pushNamed(
                                     context,
                                     EditProdictView.id,
-                                    arguments: materials[index],
+                                    arguments: state.materials[index],
                                   );
                                 },
                                 index: index + 1,

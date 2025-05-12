@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:template/utils/constants.dart';
-import 'package:template/views/add_account_view.dart';
+import 'package:template/views/add_account_and_update_view.dart';
 import 'package:template/views/tree_accounts_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';

@@ -5,7 +5,7 @@ import 'package:template/account%20service/accounts_cubit.dart';
 import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/utils/constants.dart';
-import 'package:template/views/add_account_view.dart';
+import 'package:template/views/add_account_and_update_view.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/views/material_card_view.dart';
 import 'package:template/views/material_classifications_view.dart';

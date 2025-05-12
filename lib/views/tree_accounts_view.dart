@@ -5,7 +5,7 @@ import 'package:template/account%20service/accounts_status.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
-import 'package:template/views/add_account_view.dart';
+import 'package:template/views/add_account_and_update_view.dart';
 
 class TreeAccountsView extends StatelessWidget {
   const TreeAccountsView({super.key});

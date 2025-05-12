@@ -15,7 +15,6 @@ class DropDownMenuAndDetails extends StatelessWidget {
   final void Function()? onTap;
   final void Function(String?)? onChanged;
 
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -27,7 +26,7 @@ class DropDownMenuAndDetails extends StatelessWidget {
           child: Directionality(
             textDirection: TextDirection.rtl,
             child: DropdownButtonFormField<String>(
-               value: value.isNotEmpty ? value : null,
+              value: value.isNotEmpty ? value : null,
 
               decoration: InputDecoration(
                 border: OutlineInputBorder(

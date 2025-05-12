@@ -57,7 +57,6 @@ class _NewItemViewState extends State<EditProdictView> {
   String materialImagePath = '';
   String image = '';
   String category = '';
-
   @override
   void initState() {
     unit1.addListener(() {
@@ -104,6 +103,7 @@ class _NewItemViewState extends State<EditProdictView> {
     super.didChangeDependencies();
     argumentsMaterial =
         ModalRoute.of(context)!.settings.arguments as MaterialModel;
+    isSelected.value = argumentsMaterial.materialUnitDefault;
     materialName.text = argumentsMaterial.materialName;
     baraCode1.text = argumentsMaterial.materialCode;
     baraCode2.text = argumentsMaterial.materiaUnit2Baracode;
@@ -116,6 +116,18 @@ class _NewItemViewState extends State<EditProdictView> {
     convertOperatorTextField.text =
         argumentsMaterial.materialUnit2Number.toString();
     image = argumentsMaterial.materialImage;
+    final ValueNotifier<int> newCategoryMatId = ValueNotifier(0);
+
+    newCategoryMatId.value = argumentsMaterial.parentId;
+
+    context.read<CategoryCubit>().categories.forEach((element) {
+      log(
+        'Checking element: ${element.matId}, ParentId: ${argumentsMaterial.parentId}',
+      );
+      if (argumentsMaterial.parentId == element.matId) {
+        category = element.matName;
+      }
+    });
   }
 
   @override
@@ -186,21 +198,34 @@ class _NewItemViewState extends State<EditProdictView> {
                               return DropDownMenuAndDetails(
                                 value: category,
                                 onChanged: (categoryName) {
-                                  category = categoryName!;
-                                  context
-                                      .read<CategoryCubit>()
-                                      .categories
-                                      .forEach((element) {
-                                        if (categoryName == element.matName) {
-                                          newCategoryMatId.value =
-                                              element.matId;
-                                          log(newCategoryMatId.toString());
-                                        }
-                                      });
+                                  log(
+                                    'Before change - newCategoryMatId: ${newCategoryMatId.value}',
+                                  );
+                                  if (categoryName != null) {
+                                    final categoryCubit =
+                                        context.read<CategoryCubit>();
+                                    final selectedCategory = categoryCubit
+                                        .categories
+                                        .firstWhere(
+                                          (element) =>
+                                              categoryName == element.matName,
+                                          orElse:
+                                              () =>
+                                                  categoryCubit
+                                                      .categories
+                                                      .first,
+                                        );
+
+                                    newCategoryMatId.value =
+                                        selectedCategory.matId;
+                                    log(
+                                      'Updated newCategoryMatId: ${newCategoryMatId.value}',
+                                    );
+                                    category = categoryName;
+                                  }
                                 },
                               );
                             },
-                            child: Text('data'),
                           ),
                         ],
                       ),
@@ -330,7 +355,10 @@ class _NewItemViewState extends State<EditProdictView> {
                               materialKind: 0,
                               materialUnitDefault: isSelected.value ?? 1,
                               materialImage: materialImagePath,
-                              parentId: newCategoryMatId.value,
+                              parentId:
+                                  newCategoryMatId.value == 0
+                                      ? argumentsMaterial.parentId
+                                      : newCategoryMatId.value,
                               materiaUnit2Baracode: baraCode2.text,
                             ),
                           );
@@ -354,16 +382,3 @@ class _NewItemViewState extends State<EditProdictView> {
     );
   }
 }
-// DropDownMenuAndDetails(
-//                             value: category,
-//                             onChanged: (categoryName) {
-//                               category = categoryName!;
-//                               context.read<CategoryCubit>().categories.forEach((
-//                                 element,
-//                               ) {
-//                                 if (categoryName == element.matName) {
-//                                   newCategoryMatId = element.matId;
-//                                 }
-//                               });
-//                             },
-//                           ),
