@@ -43,6 +43,9 @@ class _NewItemViewState extends State<EditProdictView> {
 
   final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
   final ValueNotifier<int> selectedKind = ValueNotifier<int>(0);
+  final ValueNotifier<int> newCategoryMatId = ValueNotifier<int>(
+    0,
+  ); ////////////
   final GlobalKey<FormState> globalKey = GlobalKey();
   final ValueNotifier<List<String>> labels = ValueNotifier<List<String>>([
     '',
@@ -54,7 +57,6 @@ class _NewItemViewState extends State<EditProdictView> {
   String materialImagePath = '';
   String image = '';
   String category = '';
-  late int newCategoryMatId;
 
   @override
   void initState() {
@@ -63,6 +65,11 @@ class _NewItemViewState extends State<EditProdictView> {
       labels.value[0] = unit1.text;
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       labels.notifyListeners();
+      newCategoryMatId.addListener(() {
+        log(
+          'Listener - newCategoryMatId changed to: ${newCategoryMatId.value}',
+        );
+      });
     });
 
     unit2.addListener(() {
@@ -88,6 +95,7 @@ class _NewItemViewState extends State<EditProdictView> {
     unit2.dispose();
     labels.dispose();
     isSelected.dispose();
+    newCategoryMatId.dispose();
     super.dispose();
   }
 
@@ -108,10 +116,13 @@ class _NewItemViewState extends State<EditProdictView> {
     convertOperatorTextField.text =
         argumentsMaterial.materialUnit2Number.toString();
     image = argumentsMaterial.materialImage;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     context.read<CategoryCubit>().categories.forEach((element) {
       if (argumentsMaterial.parentId == element.matId) {
         category = element.matName;
-        newCategoryMatId = element.matId;
       }
     });
   }
@@ -178,16 +189,24 @@ class _NewItemViewState extends State<EditProdictView> {
                       ),
                       ContainerFields(
                         children: [
-                          ElevatedButton(
-                            //TODO: REMOVE DROPDOWN
-                            onPressed: () {
-                              context.read<CategoryCubit>().categories.forEach((
-                                element,
-                              ) {
-                                if ('خضروات' == element.matName) {
-                                  newCategoryMatId = element.matId;
-                                }
-                              });
+                          ValueListenableBuilder<int>(
+                            valueListenable: selectedKind,
+                            builder: (context, value, _) {
+                              return DropDownMenuAndDetails(
+                                value: category,
+                                onChanged: (categoryName) {
+                                  category = categoryName!;
+                                  context
+                                      .read<CategoryCubit>()
+                                      .categories
+                                      .forEach((element) {
+                                        if (categoryName == element.matName) {
+                                          newCategoryMatId = element.matId;
+                                          log(newCategoryMatId.toString());
+                                        }
+                                      });
+                                },
+                              );
                             },
                             child: Text('data'),
                           ),
@@ -274,8 +293,7 @@ class _NewItemViewState extends State<EditProdictView> {
                       ),
                     );
                   } else if (state is SuccessState) {
-                    log('Selected Category ID: $newCategoryMatId');
-
+                    log('Final Category ID: ${newCategoryMatId.value}');
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -296,7 +314,7 @@ class _NewItemViewState extends State<EditProdictView> {
                       onPressed: () async {
                         if (globalKey.currentState!.validate()) {
                           log(
-                            'messagesssssssssssssssssssssssssssssssssssssssssssss',
+                            'Final check - newCategoryMatId: ${newCategoryMatId.value}, arguments.parentId: ${argumentsMaterial.parentId}',
                           );
                           await context.read<MaterialCubit>().updateMaterial(
                             MaterialModel(
@@ -320,7 +338,7 @@ class _NewItemViewState extends State<EditProdictView> {
                               materialKind: 0,
                               materialUnitDefault: isSelected.value ?? 1,
                               materialImage: materialImagePath,
-                              parentId: newCategoryMatId,
+                              parentId: newCategoryMatId.value,
                               materiaUnit2Baracode: baraCode2.text,
                             ),
                           );
