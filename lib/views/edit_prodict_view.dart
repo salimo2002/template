@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:template/category%20cubit/category_cubit.dart';
-import 'package:template/material%20cubit/material_cubit.dart';
-import 'package:template/material%20cubit/material_status.dart';
+import 'package:template/category cubit/category_cubit.dart';
+import 'package:template/material cubit/material_cubit.dart';
+import 'package:template/material cubit/material_status.dart';
 import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
@@ -25,10 +25,10 @@ class EditProdictView extends StatefulWidget {
   static String id = 'EditProdictView';
 
   @override
-  State<EditProdictView> createState() => _NewItemViewState();
+  State<EditProdictView> createState() => _EditProdictViewState();
 }
 
-class _NewItemViewState extends State<EditProdictView> {
+class _EditProdictViewState extends State<EditProdictView> {
   final TextEditingController materialName = TextEditingController();
   final TextEditingController baraCode1 = TextEditingController();
   final TextEditingController unit1 = TextEditingController();
@@ -43,28 +43,31 @@ class _NewItemViewState extends State<EditProdictView> {
 
   final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
   final ValueNotifier<int> selectedKind = ValueNotifier<int>(0);
-  final ValueNotifier<int> newCategoryMatId = ValueNotifier<int>(
-    0,
-  ); ////////////
+  final ValueNotifier<int> newCategoryMatId = ValueNotifier<int>(0);
   final GlobalKey<FormState> globalKey = GlobalKey();
   final ValueNotifier<List<String>> labels = ValueNotifier<List<String>>([
     '',
     '',
     '',
   ]);
-  ValueNotifier<String> imageUpdate = ValueNotifier('');
+  final ValueNotifier<String> imageUpdate = ValueNotifier('');
+
   late MaterialModel argumentsMaterial;
+  bool _isInit = true;
   String materialImagePath = '';
   String image = '';
   String category = '';
+
   @override
   void initState() {
+    super.initState();
+    log('initState');
+
     unit1.addListener(() {
       unit2Num.text = unit1.text;
       labels.value[0] = unit1.text;
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       labels.notifyListeners();
-      newCategoryMatId.addListener(() {});
     });
 
     unit2.addListener(() {
@@ -72,12 +75,44 @@ class _NewItemViewState extends State<EditProdictView> {
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       labels.notifyListeners();
     });
+  }
 
-    super.initState();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isInit) {
+      log('didChangeDependencies - init');
+
+      argumentsMaterial =
+          ModalRoute.of(context)!.settings.arguments as MaterialModel;
+      isSelected.value = argumentsMaterial.materialUnitDefault;
+      materialName.text = argumentsMaterial.materialName;
+      baraCode1.text = argumentsMaterial.materialCode;
+      baraCode2.text = argumentsMaterial.materiaUnit2Baracode;
+      unit1.text = argumentsMaterial.materialUnit;
+      unit2.text = argumentsMaterial.materialUnit2;
+      purchasePrice.text = argumentsMaterial.materialPrice1.toString();
+      price1.text = argumentsMaterial.materialPrice3.toString();
+      price2.text = argumentsMaterial.materialUnit2Price3.toString();
+      unit2Num.text = argumentsMaterial.materialUnit.toString();
+      convertOperatorTextField.text =
+          argumentsMaterial.materialUnit2Number.toString();
+      image = argumentsMaterial.materialImage;
+
+      newCategoryMatId.value = argumentsMaterial.parentId;
+      context.read<CategoryCubit>().categories.forEach((element) {
+        if (argumentsMaterial.parentId == element.matId) {
+          category = element.matName;
+        }
+      });
+
+      _isInit = false;
+    }
   }
 
   @override
   void dispose() {
+    log('dispose');
     materialName.dispose();
     convertOperatorTextField.dispose();
     baraCode1.dispose();
@@ -91,43 +126,18 @@ class _NewItemViewState extends State<EditProdictView> {
     labels.dispose();
     isSelected.dispose();
     newCategoryMatId.dispose();
+    imageUpdate.dispose();
     super.dispose();
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    argumentsMaterial =
-        ModalRoute.of(context)!.settings.arguments as MaterialModel;
-    isSelected.value = argumentsMaterial.materialUnitDefault;
-    materialName.text = argumentsMaterial.materialName;
-    baraCode1.text = argumentsMaterial.materialCode;
-    baraCode2.text = argumentsMaterial.materiaUnit2Baracode;
-    unit1.text = argumentsMaterial.materialUnit;
-    unit2.text = argumentsMaterial.materialUnit2;
-    purchasePrice.text = argumentsMaterial.materialPrice1.toString();
-    price1.text = argumentsMaterial.materialPrice3.toString();
-    price2.text = argumentsMaterial.materialUnit2Price3.toString();
-    unit2Num.text = argumentsMaterial.materialUnit.toString();
-    convertOperatorTextField.text =
-        argumentsMaterial.materialUnit2Number.toString();
-    image = argumentsMaterial.materialImage;
-    final ValueNotifier<int> newCategoryMatId = ValueNotifier(0);
-
-    newCategoryMatId.value = argumentsMaterial.parentId;
-    context.read<CategoryCubit>().categories.forEach((element) {
-      if (argumentsMaterial.parentId == element.matId) {
-        category = element.matName;
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    log(baraCode2.text);
+
     return Scaffold(
       appBar: customAppBar(
         context: context,
-        title: 'مادة جديدة',
+        title: 'تعديل المادة',
         showIcons: false,
       ),
       body: SafeArea(
@@ -207,7 +217,6 @@ class _NewItemViewState extends State<EditProdictView> {
 
                                     newCategoryMatId.value =
                                         selectedCategory.matId;
-
                                     category = categoryName;
                                   }
                                 },
@@ -289,7 +298,7 @@ class _NewItemViewState extends State<EditProdictView> {
                       SnackBar(
                         backgroundColor: kRed,
                         content: Text(
-                          'حدث خطأ أثناء الإضافة',
+                          'حدث خطأ أثناء التعديل',
                           style: FontStyleApp.white18.copyWith(
                             fontSize: getResponsiveText(context, 12),
                           ),
@@ -350,12 +359,12 @@ class _NewItemViewState extends State<EditProdictView> {
                       },
                     );
                   } else if (state is LoadingState) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
                       child: CircularProgressIndicator(color: kBlueAccent),
                     );
                   } else {
-                    return SizedBox();
+                    return const SizedBox();
                   }
                 },
               ),
