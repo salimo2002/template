@@ -32,6 +32,16 @@ class ContainerItemClassifications extends StatelessWidget {
           items: [
             PopupMenuItem(
               child: ListTile(
+                leading: Icon(Icons.edit),
+                title: Text('تعديل مادة'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Future.delayed(Duration.zero, onTap);
+                },
+              ),
+            ),
+            PopupMenuItem(
+              child: ListTile(
                 leading: Icon(Icons.delete),
                 title: Text('حذف هذه المادة'),
                 onTap: () {
@@ -74,7 +84,6 @@ class ContainerItemClassifications extends StatelessWidget {
                 },
               ),
             ),
-            
           ],
         );
       },

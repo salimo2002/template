@@ -147,6 +147,7 @@ class _MaterialClassificationsViewState
                                               categoryNameUpdate,
                                           onTap: () async {
                                             Navigator.pop(context);
+
                                             await context
                                                 .read<CategoryCubit>()
                                                 .updateCategory(
