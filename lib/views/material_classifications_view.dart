@@ -25,20 +25,31 @@ class MaterialClassificationsView extends StatefulWidget {
 class _MaterialClassificationsViewState
     extends State<MaterialClassificationsView> {
   final GlobalKey<FormState> globalKey = GlobalKey();
-  final TextEditingController categoryName = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
   final TextEditingController categoryNameUpdate = TextEditingController();
-
   final TextEditingController categoryNameInsert = TextEditingController();
 
   List<CategoryModel> filteredCategories = [];
+  List<CategoryModel> allCategories = [];
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    categoryNameUpdate.dispose();
+    categoryNameInsert.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CategoryCubit, CategoryStatus>(
       builder: (context, state) {
         if (state is SuccessStateCategory) {
-          List<CategoryModel> categories = state.categories;
-          filteredCategories = categories;
+          if (allCategories != state.categories) {
+            allCategories = state.categories;
+            filteredCategories = List.from(allCategories);
+          }
+
           return Scaffold(
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.startFloat,
@@ -91,40 +102,22 @@ class _MaterialClassificationsViewState
                 child: Column(
                   children: [
                     SearchByName(
-                      onChanged: (p0) {
-                        final query = categoryName.text.trim();
-                        setState(() {
-                          filteredCategories =
-                              categories
-                                  .where(
-                                    (cat) =>
-                                        cat.matName.contains(query) ||
-                                        cat.matName.startsWith(query),
-                                  )
-                                  .toList();
-                        });
-                      },
-                      categoryName: categoryName,
-                      onPressed: () {
-                        final query = categoryName.text.trim();
-                        setState(() {
-                          filteredCategories =
-                              categories
-                                  .where(
-                                    (cat) =>
-                                        cat.matName.contains(query) ||
-                                        cat.matName.startsWith(query),
-                                  )
-                                  .toList();
-                        });
-                      },
+                      onPressed: () {},
+                      categoryName: searchController,
+
+                      onChanged: _filterCategories,
                     ),
-                    SizedBox(height: MediaQuery.sizeOf(context).height * .005),
+                    SizedBox(height: MediaQuery.sizeOf(context).height * 0.005),
                     filteredCategories.isEmpty
-                        ? Text(
-                          'لايوجد تصنيفات',
-                          style: FontStyleApp.black18.copyWith(
-                            fontSize: getResponsiveText(context, 18),
+                        ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              'لا توجد تصنيفات مطابقة للبحث',
+                              style: FontStyleApp.black18.copyWith(
+                                fontSize: getResponsiveText(context, 18),
+                              ),
+                            ),
                           ),
                         )
                         : Expanded(
@@ -215,5 +208,21 @@ class _MaterialClassificationsViewState
         }
       },
     );
+  }
+
+  void _filterCategories(String query) {
+    final trimmedQuery = query.trim().toLowerCase();
+
+    setState(() {
+      if (trimmedQuery.isEmpty) {
+        filteredCategories = List.from(allCategories);
+      } else {
+        filteredCategories =
+            allCategories.where((category) {
+              return category.matName.toLowerCase().contains(trimmedQuery) ||
+                  category.matNumber.contains(trimmedQuery);
+            }).toList();
+      }
+    });
   }
 }

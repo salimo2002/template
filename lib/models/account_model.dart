@@ -1,5 +1,7 @@
 class AccountModel {
   final int accNumber;
+  final int? accID;
+
   final String accName;
   final String? accPhone;
   final String? accMobile;
@@ -16,6 +18,7 @@ class AccountModel {
   final dynamic catId;
 
   AccountModel({
+    this.accID,
     required this.accNumber,
     required this.accName,
     this.accPhone,
@@ -34,6 +37,7 @@ class AccountModel {
   });
   factory AccountModel.fromJson(Map<String, dynamic> json) {
     return AccountModel(
+      accID: int.parse(json['ACC_ID']),
       accNumber: int.tryParse(json['ACC_NUMBER']?.toString() ?? '0') ?? 0,
       accName: json['ACC_NAME'] ?? '',
       accPhone: json['ACC_PHONE'],
@@ -55,6 +59,7 @@ class AccountModel {
   Map<String, dynamic> toMap() {
     return {
       'database_name': 'itechsy_test',
+      'ACC_ID': accID.toString(),
       'ACC_NUMBER': accNumber.toString(),
       'ACC_NAME': accName,
       'ACC_PHONE': accPhone ?? '',

@@ -68,7 +68,7 @@ class Template extends StatelessWidget {
               (context) => const MaterialClassificationsView(),
           EditProdictView.id: (context) => EditProdictView(),
           TreeAccountsView.id: (context) => TreeAccountsView(),
-          AddAccountView.id: (context) => AddAccountView(),
+          AddAccountAndUpdateView.id: (context) => AddAccountAndUpdateView(),
         },
         initialRoute: HomeView.id,
       ),

@@ -6,7 +6,8 @@ class RowNameClassifications extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.categoryName,
-    required this.onPressed, this.onChanged,
+    required this.onPressed,
+    this.onChanged,
   });
   final String hintText;
   final TextEditingController categoryName;

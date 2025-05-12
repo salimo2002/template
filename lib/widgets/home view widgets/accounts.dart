@@ -23,7 +23,7 @@ class Accounts extends StatelessWidget {
             icon1: FontAwesomeIcons.faceSmileBeam,
             icon2: FontAwesomeIcons.grinStars,
             onTap1: () {
-              Navigator.pushNamed(context, AddAccountView.id);
+              Navigator.pushNamed(context, AddAccountAndUpdateView.id);
             },
             onTap2: () {},
             text2: 'الزبائن',
