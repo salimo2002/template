@@ -120,15 +120,6 @@ class _NewItemViewState extends State<EditProdictView> {
 
   @override
   Widget build(BuildContext context) {
-    context.read<CategoryCubit>().categories.forEach((element) {
-      if (argumentsMaterial.parentId == element.matId) {
-        category = element.matName;
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(
         context: context,
@@ -201,7 +192,8 @@ class _NewItemViewState extends State<EditProdictView> {
                                       .categories
                                       .forEach((element) {
                                         if (categoryName == element.matName) {
-                                          newCategoryMatId = element.matId;
+                                          newCategoryMatId.value =
+                                              element.matId;
                                           log(newCategoryMatId.toString());
                                         }
                                       });
