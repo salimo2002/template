@@ -64,11 +64,7 @@ class _NewItemViewState extends State<EditProdictView> {
       labels.value[0] = unit1.text;
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       labels.notifyListeners();
-      newCategoryMatId.addListener(() {
-        log(
-          'Listener - newCategoryMatId changed to: ${newCategoryMatId.value}',
-        );
-      });
+      newCategoryMatId.addListener(() {});
     });
 
     unit2.addListener(() {
@@ -119,11 +115,7 @@ class _NewItemViewState extends State<EditProdictView> {
     final ValueNotifier<int> newCategoryMatId = ValueNotifier(0);
 
     newCategoryMatId.value = argumentsMaterial.parentId;
-
     context.read<CategoryCubit>().categories.forEach((element) {
-      log(
-        'Checking element: ${element.matId}, ParentId: ${argumentsMaterial.parentId}',
-      );
       if (argumentsMaterial.parentId == element.matId) {
         category = element.matName;
       }
@@ -198,9 +190,6 @@ class _NewItemViewState extends State<EditProdictView> {
                               return DropDownMenuAndDetails(
                                 value: category,
                                 onChanged: (categoryName) {
-                                  log(
-                                    'Before change - newCategoryMatId: ${newCategoryMatId.value}',
-                                  );
                                   if (categoryName != null) {
                                     final categoryCubit =
                                         context.read<CategoryCubit>();
@@ -218,9 +207,7 @@ class _NewItemViewState extends State<EditProdictView> {
 
                                     newCategoryMatId.value =
                                         selectedCategory.matId;
-                                    log(
-                                      'Updated newCategoryMatId: ${newCategoryMatId.value}',
-                                    );
+
                                     category = categoryName;
                                   }
                                 },
@@ -330,9 +317,6 @@ class _NewItemViewState extends State<EditProdictView> {
                     return SaveAndExitButton(
                       onPressed: () async {
                         if (globalKey.currentState!.validate()) {
-                          log(
-                            'Final check - newCategoryMatId: ${newCategoryMatId.value}, arguments.parentId: ${argumentsMaterial.parentId}',
-                          );
                           await context.read<MaterialCubit>().updateMaterial(
                             MaterialModel(
                               materialId: argumentsMaterial.materialId,
