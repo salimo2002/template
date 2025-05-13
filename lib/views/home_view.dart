@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/Service/acconts_Get_perint_id_zero_service.dart';
 import 'package:template/Service/account_service%20.dart';
 import 'package:template/account%20service/accounts_cubit.dart';
 import 'package:template/category%20cubit/category_cubit.dart';
@@ -51,6 +52,7 @@ class _HomeViewState extends State<HomeView> {
             onPressed: () async {
               MaterialServices.fetchMaterials();
               AccountService.fetchAccounts();
+              AccontsGetPerintIdZeroService.accontsGetPerintIdZero();
             },
             icon: Icon(Icons.more_vert_outlined),
           ),
