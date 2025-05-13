@@ -41,12 +41,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
       TextEditingController();
   final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
   final GlobalKey<FormState> globalKey = GlobalKey();
-  late int parentId =
-      context
-          .read<CategoryCubit>()
-          .categories[0]
-          .matId; ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+  late int parentId = context.read<CategoryCubit>().categories[0].matId;
   final ValueNotifier<List<String>> labels = ValueNotifier<List<String>>([
     '',
     '',
@@ -163,7 +158,6 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                               ) {
                                 if (p0 == element.matName) {
                                   parentId = element.matId;
-                                  print(parentId);
                                 }
                               });
                             },
@@ -257,13 +251,12 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                     return SaveAndExitButton(
                       onPressed: () async {
                         if (globalKey.currentState!.validate()) {
-                          final materialNumber =
-                              Random().nextInt(1000000).toString();
                           await context.read<MaterialCubit>().insertMaterial(
                             MaterialModel(
                               materialUnit: unit1.text,
                               materialId: 0,
-                              materialNumber: materialNumber,
+                              materialNumber:
+                                  Random().nextInt(1000000).toString(),
                               materialName: materialName.text,
                               materialCode: baraCode1.text,
                               materialPrice1:

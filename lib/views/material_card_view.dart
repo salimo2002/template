@@ -35,11 +35,7 @@ class MaterialCardView extends StatelessWidget {
               tooltip: 'ادخال بطاقة مادة',
               backgroundColor: kBlueAccent,
               onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  NewMaterialView.id,
-                  arguments: {'materials': null, 'isNew': true},
-                );
+                Navigator.pushNamed(context, NewMaterialView.id);
               },
               child: Icon(Icons.add_circle, color: kWhite),
             ),
@@ -82,18 +78,14 @@ class MaterialCardView extends StatelessWidget {
               ),
             ),
           );
-        } else if (state is LoadingState) {
-          return Scaffold(
-            body: Center(child: CircularProgressIndicator(color: kBlueAccent)),
-          );
-        } else {
+        } else if (state is FaliureState) {
           return Scaffold(
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'حدث خطأ حاول مجددا',
+                    state.errorMessage,
                     style: FontStyleApp.black18.copyWith(
                       fontSize: getResponsiveText(context, 18),
                     ),
@@ -113,6 +105,8 @@ class MaterialCardView extends StatelessWidget {
               ),
             ),
           );
+        } else {
+          return Scaffold();
         }
       },
     );

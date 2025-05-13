@@ -27,7 +27,6 @@ class DropDownMenuAndDetails extends StatelessWidget {
             textDirection: TextDirection.rtl,
             child: DropdownButtonFormField<String>(
               value: value.isNotEmpty ? value : null,
-
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: kBlueAccent),

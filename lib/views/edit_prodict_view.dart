@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,14 +37,10 @@ class _NewItemViewState extends State<EditProdictView> {
   final TextEditingController unit2Num = TextEditingController();
   final TextEditingController price2 = TextEditingController();
   final TextEditingController baraCode2 = TextEditingController();
-  final TextEditingController convertOperatorTextField =
-      TextEditingController();
-
   final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
   final ValueNotifier<int> selectedKind = ValueNotifier<int>(0);
-  final ValueNotifier<int> newCategoryMatId = ValueNotifier<int>(
-    0,
-  ); ////////////
+  final TextEditingController convertOperatorTextField =
+      TextEditingController();
   final GlobalKey<FormState> globalKey = GlobalKey();
   final ValueNotifier<List<String>> labels = ValueNotifier<List<String>>([
     '',
@@ -53,10 +48,12 @@ class _NewItemViewState extends State<EditProdictView> {
     '',
   ]);
   ValueNotifier<String> imageUpdate = ValueNotifier('');
-  late MaterialModel argumentsMaterial;
+  late MaterialModel argumentsMaterial =
+      ModalRoute.of(context)!.settings.arguments as MaterialModel;
   String materialImagePath = '';
   String image = '';
   String category = '';
+  late int parentId;
   @override
   void initState() {
     unit1.addListener(() {
@@ -64,7 +61,6 @@ class _NewItemViewState extends State<EditProdictView> {
       labels.value[0] = unit1.text;
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       labels.notifyListeners();
-      newCategoryMatId.addListener(() {});
     });
 
     unit2.addListener(() {
@@ -72,7 +68,6 @@ class _NewItemViewState extends State<EditProdictView> {
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       labels.notifyListeners();
     });
-
     super.initState();
   }
 
@@ -90,15 +85,11 @@ class _NewItemViewState extends State<EditProdictView> {
     unit2.dispose();
     labels.dispose();
     isSelected.dispose();
-    newCategoryMatId.dispose();
     super.dispose();
   }
 
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
-    argumentsMaterial =
-        ModalRoute.of(context)!.settings.arguments as MaterialModel;
     isSelected.value = argumentsMaterial.materialUnitDefault;
     materialName.text = argumentsMaterial.materialName;
     baraCode1.text = argumentsMaterial.materialCode;
@@ -112,14 +103,13 @@ class _NewItemViewState extends State<EditProdictView> {
     convertOperatorTextField.text =
         argumentsMaterial.materialUnit2Number.toString();
     image = argumentsMaterial.materialImage;
-    final ValueNotifier<int> newCategoryMatId = ValueNotifier(0);
-
-    newCategoryMatId.value = argumentsMaterial.parentId;
+    parentId = argumentsMaterial.parentId;
     context.read<CategoryCubit>().categories.forEach((element) {
       if (argumentsMaterial.parentId == element.matId) {
         category = element.matName;
       }
     });
+    super.didChangeDependencies();
   }
 
   @override
@@ -184,34 +174,16 @@ class _NewItemViewState extends State<EditProdictView> {
                       ),
                       ContainerFields(
                         children: [
-                          ValueListenableBuilder<int>(
-                            valueListenable: selectedKind,
-                            builder: (context, value, _) {
-                              return DropDownMenuAndDetails(
-                                value: category,
-                                onChanged: (categoryName) {
-                                  if (categoryName != null) {
-                                    final categoryCubit =
-                                        context.read<CategoryCubit>();
-                                    final selectedCategory = categoryCubit
-                                        .categories
-                                        .firstWhere(
-                                          (element) =>
-                                              categoryName == element.matName,
-                                          orElse:
-                                              () =>
-                                                  categoryCubit
-                                                      .categories
-                                                      .first,
-                                        );
-
-                                    newCategoryMatId.value =
-                                        selectedCategory.matId;
-
-                                    category = categoryName;
-                                  }
-                                },
-                              );
+                          DropDownMenuAndDetails(
+                            value: category,
+                            onChanged: (categoryName) {
+                              context.read<CategoryCubit>().categories.forEach((
+                                element,
+                              ) {
+                                if (categoryName == element.matName) {
+                                  parentId = element.matId;
+                                }
+                              });
                             },
                           ),
                         ],
@@ -297,7 +269,6 @@ class _NewItemViewState extends State<EditProdictView> {
                       ),
                     );
                   } else if (state is SuccessState) {
-                    log('Final Category ID: ${newCategoryMatId.value}');
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -339,10 +310,7 @@ class _NewItemViewState extends State<EditProdictView> {
                               materialKind: 0,
                               materialUnitDefault: isSelected.value ?? 1,
                               materialImage: materialImagePath,
-                              parentId:
-                                  newCategoryMatId.value == 0
-                                      ? argumentsMaterial.parentId
-                                      : newCategoryMatId.value,
+                              parentId: parentId,
                               materiaUnit2Baracode: baraCode2.text,
                             ),
                           );
@@ -366,3 +334,23 @@ class _NewItemViewState extends State<EditProdictView> {
     );
   }
 }
+//  if (categoryName != null) {
+//                                     final categoryCubit =
+//                                         context.read<CategoryCubit>();
+//                                     final selectedCategory = categoryCubit
+//                                         .categories
+//                                         .firstWhere(
+//                                           (element) =>
+//                                               categoryName == element.matName,
+//                                           orElse:
+//                                               () =>
+//                                                   categoryCubit
+//                                                       .categories
+//                                                       .first,
+//                                         );
+
+//                                     newCategoryMatId.value =
+//                                         selectedCategory.matId;
+
+//                                     category = categoryName;
+//                                   }
