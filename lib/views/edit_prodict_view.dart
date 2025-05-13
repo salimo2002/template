@@ -54,6 +54,7 @@ class _NewItemViewState extends State<EditProdictView> {
   String image = '';
   String category = '';
   late int parentId;
+  bool _isInit = true;
   @override
   void initState() {
     unit1.addListener(() {
@@ -90,25 +91,33 @@ class _NewItemViewState extends State<EditProdictView> {
 
   @override
   void didChangeDependencies() {
-    isSelected.value = argumentsMaterial.materialUnitDefault;
-    materialName.text = argumentsMaterial.materialName;
-    baraCode1.text = argumentsMaterial.materialCode;
-    baraCode2.text = argumentsMaterial.materiaUnit2Baracode;
-    unit1.text = argumentsMaterial.materialUnit;
-    unit2.text = argumentsMaterial.materialUnit2;
-    purchasePrice.text = argumentsMaterial.materialPrice1.toString();
-    price1.text = argumentsMaterial.materialPrice3.toString();
-    price2.text = argumentsMaterial.materialUnit2Price3.toString();
-    unit2Num.text = argumentsMaterial.materialUnit.toString();
-    convertOperatorTextField.text =
-        argumentsMaterial.materialUnit2Number.toString();
-    image = argumentsMaterial.materialImage;
-    parentId = argumentsMaterial.parentId;
-    context.read<CategoryCubit>().categories.forEach((element) {
-      if (argumentsMaterial.parentId == element.matId) {
-        category = element.matName;
-      }
-    });
+    if (_isInit) {
+      log('didChangeDependencies - init');
+
+      argumentsMaterial =
+          ModalRoute.of(context)!.settings.arguments as MaterialModel;
+      isSelected.value = argumentsMaterial.materialUnitDefault;
+      materialName.text = argumentsMaterial.materialName;
+      baraCode1.text = argumentsMaterial.materialCode;
+      baraCode2.text = argumentsMaterial.materiaUnit2Baracode;
+      unit1.text = argumentsMaterial.materialUnit;
+      unit2.text = argumentsMaterial.materialUnit2;
+      purchasePrice.text = argumentsMaterial.materialPrice1.toString();
+      price1.text = argumentsMaterial.materialPrice3.toString();
+      price2.text = argumentsMaterial.materialUnit2Price3.toString();
+      unit2Num.text = argumentsMaterial.materialUnit.toString();
+      convertOperatorTextField.text =
+          argumentsMaterial.materialUnit2Number.toString();
+      image = argumentsMaterial.materialImage;
+
+      context.read<CategoryCubit>().categories.forEach((element) {
+        if (argumentsMaterial.parentId == element.matId) {
+          category = element.matName;
+        }
+      });
+
+      _isInit = false;
+    }
     super.didChangeDependencies();
   }
 

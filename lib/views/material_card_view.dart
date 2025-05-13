@@ -80,12 +80,16 @@ class MaterialCardView extends StatelessWidget {
           );
         } else if (state is FaliureState) {
           return Scaffold(
+            body: Center(child: CircularProgressIndicator(color: kBlueAccent)),
+          );
+        } else {
+          return Scaffold(
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    state.errorMessage,
+                    'حدث خطأ حاول مجددا',
                     style: FontStyleApp.black18.copyWith(
                       fontSize: getResponsiveText(context, 18),
                     ),
@@ -105,8 +109,6 @@ class MaterialCardView extends StatelessWidget {
               ),
             ),
           );
-        } else {
-          return Scaffold();
         }
       },
     );
