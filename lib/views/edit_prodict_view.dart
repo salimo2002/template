@@ -2,9 +2,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:template/category cubit/category_cubit.dart';
-import 'package:template/material cubit/material_cubit.dart';
-import 'package:template/material cubit/material_status.dart';
+import 'package:template/category%20cubit/category_cubit.dart';
+import 'package:template/material%20cubit/material_cubit.dart';
+import 'package:template/material%20cubit/material_status.dart';
 import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
@@ -24,10 +24,10 @@ class EditProdictView extends StatefulWidget {
   static String id = 'EditProdictView';
 
   @override
-  State<EditProdictView> createState() => _EditProdictViewState();
+  State<EditProdictView> createState() => _NewItemViewState();
 }
 
-class _EditProdictViewState extends State<EditProdictView> {
+class _NewItemViewState extends State<EditProdictView> {
   final TextEditingController materialName = TextEditingController();
   final TextEditingController baraCode1 = TextEditingController();
   final TextEditingController unit1 = TextEditingController();
@@ -39,9 +39,8 @@ class _EditProdictViewState extends State<EditProdictView> {
   final TextEditingController baraCode2 = TextEditingController();
   final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
   final ValueNotifier<int> selectedKind = ValueNotifier<int>(0);
-  final ValueNotifier<int> newCategoryMatId = ValueNotifier<int>(
-    0,
-  ); ////////////
+  final TextEditingController convertOperatorTextField =
+      TextEditingController();
   final GlobalKey<FormState> globalKey = GlobalKey();
   final ValueNotifier<List<String>> labels = ValueNotifier<List<String>>([
     '',
@@ -49,15 +48,14 @@ class _EditProdictViewState extends State<EditProdictView> {
     '',
   ]);
   ValueNotifier<String> imageUpdate = ValueNotifier('');
-  late MaterialModel argumentsMaterial;
+  late MaterialModel argumentsMaterial =
+      ModalRoute.of(context)!.settings.arguments as MaterialModel;
   String materialImagePath = '';
   String image = '';
   String category = '';
+  late int parentId;
   @override
   void initState() {
-    super.initState();
-    log('initState');
-
     unit1.addListener(() {
       unit2Num.text = unit1.text;
       labels.value[0] = unit1.text;
@@ -70,7 +68,6 @@ class _EditProdictViewState extends State<EditProdictView> {
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       labels.notifyListeners();
     });
-
     super.initState();
   }
 
@@ -88,15 +85,11 @@ class _EditProdictViewState extends State<EditProdictView> {
     unit2.dispose();
     labels.dispose();
     isSelected.dispose();
-    newCategoryMatId.dispose();
     super.dispose();
   }
 
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
-    argumentsMaterial =
-        ModalRoute.of(context)!.settings.arguments as MaterialModel;
     isSelected.value = argumentsMaterial.materialUnitDefault;
     materialName.text = argumentsMaterial.materialName;
     baraCode1.text = argumentsMaterial.materialCode;
@@ -110,24 +103,21 @@ class _EditProdictViewState extends State<EditProdictView> {
     convertOperatorTextField.text =
         argumentsMaterial.materialUnit2Number.toString();
     image = argumentsMaterial.materialImage;
-    final ValueNotifier<int> newCategoryMatId = ValueNotifier(0);
-
-    newCategoryMatId.value = argumentsMaterial.parentId;
+    parentId = argumentsMaterial.parentId;
     context.read<CategoryCubit>().categories.forEach((element) {
       if (argumentsMaterial.parentId == element.matId) {
         category = element.matName;
       }
     });
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    log(baraCode2.text);
-
     return Scaffold(
       appBar: customAppBar(
         context: context,
-        title: 'تعديل المادة',
+        title: 'مادة جديدة',
         showIcons: false,
       ),
       body: SafeArea(
@@ -184,34 +174,16 @@ class _EditProdictViewState extends State<EditProdictView> {
                       ),
                       ContainerFields(
                         children: [
-                          ValueListenableBuilder<int>(
-                            valueListenable: selectedKind,
-                            builder: (context, value, _) {
-                              return DropDownMenuAndDetails(
-                                value: category,
-                                onChanged: (categoryName) {
-                                  if (categoryName != null) {
-                                    final categoryCubit =
-                                        context.read<CategoryCubit>();
-                                    final selectedCategory = categoryCubit
-                                        .categories
-                                        .firstWhere(
-                                          (element) =>
-                                              categoryName == element.matName,
-                                          orElse:
-                                              () =>
-                                                  categoryCubit
-                                                      .categories
-                                                      .first,
-                                        );
-
-                                    newCategoryMatId.value =
-                                        selectedCategory.matId;
-
-                                    category = categoryName;
-                                  }
-                                },
-                              );
+                          DropDownMenuAndDetails(
+                            value: category,
+                            onChanged: (categoryName) {
+                              context.read<CategoryCubit>().categories.forEach((
+                                element,
+                              ) {
+                                if (categoryName == element.matName) {
+                                  parentId = element.matId;
+                                }
+                              });
                             },
                           ),
                         ],
@@ -289,7 +261,7 @@ class _EditProdictViewState extends State<EditProdictView> {
                       SnackBar(
                         backgroundColor: kRed,
                         content: Text(
-                          'حدث خطأ أثناء التعديل',
+                          'حدث خطأ أثناء الإضافة',
                           style: FontStyleApp.white18.copyWith(
                             fontSize: getResponsiveText(context, 12),
                           ),
@@ -346,12 +318,12 @@ class _EditProdictViewState extends State<EditProdictView> {
                       },
                     );
                   } else if (state is LoadingState) {
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CircularProgressIndicator(color: kBlueAccent),
                     );
                   } else {
-                    return const SizedBox();
+                    return SizedBox();
                   }
                 },
               ),
