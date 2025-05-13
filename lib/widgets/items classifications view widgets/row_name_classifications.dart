@@ -6,12 +6,10 @@ class RowNameClassifications extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.categoryName,
-    required this.onPressed,
     this.onChanged,
   });
   final String hintText;
   final TextEditingController categoryName;
-  final VoidCallback onPressed;
   final void Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
@@ -19,7 +17,7 @@ class RowNameClassifications extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: IconButton(onPressed: onPressed, icon: Icon(Icons.search)),
+          child: Icon(Icons.search, color: kWhite),
         ),
         Flexible(
           child: SizedBox(

@@ -102,9 +102,7 @@ class _MaterialClassificationsViewState
                 child: Column(
                   children: [
                     SearchByName(
-                      onPressed: () {},
                       categoryName: searchController,
-
                       onChanged: _filterCategories,
                     ),
                     SizedBox(height: MediaQuery.sizeOf(context).height * 0.005),
@@ -149,6 +147,7 @@ class _MaterialClassificationsViewState
                                               categoryNameUpdate,
                                           onTap: () async {
                                             Navigator.pop(context);
+
                                             await context
                                                 .read<CategoryCubit>()
                                                 .updateCategory(

@@ -18,7 +18,6 @@ class CustomTextFormField extends StatelessWidget {
         controller: categoryNameUpdate,
         textDirection: TextDirection.rtl,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(left: 240),
           hintTextDirection: TextDirection.rtl,
           fillColor: kWhite,
           filled: true,
