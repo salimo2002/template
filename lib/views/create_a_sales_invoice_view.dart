@@ -14,7 +14,8 @@ class CreateASalesInvoiceView extends StatefulWidget {
   static String id = 'CreateASalesInvoice';
 
   @override
-  State<CreateASalesInvoiceView> createState() => _CreateASalesInvoiceViewState();
+  State<CreateASalesInvoiceView> createState() =>
+      _CreateASalesInvoiceViewState();
 }
 
 class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
@@ -195,7 +196,12 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
             child: CustomContainer(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text('بنود : 1 |كمية : 0 | مجموع : 5 ل.س')],
+                children: [
+                  Text(
+                    'بنود : 1 |كمية : 0 | مجموع : 5 ل.س',
+                    style: TextStyle(fontSize: getResponsiveText(context, 16)),
+                  ),
+                ],
               ),
             ),
           ),
