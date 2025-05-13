@@ -6,7 +6,7 @@ import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/views/add_account_and_update_view.dart';
-import 'package:template/views/create_a_sales_Invoice.dart';
+import 'package:template/views/create_a_sales_invoice_view.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/views/material_card_view.dart';
 import 'package:template/views/material_classifications_view.dart';
@@ -70,7 +70,7 @@ class Template extends StatelessWidget {
           EditProdictView.id: (context) => EditProdictView(),
           TreeAccountsView.id: (context) => TreeAccountsView(),
           AddAccountAndUpdateView.id: (context) => AddAccountAndUpdateView(),
-          CreateASalesInvoice.id: (context) => CreateASalesInvoice(),
+          CreateASalesInvoiceView.id: (context) => CreateASalesInvoiceView(),
         },
         initialRoute: HomeView.id,
       ),
