@@ -295,6 +295,7 @@ class _NewItemViewState extends State<EditProdictView> {
                 builder: (context, state) {
                   if (state is SuccessState) {
                     return SaveAndExitButton(
+                      text: 'حفظ و انهاء',
                       onPressed: () async {
                         if (globalKey.currentState!.validate()) {
                           await context.read<MaterialCubit>().updateMaterial(

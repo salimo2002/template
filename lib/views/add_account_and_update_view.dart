@@ -148,6 +148,7 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
               ),
             ),
             SaveAndExitButton(
+              text: 'حفظ و انهاء',
               onPressed: () {
                 if (nameAcc.text.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(

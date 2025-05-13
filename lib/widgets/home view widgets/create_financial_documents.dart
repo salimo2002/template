@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:template/utils/constants.dart';
+import 'package:template/views/create_a_sales_Invoice.dart';
 import 'package:template/widgets/home%20view%20widgets/button_check_price.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
@@ -26,7 +27,9 @@ class CreateFinancialDocuments extends StatelessWidget {
             icon1: FontAwesomeIcons.fileCirclePlus,
             icon2: FontAwesomeIcons.fileCirclePlus,
             onTap1: () {},
-            onTap2: () {},
+            onTap2: () {
+              Navigator.pushNamed(context, CreateASalesInvoice.id);
+            },
             text2: 'فاتورة مبيعات جديدة',
             text1: 'فاتورة مشتريات جديدة',
           ),
