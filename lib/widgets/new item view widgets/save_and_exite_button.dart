@@ -3,8 +3,13 @@ import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 
 class SaveAndExitButton extends StatelessWidget {
-  const SaveAndExitButton({super.key, required this.onPressed});
+  const SaveAndExitButton({
+    super.key,
+    required this.onPressed,
+    required this.text,
+  });
   final VoidCallback onPressed;
+  final String text;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -13,7 +18,7 @@ class SaveAndExitButton extends StatelessWidget {
         width: double.infinity,
         height: 40,
         decoration: BoxDecoration(color: kBlueAccent),
-        child: Center(child: Text('حفظ وإنهاء', style: FontStyleApp.white18)),
+        child: Center(child: Text(text, style: FontStyleApp.white18)),
       ),
     );
   }

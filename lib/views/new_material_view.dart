@@ -249,6 +249,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                 builder: (context, state) {
                   if (state is SuccessState) {
                     return SaveAndExitButton(
+                      text: 'حفظ و انهاء',
                       onPressed: () async {
                         if (globalKey.currentState!.validate()) {
                           await context.read<MaterialCubit>().insertMaterial(
