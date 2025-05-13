@@ -1,7 +1,6 @@
 class AccountModel {
   final int accNumber;
   final int? accID;
-
   final String accName;
   final String? accPhone;
   final String? accMobile;

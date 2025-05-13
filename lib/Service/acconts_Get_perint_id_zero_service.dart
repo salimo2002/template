@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-class AccontsGetPerintIdZeroService {
+class ParentAccountsService {
   static const String _accontsGetPerintIdZero =
       'https://www.itech-sy.com/api/acconts_get_perintId_zero_in.php';
 

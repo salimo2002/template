@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:template/account%20service/accounts_cubit.dart';
-import 'package:template/account%20service/accounts_status.dart';
+import 'package:template/account%20cubit/accounts_cubit.dart';
+import 'package:template/account%20cubit/accounts_status.dart';
+import 'package:template/models/acconts_get_perint_id_zero.dart';
 import 'package:template/models/account_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
@@ -14,6 +17,7 @@ class TreeAccountsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<AccountModel> filterAccounts = [];
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -42,13 +46,7 @@ class TreeAccountsView extends StatelessWidget {
           builder: (context, state) {
             if (state is SuccessStateAccounts) {
               List<AccountModel> allAccounts = state.accounts;
-              List primaryAccount = [];
-              for (var i = 0; i < allAccounts.length; i++) {
-                if (allAccounts[i].parentId == 0) {
-                  primaryAccount.add(allAccounts[i].accName);
-                  print(primaryAccount);
-                }
-              }
+              List<ParentAccountsModel> parentsAccounts = state.parentsAccounts;
               return ListView(
                 children: [
                   InkWell(
@@ -65,8 +63,8 @@ class TreeAccountsView extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.only(right: 20),
                               child: ListView.builder(
-                                itemCount: primaryAccount.length,
-                                itemBuilder: (context, index) {
+                                itemCount: parentsAccounts.length,
+                                itemBuilder: (context, indexx) {
                                   return InkWell(
                                     child: Directionality(
                                       textDirection: TextDirection.rtl,
@@ -98,7 +96,7 @@ class TreeAccountsView extends StatelessWidget {
                                                       arguments: {
                                                         'account':
                                                             state
-                                                                .accounts[index],
+                                                                .accounts[indexx],
                                                         'isNew': false,
                                                       },
                                                     );
@@ -149,7 +147,7 @@ class TreeAccountsView extends StatelessWidget {
                                                                     >()
                                                                     .deleteAccount(
                                                                       state
-                                                                          .accounts[index]
+                                                                          .accounts[indexx]
                                                                           .accID!,
                                                                     );
                                                               },
@@ -171,13 +169,13 @@ class TreeAccountsView extends StatelessWidget {
                                               right: 10,
                                             ),
                                             child: IconAndDividerInTree(
-                                              text: primaryAccount[index],
+                                              text:
+                                                  parentsAccounts[indexx]
+                                                      .namePierint,
                                             ),
                                           ),
                                         ),
                                         children: [
-                                          /////////////////////////
-                                          ///
                                           Padding(
                                             padding: const EdgeInsets.only(
                                               right: 20,
@@ -186,8 +184,18 @@ class TreeAccountsView extends StatelessWidget {
                                               height: 300,
                                               child: ListView.builder(
                                                 itemCount:
-                                                    primaryAccount.length,
+                                                    filterAcounts(
+                                                      indexx,
+                                                      state.accounts,
+                                                      state.parentsAccounts,
+                                                    ).length,
                                                 itemBuilder: (context, index) {
+                                                  filterAccounts =
+                                                      filterAcounts(
+                                                        indexx,
+                                                        state.accounts,
+                                                        state.parentsAccounts,
+                                                      );
                                                   return InkWell(
                                                     child: Directionality(
                                                       textDirection:
@@ -312,8 +320,7 @@ class TreeAccountsView extends StatelessWidget {
                                                                 ),
                                                             child: IconAndDividerInTree(
                                                               text:
-                                                                  state
-                                                                      .accounts[index]
+                                                                  filterAccounts[index]
                                                                       .accName,
                                                             ),
                                                           ),
@@ -340,13 +347,29 @@ class TreeAccountsView extends StatelessWidget {
                   ),
                 ],
               );
+            } else if (state is FaliureStateAccounts) {
+              return Center(child: Text(state.errorMessage));
             } else {
-              return SizedBox();
+              return CircularProgressIndicator();
             }
           },
         ),
       ),
     );
+  }
+
+  List<AccountModel> filterAcounts(
+    int index,
+    List<AccountModel> acc,
+    List<ParentAccountsModel> acco,
+  ) {
+    List<AccountModel> filterAccounts = [];
+    for (var i = 0; i < acc.length; i++) {
+      if (acc[i].parentId.toString() == acco[index].idPierint) {
+        filterAccounts.add(acc[i]);
+      }
+    }
+    return filterAccounts;
   }
 }
 

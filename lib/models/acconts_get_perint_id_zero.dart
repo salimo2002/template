@@ -1,10 +1,10 @@
-class AccontsGetPerintIdZero {
-  final int? idPierint;
+class ParentAccountsModel {
+  final String idPierint;
   final String namePierint;
-  AccontsGetPerintIdZero({this.idPierint, required this.namePierint});
-  factory AccontsGetPerintIdZero.fromJson(json) {
-    return AccontsGetPerintIdZero(
-      idPierint: int.parse(json['ACC_ID'].toString()),
+  ParentAccountsModel({required this.idPierint, required this.namePierint});
+  factory ParentAccountsModel.fromJson(json) {
+    return ParentAccountsModel(
+      idPierint: json['ACC_ID'],
       namePierint: json['ACC_NAME'],
     );
   }
