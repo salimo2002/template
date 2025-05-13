@@ -22,9 +22,7 @@ class Accounts extends StatelessWidget {
           RowCustomButton(
             icon1: FontAwesomeIcons.faceSmileBeam,
             icon2: FontAwesomeIcons.grinStars,
-            onTap1: () {
-              Navigator.pushNamed(context, AddAccountAndUpdateView.id);
-            },
+            onTap1: () {},
             onTap2: () {},
             text2: 'الزبائن',
             text1: 'الموردين',
