@@ -30,7 +30,7 @@ class MaterialModel {
     required this.materialUnitDefault,
     required this.materialImage,
     required this.parentId,
-    required this.materiaUnit2Baracode
+    required this.materiaUnit2Baracode,
   });
 
   factory MaterialModel.fromJson(Map<String, dynamic> json) {
@@ -38,7 +38,7 @@ class MaterialModel {
       materialId: int.parse(json['mat_id']),
       materialNumber: json['mat_number'],
       materialName: json['mat_name'],
-      materialCode: json['mat_code']??'',
+      materialCode: json['mat_code'] ?? '',
       materialPrice1: double.parse(json['mat_price1']),
       materialPrice3: double.parse(json['mat_price3']),
       materialUnit: json['mat_unit'],
@@ -49,7 +49,7 @@ class MaterialModel {
       materialUnitDefault: int.parse(json['mat_unit_default']),
       materialImage: json['mat_image'],
       parentId: int.parse(json['parent_id']),
-      materiaUnit2Baracode: json['mat_unit2_code']??''
+      materiaUnit2Baracode: json['mat_unit2_code'] ?? '',
     );
   }
   Map<String, String> toMap() {
@@ -68,7 +68,7 @@ class MaterialModel {
       'mat_unit_default': materialUnitDefault.toString(),
       'mat_image': materialImage,
       'PARENT_ID': parentId.toString(),
-      'mat_unit2_code':materiaUnit2Baracode
+      'mat_unit2_code': materiaUnit2Baracode,
     };
   }
 }
