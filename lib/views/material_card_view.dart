@@ -78,7 +78,7 @@ class MaterialCardView extends StatelessWidget {
               ),
             ),
           );
-        } else if (state is FaliureState) {
+        } else if (state is LoadingState) {
           return Scaffold(
             body: Center(child: CircularProgressIndicator(color: kBlueAccent)),
           );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
+import 'package:template/category%20cubit/category_cubit.dart';
 import 'package:template/material%20cubit/material_cubit.dart';
 import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
@@ -8,7 +9,7 @@ import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/column_countity.dart';
 
-class ContainerItemCountity extends StatelessWidget {
+class ContainerItemCountity extends StatefulWidget {
   const ContainerItemCountity({
     super.key,
     required this.material,
@@ -19,6 +20,24 @@ class ContainerItemCountity extends StatelessWidget {
   final MaterialModel material;
   final int index;
   final VoidCallback openItemCard;
+
+  @override
+  State<ContainerItemCountity> createState() => _ContainerItemCountityState();
+}
+
+
+class _ContainerItemCountityState extends State<ContainerItemCountity> {
+late String categoryName;
+@override
+  void initState() {
+    context.read<CategoryCubit>().categories.forEach((element) {
+      if (widget.material.parentId== element.matId) {
+        categoryName=element.matName;
+      }
+    },);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -36,7 +55,7 @@ class ContainerItemCountity extends StatelessWidget {
               child: ListTile(
                 leading: Icon(Icons.visibility),
                 title: Text('فتح بطاقة المادة'),
-                onTap: openItemCard,
+                onTap: widget.openItemCard,
               ),
             ),
             PopupMenuItem(
@@ -79,7 +98,7 @@ class ContainerItemCountity extends StatelessWidget {
                             onPressed: () {
                               Navigator.pop(context);
                               context.read<MaterialCubit>().deleteMaterial(
-                                material,
+                                widget.material,
                               );
                             },
                             child: Text('نعم'),
@@ -116,7 +135,7 @@ class ContainerItemCountity extends StatelessWidget {
             children: [
               FittedBox(
                 child: Text(
-                  material.materialName,
+                  widget.material.materialName,
                   style: FontStyleApp.black18.copyWith(
                     fontSize: getResponsiveText(context, 14),
                   ),
@@ -124,7 +143,7 @@ class ContainerItemCountity extends StatelessWidget {
               ),
               FittedBox(
                 child: Text(
-                  ' -${index.toString()}',
+                  ' -${widget.index.toString()}',
                   style: FontStyleApp.black18.copyWith(
                     fontSize: getResponsiveText(context, 16),
                   ),
@@ -136,7 +155,7 @@ class ContainerItemCountity extends StatelessWidget {
           SizedBox(height: 10),
           FittedBox(
             child: Text(
-              'عام', // التصنيف
+              categoryName, // التصنيف
               style: FontStyleApp.green14.copyWith(
                 fontSize: getResponsiveText(context, 14),
               ),
@@ -159,11 +178,11 @@ class ContainerItemCountity extends StatelessWidget {
                   children: [
                     ColumnCountity(countity: '0', nameCountity: 'المخزون'),
                     ColumnCountity(
-                      countity: material.materialPrice3.toString(),
+                      countity: widget.material.materialPrice3.toString(),
                       nameCountity: 'سعر المستهلك',
                     ),
                     ColumnCountity(
-                      countity: material.materialPrice1.toString(),
+                      countity: widget.material.materialPrice1.toString(),
                       nameCountity: 'سعر الجملة',
                     ),
                   ],
