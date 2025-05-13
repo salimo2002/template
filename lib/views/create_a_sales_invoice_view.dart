@@ -4,6 +4,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/responsive_text.dart';
+import 'package:template/views/invoice_details_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
@@ -206,7 +207,12 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
             ),
           ),
           SizedBox(height: 5),
-          SaveAndExitButton(onPressed: () {}, text: 'التالي'),
+          SaveAndExitButton(
+            onPressed: () {
+              Navigator.pushNamed(context, InvoiceDetailsView.id);
+            },
+            text: 'التالي',
+          ),
         ],
       ),
     );
