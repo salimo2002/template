@@ -126,6 +126,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "9.1.0"
+  flutter_custom_tree_view:
+    dependency: "direct main"
+    description:
+      name: flutter_custom_tree_view
+      sha256: "324532751f5bd7922fcdd2c6ad03b0f47fedb0e487f5ce30c2ed1644874f2319"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.8.0"
   flutter_lints:
     dependency: "direct dev"
     description:
