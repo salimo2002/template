@@ -152,6 +152,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_year_picker:
+    dependency: "direct main"
+    description:
+      name: flutter_year_picker
+      sha256: "202f09d0928af1cc9a8c577590396ed2d428bceb15151eba4e0f29983834feae"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   font_awesome_flutter:
     dependency: transitive
     description:
