@@ -133,6 +133,16 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
         Offset.zero & overlay.size,
       ),
       items: [
+         CheckedPopupMenuItem(
+          child: const Text('إضافة حساب'),
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              AddAccountAndUpdateView.id,
+              arguments: {'account': account, 'isNew': true},
+            );
+          },
+        ),
         CheckedPopupMenuItem(
           child: const Text('بطاقة حساب'),
           onTap: () {
