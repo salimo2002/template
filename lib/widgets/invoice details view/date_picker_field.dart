@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
@@ -46,32 +45,35 @@ class _DatePickerFieldState extends State<DatePickerField> {
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(5),
-              child: InkWell(
-                onTap: () => _selectDate(context),
-                child: IgnorePointer(
-                  child: EditableText(
-                    textAlign: TextAlign.end,
-                    controller: _dateController,
-                    focusNode: FocusNode(),
-                    style: TextStyle(fontSize: 16, color: Colors.black),
-                    cursorColor: Colors.blue,
-                    backgroundCursorColor: Colors.transparent,
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) => _selectedDate,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: InkWell(
+                  onTap: () => _selectDate(context),
+                  child: IgnorePointer(
+                    child: EditableText(
+                      textAlign: TextAlign.end,
+                      controller: _dateController,
+                      focusNode: FocusNode(),
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      cursorColor: Colors.blue,
+                      backgroundCursorColor: Colors.transparent,
+                      keyboardType: TextInputType.number,
+                      onChanged: (value) => _selectedDate,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          SizedBox(width: 30),
-          const Text('التاريخ'),
-        ],
+            SizedBox(width: 30),
+            const Text('التاريخ'),
+          ],
+        ),
       ),
     );
   }

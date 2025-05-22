@@ -2,26 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:template/utils/constants.dart';
-import 'package:template/utils/responsive_text.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
 
-class TextFieldAndBarcode extends StatefulWidget {
-  const TextFieldAndBarcode({
-    super.key,
-    required this.hintText,
-    required this.label,
-    required this.controller,
-  });
-
-  final String hintText;
-  final String label;
+class TextFieldBaracode extends StatefulWidget {
+  const TextFieldBaracode({super.key, required this.controller});
   final TextEditingController controller;
-
   @override
-  State<TextFieldAndBarcode> createState() => _TextFieldAndBarcodeState();
+  State<TextFieldBaracode> createState() => _TextFieldBaracodeState();
 }
 
-class _TextFieldAndBarcodeState extends State<TextFieldAndBarcode> {
+class _TextFieldBaracodeState extends State<TextFieldBaracode> {
   bool showScanner = false;
   final MobileScannerController scannerController = MobileScannerController();
 
@@ -35,26 +25,19 @@ class _TextFieldAndBarcodeState extends State<TextFieldAndBarcode> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            IconButton(
-              onPressed: _toggleScanner,
-              icon: const Icon(FontAwesomeIcons.barcode, color: kBlueAccent),
-            ),
-            SizedBox(width: 10),
-            Expanded(
-              child: CustomTextField(
-                hintText: widget.hintText,
-                controller: widget.controller,
-              ),
-            ),
-            const SizedBox(width: 10),
-            Text(
-              widget.label,
-              style: TextStyle(fontSize: getResponsiveText(context, 12)),
-            ),
-            SizedBox(width: 10),
-          ],
+        TextFieldAndDetails(
+          icon: IconButton(
+            onPressed: _toggleScanner,
+            icon: Icon(FontAwesomeIcons.barcode, size: 20, color: kBlueAccent),
+          ),
+          controller: widget.controller,
+          hintText: 'الباركود',
+          validator: (p0) {
+            if (p0 == null || p0.trim().isEmpty) {
+              return '! ادخل اسم المادة';
+            }
+            return null;
+          },
         ),
         if (showScanner)
           SizedBox(

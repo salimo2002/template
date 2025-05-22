@@ -82,7 +82,6 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                         children: [
                           TextFieldAndDetails(
                             hintText: 'العملاء و الزبائن',
-                            label: 'الحساب الرئيسي',
                             controller: TextEditingController(),
                           ),
                         ],
@@ -91,7 +90,6 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                         children: [
                           TextFieldAndDetails(
                             hintText: 'اسم الحساب',
-                            label: 'اسم الحساب',
                             controller: nameAcc,
                           ),
                         ],
@@ -100,7 +98,6 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                         children: [
                           TextFieldAndDetails(
                             hintText: 'رقم الهاتف',
-                            label: 'الهاتف',
                             controller: phonAcc,
                           ),
                         ],
@@ -109,7 +106,6 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                         children: [
                           TextFieldAndDetails(
                             hintText: 'رقم الموبايل',
-                            label: 'موبايل',
                             controller: mobileAcc,
                           ),
                         ],
@@ -118,7 +114,6 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                         children: [
                           TextFieldAndDetails(
                             hintText: 'العنوان',
-                            label: 'العنوان',
                             controller: addressAcc,
                           ),
                         ],
@@ -127,7 +122,6 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                         children: [
                           TextFieldAndDetails(
                             hintText: 'البريد الاكتروني',
-                            label: 'البريد',
                             controller: emailAcc,
                           ),
                         ],
@@ -136,7 +130,6 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                         children: [
                           TextFieldAndDetails(
                             hintText: 'الرقم الضريبي',
-                            label: 'الرقم الضريبي',
                             controller: taxAcc,
                           ),
                         ],

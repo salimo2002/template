@@ -39,7 +39,6 @@ class InvoiceDetailsView extends StatelessWidget {
                                   children: [
                                     TextFieldAndDetails(
                                       hintText: 'زبون نقدي',
-                                      label: 'اسم الحساب',
                                       controller: TextEditingController(),
                                     ),
                                   ],
@@ -84,7 +83,6 @@ class InvoiceDetailsView extends StatelessWidget {
                         children: [
                           TextFieldAndDetails(
                             hintText: 'الصندوق الرئيسي',
-                            label: 'الصندوق',
                             controller: TextEditingController(),
                           ),
                         ],
@@ -96,27 +94,22 @@ class InvoiceDetailsView extends StatelessWidget {
                             SizedBox(height: 5),
                             TextFieldAndDetails(
                               hintText: '0',
-                              label: 'مجموع الفواتير',
                               controller: TextEditingController(),
                             ),
                             TextFieldAndDetails(
                               hintText: '0',
-                              label: 'حسم ممنوح',
                               controller: TextEditingController(),
                             ),
                             TextFieldAndDetails(
                               hintText: '0',
-                              label: 'صافي الفواتير',
                               controller: TextEditingController(),
                             ),
                             TextFieldAndDetails(
                               hintText: '0',
-                              label: 'المبلغ المقبوض',
                               controller: TextEditingController(),
                             ),
                             TextFieldAndDetails(
                               hintText: '0',
-                              label: 'المبلغ المتبقي',
                               controller: TextEditingController(),
                             ),
                             SizedBox(height: 5),
@@ -130,7 +123,6 @@ class InvoiceDetailsView extends StatelessWidget {
                           TextFieldAndDetails(
                             keyType: TextInputType.numberWithOptions(),
                             hintText: 'رقم الورقة',
-                            label: 'رقم الورقة',
                             controller: TextEditingController(),
                           ),
                         ],
