@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -91,11 +90,25 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
           initiallyExpanded: isExpanded,
           iconColor: Colors.transparent,
           collapsedIconColor: Colors.transparent,
-          title: GestureDetector(
-            onTapDown: (details) => showPopupMenu(details, context, account),
-            child: Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: IconAndDividerInTree(text: account.accName),
+          title: Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Row(
+              children: [
+                const Icon(Icons.add, color: Colors.black),
+                const SizedBox(width: 10),
+                Container(width: 1, height: 40, color: kBlack),
+                const SizedBox(width: 10),
+                GestureDetector(
+                  onTapDown:
+                      (details) => showPopupMenu(details, context, account),
+                  child: Text(
+                    account.accName,
+                    style: FontStyleApp.black18.copyWith(
+                      fontSize: getResponsiveText(context, 12),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           children:
@@ -165,29 +178,6 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
                   ),
             );
           },
-        ),
-      ],
-    );
-  }
-}
-
-class IconAndDividerInTree extends StatelessWidget {
-  const IconAndDividerInTree({super.key, required this.text});
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Icon(Icons.add, color: Colors.black),
-        const SizedBox(width: 10),
-        Container(width: 1, height: 40, color: kBlack),
-        const SizedBox(width: 10),
-        Text(
-          text,
-          style: FontStyleApp.black18.copyWith(
-            fontSize: getResponsiveText(context, 12),
-          ),
         ),
       ],
     );
