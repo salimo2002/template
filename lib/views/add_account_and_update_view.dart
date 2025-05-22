@@ -6,6 +6,9 @@ import 'package:template/account%20cubit/accounts_cubit.dart';
 import 'package:template/models/account_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/font_style.dart';
+import 'package:template/utils/responsive_text.dart';
+import 'package:template/widgets/items%20classifications%20view%20widgets/custom_text_form_field.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/save_and_exite_button.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
@@ -28,7 +31,9 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
   final TextEditingController taxAcc = TextEditingController();
 
   late bool isNew;
-  AccountModel? existingAccount;
+  late AccountModel existingAccount;
+  String parentName = '';
+  int? parentId;
 
   @override
   void dispose() {
@@ -49,15 +54,22 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
 
     isNew = args!['isNew'] as bool;
-    existingAccount = args['account'] as AccountModel?;
+    existingAccount = args['account'] as AccountModel;
 
-    if (!isNew && existingAccount != null) {
-      nameAcc.text = existingAccount!.accName;
-      phonAcc.text = existingAccount!.accPhone ?? '';
-      mobileAcc.text = existingAccount!.accMobile ?? '';
-      addressAcc.text = existingAccount!.accAddress ?? '';
-      emailAcc.text = existingAccount!.accEmail ?? '';
-      taxAcc.text = existingAccount!.accTaxNo ?? '';
+    if (!isNew) {
+      nameAcc.text = existingAccount.accName;
+      phonAcc.text = existingAccount.accPhone ?? '';
+      mobileAcc.text = existingAccount.accMobile ?? '';
+      addressAcc.text = existingAccount.accAddress ?? '';
+      emailAcc.text = existingAccount.accEmail ?? '';
+      taxAcc.text = existingAccount.accTaxNo ?? '';
+    }
+    for (AccountModel element in AccountsCubit.accounts) {
+      if (element.accID == existingAccount.parentId) {
+        parentName = element.accName;
+        parentId=element.accID;
+        break;
+      }
     }
   }
 
@@ -82,6 +94,7 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                         children: [
                           TextFieldAndDetails(
                             hintText: 'العملاء و الزبائن',
+                            label: 'الحساب الرئيسي',
                             controller: TextEditingController(),
                           ),
                         ],
@@ -165,12 +178,12 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                   accNumber:
                       isNew
                           ? Random().nextInt(1000000)
-                          : existingAccount!.accNumber,
+                          : existingAccount.accNumber,
                   accName: nameAcc.text,
-                  parentId: 0,
-                  accKind: 0,
+                  parentId: isNew?existingAccount.accID!:parentId!,
+                  accKind: 1,
                   accRefrence: 1,
-                  accID: isNew ? null : existingAccount!.accID,
+                  accID: isNew ? null : existingAccount.accID,
                 );
 
                 if (isNew) {
