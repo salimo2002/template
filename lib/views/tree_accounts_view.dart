@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/account cubit/accounts_cubit.dart';
@@ -20,6 +18,8 @@ class TreeAccountsView extends StatefulWidget {
 
 class _TreeAccountsViewState extends State<TreeAccountsView> {
   bool isExpanded = false;
+  // نستخدم مفتاحًا فريدًا لإجبار إعادة بناء الشجرة عند التغيير
+  UniqueKey _expansionKey = UniqueKey();
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +34,14 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
         actions: [
           TextButton(
             onPressed: () {
-              isExpanded = !isExpanded;
               setState(() {
-                log(isExpanded.toString());
+                isExpanded = !isExpanded;
+                // نغير المفتاح لإجبار إعادة بناء كل ExpansionTile
+                _expansionKey = UniqueKey();
               });
             },
             child: Text(
-              'توسيع الكل',
+              isExpanded ? 'طي الكل' : 'توسيع الكل',
               style: FontStyleApp.white18.copyWith(
                 fontSize: getResponsiveText(context, 12),
               ),
@@ -58,6 +59,7 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
                   allAccounts.where((acc) => acc.parentId == 0).toList();
 
               return ListView.builder(
+                key: _expansionKey, // نستخدم المفتاح هنا
                 itemCount: rootAccounts.length,
                 itemBuilder: (context, index) {
                   return buildTree(context, rootAccounts[index], allAccounts);
@@ -87,6 +89,7 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
       child: Padding(
         padding: const EdgeInsets.only(right: 15),
         child: ExpansionTile(
+          key: ValueKey(account.accID), // مفتاح فريد لكل عنصر
           initiallyExpanded: isExpanded,
           iconColor: Colors.transparent,
           collapsedIconColor: Colors.transparent,
@@ -120,6 +123,7 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
     );
   }
 
+  // باقي الدوال تبقى كما هي...
   void showPopupMenu(
     TapDownDetails details,
     BuildContext context,
