@@ -18,7 +18,6 @@ class TreeAccountsView extends StatefulWidget {
 
 class _TreeAccountsViewState extends State<TreeAccountsView> {
   bool isExpanded = false;
-  // نستخدم مفتاحًا فريدًا لإجبار إعادة بناء الشجرة عند التغيير
   UniqueKey _expansionKey = UniqueKey();
 
   @override
@@ -36,7 +35,6 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
             onPressed: () {
               setState(() {
                 isExpanded = !isExpanded;
-                // نغير المفتاح لإجبار إعادة بناء كل ExpansionTile
                 _expansionKey = UniqueKey();
               });
             },
@@ -59,7 +57,7 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
                   allAccounts.where((acc) => acc.parentId == 0).toList();
 
               return ListView.builder(
-                key: _expansionKey, // نستخدم المفتاح هنا
+                key: _expansionKey, 
                 itemCount: rootAccounts.length,
                 itemBuilder: (context, index) {
                   return buildTree(context, rootAccounts[index], allAccounts);
@@ -89,7 +87,7 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
       child: Padding(
         padding: const EdgeInsets.only(right: 15),
         child: ExpansionTile(
-          key: ValueKey(account.accID), // مفتاح فريد لكل عنصر
+          key: ValueKey(account.accID), 
           initiallyExpanded: isExpanded,
           iconColor: Colors.transparent,
           collapsedIconColor: Colors.transparent,
