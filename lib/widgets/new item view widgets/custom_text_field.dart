@@ -8,14 +8,15 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     this.keyType = TextInputType.text,
     this.validator,
-    this.icon,
-    this.canRead,
+    this.suffixIcon,
+    this.canRead, this.prefixIcon,
   });
   final String hintText;
   final TextEditingController controller;
   final TextInputType? keyType;
   final String? Function(String?)? validator;
-  final Widget? icon;
+  final Widget? suffixIcon;
+  final Widget? prefixIcon;
   final bool? canRead;
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,8 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         textDirection: TextDirection.rtl,
         decoration: InputDecoration(
-          suffixIcon: icon,
+          suffixIcon: suffixIcon,
+          prefixIcon: prefixIcon,
           floatingLabelStyle: TextStyle(fontWeight: FontWeight.bold),
           label: Text(hintText, style: TextStyle(color: kBlueAccent)),
           isDense: true,
