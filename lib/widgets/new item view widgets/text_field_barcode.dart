@@ -32,12 +32,6 @@ class _TextFieldBaracodeState extends State<TextFieldBaracode> {
           ),
           controller: widget.controller,
           hintText: 'الباركود',
-          validator: (p0) {
-            if (p0 == null || p0.trim().isEmpty) {
-              return '! ادخل اسم المادة';
-            }
-            return null;
-          },
         ),
         if (showScanner)
           SizedBox(

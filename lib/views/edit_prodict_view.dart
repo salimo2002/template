@@ -27,7 +27,7 @@ class EditProdictView extends StatefulWidget {
 class _NewItemViewState extends State<EditProdictView> {
   final TextEditingController materialName = TextEditingController();
   final TextEditingController baraCode1 = TextEditingController();
-  TextEditingController unitDefault = TextEditingController();
+  final TextEditingController unitDefault = TextEditingController();
   final TextEditingController unit1 = TextEditingController();
   final TextEditingController matCategory = TextEditingController();
   final TextEditingController purchasePrice = TextEditingController();
@@ -36,38 +36,22 @@ class _NewItemViewState extends State<EditProdictView> {
   final TextEditingController unit2Num = TextEditingController();
   final TextEditingController price2 = TextEditingController();
   final TextEditingController baraCode2 = TextEditingController();
-  final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
+  // final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
   final ValueNotifier<int> selectedKind = ValueNotifier<int>(0);
   final TextEditingController convertOperatorTextField =
       TextEditingController();
   final GlobalKey<FormState> globalKey = GlobalKey();
-  final ValueNotifier<List<String>> labels = ValueNotifier<List<String>>([
-    '',
-    '',
-    '',
-  ]);
   int matUnitDef = 1;
   ValueNotifier<String> imageUpdate = ValueNotifier('');
-  late MaterialModel argumentsMaterial =
-      ModalRoute.of(context)!.settings.arguments as MaterialModel;
+  late MaterialModel argumentsMaterial;
   String materialImagePath = '';
   String image = '';
-  String category = '';
   late int parentId;
   bool _isInit = true;
   @override
   void initState() {
     unit1.addListener(() {
       unit2Num.text = unit1.text;
-      labels.value[0] = unit1.text;
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      labels.notifyListeners();
-    });
-
-    unit2.addListener(() {
-      labels.value[1] = unit2.text;
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      labels.notifyListeners();
     });
     super.initState();
   }
@@ -84,8 +68,6 @@ class _NewItemViewState extends State<EditProdictView> {
     baraCode2.dispose();
     unit2Num.dispose();
     unit2.dispose();
-    labels.dispose();
-    isSelected.dispose();
     super.dispose();
   }
 
@@ -323,8 +305,7 @@ class _NewItemViewState extends State<EditProdictView> {
                                                   ) ??
                                                   0.0,
                                               materialKind: 0,
-                                              materialUnitDefault:
-                                                  isSelected.value ?? 1,
+                                              materialUnitDefault: matUnitDef,
                                               materialImage: materialImagePath,
                                               parentId: parentId,
                                               materiaUnit2Baracode:
@@ -406,6 +387,7 @@ class _NewItemViewState extends State<EditProdictView> {
               child: Center(child: Text(e.matName)),
               onTap: () {
                 matCategory.text = e.matName;
+                parentId = e.matId;
               },
             );
           }).toList(),
