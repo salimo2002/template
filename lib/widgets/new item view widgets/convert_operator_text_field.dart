@@ -7,13 +7,12 @@ class ConvertOperatorTextField extends StatelessWidget {
   const ConvertOperatorTextField({
     super.key,
     required this.textEditingController,
-    required this.label,
     required this.hintText,
-    this.keyType = TextInputType.text, required this.convertOperatorTextField,
+    this.keyType = TextInputType.text,
+    required this.convertOperatorTextField,
   });
   final TextEditingController textEditingController;
-   final TextEditingController convertOperatorTextField;
-  final String label;
+  final TextEditingController convertOperatorTextField;
   final String hintText;
   final TextInputType? keyType;
 
@@ -23,9 +22,9 @@ class ConvertOperatorTextField extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        const SizedBox(width: 5),
+        const SizedBox(width: 10),
         SmallTextField(textEditingController: textEditingController),
-        const SizedBox(width: 5),
+        const SizedBox(width: 2),
         Expanded(
           child: CustomTextField(
             keyType: keyType,
@@ -33,8 +32,6 @@ class ConvertOperatorTextField extends StatelessWidget {
             controller: convertOperatorTextField,
           ),
         ),
-        const SizedBox(width: 10),
-        Text(label, style: TextStyle(fontSize: getResponsiveText(context, 12))),
         const SizedBox(width: 10),
       ],
     );

@@ -18,27 +18,38 @@ class _UploadedImageState extends State<UploadedImage> {
     return GestureDetector(
       onTap: widget.onTap,
       child: FittedBox(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.close, color: kBlack),
-            ),
-            SizedBox(width: 5),
             Container(
-              width: 67,
-              height: 67,
+              width: 90,
+              height: 90,
               decoration: BoxDecoration(
-                border: Border.all(color: kBlacCustomk),
-                borderRadius: BorderRadius.circular(4),
+                color: const Color(0xffeaeaea),
+                border: Border.all(color: Color(0xffbbbbbb)),
+                borderRadius: BorderRadius.circular(45),
               ),
               child:
                   widget.url == ''
                       ? widget.image == null
-                          ? SizedBox()
+                          ? Icon(Icons.camera_alt_outlined, color: Colors.grey)
                           : SizedBox()
                       : Image.file(File(widget.url)),
+            ),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.all(.5),
+                decoration: BoxDecoration(
+                  color: Color(0xffbbbbbb),
+                  shape: BoxShape.circle,
+                ),
+                child: CircleAvatar(
+                  radius: 15,
+                  backgroundColor: kWhite,
+                  child: Icon(Icons.edit, size: 15),
+                ),
+              ),
             ),
           ],
         ),

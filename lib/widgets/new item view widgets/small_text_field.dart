@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:template/widgets/items%20classifications%20view%20widgets/custom_text_form_field.dart';
+import 'package:template/utils/constants.dart';
 
 class SmallTextField extends StatelessWidget {
   const SmallTextField({super.key, required this.textEditingController});
@@ -9,7 +9,7 @@ class SmallTextField extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.sizeOf(context).width * .15,
       child: SizedBox(
-        height: 34,
+        height: 43,
         child: TextField(
           controller: textEditingController,
           readOnly: true,
@@ -20,13 +20,20 @@ class SmallTextField extends StatelessWidget {
             ),
             hintTextDirection: TextDirection.rtl,
             filled: true,
-            fillColor: Colors.white10,
+            fillColor: kWhite,
             enabledBorder: borderStyle(),
             border: borderStyle(),
             focusedBorder: borderStyle(),
           ),
         ),
       ),
+    );
+  }
+
+  OutlineInputBorder borderStyle() {
+    return OutlineInputBorder(
+      borderSide: BorderSide(color: const Color.fromARGB(255, 233, 228, 228)),
+      borderRadius: BorderRadius.circular(18),
     );
   }
 }

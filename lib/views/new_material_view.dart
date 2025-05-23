@@ -12,9 +12,6 @@ import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/convert_operator_text_field.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/drop_down_menu_and_details.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/row_default_unit.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/save_and_exite_button.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_barcode.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/uploaded_image.dart';
@@ -29,8 +26,14 @@ class NewMaterialView extends StatefulWidget {
 
 class _NewMaterialViewState extends State<NewMaterialView> {
   final TextEditingController materialName = TextEditingController();
+  final TextEditingController matCategory = TextEditingController(
+    text: 'اختر التصنيف',
+  );
   final TextEditingController baraCode1 = TextEditingController();
   final TextEditingController unit1 = TextEditingController();
+  final TextEditingController unitDefault = TextEditingController(
+    text: 'اختر الوحدة الافتراضية',
+  );
   final TextEditingController purchasePrice = TextEditingController();
   final TextEditingController price1 = TextEditingController();
   final TextEditingController unit2 = TextEditingController();
@@ -100,7 +103,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 10),
                       ValueListenableBuilder<String>(
                         valueListenable: imageUpdate,
                         builder: (context, value, child) {
@@ -117,11 +120,11 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                           );
                         },
                       ),
-                      const SizedBox(height: 7),
+                      const SizedBox(height: 20),
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
-                            controller: TextEditingController(),
+                            controller: materialName,
                             hintText: 'اسم المادة',
                             validator: (p0) {
                               if (p0 == null || p0.trim().isEmpty) {
@@ -132,65 +135,32 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                           ),
                           TextFieldAndDetails(
                             canRead: true,
-                            icon: IconButton(
-                              onPressed: () {},
-                              icon: Icon(
+                            icon: InkWell(
+                              onTapDown: showCategory,
+                              child: Icon(
                                 Icons.arrow_drop_down_rounded,
                                 size: 40,
                                 color: kBlueAccent,
                               ),
                             ),
-                            controller: TextEditingController(
-                              text: 'اختر التصنيف',
-                            ),
+                            controller: matCategory,
                             hintText: 'التصنيف',
-                            validator: (p0) {
-                              if (p0 == null || p0.trim().isEmpty) {
-                                return '! ادخل اسم المادة';
-                              }
-                              return null;
-                            },
                           ),
                           TextFieldBaracode(controller: baraCode1),
                         ],
                       ),
                       SizedBox(height: 20),
-
-                      ContainerFields(
-                        children: [
-                          DropDownMenuAndDetails(
-                            value:
-                                context.read<CategoryCubit>().categories.isEmpty
-                                    ? 'لايوجد تصنيفات'
-                                    : context
-                                        .read<CategoryCubit>()
-                                        .categories[0]
-                                        .matName,
-                            onChanged: (p0) {
-                              context.read<CategoryCubit>().categories.forEach((
-                                element,
-                              ) {
-                                if (p0 == element.matName) {
-                                  parentId = element.matId;
-                                }
-                              });
-                            },
-                          ),
-                        ],
-                      ),
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
                             controller: unit1,
                             hintText: 'الوحدة الاولى',
                           ),
-                          const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: purchasePrice,
                             hintText: 'سعر الجملة',
                             keyType: TextInputType.number,
                           ),
-                          const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: price1,
                             hintText: 'سعر المستهلك',
@@ -198,107 +168,192 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                           ),
                         ],
                       ),
+                      SizedBox(height: 20),
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
                             controller: unit2,
                             hintText: 'الوحدة الثانية',
                           ),
-                          const SizedBox(height: 5),
                           ConvertOperatorTextField(
                             convertOperatorTextField: convertOperatorTextField,
                             textEditingController: unit2Num,
-                            label: '  معامل التحويل',
                             hintText: 'معامل التحويل',
                             keyType: TextInputType.number,
                           ),
-                          const SizedBox(height: 5),
                           TextFieldAndDetails(
                             hintText: 'سعر المستهلك',
                             controller: price2,
                             keyType: TextInputType.number,
                           ),
-                          const SizedBox(height: 5),
                           TextFieldBaracode(controller: baraCode2),
-                        ],
-                      ),
-                      ContainerFields(
-                        children: [
-                          RowDefaultUnit(
-                            labels: labels,
-                            isSelected: isSelected,
+                          TextFieldAndDetails(
+                            canRead: true,
+                            icon: InkWell(
+                              onTapDown: showUnits,
+                              child: Icon(
+                                Icons.arrow_drop_down_rounded,
+                                size: 40,
+                                color: kBlueAccent,
+                              ),
+                            ),
+                            controller: unitDefault,
+                            hintText: 'الوحدة الافتراضية',
                           ),
                         ],
+                      ),
+                      SizedBox(height: 20),
+                      BlocConsumer<MaterialCubit, MaterialStatus>(
+                        listener: (context, state) {
+                          if (state is FaliureState) {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: kRed,
+                                content: Text(
+                                  'حدث خطأ أثناء الإضافة',
+                                  style: FontStyleApp.white18.copyWith(
+                                    fontSize: getResponsiveText(context, 12),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is SuccessState) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    'الغاء',
+                                    style: FontStyleApp.black18,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    if (globalKey.currentState!.validate()) {
+                                      await context
+                                          .read<MaterialCubit>()
+                                          .insertMaterial(
+                                            MaterialModel(
+                                              materialUnit: unit1.text,
+                                              materialId: 0,
+                                              materialNumber:
+                                                  Random()
+                                                      .nextInt(1000000)
+                                                      .toString(),
+                                              materialName: materialName.text,
+                                              materialCode: baraCode1.text,
+                                              materialPrice1:
+                                                  double.tryParse(
+                                                    purchasePrice.text,
+                                                  ) ??
+                                                  0.0,
+                                              materialPrice3:
+                                                  double.tryParse(
+                                                    price1.text,
+                                                  ) ??
+                                                  0.0,
+                                              materialUnit2: unit2.text,
+                                              materialUnit2Number:
+                                                  double.tryParse(
+                                                    convertOperatorTextField
+                                                        .text,
+                                                  ) ??
+                                                  1.0,
+                                              materialUnit2Price3:
+                                                  double.tryParse(
+                                                    price2.text,
+                                                  ) ??
+                                                  0.0,
+                                              materialKind: 0,
+                                              materialUnitDefault:
+                                                  isSelected.value ?? 1,
+                                              materialImage: imageUpdate.value,
+                                              parentId: parentId,
+                                              materiaUnit2Baracode:
+                                                  baraCode2.text,
+                                            ),
+                                          );
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                                  child: Text(
+                                    'حفظ',
+                                    style: FontStyleApp.black18,
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else if (state is LoadingState) {
+                            return CircularProgressIndicator(
+                              color: kBlueAccent,
+                            );
+                          } else {
+                            return SizedBox();
+                          }
+                        },
                       ),
                     ],
                   ),
                 ),
               ),
-              BlocConsumer<MaterialCubit, MaterialStatus>(
-                listener: (context, state) {
-                  if (state is FaliureState) {
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        backgroundColor: kRed,
-                        content: Text(
-                          'حدث خطأ أثناء الإضافة',
-                          style: FontStyleApp.white18.copyWith(
-                            fontSize: getResponsiveText(context, 12),
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                },
-                builder: (context, state) {
-                  if (state is SuccessState) {
-                    return SaveAndExitButton(
-                      text: 'حفظ و انهاء',
-                      onPressed: () async {
-                        if (globalKey.currentState!.validate()) {
-                          await context.read<MaterialCubit>().insertMaterial(
-                            MaterialModel(
-                              materialUnit: unit1.text,
-                              materialId: 0,
-                              materialNumber:
-                                  Random().nextInt(1000000).toString(),
-                              materialName: materialName.text,
-                              materialCode: baraCode1.text,
-                              materialPrice1:
-                                  double.tryParse(purchasePrice.text) ?? 0.0,
-                              materialPrice3:
-                                  double.tryParse(price1.text) ?? 0.0,
-                              materialUnit2: unit2.text,
-                              materialUnit2Number:
-                                  double.tryParse(
-                                    convertOperatorTextField.text,
-                                  ) ??
-                                  1.0,
-                              materialUnit2Price3:
-                                  double.tryParse(price2.text) ?? 0.0,
-                              materialKind: 0,
-                              materialUnitDefault: isSelected.value ?? 1,
-                              materialImage: imageUpdate.value,
-                              parentId: parentId,
-                              materiaUnit2Baracode: baraCode2.text,
-                            ),
-                          );
-                          Navigator.pop(context);
-                        }
-                      },
-                    );
-                  } else if (state is LoadingState) {
-                    return CircularProgressIndicator(color: kBlueAccent);
-                  } else {
-                    return SizedBox();
-                  }
-                },
-              ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void showCategory(TapDownDetails details) {
+    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    showMenu(
+      menuPadding: EdgeInsets.zero,
+      context: context,
+      position: RelativeRect.fromRect(
+        details.globalPosition & const Size(60, 60),
+        Offset.zero & overlay.size,
+      ),
+      items:
+          context.read<CategoryCubit>().categories.map((e) {
+            return CheckedPopupMenuItem(
+              child: Center(child: Text(e.matName)),
+              onTap: () {
+                matCategory.text = e.matName;
+              },
+            );
+          }).toList(),
+    );
+  }
+
+  void showUnits(TapDownDetails details) {
+    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    showMenu(
+      menuPadding: EdgeInsets.zero,
+      context: context,
+      position: RelativeRect.fromRect(
+        details.globalPosition & const Size(60, 60),
+        Offset.zero & overlay.size,
+      ),
+      items: [
+        CheckedPopupMenuItem(
+          child: Center(child: Text(unit1.text)),
+          onTap: () {
+            unitDefault.text = unit1.text;
+          },
+        ),
+        CheckedPopupMenuItem(
+          child: Center(child: Text(unit2.text)),
+          onTap: () {
+            unitDefault.text = unit2.text;
+          },
+        ),
+      ],
     );
   }
 }

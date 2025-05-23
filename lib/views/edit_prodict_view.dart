@@ -172,9 +172,7 @@ class _NewItemViewState extends State<EditProdictView> {
                         ],
                       ),
                       ContainerFields(
-                        children: [
-                          TextFieldBaracode(controller: baraCode1,)
-                        ],
+                        children: [TextFieldBaracode(controller: baraCode1)],
                       ),
                       ContainerFields(
                         children: [
@@ -198,13 +196,11 @@ class _NewItemViewState extends State<EditProdictView> {
                             controller: unit1,
                             hintText: 'الوحدة الاولى',
                           ),
-                          const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: purchasePrice,
                             hintText: 'سعر الجملة',
                             keyType: TextInputType.number,
                           ),
-                          const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: price1,
                             hintText: 'سعر المستهلك',
@@ -218,22 +214,18 @@ class _NewItemViewState extends State<EditProdictView> {
                             controller: unit2,
                             hintText: 'الوحدة الثانية',
                           ),
-                          const SizedBox(height: 5),
                           ConvertOperatorTextField(
                             convertOperatorTextField: convertOperatorTextField,
                             textEditingController: unit2Num,
-                            label: 'معامل التحويل',
                             hintText: 'معامل التحويل',
                             keyType: TextInputType.number,
                           ),
-                          const SizedBox(height: 5),
                           TextFieldAndDetails(
                             hintText: 'سعر المستهلك',
                             controller: price2,
                             keyType: TextInputType.number,
                           ),
-                          const SizedBox(height: 5),
-                          TextFieldBaracode(controller: baraCode2,)
+                          TextFieldBaracode(controller: baraCode2),
                         ],
                       ),
                       ContainerFields(
