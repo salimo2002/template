@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
-import 'package:template/utils/constants.dart';
 import 'package:template/views/tree_accounts_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
-import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
 import 'package:template/widgets/home%20view%20widgets/row_custom_button.dart';
 
 class Accounts extends StatelessWidget {
@@ -15,12 +13,11 @@ class Accounts extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PartsTitle(title: 'الحسابات', color: kBlueAccent),
-
           SizedBox(height: 5),
           RowCustomButton(
+            
             text3: 'فاتورة مردود مشتريات',
-            icon3: Icons.abc,
+            icon3: Icons.ac_unit,
             onTap3: () {},
             icon1: FontAwesomeIcons.faceSmileBeam,
             icon2: FontAwesomeIcons.grinStars,
@@ -31,6 +28,7 @@ class Accounts extends StatelessWidget {
           ),
           SizedBox(height: 5),
           RowCustomButton(
+            
             text3: 'فاتورة مردود مشتريات',
             icon3: Icons.abc,
             onTap3: () {},
@@ -41,9 +39,9 @@ class Accounts extends StatelessWidget {
             text1: 'المصاريف و الإرادات',
             text2: 'الصناديق و البنوك',
           ),
-          SizedBox(height: 5),
-          SizedBox(height: 5),
+
           RowCustomButton(
+          
             text3: 'فاتورة مردود مشتريات',
             icon3: Icons.abc,
             onTap3: () {},

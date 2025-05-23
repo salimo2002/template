@@ -1,8 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:template/utils/constants.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
-import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
 
 class EditableDataColumn extends StatelessWidget {
   const EditableDataColumn({
@@ -22,7 +20,6 @@ class EditableDataColumn extends StatelessWidget {
       child: CustomContainer(
         child: Column(
           children: [
-            PartsTitle(title: text, color: kBlueAccent),
             EditableText(
               textAlign: TextAlign.center,
               controller: conttroller,

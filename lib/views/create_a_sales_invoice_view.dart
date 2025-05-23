@@ -6,7 +6,6 @@ import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/invoice_details_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
-import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/save_and_exite_button.dart';
 import 'package:template/widgets/sales%20invoice%20view/editable_data_column.dart';
@@ -139,10 +138,6 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                                       child: CustomContainer(
                                         child: Column(
                                           children: [
-                                            PartsTitle(
-                                              title: 'الوحدة',
-                                              color: kBlueAccent,
-                                            ),
                                             InkWell(
                                               onTapDown: (details) {
                                                 final RenderBox overlay =

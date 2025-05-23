@@ -1,33 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
-import 'package:template/utils/constants.dart';
-import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
-import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
-import 'package:template/widgets/home%20view%20widgets/row_custom_button.dart';
+import 'package:template/widgets/home%20view%20widgets/custom_button_.dart';
 
 class FinancialReports extends StatelessWidget {
   const FinancialReports({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CustomContainer(
+    return Padding(
+      padding: const EdgeInsets.only(right: 15),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: 20,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          PartsTitle(title: 'التقارير المالية', color: kBlueAccent),
-
-          SizedBox(height: 5),
-          RowCustomButton(  text3: 'فاتورة مردود مشتريات',
-            icon3: Icons.abc,
-            onTap3: () {},
-            icon1: FontAwesomeIcons.fileArrowUp,
-            icon2: FontAwesomeIcons.creditCard,
-            onTap1: () {},
-            onTap2: () {},
-            text2: 'الأرباح و الخسائر',
-            text1: 'ملخص الحركة',
+          FittedBox(
+            child: Row(
+              spacing: 50,
+              children: [
+                CustomButton(
+                  text: 'حركة فواتير',
+                  icon: 'assets/img/Home/mynaui_home.svg',
+                  onTap: () {},
+                ),
+                CustomButton(
+                  text: 'أرصدة',
+                  icon: 'assets/img/Home/mynaui_home.svg',
+                  onTap: () {},
+                ),
+                CustomButton(
+                  text: 'كشف حساب',
+                  icon: 'assets/img/Home/mynaui_home.svg',
+                  onTap: () {},
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 5),
+          Row(
+            spacing: 50,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CustomButton(
+                text: 'تقرير مبيعات',
+                icon: 'assets/img/Home/mynaui_home.svg',
+                onTap: () {},
+              ),
+              CustomButton(
+                text: 'جرد مستودعات',
+                icon: 'assets/img/Home/mynaui_home.svg',
+                onTap: () {},
+              ),
+            ],
+          ),
         ],
       ),
     );

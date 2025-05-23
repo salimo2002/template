@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
-import 'package:template/utils/constants.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
-import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
 import 'package:template/widgets/home%20view%20widgets/row_custom_button.dart';
 
 class DebtsAndSupplies extends StatelessWidget {
@@ -14,7 +12,6 @@ class DebtsAndSupplies extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PartsTitle(title: 'الديون و المستحقات', color: kBlueAccent),
 
           SizedBox(height: 5),
           RowCustomButton(

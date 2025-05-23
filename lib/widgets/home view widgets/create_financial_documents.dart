@@ -1,52 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
-import 'package:template/utils/constants.dart';
 import 'package:template/views/create_a_sales_invoice_view.dart';
-import 'package:template/widgets/home%20view%20widgets/button_check_price.dart';
-import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
-import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
-import 'package:template/widgets/home%20view%20widgets/row_custom_button.dart';
+import 'package:template/widgets/home%20view%20widgets/custom_button_.dart';
 
 class CreateFinancialDocuments extends StatelessWidget {
   const CreateFinancialDocuments({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CustomContainer(
+    return Padding(
+      padding: const EdgeInsets.only(right: 15),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: 20,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          PartsTitle(title: 'انشاء فواتير و سندات جديدة', color: kBlueAccent),
-          SizedBox(height: 5),
-          ButtonCheckPrice(
-            title: 'استعلام عن سعر مادة',
-            icon: FontAwesomeIcons.solidQuestionCircle,
+          FittedBox(
+            child: Row(
+              spacing: 50,
+              children: [
+                CustomButton(
+                  text: 'فاتورة مردود مشتريات',
+                  icon: 'assets/img/Home/mynaui_home.svg',
+                  onTap: () {},
+                ),
+                CustomButton(
+                  text: 'فاتورة مبيعات',
+                  icon: 'assets/img/Home/mynaui_home.svg',
+                  onTap: () {
+                    Navigator.pushNamed(context, CreateASalesInvoiceView.id);
+                  },
+                ),
+                CustomButton(
+                  text: 'فاتورة مشتريات',
+                  icon: 'assets/img/Home/mynaui_home.svg',
+                  onTap: () {},
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 5),
-          RowCustomButton(  text3: 'فاتورة مردود مشتريات',
-            icon3: Icons.abc,
-            onTap3: () {},
-            icon1: FontAwesomeIcons.fileCirclePlus,
-            icon2: FontAwesomeIcons.fileCirclePlus,
-            onTap1: () {},
-            onTap2: () {
-              Navigator.pushNamed(context, CreateASalesInvoiceView.id);
-            },
-            text2: 'فاتورة مبيعات جديدة',
-            text1: 'فاتورة مشتريات جديدة',
+          Row(
+            spacing: 50,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CustomButton(
+                text: 'فاتورة طلبات',
+                icon: 'assets/img/Home/mynaui_home.svg',
+                onTap: () {},
+              ),
+              CustomButton(
+                text: 'فاتورة مردود مبيعات',
+                icon: 'assets/img/Home/mynaui_home.svg',
+                onTap: () {},
+              ),
+            ],
           ),
-          SizedBox(height: 5),
-          RowCustomButton(  text3: 'فاتورة مردود مشتريات',
-            icon3: Icons.abc,
-            onTap3: () {},
-            icon1: FontAwesomeIcons.fileCircleMinus,
-            icon2: FontAwesomeIcons.creditCard,
-            onTap1: () {},
-            onTap2: () {},
-            text1: 'فاتورة مرتجعات جديدة',
-            text2: 'سند جديد',
-          ),
-          SizedBox(height: 5),
         ],
       ),
     );
