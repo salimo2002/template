@@ -52,7 +52,7 @@ class InvoiceDetailsView extends StatelessWidget {
                           ),
                         ]
                       ),
-                      CustomContainer(
+                      CustomContainer(borderRadius: BorderRadius.circular(10),
                         child: Row(
                           children: [
                             Directionality(
@@ -60,7 +60,7 @@ class InvoiceDetailsView extends StatelessWidget {
                               child: Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: CustomContainer(
+                                  child: CustomContainer(borderRadius: BorderRadius.circular(10),
                                     child: RadioMenuButtons(),
                                   ),
                                 ),
@@ -78,7 +78,7 @@ class InvoiceDetailsView extends StatelessWidget {
                           ),
                         ],
                       ),
-                      CustomContainer(
+                      CustomContainer(borderRadius: BorderRadius.circular(10),
                         child: Column(
                           spacing: 3,
                           children: [
@@ -119,14 +119,14 @@ class InvoiceDetailsView extends StatelessWidget {
                         ],
                       ),
 
-                      CustomContainer(
+                      CustomContainer(borderRadius: BorderRadius.circular(10),
                         child: Row(
                           spacing: 10,
                           children: [
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(5),
-                                child: CustomContainer(
+                                child: CustomContainer(borderRadius: BorderRadius.circular(10),
                                   child: CommentsTextField(
                                     maxLines: 4,
                                     hintText: '',
@@ -144,7 +144,7 @@ class InvoiceDetailsView extends StatelessWidget {
                 ),
               ),
             ),
-            CustomContainer(
+            CustomContainer(borderRadius: BorderRadius.circular(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
