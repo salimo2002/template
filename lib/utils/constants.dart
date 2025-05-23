@@ -11,7 +11,7 @@ const kLogo = 'assets/images/loogo.png';
 const kColorBorder = Color(0xfff6f6f8);
 const kBorderTextFieldColor = Color.fromARGB(255, 233, 228, 228);
 const kBackGroundColor = Color(0xfff6f6f8);
-BoxShadow bosShadow() {
+BoxShadow boxShadow() {
   return BoxShadow(
     offset: Offset(0, .5),
     spreadRadius: .1,

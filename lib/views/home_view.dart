@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/category%20cubit/category_cubit.dart';
@@ -13,8 +14,6 @@ import 'package:template/widgets/home%20view%20widgets/debts_and_supplies.dart';
 import 'package:template/widgets/home%20view%20widgets/financial_reports.dart';
 import 'package:template/widgets/home%20view%20widgets/lookup.dart';
 import 'package:template/widgets/home%20view%20widgets/product_catalog.dart';
-import 'package:template/widgets/home%20view%20widgets/view_invoices.dart';
-import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -25,6 +24,27 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  int _currentIndex = 0;
+
+  final List<Widget> _pages = [
+    SingleChildScrollView(
+      padding: const EdgeInsets.all(8),
+      child: Column(children: [CreateFinancialDocuments()]),
+    ),
+    SingleChildScrollView(
+      padding: const EdgeInsets.all(8),
+      child: FinancialReports(),
+    ),
+    SingleChildScrollView(
+      padding: const EdgeInsets.all(8),
+      child: Column(children: [Accounts(), DebtsAndSupplies()]),
+    ),
+    SingleChildScrollView(
+      padding: const EdgeInsets.all(8),
+      child: Column(children: [ProductCatalog(), Lookup()]),
+    ),
+  ];
+
   @override
   void initState() {
     context.read<MaterialCubit>().fetchMaterials();
@@ -49,31 +69,102 @@ class _HomeViewState extends State<HomeView> {
           IconButton(
             onPressed: () {
               context.read<BillCubit>().fetchBill();
-              ///////////////////////////////////////////////////
             },
             icon: Icon(Icons.more_vert_outlined),
           ),
         ],
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: SingleChildScrollView(
-            child: Column(
-              spacing: 5,
-              children: [
-                PartsTitle(title: 'نسخة تجريبية محدودة', color: kRed),
-                CreateFinancialDocuments(),
-                ViewInvoices(),
-                ProductCatalog(),
-                Lookup(),
-                Accounts(),
-                DebtsAndSupplies(),
-                FinancialReports(),
-              ],
+      body: Stack(
+        children: [
+          SafeArea(child: _pages[_currentIndex]),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 16.0, left: 5, right: 5),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [boxShadow()],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: BottomNavigationBar(
+                      currentIndex: _currentIndex,
+                      onTap: (index) {
+                        setState(() {
+                          _currentIndex = index;
+                        });
+                      },
+                      type: BottomNavigationBarType.fixed,
+                      backgroundColor: Colors.white,
+                      selectedItemColor: kBlueAccent,
+                      unselectedItemColor: Colors.black,
+                      selectedLabelStyle: FontStyleApp.white18.copyWith(
+                        fontSize: getResponsiveText(context, 12),
+                      ),
+                      unselectedLabelStyle: FontStyleApp.white18.copyWith(
+                        fontSize: getResponsiveText(context, 12),
+                      ),
+                      elevation: 0,
+                      items: [
+                        BottomNavigationBarItem(
+                          icon: SvgPicture.asset(
+                            'assets/img/Home/lets-icons_paper-light.svg',
+                            width: 24,
+                            height: 24,
+                            colorFilter: ColorFilter.mode(
+                              _currentIndex == 0 ? kBlueAccent : kBlack,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          label: "فواتير",
+                        ),
+                        BottomNavigationBarItem(
+                          icon: SvgPicture.asset(
+                            'assets/img/Home/carbon_report-data.svg',
+                            width: 24,
+                            height: 24,
+                            colorFilter: ColorFilter.mode(
+                              _currentIndex == 1 ? kBlueAccent : kBlack,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          label: "تقارير",
+                        ),
+                        BottomNavigationBarItem(
+                          icon: SvgPicture.asset(
+                            'assets/img/Home/si_inventory-line.svg',
+                            width: 24,
+                            height: 24,
+                            colorFilter: ColorFilter.mode(
+                              _currentIndex == 2 ? kBlueAccent : kBlack,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          label: "حسابات وموارد",
+                        ),
+                        BottomNavigationBarItem(
+                          icon: SvgPicture.asset(
+                            'assets/img/Home/mynaui_home.svg',
+                            width: 20,
+                            height: 20,
+                            colorFilter: ColorFilter.mode(
+                              _currentIndex == 3 ? kBlueAccent : kBlack,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          label: "الرئيسية",
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

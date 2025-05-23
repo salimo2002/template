@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
@@ -10,38 +11,54 @@ class CustomButton extends StatelessWidget {
     required this.icon,
     required this.onTap,
   });
+
   final String text;
-  final IconData icon;
+  final String icon;
   final void Function() onTap;
+
   @override
   Widget build(BuildContext context) {
+    double boxWidth = MediaQuery.sizeOf(context).width * .20;
+
     return GestureDetector(
       onTap: onTap,
-      child: Column(
-        children: [
-          Container(
-            width: MediaQuery.sizeOf(context).width * .25,
-            height: MediaQuery.sizeOf(context).width * .20,
-            decoration: BoxDecoration(
-              boxShadow: [BoxShadow(offset: Offset(1, 0))],
-              borderRadius: BorderRadius.circular(5),
-              color: kWhite,
+      child: SizedBox(
+        width: boxWidth,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: boxWidth,
+              height: boxWidth,
+              decoration: BoxDecoration(
+                boxShadow: [boxShadow()],
+                borderRadius: BorderRadius.circular(5),
+                color: kWhite,
+              ),
+              child: Center(
+                child: SvgPicture.asset(
+                  icon,
+                  width: 25,
+                  height: 25,
+                  color: kBlueAccent,
+                ),
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(child: Icon(size: 25, color: kBlueAccent, icon)),
-              ],
+            const SizedBox(height: 6),
+            SizedBox(
+              height: 32,
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: FontStyleApp.black18.copyWith(
+                  fontSize: getResponsiveText(context, 12),
+                ),
+              ),
             ),
-          ),
-          Text(
-            text,
-            style: FontStyleApp.black18.copyWith(
-              fontSize: getResponsiveText(context, 15),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:template/utils/constants.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
-import 'package:template/widgets/home%20view%20widgets/parts_titel.dart';
 import 'package:template/widgets/home%20view%20widgets/row_custom_button.dart';
 
 class ViewInvoices extends StatelessWidget {
@@ -13,8 +11,6 @@ class ViewInvoices extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PartsTitle(title: 'استعراض الفواتير', color: kBlueAccent),
-
           SizedBox(height: 5),
           RowCustomButton(
             text3: 'فاتورة مردود مشتريات',

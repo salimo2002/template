@@ -31,10 +31,22 @@ class RowCustomButton extends StatelessWidget {
         spacing: 10,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CustomButton(text: text1, icon: icon1, onTap: onTap1),
+          CustomButton(
+            text: text1,
+            icon: 'assets/img/Home/mynaui_home.svg',
+            onTap: onTap1,
+          ),
 
-          CustomButton(text: text2, icon: icon2, onTap: onTap2),
-          CustomButton(text: text2, icon: icon2, onTap: onTap2),
+          CustomButton(
+            text: text2,
+            icon: 'assets/img/Home/mynaui_home.svg',
+            onTap: onTap2,
+          ),
+          CustomButton(
+            text: text3,
+            icon: 'assets/img/Home/mynaui_home.svg',
+            onTap: onTap3,
+          ),
         ],
       ),
     );
