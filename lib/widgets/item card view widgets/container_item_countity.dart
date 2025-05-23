@@ -7,7 +7,7 @@ import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
-import 'package:template/widgets/item%20card%20view%20widgets/column_countity.dart';
+import 'package:template/widgets/item%20card%20view%20widgets/table_fields.dart';
 
 class ContainerItemCountity extends StatefulWidget {
   const ContainerItemCountity({
@@ -25,16 +25,15 @@ class ContainerItemCountity extends StatefulWidget {
   State<ContainerItemCountity> createState() => _ContainerItemCountityState();
 }
 
-
 class _ContainerItemCountityState extends State<ContainerItemCountity> {
-late String categoryName;
-@override
+  late String categoryName;
+  @override
   void initState() {
     context.read<CategoryCubit>().categories.forEach((element) {
-      if (widget.material.parentId== element.matId) {
-        categoryName=element.matName;
+      if (widget.material.parentId == element.matId) {
+        categoryName = element.matName;
       }
-    },);
+    });
     super.initState();
   }
 
@@ -119,12 +118,14 @@ late String categoryName;
 
   Widget buildItemCardContent(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 7),
       width: double.infinity,
       height: MediaQuery.sizeOf(context).height * .17,
       decoration: BoxDecoration(
-        border: Border.all(color: kBlueAccent),
-        color: kGrey,
-        borderRadius: BorderRadius.circular(3),
+        boxShadow: [bosShadow()],
+        color: kWhite,
+        borderRadius: BorderRadius.circular(7),
+        border: Border.all(width: .2, color: Colors.black),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -133,10 +134,28 @@ late String categoryName;
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              SizedBox(width: 10),
+              FittedBox(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: kSecondColor,
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: Text(
+                    categoryName, // التصنيف
+                    style: FontStyleApp.white18.copyWith(
+                      fontSize: getResponsiveText(context, 14),
+                    ),
+                  ),
+                ),
+              ),
+              Spacer(),
               FittedBox(
                 child: Text(
                   widget.material.materialName,
                   style: FontStyleApp.black18.copyWith(
+                    fontWeight: FontWeight.bold,
                     fontSize: getResponsiveText(context, 14),
                   ),
                 ),
@@ -145,6 +164,7 @@ late String categoryName;
                 child: Text(
                   ' -${widget.index.toString()}',
                   style: FontStyleApp.black18.copyWith(
+                    fontWeight: FontWeight.bold,
                     fontSize: getResponsiveText(context, 16),
                   ),
                 ),
@@ -153,42 +173,9 @@ late String categoryName;
             ],
           ),
           SizedBox(height: 10),
-          FittedBox(
-            child: Text(
-              categoryName, // التصنيف
-              style: FontStyleApp.green14.copyWith(
-                fontSize: getResponsiveText(context, 14),
-              ),
-            ),
-          ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.sizeOf(context).height * .08,
-              decoration: BoxDecoration(
-                border: Border.all(color: kBlacCustomk),
-                color: kWhite,
-                borderRadius: BorderRadius.circular(3),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ColumnCountity(countity: '0', nameCountity: 'المخزون'),
-                    ColumnCountity(
-                      countity: widget.material.materialPrice3.toString(),
-                      nameCountity: 'سعر المستهلك',
-                    ),
-                    ColumnCountity(
-                      countity: widget.material.materialPrice1.toString(),
-                      nameCountity: 'سعر الجملة',
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: TableFIelds(),
           ),
         ],
       ),

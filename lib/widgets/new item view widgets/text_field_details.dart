@@ -7,7 +7,9 @@ class TextFieldAndDetails extends StatelessWidget {
     required this.hintText,
     required this.controller,
     this.keyType = TextInputType.text,
-    this.validator, this.icon, this.canRead,
+    this.validator,
+    this.icon,
+    this.canRead,
   });
   final String hintText;
   final TextEditingController controller;
@@ -26,7 +28,7 @@ class TextFieldAndDetails extends StatelessWidget {
           Expanded(
             child: CustomTextField(
               canRead: canRead,
-              icon: icon,
+              suffixIcon: icon,
               validator: validator,
               hintText: hintText,
               controller: controller,
