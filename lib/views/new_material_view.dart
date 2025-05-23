@@ -43,38 +43,22 @@ class _NewMaterialViewState extends State<NewMaterialView> {
   final TextEditingController baraCode2 = TextEditingController();
   final TextEditingController convertOperatorTextField =
       TextEditingController();
-  final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
-
   final GlobalKey<FormState> globalKey = GlobalKey();
   late int parentId = context.read<CategoryCubit>().categories[0].matId;
-  final ValueNotifier<List<String>> labels = ValueNotifier<List<String>>([
-    '',
-    '',
-    '',
-  ]);
   ValueNotifier<String> imageUpdate = ValueNotifier('');
 
   @override
   void initState() {
     unit1.addListener(() {
       unit2Num.text = unit1.text;
-      labels.value[0] = unit1.text;
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      labels.notifyListeners();
     });
-
-    unit2.addListener(() {
-      labels.value[1] = unit2.text;
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      labels.notifyListeners();
-    });
-
     super.initState();
   }
 
   @override
   void dispose() {
     materialName.dispose();
+    matCategory.dispose();
     baraCode1.dispose();
     purchasePrice.dispose();
     price1.dispose();
@@ -83,8 +67,6 @@ class _NewMaterialViewState extends State<NewMaterialView> {
     baraCode2.dispose();
     unit2Num.dispose();
     unit2.dispose();
-    labels.dispose();
-    isSelected.dispose();
     super.dispose();
   }
 

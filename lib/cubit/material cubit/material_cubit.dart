@@ -18,7 +18,6 @@ class MaterialCubit extends Cubit<MaterialStatus> {
       resultMaterial = await MaterialServices.fetchMaterials();
       for (var element in resultMaterial) {
         materials.add(MaterialModel.fromJson(element));
-
       }
       emit(SuccessState(materials: materials));
     } on Exception catch (e) {
@@ -31,7 +30,6 @@ class MaterialCubit extends Cubit<MaterialStatus> {
       emit(LoadingState());
       await MaterialServices.addMaterial(material);
       await fetchMaterials(isRefresh: true);
-      emit(SuccessState(materials: materials));
     } catch (e) {
       emit(FaliureState(errorMessage: e.toString()));
     }
@@ -42,7 +40,6 @@ class MaterialCubit extends Cubit<MaterialStatus> {
       emit(LoadingState());
       await MaterialServices.updateMaterialById(material);
       await fetchMaterials(isRefresh: true);
-      emit(SuccessState(materials: materials));
     } catch (e) {
       emit(FaliureState(errorMessage: e.toString()));
       log(e.toString());
@@ -54,7 +51,6 @@ class MaterialCubit extends Cubit<MaterialStatus> {
       emit(LoadingState());
       await MaterialServices.deleteMaterial(material.materialId);
       await fetchMaterials(isRefresh: true);
-      emit(SuccessState(materials: materials));
     } catch (e) {
       emit(FaliureState(errorMessage: e.toString()));
     }
