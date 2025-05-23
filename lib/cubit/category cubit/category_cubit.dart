@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/Service/category_services.dart';
-import 'package:template/category%20cubit/category_status.dart';
+import 'package:template/cubit/category%20cubit/category_status.dart';
 import 'package:template/models/category_model.dart';
 
 class CategoryCubit extends Cubit<CategoryStatus> {

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:template/account%20cubit/accounts_cubit.dart';
-import 'package:template/category%20cubit/category_cubit.dart';
-import 'package:template/material%20cubit/material_cubit.dart';
+import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
+import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
+import 'package:template/cubit/category%20cubit/category_cubit.dart';
+import 'package:template/cubit/material%20cubit/material_cubit.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/views/add_account_and_update_view.dart';
 import 'package:template/views/create_a_sales_invoice_view.dart';
@@ -48,6 +49,7 @@ class Template extends StatelessWidget {
             return AccountsCubit();
           },
         ),
+        BlocProvider<BillCubit>(create: (context) => BillCubit()),
       ],
 
       child: MaterialApp(

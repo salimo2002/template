@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:template/account cubit/accounts_cubit.dart';
-import 'package:template/account cubit/accounts_status.dart';
+import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
+import 'package:template/cubit/account%20cubit/accounts_status.dart';
 import 'package:template/models/account_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
