@@ -274,8 +274,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                                                   ) ??
                                                   0.0,
                                               materialKind: 0,
-                                              materialUnitDefault:
-                                                  matUnitDef,
+                                              materialUnitDefault: matUnitDef,
                                               materialImage: imageUpdate.value,
                                               parentId: parentId,
                                               materiaUnit2Baracode:
@@ -327,6 +326,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
               child: Center(child: Text(e.matName)),
               onTap: () {
                 matCategory.text = e.matName;
+                parentId = e.matId;
               },
             );
           }).toList(),

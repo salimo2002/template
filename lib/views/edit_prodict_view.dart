@@ -324,7 +324,7 @@ class _NewItemViewState extends State<EditProdictView> {
                                                   0.0,
                                               materialKind: 0,
                                               materialUnitDefault:
-                                                  isSelected.value ?? 1,
+                                                  matUnitDef,
                                               materialImage: materialImagePath,
                                               parentId: parentId,
                                               materiaUnit2Baracode:
@@ -406,6 +406,7 @@ class _NewItemViewState extends State<EditProdictView> {
               child: Center(child: Text(e.matName)),
               onTap: () {
                 matCategory.text = e.matName;
+                parentId = e.matId;
               },
             );
           }).toList(),
