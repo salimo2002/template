@@ -31,6 +31,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
   );
   final TextEditingController baraCode1 = TextEditingController();
   final TextEditingController unit1 = TextEditingController();
+  int matUnitDef = 1;
   final TextEditingController unitDefault = TextEditingController(
     text: 'اختر الوحدة الافتراضية',
   );
@@ -43,6 +44,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
   final TextEditingController convertOperatorTextField =
       TextEditingController();
   final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
+
   final GlobalKey<FormState> globalKey = GlobalKey();
   late int parentId = context.read<CategoryCubit>().categories[0].matId;
   final ValueNotifier<List<String>> labels = ValueNotifier<List<String>>([
@@ -273,7 +275,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                                                   0.0,
                                               materialKind: 0,
                                               materialUnitDefault:
-                                                  isSelected.value ?? 1,
+                                                  matUnitDef,
                                               materialImage: imageUpdate.value,
                                               parentId: parentId,
                                               materiaUnit2Baracode:
@@ -344,12 +346,14 @@ class _NewMaterialViewState extends State<NewMaterialView> {
         CheckedPopupMenuItem(
           child: Center(child: Text(unit1.text)),
           onTap: () {
+            matUnitDef = 1;
             unitDefault.text = unit1.text;
           },
         ),
         CheckedPopupMenuItem(
           child: Center(child: Text(unit2.text)),
           onTap: () {
+            matUnitDef = 2;
             unitDefault.text = unit2.text;
           },
         ),

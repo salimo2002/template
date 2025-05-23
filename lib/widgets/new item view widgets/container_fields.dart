@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:template/utils/constants.dart';
 
 class ContainerFields extends StatelessWidget {
   const ContainerFields({super.key, required this.children});
@@ -11,15 +12,10 @@ class ContainerFields extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 5),
         width: double.infinity,
         decoration: BoxDecoration(
-          color: const Color(0xfff6f6f8),
+          color: kColorBorder,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
-            BoxShadow(
-              offset: Offset(0, .5),
-              spreadRadius: .1,
-              blurRadius: 3,
-              color: Colors.grey,
-            ),
+            bosShadow(),
           ],
         ),
         child: Padding(
@@ -28,5 +24,5 @@ class ContainerFields extends StatelessWidget {
         ),
       ),
     );
-  }
+  }  
 }
