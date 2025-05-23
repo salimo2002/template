@@ -8,6 +8,7 @@ import 'package:template/cubit/material%20cubit/material_status.dart';
 import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
@@ -57,6 +58,8 @@ class _NewMaterialViewState extends State<NewMaterialView> {
 
   @override
   void dispose() {
+    imageUpdate.dispose();
+    convertOperatorTextField.dispose();
     materialName.dispose();
     matCategory.dispose();
     baraCode1.dispose();
@@ -81,216 +84,182 @@ class _NewMaterialViewState extends State<NewMaterialView> {
       body: SafeArea(
         child: Form(
           key: globalKey,
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      ValueListenableBuilder<String>(
-                        valueListenable: imageUpdate,
-                        builder: (context, value, child) {
-                          return UploadedImage(
-                            url: imageUpdate.value,
-                            onTap: () async {
-                              final picked = await ImagePicker().pickImage(
-                                source: ImageSource.gallery,
-                              );
-                              if (picked != null) {
-                                imageUpdate.value = picked.path;
-                              }
-                            },
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      ContainerFields(
-                        children: [
-                          TextFieldAndDetails(
-                            controller: materialName,
-                            hintText: 'اسم المادة',
-                            validator: (p0) {
-                              if (p0 == null || p0.trim().isEmpty) {
-                                return '! ادخل اسم المادة';
-                              }
-                              return null;
-                            },
-                          ),
-                          TextFieldAndDetails(
-                            canRead: true,
-                            icon: InkWell(
-                              onTapDown: showCategory,
-                              child: Icon(
-                                Icons.arrow_drop_down_rounded,
-                                size: 40,
-                                color: kBlueAccent,
-                              ),
-                            ),
-                            controller: matCategory,
-                            hintText: 'التصنيف',
-                          ),
-                          TextFieldBaracode(controller: baraCode1),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      ContainerFields(
-                        children: [
-                          TextFieldAndDetails(
-                            controller: unit1,
-                            hintText: 'الوحدة الاولى',
-                          ),
-                          TextFieldAndDetails(
-                            controller: purchasePrice,
-                            hintText: 'سعر الجملة',
-                            keyType: TextInputType.number,
-                          ),
-                          TextFieldAndDetails(
-                            controller: price1,
-                            hintText: 'سعر المستهلك',
-                            keyType: TextInputType.number,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      ContainerFields(
-                        children: [
-                          TextFieldAndDetails(
-                            controller: unit2,
-                            hintText: 'الوحدة الثانية',
-                          ),
-                          ConvertOperatorTextField(
-                            convertOperatorTextField: convertOperatorTextField,
-                            textEditingController: unit2Num,
-                            hintText: 'معامل التحويل',
-                            keyType: TextInputType.number,
-                          ),
-                          TextFieldAndDetails(
-                            hintText: 'سعر المستهلك',
-                            controller: price2,
-                            keyType: TextInputType.number,
-                          ),
-                          TextFieldBaracode(controller: baraCode2),
-                          TextFieldAndDetails(
-                            canRead: true,
-                            icon: InkWell(
-                              onTapDown: showUnits,
-                              child: Icon(
-                                Icons.arrow_drop_down_rounded,
-                                size: 40,
-                                color: kBlueAccent,
-                              ),
-                            ),
-                            controller: unitDefault,
-                            hintText: 'الوحدة الافتراضية',
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      BlocConsumer<MaterialCubit, MaterialStatus>(
-                        listener: (context, state) {
-                          if (state is FaliureState) {
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor: kRed,
-                                content: Text(
-                                  'حدث خطأ أثناء الإضافة',
-                                  style: FontStyleApp.white18.copyWith(
-                                    fontSize: getResponsiveText(context, 12),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                        builder: (context, state) {
-                          if (state is SuccessState) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(
-                                    'الغاء',
-                                    style: FontStyleApp.black18,
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () async {
-                                    if (globalKey.currentState!.validate()) {
-                                      await context
-                                          .read<MaterialCubit>()
-                                          .insertMaterial(
-                                            MaterialModel(
-                                              materialUnit: unit1.text,
-                                              materialId: 0,
-                                              materialNumber:
-                                                  Random()
-                                                      .nextInt(1000000)
-                                                      .toString(),
-                                              materialName: materialName.text,
-                                              materialCode: baraCode1.text,
-                                              materialPrice1:
-                                                  double.tryParse(
-                                                    purchasePrice.text,
-                                                  ) ??
-                                                  0.0,
-                                              materialPrice3:
-                                                  double.tryParse(
-                                                    price1.text,
-                                                  ) ??
-                                                  0.0,
-                                              materialUnit2: unit2.text,
-                                              materialUnit2Number:
-                                                  double.tryParse(
-                                                    convertOperatorTextField
-                                                        .text,
-                                                  ) ??
-                                                  1.0,
-                                              materialUnit2Price3:
-                                                  double.tryParse(
-                                                    price2.text,
-                                                  ) ??
-                                                  0.0,
-                                              materialKind: 0,
-                                              materialUnitDefault: matUnitDef,
-                                              materialImage: imageUpdate.value,
-                                              parentId: parentId,
-                                              materiaUnit2Baracode:
-                                                  baraCode2.text,
-                                            ),
-                                          );
-                                      Navigator.pop(context);
-                                    }
-                                  },
-                                  child: Text(
-                                    'حفظ',
-                                    style: FontStyleApp.black18,
-                                  ),
-                                ),
-                              ],
-                            );
-                          } else if (state is LoadingState) {
-                            return CircularProgressIndicator(
-                              color: kBlueAccent,
-                            );
-                          } else {
-                            return SizedBox();
-                          }
-                        },
-                      ),
-                    ],
-                  ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                ValueListenableBuilder<String>(
+                  valueListenable: imageUpdate,
+                  builder: (context, value, child) {
+                    return UploadedImage(
+                      url: imageUpdate.value,
+                      onTap: () async {
+                        final picked = await ImagePicker().pickImage(
+                          source: ImageSource.gallery,
+                        );
+                        if (picked != null) {
+                          imageUpdate.value = picked.path;
+                        }
+                      },
+                    );
+                  },
                 ),
-              ),
-            ],
+                const SizedBox(height: 20),
+                ContainerFields(
+                  children: [
+                    TextFieldAndDetails(
+                      controller: materialName,
+                      hintText: 'اسم المادة',
+                      validator: (p0) {
+                        if (p0 == null || p0.trim().isEmpty) {
+                          return '! ادخل اسم المادة';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFieldAndDetails(
+                      canRead: true,
+                      icon: InkWell(
+                        onTapDown: showCategory,
+                        child: Icon(
+                          Icons.arrow_drop_down_rounded,
+                          size: 40,
+                          color: kBlueAccent,
+                        ),
+                      ),
+                      controller: matCategory,
+                      hintText: 'التصنيف',
+                    ),
+                    TextFieldBaracode(controller: baraCode1),
+                  ],
+                ),
+                SizedBox(height: 20),
+                ContainerFields(
+                  children: [
+                    TextFieldAndDetails(
+                      controller: unit1,
+                      hintText: 'الوحدة الاولى',
+                    ),
+                    TextFieldAndDetails(
+                      controller: purchasePrice,
+                      hintText: 'سعر الجملة',
+                      keyType: TextInputType.number,
+                    ),
+                    TextFieldAndDetails(
+                      controller: price1,
+                      hintText: 'سعر المستهلك',
+                      keyType: TextInputType.number,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                ContainerFields(
+                  children: [
+                    TextFieldAndDetails(
+                      controller: unit2,
+                      hintText: 'الوحدة الثانية',
+                    ),
+                    ConvertOperatorTextField(
+                      convertOperatorTextField: convertOperatorTextField,
+                      textEditingController: unit2Num,
+                      hintText: 'معامل التحويل',
+                      keyType: TextInputType.number,
+                    ),
+                    TextFieldAndDetails(
+                      hintText: 'سعر المستهلك',
+                      controller: price2,
+                      keyType: TextInputType.number,
+                    ),
+                    TextFieldBaracode(controller: baraCode2),
+                    TextFieldAndDetails(
+                      canRead: true,
+                      icon: InkWell(
+                        onTapDown: showUnits,
+                        child: Icon(
+                          Icons.arrow_drop_down_rounded,
+                          size: 40,
+                          color: kBlueAccent,
+                        ),
+                      ),
+                      controller: unitDefault,
+                      hintText: 'الوحدة الافتراضية',
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                BlocConsumer<MaterialCubit, MaterialStatus>(
+                  listener: (context, state) {
+                    if (state is FaliureState) {
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        customSnackBar(context, 'حدث خطأ أثناء الإضافة', kRed),
+                      );
+                    } else if (state is SuccessState) {
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        customSnackBar(
+                          context,
+                          'تم اضافة مادة بنجاح',
+                          kBlueAccent,
+                        ),
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is SuccessState) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('الغاء', style: FontStyleApp.black18),
+                          ),
+                          TextButton(
+                            onPressed: insertMaterial,
+                            child: Text('حفظ', style: FontStyleApp.black18),
+                          ),
+                        ],
+                      );
+                    } else if (state is LoadingState) {
+                      return CircularProgressIndicator(color: kBlueAccent);
+                    } else {
+                      return SizedBox();
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  void insertMaterial() async {
+    if (globalKey.currentState!.validate()) {
+      await context.read<MaterialCubit>().insertMaterial(
+        MaterialModel(
+          materialUnit: unit1.text,
+          materialId: 0,
+          materialNumber: Random().nextInt(1000000).toString(),
+          materialName: materialName.text,
+          materialCode: baraCode1.text,
+          materialPrice1: double.tryParse(purchasePrice.text) ?? 0.0,
+          materialPrice3: double.tryParse(price1.text) ?? 0.0,
+          materialUnit2: unit2.text,
+          materialUnit2Number:
+              double.tryParse(convertOperatorTextField.text) ?? 1.0,
+          materialUnit2Price3: double.tryParse(price2.text) ?? 0.0,
+          materialKind: 0,
+          materialUnitDefault: matUnitDef,
+          materialImage: imageUpdate.value,
+          parentId: parentId,
+          materiaUnit2Baracode: baraCode2.text,
+        ),
+      );
+    }
   }
 
   void showCategory(TapDownDetails details) {
