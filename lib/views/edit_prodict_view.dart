@@ -162,7 +162,6 @@ class _NewItemViewState extends State<EditProdictView> {
                           TextFieldAndDetails(
                             controller: materialName,
                             hintText: 'اسم المادة',
-                            label: '  اسم المادة',
                             validator: (p0) {
                               if (p0 == null || p0.trim().isEmpty) {
                                 return '! ادخل اسم المادة';
@@ -174,11 +173,7 @@ class _NewItemViewState extends State<EditProdictView> {
                       ),
                       ContainerFields(
                         children: [
-                          TextFieldAndBarcode(
-                            controller: baraCode1,
-                            hintText: 'الباركود',
-                            label: 'الباركود',
-                          ),
+                          TextFieldBaracode(controller: baraCode1,)
                         ],
                       ),
                       ContainerFields(
@@ -202,20 +197,17 @@ class _NewItemViewState extends State<EditProdictView> {
                           TextFieldAndDetails(
                             controller: unit1,
                             hintText: 'الوحدة الاولى',
-                            label: "الوحدة الاولى",
                           ),
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: purchasePrice,
                             hintText: 'سعر الجملة',
-                            label: "سعر الجملة",
                             keyType: TextInputType.number,
                           ),
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: price1,
                             hintText: 'سعر المستهلك',
-                            label: "سعر المستهلك",
                             keyType: TextInputType.number,
                           ),
                         ],
@@ -225,7 +217,6 @@ class _NewItemViewState extends State<EditProdictView> {
                           TextFieldAndDetails(
                             controller: unit2,
                             hintText: 'الوحدة الثانية',
-                            label: "الوحدة الثانية",
                           ),
                           const SizedBox(height: 5),
                           ConvertOperatorTextField(
@@ -238,16 +229,11 @@ class _NewItemViewState extends State<EditProdictView> {
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
                             hintText: 'سعر المستهلك',
-                            label: 'سعر المستهلك',
                             controller: price2,
                             keyType: TextInputType.number,
                           ),
                           const SizedBox(height: 5),
-                          TextFieldAndBarcode(
-                            hintText: 'الباركود',
-                            label: 'الباركود',
-                            controller: baraCode2,
-                          ),
+                          TextFieldBaracode(controller: baraCode2,)
                         ],
                       ),
                       ContainerFields(

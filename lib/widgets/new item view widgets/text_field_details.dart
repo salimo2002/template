@@ -6,34 +6,36 @@ class TextFieldAndDetails extends StatelessWidget {
   const TextFieldAndDetails({
     super.key,
     required this.hintText,
-    required this.label,
     required this.controller,
     this.keyType = TextInputType.text,
-    this.validator,
+    this.validator, this.icon, this.canRead,
   });
   final String hintText;
-  final String label;
   final TextEditingController controller;
   final TextInputType? keyType;
   final String? Function(String?)? validator;
+  final Widget? icon;
+  final bool? canRead;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const SizedBox(width: 5),
-        Expanded(
-          child: CustomTextField(
-            validator: validator,
-            hintText: hintText,
-            controller: controller,
-            keyType: keyType,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        spacing: 25,
+        children: [
+          Expanded(
+            child: CustomTextField(
+              canRead: canRead,
+              icon: icon,
+              validator: validator,
+              hintText: hintText,
+              controller: controller,
+              keyType: keyType,
+            ),
           ),
-        ),
-        const SizedBox(width: 20),
-        Text(label, style: TextStyle(fontSize: getResponsiveText(context, 12))),
-        const SizedBox(width: 10),
-      ],
+        ],
+      ),
     );
   }
 }

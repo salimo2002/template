@@ -1,39 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
-import 'package:template/utils/font_style.dart';
-import 'package:template/utils/responsive_text.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     required this.hintText,
     required this.controller,
-    this.keyType = TextInputType.text, this.validator,
-    
+    this.keyType = TextInputType.text,
+    this.validator,
+    this.icon,
+    this.canRead,
   });
   final String hintText;
   final TextEditingController controller;
   final TextInputType? keyType;
   final String? Function(String?)? validator;
+  final Widget? icon;
+  final bool? canRead;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 34,
+    return Directionality(
+      textDirection: TextDirection.rtl,
       child: TextFormField(
+        readOnly: canRead == null ? false : true,
         validator: validator,
         keyboardType: keyType,
         controller: controller,
         textDirection: TextDirection.rtl,
         decoration: InputDecoration(
+          suffixIcon: icon,
+          floatingLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+          label: Text(hintText, style: TextStyle(color: kBlueAccent)),
           isDense: true,
           contentPadding: const EdgeInsets.symmetric(
-            vertical: 8,
+            vertical: 12,
             horizontal: 12,
-          ),
-          hintTextDirection: TextDirection.rtl,
-          hintText: hintText,
-          hintStyle: FontStyleApp.blackCustom18.copyWith(
-            fontSize: getResponsiveText(context, 12),
           ),
           fillColor: kWhite,
           filled: true,
@@ -49,10 +50,16 @@ class CustomTextField extends StatelessWidget {
   }
 
   OutlineInputBorder borderStyle() {
-    return OutlineInputBorder(borderSide: BorderSide(color: kBlueAccent));
+    return OutlineInputBorder(
+      borderSide: BorderSide(color: const Color.fromARGB(255, 233, 228, 228)),
+      borderRadius: BorderRadius.circular(18),
+    );
   }
 
   OutlineInputBorder borderErrorStyle() {
-    return const OutlineInputBorder(borderSide: BorderSide(color: Colors.red));
+    return OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.red),
+      borderRadius: BorderRadius.circular(18),
+    );
   }
 }

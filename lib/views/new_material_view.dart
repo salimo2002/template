@@ -121,9 +121,8 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
-                            controller: materialName,
+                            controller: TextEditingController(),
                             hintText: 'اسم المادة',
-                            label: '  اسم المادة',
                             validator: (p0) {
                               if (p0 == null || p0.trim().isEmpty) {
                                 return '! ادخل اسم المادة';
@@ -131,17 +130,32 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                               return null;
                             },
                           ),
-                        ],
-                      ),
-                      ContainerFields(
-                        children: [
-                          TextFieldAndBarcode(
-                            controller: baraCode1,
-                            hintText: 'الباركود',
-                            label: 'الباركود',
+                          TextFieldAndDetails(
+                            canRead: true,
+                            icon: IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.arrow_drop_down_rounded,
+                                size: 40,
+                                color: kBlueAccent,
+                              ),
+                            ),
+                            controller: TextEditingController(
+                              text: 'اختر التصنيف',
+                            ),
+                            hintText: 'التصنيف',
+                            validator: (p0) {
+                              if (p0 == null || p0.trim().isEmpty) {
+                                return '! ادخل اسم المادة';
+                              }
+                              return null;
+                            },
                           ),
+                          TextFieldBaracode(controller: baraCode1),
                         ],
                       ),
+                      SizedBox(height: 20),
+
                       ContainerFields(
                         children: [
                           DropDownMenuAndDetails(
@@ -169,20 +183,17 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                           TextFieldAndDetails(
                             controller: unit1,
                             hintText: 'الوحدة الاولى',
-                            label: "الوحدة الاولى",
                           ),
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: purchasePrice,
                             hintText: 'سعر الجملة',
-                            label: "   سعر الجملة",
                             keyType: TextInputType.number,
                           ),
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
                             controller: price1,
                             hintText: 'سعر المستهلك',
-                            label: "سعر المستهلك",
                             keyType: TextInputType.number,
                           ),
                         ],
@@ -192,7 +203,6 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                           TextFieldAndDetails(
                             controller: unit2,
                             hintText: 'الوحدة الثانية',
-                            label: "الوحدة الثانية",
                           ),
                           const SizedBox(height: 5),
                           ConvertOperatorTextField(
@@ -205,16 +215,11 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                           const SizedBox(height: 5),
                           TextFieldAndDetails(
                             hintText: 'سعر المستهلك',
-                            label: 'سعر المستهلك',
                             controller: price2,
                             keyType: TextInputType.number,
                           ),
                           const SizedBox(height: 5),
-                          TextFieldAndBarcode(
-                            hintText: 'الباركود',
-                            label: 'الباركود',
-                            controller: baraCode2,
-                          ),
+                          TextFieldBaracode(controller: baraCode2),
                         ],
                       ),
                       ContainerFields(

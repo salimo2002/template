@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -20,6 +18,7 @@ class TreeAccountsView extends StatefulWidget {
 
 class _TreeAccountsViewState extends State<TreeAccountsView> {
   bool isExpanded = false;
+  UniqueKey _expansionKey = UniqueKey();
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +33,13 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
         actions: [
           TextButton(
             onPressed: () {
-              isExpanded = !isExpanded;
               setState(() {
-                log(isExpanded.toString());
+                isExpanded = !isExpanded;
+                _expansionKey = UniqueKey();
               });
             },
             child: Text(
-              'توسيع الكل',
+              isExpanded ? 'طي الكل' : 'توسيع الكل',
               style: FontStyleApp.white18.copyWith(
                 fontSize: getResponsiveText(context, 12),
               ),
@@ -58,6 +57,7 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
                   allAccounts.where((acc) => acc.parentId == 0).toList();
 
               return ListView.builder(
+                key: _expansionKey, 
                 itemCount: rootAccounts.length,
                 itemBuilder: (context, index) {
                   return buildTree(context, rootAccounts[index], allAccounts);
@@ -87,6 +87,7 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
       child: Padding(
         padding: const EdgeInsets.only(right: 15),
         child: ExpansionTile(
+          key: ValueKey(account.accID), 
           initiallyExpanded: isExpanded,
           iconColor: Colors.transparent,
           collapsedIconColor: Colors.transparent,
@@ -120,6 +121,7 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
     );
   }
 
+  // باقي الدوال تبقى كما هي...
   void showPopupMenu(
     TapDownDetails details,
     BuildContext context,
@@ -133,7 +135,18 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
         Offset.zero & overlay.size,
       ),
       items: [
+         CheckedPopupMenuItem(
+          child: const Text('إضافة حساب'),
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              AddAccountAndUpdateView.id,
+              arguments: {'account': account, 'isNew': true},
+            );
+          },
+        ),
         CheckedPopupMenuItem(
+          
           child: const Text('بطاقة حساب'),
           onTap: () {
             Navigator.pushNamed(
