@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:template/Service/acconts_Get_perint_id_zero_service.dart';
+import 'package:template/Service/acconts_get_perint_id_zero_service.dart';
 import 'package:template/Service/account_service%20.dart';
-import 'package:template/account%20cubit/accounts_status.dart';
+import 'package:template/cubit/account%20cubit/accounts_status.dart';
 import 'package:template/models/acconts_get_perint_id_zero.dart';
 import 'package:template/models/account_model.dart';
 

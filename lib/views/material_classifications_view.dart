@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:template/category%20cubit/category_cubit.dart';
-import 'package:template/category%20cubit/category_status.dart';
+import 'package:template/cubit/category%20cubit/category_cubit.dart';
+import 'package:template/cubit/category%20cubit/category_status.dart';
 import 'package:template/models/category_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';

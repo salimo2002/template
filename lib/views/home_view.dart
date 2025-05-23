@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:template/Service/acconts_Get_perint_id_zero_service.dart';
-import 'package:template/Service/account_service%20.dart';
-import 'package:template/account%20cubit/accounts_cubit.dart';
-import 'package:template/category%20cubit/category_cubit.dart';
-import 'package:template/material%20cubit/material_cubit.dart';
+import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
+import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
+import 'package:template/cubit/category%20cubit/category_cubit.dart';
+import 'package:template/cubit/material%20cubit/material_cubit.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
-import 'package:template/Service/material_services.dart';
 import 'package:template/widgets/home%20view%20widgets/accounts.dart';
 import 'package:template/widgets/home%20view%20widgets/create_financial_documents.dart';
 import 'package:template/widgets/home%20view%20widgets/debts_and_supplies.dart';
@@ -49,10 +47,9 @@ class _HomeViewState extends State<HomeView> {
         backgroundColor: kBlueAccent,
         actions: [
           IconButton(
-            onPressed: () async {
-              MaterialServices.fetchMaterials();
-              AccountService.fetchAccounts();
-              ParentAccountsService.accontsGetPerintIdZero();
+            onPressed: () {
+              context.read<BillCubit>().fetchBill();
+              ///////////////////////////////////////////////////
             },
             icon: Icon(Icons.more_vert_outlined),
           ),
