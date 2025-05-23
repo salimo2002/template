@@ -11,26 +11,26 @@ class EditableDataColumn extends StatelessWidget {
     this.onChanged,
   });
 
-  ///Product details
   final String text;
   final TextEditingController conttroller;
   final void Function(String)? onChanged;
+
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          Container(
-            width: 80,
-            height: 30,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-              ),
-              color: kBlueAccent,
+    return Column(
+      children: [
+        Container(
+          width: 80,
+          height: 30,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
             ),
-            child: Center(
+            color: kBlueAccent,
+          ),
+          child: Center(
+            child: FittedBox(
               child: Text(
                 text,
                 style: FontStyleApp.white18.copyWith(
@@ -39,31 +39,29 @@ class EditableDataColumn extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            height: 30,
-            width: 80,
-            decoration: BoxDecoration(
-              color: Color(0xffd8d8d8),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10),
-              ),
-            ),
-            child: EditableText(
-              textAlign: TextAlign.center,
-              controller: conttroller,
-              focusNode: FocusNode(),
-              style: TextStyle(fontSize: 16, color: Colors.black),
-              cursorColor: Colors.blue,
-              backgroundCursorColor: Colors.transparent,
-              keyboardType: TextInputType.number,
-              onChanged: onChanged,
+        ),
+        Container(
+          height: 30,
+          width: 80,
+          decoration: BoxDecoration(
+            color: Color(0xffd8d8d8),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10),
             ),
           ),
-
-          SizedBox(height: 10),
-        ],
-      ),
+          child: EditableText(
+            textAlign: TextAlign.center,
+            controller: conttroller,
+            focusNode: FocusNode(),
+            style: TextStyle(fontSize: 16, color: Colors.black),
+            cursorColor: Colors.blue,
+            backgroundCursorColor: Colors.transparent,
+            keyboardType: TextInputType.number,
+            onChanged: onChanged,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -22,22 +22,22 @@ class MaterialCardView extends StatefulWidget {
 
 class _MaterialCardViewState extends State<MaterialCardView> {
   final TextEditingController _searchController = TextEditingController();
-  final ValueNotifier<List<MaterialModel>> _filteredMaterials = ValueNotifier(
+  final ValueNotifier<List<MaterialModel>> filteredMaterials = ValueNotifier(
     [],
   );
 
   @override
   void dispose() {
     _searchController.dispose();
-    _filteredMaterials.dispose();
+    filteredMaterials.dispose();
     super.dispose();
   }
 
   void filterMaterials(String query, List<MaterialModel> materials) {
     if (query.isEmpty) {
-      _filteredMaterials.value = materials;
+      filteredMaterials.value = materials;
     } else {
-      _filteredMaterials.value =
+      filteredMaterials.value =
           materials.where((material) {
             return material.materialName.toLowerCase().contains(
               query.toLowerCase(),
@@ -53,9 +53,8 @@ class _MaterialCardViewState extends State<MaterialCardView> {
         if (state is SuccessState) {
           List<MaterialModel> materials = state.materials;
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            _filteredMaterials.value = materials;
+            filteredMaterials.value = materials;
           });
-
           return Scaffold(
             appBar: AppBar(
               backgroundColor: kBlueAccent,
@@ -91,7 +90,7 @@ class _MaterialCardViewState extends State<MaterialCardView> {
                   vertical: 0.3,
                 ),
                 child: ValueListenableBuilder<List<MaterialModel>>(
-                  valueListenable: _filteredMaterials,
+                  valueListenable: filteredMaterials,
                   builder: (context, filteredList, _) {
                     return filteredList.isEmpty
                         ? Center(
