@@ -49,43 +49,55 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                   padding: const EdgeInsets.all(5),
                   child: Column(
                     children: [
-                      Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(width: 5),
-                          Expanded(
-                            child: CustomTextField(
-                              prefixIcon: IconButton(
-                                onPressed: _toggleScanner,
-                                icon: const Icon(
-                                  FontAwesomeIcons.barcode,
-                                  color: kBlueAccent,
+                          Row(
+                            children: [
+                              SizedBox(width: 5),
+                              Expanded(
+                                child: CustomTextField(
+                                  prefixIcon: IconButton(
+                                    onPressed: _toggleScanner,
+                                    icon: const Icon(
+                                      FontAwesomeIcons.barcode,
+                                      color: kBlueAccent,
+                                    ),
+                                  ),
+                                  hintText: 'ادخل اسم المادة',
+                                  controller: controllerSerch,
                                 ),
                               ),
-                              hintText: 'ادخل اسم المادة',
-                              controller: controllerSerch,
-                            ),
+                            ],
                           ),
-
                           if (showScanner)
-                            SizedBox(
-                              height: 300,
-                              child: MobileScanner(
-                                controller: scannerController,
-                                onDetect: (capture) {
-                                  final String? code =
-                                      capture.barcodes.first.rawValue;
-                                  if (code != null && code.isNotEmpty) {
-                                    controller.text = code;
-                                    scannerController.stop();
-                                    setState(() {
-                                      showScanner = false;
-                                    });
-                                  }
-                                },
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: SizedBox(
+                                height: 150, // 🔸 الطول الذي تريده للكاميرا
+                                width: double.infinity,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: MobileScanner(
+                                    controller: scannerController,
+                                    onDetect: (capture) {
+                                      final String? code =
+                                          capture.barcodes.first.rawValue;
+                                      if (code != null && code.isNotEmpty) {
+                                        controller.text = code;
+                                        scannerController.stop();
+                                        setState(() {
+                                          showScanner = false;
+                                        });
+                                      }
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
                         ],
                       ),
+
                       SizedBox(height: 10),
                       Column(
                         children: [
@@ -101,24 +113,28 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Text(
-                                        'سكر',
-                                        style: FontStyleApp.black18.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: getResponsiveText(
-                                            context,
-                                            18,
+                                      FittedBox(
+                                        child: Text(
+                                          'سكر',
+                                          style: FontStyleApp.black18.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: getResponsiveText(
+                                              context,
+                                              18,
+                                            ),
                                           ),
                                         ),
                                       ),
 
-                                      Text(
-                                        '  -1',
-                                        style: FontStyleApp.black18.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: getResponsiveText(
-                                            context,
-                                            18,
+                                      FittedBox(
+                                        child: Text(
+                                          '  -1',
+                                          style: FontStyleApp.black18.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: getResponsiveText(
+                                              context,
+                                              18,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -131,26 +147,34 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                                     horizontal: 7,
                                   ),
                                   child: Row(
-                                    spacing: 10,
                                     children: [
-                                      EditableDataColumn(
-                                        conttroller: TextEditingController(
-                                          text: "1",
+                                      Expanded(
+                                        child: EditableDataColumn(
+                                          conttroller: TextEditingController(
+                                            text: "1",
+                                          ),
+                                          text: 'المجموع',
                                         ),
-                                        text: 'المجموع',
                                       ),
-                                      EditableDataColumn(
-                                        conttroller: TextEditingController(
-                                          text: "1",
+                                      SizedBox(width: 8),
+                                      Expanded(
+                                        child: EditableDataColumn(
+                                          conttroller: TextEditingController(
+                                            text: "1",
+                                          ),
+                                          text: 'السعر',
                                         ),
-                                        text: 'السعر',
                                       ),
-                                      EditableDataColumn(
-                                        conttroller: TextEditingController(
-                                          text: "1",
+                                      SizedBox(width: 8),
+                                      Expanded(
+                                        child: EditableDataColumn(
+                                          conttroller: TextEditingController(
+                                            text: "1",
+                                          ),
+                                          text: 'الكمية',
                                         ),
-                                        text: 'الكمية',
                                       ),
+                                      SizedBox(width: 8),
                                       Expanded(
                                         child: InkWell(
                                           onTapDown: (details) {
@@ -197,6 +221,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                                     ],
                                   ),
                                 ),
+
                                 SizedBox(height: 10),
                               ],
                             ),
