@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:template/utils/font_style.dart';
-import 'package:template/utils/responsive_text.dart';
+import 'package:template/widgets/item%20card%20view%20widgets/table_labels.dart';
+import 'package:template/widgets/item%20card%20view%20widgets/table_values.dart';
 
 class TableFIelds extends StatelessWidget {
   const TableFIelds({super.key});
@@ -31,70 +31,16 @@ class TableFIelds extends StatelessWidget {
             TableRow(
               decoration: BoxDecoration(color: Colors.white),
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    textAlign: TextAlign.center,
-                    'الكمية المتوفرة',
-                    style: FontStyleApp.blueAccent18.copyWith(
-                      fontSize: getResponsiveText(context, 14),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    textAlign: TextAlign.center,
-                    'الكمية المباعة',
-                    style: FontStyleApp.blueAccent18.copyWith(
-                      fontSize: getResponsiveText(context, 14),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    textAlign: TextAlign.center,
-                    'الكمية الكلية',
-                    style: FontStyleApp.blueAccent18.copyWith(
-                      fontSize: getResponsiveText(context, 14),
-                    ),
-                  ),
-                ),
+                TableLabels(label: 'الكمية المتوفرة'),
+                TableLabels(label: 'الكمية المباعة'),
+                TableLabels(label: 'الكمية الكلية'),
               ],
             ),
             TableRow(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Text(
-                    textAlign: TextAlign.center,
-                    '250',
-                    style: FontStyleApp.black18.copyWith(
-                      fontSize: getResponsiveText(context, 16),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Text(
-                    textAlign: TextAlign.center,
-                    '250',
-                    style: FontStyleApp.black18.copyWith(
-                      fontSize: getResponsiveText(context, 16),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Text(
-                    textAlign: TextAlign.center,
-                    '250',
-                    style: FontStyleApp.black18.copyWith(
-                      fontSize: getResponsiveText(context, 16),
-                    ),
-                  ),
-                ),
+                TableValues(value: '250'),
+                TableValues(value: '250'),
+                TableValues(value: '250'),
               ],
             ),
           ],
