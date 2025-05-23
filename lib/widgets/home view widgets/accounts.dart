@@ -19,6 +19,9 @@ class Accounts extends StatelessWidget {
 
           SizedBox(height: 5),
           RowCustomButton(
+            text3: 'فاتورة مردود مشتريات',
+            icon3: Icons.abc,
+            onTap3: () {},
             icon1: FontAwesomeIcons.faceSmileBeam,
             icon2: FontAwesomeIcons.grinStars,
             onTap1: () {},
@@ -28,6 +31,9 @@ class Accounts extends StatelessWidget {
           ),
           SizedBox(height: 5),
           RowCustomButton(
+            text3: 'فاتورة مردود مشتريات',
+            icon3: Icons.abc,
+            onTap3: () {},
             icon1: FontAwesomeIcons.bookmark,
             icon2: FontAwesomeIcons.boxArchive,
             onTap1: () {},
@@ -38,6 +44,9 @@ class Accounts extends StatelessWidget {
           SizedBox(height: 5),
           SizedBox(height: 5),
           RowCustomButton(
+            text3: 'فاتورة مردود مشتريات',
+            icon3: Icons.abc,
+            onTap3: () {},
             icon1: FontAwesomeIcons.tree,
             icon2: Icons.list_alt,
             onTap1: () {

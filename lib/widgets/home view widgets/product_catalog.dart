@@ -19,7 +19,9 @@ class ProductCatalog extends StatelessWidget {
           PartsTitle(title: 'المواد وتصنيفاتها', color: kBlueAccent),
 
           SizedBox(height: 5),
-          RowCustomButton(
+          RowCustomButton(  text3: 'فاتورة مردود مشتريات',
+            icon3: Icons.abc,
+            onTap3: () {},
             icon1: FontAwesomeIcons.fileEdit,
             icon2: FontAwesomeIcons.tags,
             onTap1: () {},
@@ -30,7 +32,9 @@ class ProductCatalog extends StatelessWidget {
             text1: 'فاتورة مواد أول المدة',
           ),
           SizedBox(height: 5),
-          RowCustomButton(
+          RowCustomButton(  text3: 'فاتورة مردود مشتريات',
+            icon3: Icons.abc,
+            onTap3: () {},
             icon1: Icons.speed,
             icon2: FontAwesomeIcons.boxArchive,
             onTap1: () {},
@@ -41,7 +45,9 @@ class ProductCatalog extends StatelessWidget {
             text2: 'تصنيفات المواد',
           ),
           SizedBox(height: 5),
-          RowCustomButton(
+          RowCustomButton(  text3: 'فاتورة مردود مشتريات',
+            icon3: Icons.abc,
+            onTap3: () {},
             icon1: FontAwesomeIcons.fileEdit,
             icon2: FontAwesomeIcons.fileEdit,
             onTap1: () {},

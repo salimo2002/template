@@ -17,6 +17,9 @@ class ViewInvoices extends StatelessWidget {
 
           SizedBox(height: 5),
           RowCustomButton(
+            text3: 'فاتورة مردود مشتريات',
+            icon3: Icons.abc,
+            onTap3: () {},
             icon1: Icons.file_copy_outlined,
             icon2: Icons.file_copy_outlined,
             onTap1: () {},
@@ -26,6 +29,9 @@ class ViewInvoices extends StatelessWidget {
           ),
           SizedBox(height: 5),
           RowCustomButton(
+            text3: 'فاتورة مردود مشتريات',
+            icon3: Icons.abc,
+            onTap3: () {},
             icon1: Icons.file_copy_outlined,
             icon2: Icons.file_copy_outlined,
             onTap1: () {},
