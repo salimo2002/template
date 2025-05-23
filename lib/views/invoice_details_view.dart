@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/invoice%20details%20view/comments_text_field.dart';
@@ -31,35 +32,25 @@ class InvoiceDetailsView extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          CustomContainer(
-                            child: Column(
-                              spacing: 5,
-                              children: [
-                                ContainerFields(
-                                  children: [
-                                    TextFieldAndDetails(
-                                      hintText: 'زبون نقدي',
-                                      controller: TextEditingController(),
-                                    ),
-                                  ],
+                          ContainerFields(
+                            children: [
+                              TextFieldAndDetails(
+                                controller: TextEditingController(),
+                                icon: Icon(Icons.close),
+                                hintText: 'اسم الحساب',
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: kWhite,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 5,
-                                  ),
-                                  child: CustomContainer(
-                                    child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Text('الرصيد 0'),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                                height: 30,
+                                width: MediaQuery.sizeOf(context).width * 0.75,
+                                child: Center(child: Text('الرصيد: 2500')),
+                              ),
+                            ],
                           ),
-                        ],
+                        ]
                       ),
                       CustomContainer(
                         child: Row(
@@ -168,4 +159,18 @@ class InvoiceDetailsView extends StatelessWidget {
       ),
     );
   }
+}
+
+OutlineInputBorder borderErrorStyle() {
+  return OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.red),
+    borderRadius: BorderRadius.circular(18),
+  );
+}
+
+OutlineInputBorder borderStyle() {
+  return OutlineInputBorder(
+    borderSide: BorderSide(color: kBorderTextFieldColor),
+    borderRadius: BorderRadius.circular(18),
+  );
 }
