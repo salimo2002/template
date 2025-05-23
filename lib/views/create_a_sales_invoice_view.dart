@@ -3,6 +3,7 @@ import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/invoice_details_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
@@ -49,45 +50,42 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                   padding: const EdgeInsets.all(5),
                   child: Column(
                     children: [
-                      CustomContainer(
-                        child: Row(
-                          children: [
-                            SizedBox(width: 5),
-                            Expanded(
-                              child: CustomTextField(
-                                hintText: 'قم بالبحث عن مادة ',
-                                controller: controllerSerch,
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                            IconButton(
-                              onPressed: _toggleScanner,
-                              icon: const Icon(
-                                FontAwesomeIcons.barcode,
-                                color: kBlueAccent,
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                            if (showScanner)
-                              SizedBox(
-                                height: 300,
-                                child: MobileScanner(
-                                  controller: scannerController,
-                                  onDetect: (capture) {
-                                    final String? code =
-                                        capture.barcodes.first.rawValue;
-                                    if (code != null && code.isNotEmpty) {
-                                      controller.text = code;
-                                      scannerController.stop();
-                                      setState(() {
-                                        showScanner = false;
-                                      });
-                                    }
-                                  },
+                      Row(
+                        children: [
+                          SizedBox(width: 5),
+                          Expanded(
+                            child: CustomTextField(
+                              prefixIcon: IconButton(
+                                onPressed: _toggleScanner,
+                                icon: const Icon(
+                                  FontAwesomeIcons.barcode,
+                                  color: kBlueAccent,
                                 ),
                               ),
-                          ],
-                        ),
+                              hintText: 'ادخل اسم المادة',
+                              controller: controllerSerch,
+                            ),
+                          ),
+
+                          if (showScanner)
+                            SizedBox(
+                              height: 300,
+                              child: MobileScanner(
+                                controller: scannerController,
+                                onDetect: (capture) {
+                                  final String? code =
+                                      capture.barcodes.first.rawValue;
+                                  if (code != null && code.isNotEmpty) {
+                                    controller.text = code;
+                                    scannerController.stop();
+                                    setState(() {
+                                      showScanner = false;
+                                    });
+                                  }
+                                },
+                              ),
+                            ),
+                        ],
                       ),
                       SizedBox(height: 10),
                       Column(
@@ -100,14 +98,22 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                                   children: [
                                     Text(
                                       'سكر',
-                                      style: TextStyle(
+                                      style: FontStyleApp.black18.copyWith(
                                         fontSize: getResponsiveText(
                                           context,
                                           18,
                                         ),
                                       ),
                                     ),
-                                    Text(' -1'),
+                                    Text(
+                                      ' -1',
+                                      style: FontStyleApp.black18.copyWith(
+                                        fontSize: getResponsiveText(
+                                          context,
+                                          18,
+                                        ),
+                                      ),
+                                    ),
                                     SizedBox(width: 5),
                                   ],
                                 ),
@@ -135,53 +141,50 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                                       text: 'الكمية',
                                     ),
                                     Expanded(
-                                      child: CustomContainer(
-                                        child: Column(
-                                          children: [
-                                            InkWell(
-                                              onTapDown: (details) {
-                                                final RenderBox overlay =
-                                                    Overlay.of(context).context
-                                                            .findRenderObject()
-                                                        as RenderBox;
-                                                showMenu(
-                                                  context: context,
-                                                  position:
-                                                      RelativeRect.fromRect(
-                                                        details.globalPosition &
-                                                            const Size(60, 60),
-                                                        Offset.zero &
-                                                            overlay.size,
-                                                      ),
-                                                  items: [
-                                                    PopupMenuItem(
-                                                      child: ListTile(
-                                                        title: Text('قطعة'),
-                                                        onTap: () {
-                                                          Navigator.pop(
-                                                            context,
-                                                          );
-                                                        },
-                                                      ),
+                                      child: Column(
+                                        children: [
+                                          InkWell(
+                                            onTapDown: (details) {
+                                              final RenderBox overlay =
+                                                  Overlay.of(context).context
+                                                          .findRenderObject()
+                                                      as RenderBox;
+                                              showMenu(
+                                                context: context,
+                                                position: RelativeRect.fromRect(
+                                                  details.globalPosition &
+                                                      const Size(60, 60),
+                                                  Offset.zero & overlay.size,
+                                                ),
+                                                items: [
+                                                  PopupMenuItem(
+                                                    child: ListTile(
+                                                      title: Text('قطعة'),
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                      },
                                                     ),
-                                                    PopupMenuItem(
-                                                      child: ListTile(
-                                                        title: Text('طرد'),
-                                                        onTap: () {
-                                                          Navigator.pop(
-                                                            context,
-                                                          );
-                                                        },
-                                                      ),
+                                                  ),
+                                                  PopupMenuItem(
+                                                    child: ListTile(
+                                                      title: Text('طرد'),
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                      },
                                                     ),
-                                                  ],
-                                                );
-                                              },
-                                              child: Text('قطعة'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                            child: EditableDataColumn(
+                                              text: 'الوحدة',
+                                              conttroller:
+                                                  TextEditingController(
+                                                    text: 'قطعة',
+                                                  ),
                                             ),
-                                            SizedBox(height: 10),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     SizedBox(width: 5),
