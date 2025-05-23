@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:template/widgets/item%20card%20view%20widgets/table_labels.dart';
-import 'package:template/widgets/item%20card%20view%20widgets/table_values.dart';
+import 'package:template/utils/font_style.dart';
+import 'package:template/utils/responsive_text.dart';
 
 class TableFIelds extends StatelessWidget {
   const TableFIelds({super.key});
