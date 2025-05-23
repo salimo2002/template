@@ -12,9 +12,6 @@ import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/convert_operator_text_field.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/drop_down_menu_and_details.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/row_default_unit.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/save_and_exite_button.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_barcode.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/uploaded_image.dart';
@@ -30,7 +27,9 @@ class EditProdictView extends StatefulWidget {
 class _NewItemViewState extends State<EditProdictView> {
   final TextEditingController materialName = TextEditingController();
   final TextEditingController baraCode1 = TextEditingController();
+  TextEditingController unitDefault = TextEditingController();
   final TextEditingController unit1 = TextEditingController();
+  final TextEditingController matCategory = TextEditingController();
   final TextEditingController purchasePrice = TextEditingController();
   final TextEditingController price1 = TextEditingController();
   final TextEditingController unit2 = TextEditingController();
@@ -47,6 +46,7 @@ class _NewItemViewState extends State<EditProdictView> {
     '',
     '',
   ]);
+  int matUnitDef = 1;
   ValueNotifier<String> imageUpdate = ValueNotifier('');
   late MaterialModel argumentsMaterial =
       ModalRoute.of(context)!.settings.arguments as MaterialModel;
@@ -93,10 +93,9 @@ class _NewItemViewState extends State<EditProdictView> {
   void didChangeDependencies() {
     if (_isInit) {
       log('didChangeDependencies - init');
-
       argumentsMaterial =
           ModalRoute.of(context)!.settings.arguments as MaterialModel;
-      isSelected.value = argumentsMaterial.materialUnitDefault;
+      matUnitDef = argumentsMaterial.materialUnitDefault;
       materialName.text = argumentsMaterial.materialName;
       baraCode1.text = argumentsMaterial.materialCode;
       baraCode2.text = argumentsMaterial.materiaUnit2Baracode;
@@ -109,15 +108,18 @@ class _NewItemViewState extends State<EditProdictView> {
       convertOperatorTextField.text =
           argumentsMaterial.materialUnit2Number.toString();
       image = argumentsMaterial.materialImage;
-
+      matUnitDef == 1
+          ? unitDefault.text = unit1.text
+          : unitDefault.text = unit2.text;
       context.read<CategoryCubit>().categories.forEach((element) {
         if (argumentsMaterial.parentId == element.matId) {
-          category = element.matName;
+          matCategory.text = element.matName;
         }
       });
 
       _isInit = false;
     }
+    log(unitDefault.text);
     super.didChangeDependencies();
   }
 
@@ -138,7 +140,7 @@ class _NewItemViewState extends State<EditProdictView> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 10),
                       ValueListenableBuilder<String>(
                         valueListenable: imageUpdate,
                         builder: (context, value, child) {
@@ -156,7 +158,7 @@ class _NewItemViewState extends State<EditProdictView> {
                           );
                         },
                       ),
-                      const SizedBox(height: 7),
+                      const SizedBox(height: 20),
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
@@ -169,27 +171,23 @@ class _NewItemViewState extends State<EditProdictView> {
                               return null;
                             },
                           ),
-                        ],
-                      ),
-                      ContainerFields(
-                        children: [TextFieldBaracode(controller: baraCode1)],
-                      ),
-                      ContainerFields(
-                        children: [
-                          DropDownMenuAndDetails(
-                            value: category,
-                            onChanged: (categoryName) {
-                              context.read<CategoryCubit>().categories.forEach((
-                                element,
-                              ) {
-                                if (categoryName == element.matName) {
-                                  parentId = element.matId;
-                                }
-                              });
-                            },
+                          TextFieldAndDetails(
+                            canRead: true,
+                            icon: InkWell(
+                              onTapDown: showCategory,
+                              child: Icon(
+                                Icons.arrow_drop_down_rounded,
+                                size: 40,
+                                color: kBlueAccent,
+                              ),
+                            ),
+                            controller: matCategory,
+                            hintText: 'التصنيف',
                           ),
+                          TextFieldBaracode(controller: baraCode1),
                         ],
                       ),
+                      SizedBox(height: 20),
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
@@ -208,6 +206,7 @@ class _NewItemViewState extends State<EditProdictView> {
                           ),
                         ],
                       ),
+                      SizedBox(height: 20),
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
@@ -226,94 +225,136 @@ class _NewItemViewState extends State<EditProdictView> {
                             keyType: TextInputType.number,
                           ),
                           TextFieldBaracode(controller: baraCode2),
-                        ],
-                      ),
-                      ContainerFields(
-                        children: [
-                          RowDefaultUnit(
-                            labels: labels,
-                            isSelected: isSelected,
+                          TextFieldAndDetails(
+                            canRead: true,
+                            icon: InkWell(
+                              onTapDown: showUnits,
+                              child: Icon(
+                                Icons.arrow_drop_down_rounded,
+                                size: 40,
+                                color: kBlueAccent,
+                              ),
+                            ),
+                            controller: unitDefault,
+                            hintText: 'الوحدة الافتراضية',
                           ),
                         ],
+                      ),
+                      SizedBox(height: 20),
+                      BlocConsumer<MaterialCubit, MaterialStatus>(
+                        listener: (context, state) {
+                          if (state is FaliureState) {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: kRed,
+                                content: Text(
+                                  'حدث خطأ أثناء الإضافة',
+                                  style: FontStyleApp.white18.copyWith(
+                                    fontSize: getResponsiveText(context, 12),
+                                  ),
+                                ),
+                              ),
+                            );
+                          } else if (state is SuccessState) {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: kBlueAccent,
+                                content: Text(
+                                  'تم تعديل المادة بنجاح',
+                                  style: FontStyleApp.white18.copyWith(
+                                    fontSize: getResponsiveText(context, 12),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is SuccessState) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    'الغاء',
+                                    style: FontStyleApp.black18,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    if (globalKey.currentState!.validate()) {
+                                      await context
+                                          .read<MaterialCubit>()
+                                          .updateMaterial(
+                                            MaterialModel(
+                                              materialId:
+                                                  argumentsMaterial.materialId,
+                                              materialNumber:
+                                                  argumentsMaterial
+                                                      .materialNumber,
+                                              materialName: materialName.text,
+                                              materialCode: baraCode1.text,
+                                              materialPrice1:
+                                                  double.tryParse(
+                                                    purchasePrice.text,
+                                                  ) ??
+                                                  0.0,
+                                              materialPrice3:
+                                                  double.tryParse(
+                                                    price1.text,
+                                                  ) ??
+                                                  0.0,
+                                              materialUnit: unit1.text,
+                                              materialUnit2: unit2.text,
+                                              materialUnit2Number:
+                                                  double.tryParse(
+                                                    convertOperatorTextField
+                                                        .text,
+                                                  ) ??
+                                                  0.0,
+                                              materialUnit2Price3:
+                                                  double.tryParse(
+                                                    price2.text,
+                                                  ) ??
+                                                  0.0,
+                                              materialKind: 0,
+                                              materialUnitDefault:
+                                                  isSelected.value ?? 1,
+                                              materialImage: materialImagePath,
+                                              parentId: parentId,
+                                              materiaUnit2Baracode:
+                                                  baraCode2.text,
+                                            ),
+                                          );
+                                    }
+                                  },
+                                  child: Text(
+                                    'حفظ',
+                                    style: FontStyleApp.black18,
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else if (state is LoadingState) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: CircularProgressIndicator(
+                                color: kBlueAccent,
+                              ),
+                            );
+                          } else {
+                            return SizedBox();
+                          }
+                        },
                       ),
                     ],
                   ),
                 ),
-              ),
-              BlocConsumer<MaterialCubit, MaterialStatus>(
-                listener: (context, state) {
-                  if (state is FaliureState) {
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        backgroundColor: kRed,
-                        content: Text(
-                          'حدث خطأ أثناء الإضافة',
-                          style: FontStyleApp.white18.copyWith(
-                            fontSize: getResponsiveText(context, 12),
-                          ),
-                        ),
-                      ),
-                    );
-                  } else if (state is SuccessState) {
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        backgroundColor: kBlueAccent,
-                        content: Text(
-                          'تم تعديل المادة بنجاح',
-                          style: FontStyleApp.white18.copyWith(
-                            fontSize: getResponsiveText(context, 12),
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                },
-                builder: (context, state) {
-                  if (state is SuccessState) {
-                    return SaveAndExitButton(
-                      text: 'حفظ و انهاء',
-                      onPressed: () async {
-                        if (globalKey.currentState!.validate()) {
-                          await context.read<MaterialCubit>().updateMaterial(
-                            MaterialModel(
-                              materialId: argumentsMaterial.materialId,
-                              materialNumber: argumentsMaterial.materialNumber,
-                              materialName: materialName.text,
-                              materialCode: baraCode1.text,
-                              materialPrice1:
-                                  double.tryParse(purchasePrice.text) ?? 0.0,
-                              materialPrice3:
-                                  double.tryParse(price1.text) ?? 0.0,
-                              materialUnit: unit1.text,
-                              materialUnit2: unit2.text,
-                              materialUnit2Number:
-                                  double.tryParse(
-                                    convertOperatorTextField.text,
-                                  ) ??
-                                  0.0,
-                              materialUnit2Price3:
-                                  double.tryParse(price2.text) ?? 0.0,
-                              materialKind: 0,
-                              materialUnitDefault: isSelected.value ?? 1,
-                              materialImage: materialImagePath,
-                              parentId: parentId,
-                              materiaUnit2Baracode: baraCode2.text,
-                            ),
-                          );
-                        }
-                      },
-                    );
-                  } else if (state is LoadingState) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CircularProgressIndicator(color: kBlueAccent),
-                    );
-                  } else {
-                    return SizedBox();
-                  }
-                },
               ),
             ],
           ),
@@ -321,24 +362,53 @@ class _NewItemViewState extends State<EditProdictView> {
       ),
     );
   }
+
+  void showUnits(TapDownDetails details) {
+    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    showMenu(
+      menuPadding: EdgeInsets.zero,
+      context: context,
+      position: RelativeRect.fromRect(
+        details.globalPosition & const Size(60, 60),
+        Offset.zero & overlay.size,
+      ),
+      items: [
+        CheckedPopupMenuItem(
+          child: Center(child: Text(unit1.text)),
+          onTap: () {
+            matUnitDef = 1;
+            unitDefault.text = unit1.text;
+          },
+        ),
+        CheckedPopupMenuItem(
+          child: Center(child: Text(unit2.text)),
+          onTap: () {
+            matUnitDef = 2;
+            unitDefault.text = unit2.text;
+          },
+        ),
+      ],
+    );
+  }
+
+  void showCategory(TapDownDetails details) {
+    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    showMenu(
+      menuPadding: EdgeInsets.zero,
+      context: context,
+      position: RelativeRect.fromRect(
+        details.globalPosition & const Size(60, 60),
+        Offset.zero & overlay.size,
+      ),
+      items:
+          context.read<CategoryCubit>().categories.map((e) {
+            return CheckedPopupMenuItem(
+              child: Center(child: Text(e.matName)),
+              onTap: () {
+                matCategory.text = e.matName;
+              },
+            );
+          }).toList(),
+    );
+  }
 }
-//  if (categoryName != null) {
-//                                     final categoryCubit =
-//                                         context.read<CategoryCubit>();
-//                                     final selectedCategory = categoryCubit
-//                                         .categories
-//                                         .firstWhere(
-//                                           (element) =>
-//                                               categoryName == element.matName,
-//                                           orElse:
-//                                               () =>
-//                                                   categoryCubit
-//                                                       .categories
-//                                                       .first,
-//                                         );
-
-//                                     newCategoryMatId.value =
-//                                         selectedCategory.matId;
-
-//                                     category = categoryName;
-//                                   }

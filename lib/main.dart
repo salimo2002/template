@@ -55,7 +55,7 @@ class Template extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          scaffoldBackgroundColor: Color(0xfff6f6f8),
+          scaffoldBackgroundColor: kBackGroundColor,
           radioTheme: RadioThemeData(
             fillColor: WidgetStateProperty.all(kBlueAccent),
             overlayColor: WidgetStateProperty.all(Colors.transparent),
