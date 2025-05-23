@@ -86,7 +86,7 @@ class _HomeViewState extends State<HomeView> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: [boxShadow()],
+                    boxShadow: [bosShadow()],
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),

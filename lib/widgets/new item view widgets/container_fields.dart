@@ -14,7 +14,7 @@ class ContainerFields extends StatelessWidget {
         decoration: BoxDecoration(
           color: kColorBorder,
           borderRadius: BorderRadius.circular(12),
-          boxShadow: [boxShadow()],
+          boxShadow: [bosShadow()],
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),

@@ -139,7 +139,7 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                   decoration: BoxDecoration(
-                    color: kSecondColor,
+                    color: Colors.red,
                     borderRadius: BorderRadius.circular(18),
                   ),
                   child: Text(
