@@ -46,7 +46,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     children: [
                       Column(
@@ -72,9 +72,13 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                           ),
                           if (showScanner)
                             Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
+                              padding: const EdgeInsets.only(
+                                top: 8.0,
+                                left: 5,
+                                right: 5,
+                              ),
                               child: SizedBox(
-                                height: 150, // 🔸 الطول الذي تريده للكاميرا
+                                height: 150,
                                 width: double.infinity,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
@@ -99,134 +103,139 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                       ),
 
                       SizedBox(height: 10),
-                      Column(
-                        children: [
-                          CustomContainer(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 10,
-                                    right: 10,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      FittedBox(
-                                        child: Text(
-                                          'سكر',
-                                          style: FontStyleApp.black18.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: getResponsiveText(
-                                              context,
-                                              18,
-                                            ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Column(
+                          children: [
+                            CustomContainer(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 10,
+                                      right: 10,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        FittedBox(
+                                          child: Text(
+                                            'سكر',
+                                            style: FontStyleApp.black18
+                                                .copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: getResponsiveText(
+                                                    context,
+                                                    18,
+                                                  ),
+                                                ),
                                           ),
                                         ),
-                                      ),
 
-                                      FittedBox(
-                                        child: Text(
-                                          '  -1',
-                                          style: FontStyleApp.black18.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: getResponsiveText(
-                                              context,
-                                              18,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 7,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: EditableDataColumn(
-                                          conttroller: TextEditingController(
-                                            text: "1",
-                                          ),
-                                          text: 'المجموع',
-                                        ),
-                                      ),
-                                      SizedBox(width: 8),
-                                      Expanded(
-                                        child: EditableDataColumn(
-                                          conttroller: TextEditingController(
-                                            text: "1",
-                                          ),
-                                          text: 'السعر',
-                                        ),
-                                      ),
-                                      SizedBox(width: 8),
-                                      Expanded(
-                                        child: EditableDataColumn(
-                                          conttroller: TextEditingController(
-                                            text: "1",
-                                          ),
-                                          text: 'الكمية',
-                                        ),
-                                      ),
-                                      SizedBox(width: 8),
-                                      Expanded(
-                                        child: InkWell(
-                                          onTapDown: (details) {
-                                            final RenderBox overlay =
-                                                Overlay.of(
-                                                      context,
-                                                    ).context.findRenderObject()
-                                                    as RenderBox;
-                                            showMenu(
-                                              context: context,
-                                              position: RelativeRect.fromRect(
-                                                details.globalPosition &
-                                                    const Size(60, 60),
-                                                Offset.zero & overlay.size,
-                                              ),
-                                              items: [
-                                                PopupMenuItem(
-                                                  child: ListTile(
-                                                    title: Text('قطعة'),
-                                                    onTap: () {
-                                                      Navigator.pop(context);
-                                                    },
+                                        FittedBox(
+                                          child: Text(
+                                            '  -1',
+                                            style: FontStyleApp.black18
+                                                .copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: getResponsiveText(
+                                                    context,
+                                                    18,
                                                   ),
                                                 ),
-                                                PopupMenuItem(
-                                                  child: ListTile(
-                                                    title: Text('طرد'),
-                                                    onTap: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                  ),
-                                                ),
-                                              ],
-                                            );
-                                          },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 15,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
                                           child: EditableDataColumn(
-                                            text: 'الوحدة',
                                             conttroller: TextEditingController(
-                                              text: 'قطعة',
+                                              text: "1",
+                                            ),
+                                            text: 'المجموع',
+                                          ),
+                                        ),
+
+                                        Expanded(
+                                          child: EditableDataColumn(
+                                            conttroller: TextEditingController(
+                                              text: "1",
+                                            ),
+                                            text: 'السعر',
+                                          ),
+                                        ),
+
+                                        Expanded(
+                                          child: EditableDataColumn(
+                                            conttroller: TextEditingController(
+                                              text: "1",
+                                            ),
+                                            text: 'الكمية',
+                                          ),
+                                        ),
+
+                                        Expanded(
+                                          child: InkWell(
+                                            onTapDown: (details) {
+                                              final RenderBox overlay =
+                                                  Overlay.of(context).context
+                                                          .findRenderObject()
+                                                      as RenderBox;
+                                              showMenu(
+                                                context: context,
+                                                position: RelativeRect.fromRect(
+                                                  details.globalPosition &
+                                                      const Size(60, 60),
+                                                  Offset.zero & overlay.size,
+                                                ),
+                                                items: [
+                                                  PopupMenuItem(
+                                                    child: ListTile(
+                                                      title: Text('قطعة'),
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                    ),
+                                                  ),
+                                                  PopupMenuItem(
+                                                    child: ListTile(
+                                                      title: Text('طرد'),
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                            child: EditableDataColumn(
+                                              text: 'الوحدة',
+                                              conttroller:
+                                                  TextEditingController(
+                                                    text: 'قطعة',
+                                                  ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
 
-                                SizedBox(height: 10),
-                              ],
+                                  SizedBox(height: 10),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
