@@ -17,42 +17,44 @@ class _UploadedImageState extends State<UploadedImage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onTap,
-      child: FittedBox(
-        child: Stack(
-          children: [
-            Container(
-              width: 90,
-              height: 90,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            width: 90,
+            height: 90,
+            decoration: BoxDecoration(
+              color: const Color(0xffeaeaea),
+              border: Border.all(color: Color(0xffbbbbbb)),
+              shape: BoxShape.circle,
+            ),
+            child:
+                widget.url == ''
+                    ? widget.image == null
+                        ? Icon(Icons.camera_alt_outlined, color: Colors.grey)
+                        : SizedBox()
+                    : CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: FileImage(File(widget.url)),
+                    ),
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.all(.5),
               decoration: BoxDecoration(
-                color: const Color(0xffeaeaea),
-                border: Border.all(color: Color(0xffbbbbbb)),
-                borderRadius: BorderRadius.circular(45),
+                color: Color(0xffbbbbbb),
+                shape: BoxShape.circle,
               ),
-              child:
-                  widget.url == ''
-                      ? widget.image == null
-                          ? Icon(Icons.camera_alt_outlined, color: Colors.grey)
-                          : SizedBox()
-                      : Image.file(File(widget.url)),
-            ),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: Container(
-                padding: EdgeInsets.all(.5),
-                decoration: BoxDecoration(
-                  color: Color(0xffbbbbbb),
-                  shape: BoxShape.circle,
-                ),
-                child: CircleAvatar(
-                  radius: 15,
-                  backgroundColor: kWhite,
-                  child: Icon(Icons.edit, size: 15),
-                ),
+              child: CircleAvatar(
+                radius: 15,
+                backgroundColor: kWhite,
+                child: Icon(Icons.edit, size: 15),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
