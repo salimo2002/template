@@ -3,11 +3,11 @@ import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/invoice_details_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/save_and_exite_button.dart';
 import 'package:template/widgets/sales%20invoice%20view/editable_data_column.dart';
 
 class CreateASalesInvoiceView extends StatefulWidget {
@@ -49,143 +49,153 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                   padding: const EdgeInsets.all(5),
                   child: Column(
                     children: [
-                      CustomContainer(
-                        child: Row(
-                          children: [
-                            SizedBox(width: 5),
-                            Expanded(
-                              child: CustomTextField(
-                                hintText: 'قم بالبحث عن مادة ',
-                                controller: controllerSerch,
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                            IconButton(
-                              onPressed: _toggleScanner,
-                              icon: const Icon(
-                                FontAwesomeIcons.barcode,
-                                color: kBlueAccent,
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                            if (showScanner)
-                              SizedBox(
-                                height: 300,
-                                child: MobileScanner(
-                                  controller: scannerController,
-                                  onDetect: (capture) {
-                                    final String? code =
-                                        capture.barcodes.first.rawValue;
-                                    if (code != null && code.isNotEmpty) {
-                                      controller.text = code;
-                                      scannerController.stop();
-                                      setState(() {
-                                        showScanner = false;
-                                      });
-                                    }
-                                  },
+                      Row(
+                        children: [
+                          SizedBox(width: 5),
+                          Expanded(
+                            child: CustomTextField(
+                              prefixIcon: IconButton(
+                                onPressed: _toggleScanner,
+                                icon: const Icon(
+                                  FontAwesomeIcons.barcode,
+                                  color: kBlueAccent,
                                 ),
                               ),
-                          ],
-                        ),
+                              hintText: 'ادخل اسم المادة',
+                              controller: controllerSerch,
+                            ),
+                          ),
+
+                          if (showScanner)
+                            SizedBox(
+                              height: 300,
+                              child: MobileScanner(
+                                controller: scannerController,
+                                onDetect: (capture) {
+                                  final String? code =
+                                      capture.barcodes.first.rawValue;
+                                  if (code != null && code.isNotEmpty) {
+                                    controller.text = code;
+                                    scannerController.stop();
+                                    setState(() {
+                                      showScanner = false;
+                                    });
+                                  }
+                                },
+                              ),
+                            ),
+                        ],
                       ),
                       SizedBox(height: 10),
                       Column(
                         children: [
                           CustomContainer(
+                            borderRadius: BorderRadius.circular(10),
                             child: Column(
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      'سكر',
-                                      style: TextStyle(
-                                        fontSize: getResponsiveText(
-                                          context,
-                                          18,
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 10,
+                                    right: 10,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'سكر',
+                                        style: FontStyleApp.black18.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: getResponsiveText(
+                                            context,
+                                            18,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Text(' -1'),
-                                    SizedBox(width: 5),
-                                  ],
+
+                                      Text(
+                                        '  -1',
+                                        style: FontStyleApp.black18.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: getResponsiveText(
+                                            context,
+                                            18,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(height: 10),
-                                Row(
-                                  spacing: 10,
-                                  children: [
-                                    SizedBox(width: 5),
-                                    EditableDataColumn(
-                                      conttroller: TextEditingController(
-                                        text: "1",
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 7,
+                                  ),
+                                  child: Row(
+                                    spacing: 10,
+                                    children: [
+                                      EditableDataColumn(
+                                        conttroller: TextEditingController(
+                                          text: "1",
+                                        ),
+                                        text: 'المجموع',
                                       ),
-                                      text: 'المجموع',
-                                    ),
-                                    EditableDataColumn(
-                                      conttroller: TextEditingController(
-                                        text: "1",
+                                      EditableDataColumn(
+                                        conttroller: TextEditingController(
+                                          text: "1",
+                                        ),
+                                        text: 'السعر',
                                       ),
-                                      text: 'السعر',
-                                    ),
-                                    EditableDataColumn(
-                                      conttroller: TextEditingController(
-                                        text: "1",
+                                      EditableDataColumn(
+                                        conttroller: TextEditingController(
+                                          text: "1",
+                                        ),
+                                        text: 'الكمية',
                                       ),
-                                      text: 'الكمية',
-                                    ),
-                                    Expanded(
-                                      child: CustomContainer(
-                                        child: Column(
-                                          children: [
-                                            InkWell(
-                                              onTapDown: (details) {
-                                                final RenderBox overlay =
-                                                    Overlay.of(context).context
-                                                            .findRenderObject()
-                                                        as RenderBox;
-                                                showMenu(
-                                                  context: context,
-                                                  position:
-                                                      RelativeRect.fromRect(
-                                                        details.globalPosition &
-                                                            const Size(60, 60),
-                                                        Offset.zero &
-                                                            overlay.size,
-                                                      ),
-                                                  items: [
-                                                    PopupMenuItem(
-                                                      child: ListTile(
-                                                        title: Text('قطعة'),
-                                                        onTap: () {
-                                                          Navigator.pop(
-                                                            context,
-                                                          );
-                                                        },
-                                                      ),
-                                                    ),
-                                                    PopupMenuItem(
-                                                      child: ListTile(
-                                                        title: Text('طرد'),
-                                                        onTap: () {
-                                                          Navigator.pop(
-                                                            context,
-                                                          );
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                              child: Text('قطعة'),
+                                      Expanded(
+                                        child: InkWell(
+                                          onTapDown: (details) {
+                                            final RenderBox overlay =
+                                                Overlay.of(
+                                                      context,
+                                                    ).context.findRenderObject()
+                                                    as RenderBox;
+                                            showMenu(
+                                              context: context,
+                                              position: RelativeRect.fromRect(
+                                                details.globalPosition &
+                                                    const Size(60, 60),
+                                                Offset.zero & overlay.size,
+                                              ),
+                                              items: [
+                                                PopupMenuItem(
+                                                  child: ListTile(
+                                                    title: Text('قطعة'),
+                                                    onTap: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                ),
+                                                PopupMenuItem(
+                                                  child: ListTile(
+                                                    title: Text('طرد'),
+                                                    onTap: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                          child: EditableDataColumn(
+                                            text: 'الوحدة',
+                                            conttroller: TextEditingController(
+                                              text: 'قطعة',
                                             ),
-                                            SizedBox(height: 10),
-                                          ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(width: 5),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(height: 10),
                               ],
@@ -198,29 +208,26 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: CustomContainer(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'بنود : 1 |كمية : 0 | مجموع : 5 ل.س',
-                      style: TextStyle(
-                        fontSize: getResponsiveText(context, 16),
-                      ),
-                    ),
-                  ],
-                ),
+            CustomContainer(
+              borderRadius: BorderRadius.circular(0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'بنود : 1 |كمية : 0 | مجموع : 5 ل.س',
+                    style: TextStyle(fontSize: getResponsiveText(context, 16)),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 5),
-            SaveAndExitButton(
+            SizedBox(height: 30),
+            TextButton(
               onPressed: () {
                 Navigator.pushNamed(context, InvoiceDetailsView.id);
               },
-              text: 'التالي',
+              child: Text('التالي', style: FontStyleApp.black18),
             ),
+            SizedBox(height: 15),
           ],
         ),
       ),

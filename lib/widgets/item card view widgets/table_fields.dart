@@ -31,16 +31,70 @@ class TableFIelds extends StatelessWidget {
             TableRow(
               decoration: BoxDecoration(color: Colors.white),
               children: [
-                TableLabels(label: 'الكمية المتوفرة'),
-                TableLabels(label: 'الكمية المباعة'),
-                TableLabels(label: 'الكمية الكلية'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    'الكمية المتوفرة',
+                    style: FontStyleApp.blueAccent18.copyWith(
+                      fontSize: getResponsiveText(context, 14),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    'الكمية المباعة',
+                    style: FontStyleApp.blueAccent18.copyWith(
+                      fontSize: getResponsiveText(context, 14),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    'الكمية الكلية',
+                    style: FontStyleApp.blueAccent18.copyWith(
+                      fontSize: getResponsiveText(context, 14),
+                    ),
+                  ),
+                ),
               ],
             ),
             TableRow(
               children: [
-                TableValues(value: '250'),
-                TableValues(value: '250'),
-                TableValues(value: '250'),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    '250',
+                    style: FontStyleApp.black18.copyWith(
+                      fontSize: getResponsiveText(context, 16),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    '250',
+                    style: FontStyleApp.black18.copyWith(
+                      fontSize: getResponsiveText(context, 16),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    '250',
+                    style: FontStyleApp.black18.copyWith(
+                      fontSize: getResponsiveText(context, 16),
+                    ),
+                  ),
+                ),
               ],
             ),
           ],

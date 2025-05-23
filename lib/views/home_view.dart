@@ -37,7 +37,10 @@ class _HomeViewState extends State<HomeView> {
     ),
     SingleChildScrollView(
       padding: const EdgeInsets.all(8),
-      child: Column(children: [Accounts(), DebtsAndSupplies()]),
+      child: SizedBox(
+        height: 700, // لتجنب مشكلة overflow
+        child: AccountsAndMaterialsTab(),
+      ),
     ),
     SingleChildScrollView(
       padding: const EdgeInsets.all(8),
@@ -166,6 +169,58 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class AccountsAndMaterialsTab extends StatefulWidget {
+  const AccountsAndMaterialsTab({super.key});
+
+  @override
+  State<AccountsAndMaterialsTab> createState() =>
+      _AccountsAndMaterialsTabState();
+}
+
+class _AccountsAndMaterialsTabState extends State<AccountsAndMaterialsTab>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    _tabController = TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 8),
+        TabBar(
+          dividerColor: Colors.transparent,
+          controller: _tabController,
+          labelColor: kBlueAccent,
+          unselectedLabelColor: kBlack,
+          indicator: const UnderlineTabIndicator(
+            borderSide: BorderSide(width: 2.5, color: kBlueAccent),
+            insets: EdgeInsets.symmetric(horizontal: 1),
+          ),
+          tabs: const [Tab(text: 'دليل الحسابات'), Tab(text: 'دليل المواد')],
+        ),
+        SizedBox(height: 10),
+        Expanded(
+          child: TabBarView(
+            controller: _tabController,
+            children: const [Accounts(), DebtsAndSupplies()],
+          ),
+        ),
+      ],
     );
   }
 }
