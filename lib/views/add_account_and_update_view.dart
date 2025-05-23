@@ -67,7 +67,7 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
     for (AccountModel element in AccountsCubit.accounts) {
       if (element.accID == existingAccount.parentId) {
         parentName = element.accName;
-        parentId=element.accID;
+        parentId = element.accID;
         break;
       }
     }
@@ -92,10 +92,65 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                     children: [
                       ContainerFields(
                         children: [
-                          TextFieldAndDetails(
-                            hintText: 'العملاء و الزبائن',
-                            label: 'الحساب الرئيسي',
-                            controller: TextEditingController(),
+                          Row(
+                            children: [
+                              const SizedBox(width: 5),
+                              Expanded(
+                                child: SizedBox(
+                                  height: 34,
+                                  child: TextFormField(
+                                    readOnly: true,
+                                    textDirection: TextDirection.rtl,
+                                    decoration: InputDecoration(
+                                      isDense: true,
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                            vertical: 8,
+                                            horizontal: 12,
+                                          ),
+                                      hintTextDirection: TextDirection.rtl,
+                                      hintText:
+                                          isNew
+                                              ? existingAccount.accName
+                                              : parentName,
+                                      hintStyle: FontStyleApp.blackCustom18
+                                          .copyWith(
+                                            fontSize: getResponsiveText(
+                                              context,
+                                              12,
+                                            ),
+                                          ),
+                                      fillColor: kWhite,
+                                      filled: true,
+                                      enabledBorder: borderStyle(),
+                                      border: borderStyle(),
+                                      focusedBorder: borderStyle(),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                      errorStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              Text(
+                                'الحساب الرئيسي',
+                                style: TextStyle(
+                                  fontSize: getResponsiveText(context, 12),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                            ],
                           ),
                         ],
                       ),
@@ -180,7 +235,7 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                           ? Random().nextInt(1000000)
                           : existingAccount.accNumber,
                   accName: nameAcc.text,
-                  parentId: isNew?existingAccount.accID!:parentId!,
+                  parentId: isNew ? existingAccount.accID! : parentId!,
                   accKind: 1,
                   accRefrence: 1,
                   accID: isNew ? null : existingAccount.accID,
