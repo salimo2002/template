@@ -23,7 +23,9 @@ class CreateFinancialDocuments extends StatelessWidget {
             icon: FontAwesomeIcons.solidQuestionCircle,
           ),
           SizedBox(height: 5),
-          RowCustomButton(
+          RowCustomButton(  text3: 'فاتورة مردود مشتريات',
+            icon3: Icons.abc,
+            onTap3: () {},
             icon1: FontAwesomeIcons.fileCirclePlus,
             icon2: FontAwesomeIcons.fileCirclePlus,
             onTap1: () {},
@@ -34,7 +36,9 @@ class CreateFinancialDocuments extends StatelessWidget {
             text1: 'فاتورة مشتريات جديدة',
           ),
           SizedBox(height: 5),
-          RowCustomButton(
+          RowCustomButton(  text3: 'فاتورة مردود مشتريات',
+            icon3: Icons.abc,
+            onTap3: () {},
             icon1: FontAwesomeIcons.fileCircleMinus,
             icon2: FontAwesomeIcons.creditCard,
             onTap1: () {},

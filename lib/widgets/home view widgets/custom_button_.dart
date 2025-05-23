@@ -17,32 +17,31 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        width: MediaQuery.sizeOf(context).width * .46,
-        height: MediaQuery.sizeOf(context).width * .17,
-        decoration: BoxDecoration(
-          border: Border.all(color: kBlueAccent),
-          borderRadius: BorderRadius.circular(5),
-          color: kWhite,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 10),
-            Expanded(child: Icon(size: 25, color: kBlueAccent, icon)),
-            SizedBox(height: 10),
-            FittedBox(
-              child: Text(
-                text,
-                style: FontStyleApp.blackCustom18.copyWith(
-                  fontSize: getResponsiveText(context, 11),
-                ),
-              ),
+      child: Column(
+        children: [
+          Container(
+            width: MediaQuery.sizeOf(context).width * .25,
+            height: MediaQuery.sizeOf(context).width * .20,
+            decoration: BoxDecoration(
+              boxShadow: [BoxShadow(offset: Offset(1, 0))],
+              borderRadius: BorderRadius.circular(5),
+              color: kWhite,
             ),
-            SizedBox(height: 5),
-          ],
-        ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(child: Icon(size: 25, color: kBlueAccent, icon)),
+              ],
+            ),
+          ),
+          Text(
+            text,
+            style: FontStyleApp.black18.copyWith(
+              fontSize: getResponsiveText(context, 15),
+            ),
+          ),
+        ],
       ),
     );
   }

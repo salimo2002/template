@@ -17,7 +17,9 @@ class FinancialReports extends StatelessWidget {
           PartsTitle(title: 'التقارير المالية', color: kBlueAccent),
 
           SizedBox(height: 5),
-          RowCustomButton(
+          RowCustomButton(  text3: 'فاتورة مردود مشتريات',
+            icon3: Icons.abc,
+            onTap3: () {},
             icon1: FontAwesomeIcons.fileArrowUp,
             icon2: FontAwesomeIcons.creditCard,
             onTap1: () {},
