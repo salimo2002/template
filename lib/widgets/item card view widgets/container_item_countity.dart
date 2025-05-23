@@ -118,7 +118,7 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
 
   Widget buildItemCardContent(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 7),
+      margin: EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
       height: MediaQuery.sizeOf(context).height * .17,
       decoration: BoxDecoration(
@@ -139,7 +139,7 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                   decoration: BoxDecoration(
-                    color: Colors.red,
+                    color: kSecondColor,
                     borderRadius: BorderRadius.circular(18),
                   ),
                   child: Text(

@@ -1,16 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 
 class TableFIelds extends StatelessWidget {
-  const TableFIelds({
-    super.key,
-  });
+  const TableFIelds({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.grey.shade400, width: 0.3),
@@ -21,14 +19,8 @@ class TableFIelds extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         child: Table(
           border: TableBorder(
-            verticalInside: BorderSide(
-              color: Colors.grey.shade400,
-              width: 1,
-            ),
-            horizontalInside: BorderSide(
-              color: Colors.grey.shade400,
-              width: 1,
-            ),
+            verticalInside: BorderSide(color: Colors.grey.shade400, width: 1),
+            horizontalInside: BorderSide(color: Colors.grey.shade400, width: 1),
           ),
           columnWidths: const {
             0: FlexColumnWidth(1),
