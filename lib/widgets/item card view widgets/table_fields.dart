@@ -37,7 +37,7 @@ class TableFIelds extends StatelessWidget {
                     textAlign: TextAlign.center,
                     'الكمية المتوفرة',
                     style: FontStyleApp.blueAccent18.copyWith(
-                      fontSize: getResponsiveText(context, 14),
+                      fontSize: getResponsiveText(context, 12),
                     ),
                   ),
                 ),
@@ -47,7 +47,7 @@ class TableFIelds extends StatelessWidget {
                     textAlign: TextAlign.center,
                     'الكمية المباعة',
                     style: FontStyleApp.blueAccent18.copyWith(
-                      fontSize: getResponsiveText(context, 14),
+                      fontSize: getResponsiveText(context, 12),
                     ),
                   ),
                 ),
@@ -57,7 +57,7 @@ class TableFIelds extends StatelessWidget {
                     textAlign: TextAlign.center,
                     'الكمية الكلية',
                     style: FontStyleApp.blueAccent18.copyWith(
-                      fontSize: getResponsiveText(context, 14),
+                      fontSize: getResponsiveText(context, 12),
                     ),
                   ),
                 ),
@@ -71,7 +71,7 @@ class TableFIelds extends StatelessWidget {
                     textAlign: TextAlign.center,
                     '250',
                     style: FontStyleApp.black18.copyWith(
-                      fontSize: getResponsiveText(context, 16),
+                      fontSize: getResponsiveText(context, 12),
                     ),
                   ),
                 ),
@@ -81,7 +81,7 @@ class TableFIelds extends StatelessWidget {
                     textAlign: TextAlign.center,
                     '250',
                     style: FontStyleApp.black18.copyWith(
-                      fontSize: getResponsiveText(context, 16),
+                      fontSize: getResponsiveText(context, 12),
                     ),
                   ),
                 ),
@@ -91,7 +91,7 @@ class TableFIelds extends StatelessWidget {
                     textAlign: TextAlign.center,
                     '250',
                     style: FontStyleApp.black18.copyWith(
-                      fontSize: getResponsiveText(context, 16),
+                      fontSize: getResponsiveText(context, 12),
                     ),
                   ),
                 ),
