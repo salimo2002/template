@@ -10,7 +10,6 @@ class CustomContainer extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        boxShadow: [bosShadow()],
         border: Border.all(color: kColorBorder),
         borderRadius: borderRadius,
         color: kWhite,

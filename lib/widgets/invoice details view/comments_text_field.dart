@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
@@ -7,50 +6,65 @@ import 'package:template/utils/responsive_text.dart';
 class CommentsTextField extends StatelessWidget {
   const CommentsTextField({
     super.key,
-    required this.hintText,
     required this.controller,
     this.keyType = TextInputType.text,
     this.validator,
     required this.maxLines,
+    required this.label,
   });
-  final String hintText;
   final TextEditingController controller;
   final TextInputType? keyType;
   final String? Function(String?)? validator;
   final int maxLines;
+  final String label;
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      maxLines: maxLines,
-      validator: validator,
-      keyboardType: keyType,
-      controller: controller,
-      textDirection: TextDirection.rtl,
-      decoration: InputDecoration(
-        isDense: true,
-        contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        hintTextDirection: TextDirection.rtl,
-        hintText: hintText,
-        hintStyle: FontStyleApp.blackCustom18.copyWith(
-          fontSize: getResponsiveText(context, 12),
+    return SizedBox( width: MediaQuery.sizeOf(context).width*0.75,
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: TextFormField(
+          maxLines: maxLines,
+          validator: validator,
+          keyboardType: keyType,
+          controller: controller,
+          textDirection: TextDirection.rtl,
+          decoration: InputDecoration(
+            labelText: label,
+            labelStyle: TextStyle(color: kBlueAccent),
+            isDense: true,
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 16,
+            ),
+            hintTextDirection: TextDirection.rtl,
+            hintStyle: FontStyleApp.blackCustom18.copyWith(
+              fontSize: getResponsiveText(context, 12),
+            ),
+            fillColor: kWhite,
+            filled: true,
+            enabledBorder: borderStyle(),
+            border: borderStyle(),
+            focusedBorder: borderStyle(),
+            errorBorder: borderErrorStyle(),
+            focusedErrorBorder: borderErrorStyle(),
+            errorStyle: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
-        fillColor: kWhite,
-        filled: true,
-        enabledBorder: borderStyle(),
-        border: borderStyle(),
-        focusedBorder: borderStyle(),
-        errorBorder: borderErrorStyle(),
-        focusedErrorBorder: borderErrorStyle(),
-        errorStyle: TextStyle(fontWeight: FontWeight.bold),
       ),
     );
   }
 
   OutlineInputBorder borderStyle() {
-    return OutlineInputBorder(borderSide: BorderSide(color: kBlueAccent));
+    return OutlineInputBorder(
+      borderSide: BorderSide(color: kBorderTextFieldColor),
+      borderRadius: BorderRadius.circular(18),
+    );
   }
 
   OutlineInputBorder borderErrorStyle() {
-    return const OutlineInputBorder(borderSide: BorderSide(color: Colors.red));
+    return OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.red),
+      borderRadius: BorderRadius.circular(18),
+    );
   }
 }
