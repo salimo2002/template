@@ -35,7 +35,6 @@ class _NewItemViewState extends State<EditProdictView> {
   final TextEditingController unit2Num = TextEditingController();
   final TextEditingController price2 = TextEditingController();
   final TextEditingController baraCode2 = TextEditingController();
-  // final ValueNotifier<int?> isSelected = ValueNotifier<int?>(1);
   final ValueNotifier<int> selectedKind = ValueNotifier<int>(0);
   final TextEditingController convertOperatorTextField =
       TextEditingController();
@@ -92,6 +91,7 @@ class _NewItemViewState extends State<EditProdictView> {
           : unitDefault.text = unit2.text;
       context.read<CategoryCubit>().categories.forEach((element) {
         if (argumentsMaterial.parentId == element.matId) {
+          parentId = argumentsMaterial.parentId;
           matCategory.text = element.matName;
         }
       });
