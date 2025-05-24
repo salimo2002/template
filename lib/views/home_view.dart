@@ -237,7 +237,9 @@ class _AccountsAndMaterialsTabState extends State<AccountsAndMaterialsTab>
         Expanded(
           child: TabBarView(
             controller: _tabController,
-            children: const [Accounts(), DebtsAndSupplies()],
+            children: const [
+              Accounts(), DebtsAndSupplies()
+              ],
           ),
         ),
       ],

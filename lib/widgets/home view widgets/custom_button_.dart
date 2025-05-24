@@ -38,8 +38,8 @@ class CustomButton extends StatelessWidget {
               child: Center(
                 child: SvgPicture.asset(
                   icon,
-                  width: 25,
-                  height: 25,
+                  width: 35,
+                  height: 35,
                   color: kBlueAccent,
                 ),
               ),
