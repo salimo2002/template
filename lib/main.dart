@@ -34,21 +34,9 @@ class Template extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<MaterialCubit>(
-          create: (context) {
-            return MaterialCubit();
-          },
-        ),
-        BlocProvider<CategoryCubit>(
-          create: (context) {
-            return CategoryCubit();
-          },
-        ),
-        BlocProvider<AccountsCubit>(
-          create: (context) {
-            return AccountsCubit();
-          },
-        ),
+        BlocProvider<MaterialCubit>(create: (context) => MaterialCubit()),
+        BlocProvider<CategoryCubit>(create: (context) => CategoryCubit()),
+        BlocProvider<AccountsCubit>(create: (context) => AccountsCubit()),
         BlocProvider<BillCubit>(create: (context) => BillCubit()),
       ],
 
