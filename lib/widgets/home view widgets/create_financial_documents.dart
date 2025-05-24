@@ -19,19 +19,19 @@ class CreateFinancialDocuments extends StatelessWidget {
               children: [
                 CustomButton(
                   text: 'فاتورة مردود مشتريات',
-                  icon: 'assets/img/Home/mynaui_home.svg',
+                  icon: 'assets/img/home cards/medical-icon_i-billing.svg',
                   onTap: () {},
                 ),
                 CustomButton(
                   text: 'فاتورة مبيعات',
-                  icon: 'assets/img/Home/mynaui_home.svg',
+                  icon: 'assets/img/home cards/hugeicons_payment-01.svg',
                   onTap: () {
                     Navigator.pushNamed(context, CreateASalesInvoiceView.id);
                   },
                 ),
                 CustomButton(
                   text: 'فاتورة مشتريات',
-                  icon: 'assets/img/Home/mynaui_home.svg',
+                  icon: 'assets/img/home cards/hugeicons_payment-02.svg',
                   onTap: () {},
                 ),
               ],
@@ -43,12 +43,12 @@ class CreateFinancialDocuments extends StatelessWidget {
             children: [
               CustomButton(
                 text: 'فاتورة طلبات',
-                icon: 'assets/img/Home/mynaui_home.svg',
+                icon: 'assets/img/home cards/fluent-mdl2_product-variant.svg',
                 onTap: () {},
               ),
               CustomButton(
                 text: 'فاتورة مردود مبيعات',
-                icon: 'assets/img/Home/mynaui_home.svg',
+                icon: 'assets/img/home cards/marketeq_bill-dollar.svg',
                 onTap: () {},
               ),
             ],

@@ -18,17 +18,17 @@ class FinancialReports extends StatelessWidget {
               children: [
                 CustomButton(
                   text: 'حركة فواتير',
-                  icon: 'assets/img/Home/mynaui_home.svg',
+                  icon: 'assets/img/home cards/carbon_product.svg',
                   onTap: () {},
                 ),
                 CustomButton(
                   text: 'أرصدة',
-                  icon: 'assets/img/Home/mynaui_home.svg',
+                  icon: 'assets/img/home cards/hugeicons_money-bag-01.svg',
                   onTap: () {},
                 ),
                 CustomButton(
                   text: 'كشف حساب',
-                  icon: 'assets/img/Home/mynaui_home.svg',
+                  icon: 'assets/img/home cards/vaadin_money-exchange.svg',
                   onTap: () {},
                 ),
               ],
@@ -40,12 +40,13 @@ class FinancialReports extends StatelessWidget {
             children: [
               CustomButton(
                 text: 'تقرير مبيعات',
-                icon: 'assets/img/Home/mynaui_home.svg',
+                icon:
+                    'assets/img/home cards/hugeicons_money-receive-circle.svg',
                 onTap: () {},
               ),
               CustomButton(
                 text: 'جرد مستودعات',
-                icon: 'assets/img/Home/mynaui_home.svg',
+                icon: 'assets/img/home cards/vaadin_storage.svg',
                 onTap: () {},
               ),
             ],
