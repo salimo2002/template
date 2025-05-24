@@ -74,7 +74,6 @@ class _NewItemViewState extends State<EditProdictView> {
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      log('didChangeDependencies - init');
       argumentsMaterial =
           ModalRoute.of(context)!.settings.arguments as MaterialModel;
       matUnitDef = argumentsMaterial.materialUnitDefault;
@@ -100,7 +99,6 @@ class _NewItemViewState extends State<EditProdictView> {
 
       _isInit = false;
     }
-    log(image.toString());
     super.didChangeDependencies();
   }
 

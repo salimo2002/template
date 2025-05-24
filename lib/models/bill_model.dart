@@ -1,13 +1,13 @@
 class BillModel {
-  final int bilId;
-  final int accId;
-  final String bilNumber;
-  final double bilTotal;
-  final double bilDiscount;
-  final double bilExtra;
-  final String bilKind;
-  final double bilPayment;
-  final double bilNet;
+  final int? bilId;
+  final int? accId;
+  final String? bilNumber;
+  final double? bilTotal;
+  final double? bilDiscount;
+  final double? bilExtra;
+  final String? bilKind;
+  final double? bilPayment;
+  final double? bilNet;
 
   BillModel({
     required this.bilId,
@@ -40,11 +40,11 @@ class BillModel {
       'database_name': 'itechsy_test',
       'bil_id': bilId.toString(),
       'acc_id': accId.toString(),
-      'bil_number': bilNumber,
+      'bil_number': bilNumber!,
       'bil_total': bilTotal.toString(),
       'bil_discount': bilDiscount.toString(),
       'bil_extra': bilExtra.toString(),
-      'bil_kind': bilKind,
+      'bil_kind': bilKind!,
       'bil_payment': bilPayment.toString(),
       'bil_net': bilNet.toString(),
     };

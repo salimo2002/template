@@ -2,19 +2,22 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import '../models/bill_model.dart';
-import '../models/bill_detail_model.dart';
+import '../models/bill_details_model.dart';
 
 class BillServices {
   static const String _baseUrl = 'https://www.itech-sy.com/api';
 
-  static final String _urlFetchAll = '$_baseUrl/bille_get_all.php';
+  static final String _urlFetchBills = '$_baseUrl/bille_get_all.php';
   static final String _urlAddBill = '$_baseUrl/bill_add.php';
+  static final String _urlFetchBillDetails =
+      '$_baseUrl/bille_details_get_all.php';
+
   static final String _urlDeleteBill = '$_baseUrl/bill_delet.php';
   static final String _urlUpdateBill = '$_baseUrl/bill_update.php';
-
+  //bille_get_all.php
   /// جلب كل الفواتير مع تفاصيلها
-  static Future<List<Map<String, dynamic>>> fetchAll() async {
-    final url = Uri.parse(_urlFetchAll);
+  static Future<List> fetchBillss() async {
+    final url = Uri.parse(_urlFetchBills);
     final response = await http.post(
       url,
       body: {'database_name': 'itechsy_test'},
@@ -26,8 +29,26 @@ class BillServices {
 
     try {
       List<dynamic> data = jsonDecode(response.body);
-      log(data.toString());
-      return data.cast<Map<String, dynamic>>();
+      return data;
+    } catch (e) {
+      throw Exception('فشل في تحليل البيانات: $e');
+    }
+  }
+
+  static Future<List> fetchBillDetails() async {
+    final url = Uri.parse(_urlFetchBillDetails);
+    final response = await http.post(
+      url,
+      body: {'database_name': 'itechsy_test'},
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('فشل في الاتصال');
+    }
+
+    try {
+      List<dynamic> data = jsonDecode(response.body);
+      return data;
     } catch (e) {
       throw Exception('فشل في تحليل البيانات: $e');
     }
@@ -36,11 +57,10 @@ class BillServices {
   /// إضافة فاتورة مع التفاصيل في نفس الوقت
   static Future<int> addBillWithDetails({
     required BillModel bill,
-    required List<BillDetailModel> details,
+    required List<BillDetailsModel> details,
   }) async {
     final url = Uri.parse(_urlAddBill);
 
-    // دمج البيانات
     final body =
         bill.toMap()
           ..['details'] = jsonEncode(details.map((e) => e.toMap()).toList());
@@ -77,7 +97,7 @@ class BillServices {
 
   static Future<Map<String, dynamic>> updateBillWithDetails({
     required BillModel bill,
-    required List<BillDetailModel> details,
+    required List<BillDetailsModel> details,
     required String databaseName,
   }) async {
     final url = Uri.parse(_urlUpdateBill);

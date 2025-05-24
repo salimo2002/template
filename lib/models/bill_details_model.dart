@@ -1,13 +1,13 @@
-class BillDetailModel {
-  final int detId;
-  final int bilId;
-  final int matId;
-  final double detQuantity;
-  final double detSinglePrice;
-  final double detPrice;
+class BillDetailsModel {
+  final int? detId;
+  final int? bilId;
+  final int? matId;
+  final double? detQuantity;
+  final double? detSinglePrice;
+  final double? detPrice;
   final int strId;
 
-  BillDetailModel({
+  BillDetailsModel({
     required this.detId,
     required this.bilId,
     required this.matId,
@@ -17,8 +17,8 @@ class BillDetailModel {
     required this.strId,
   });
 
-  factory BillDetailModel.fromJson(Map<String, dynamic> json) {
-    return BillDetailModel(
+  factory BillDetailsModel.fromJson(Map<String, dynamic> json) {
+    return BillDetailsModel(
       detId: int.parse(json['det_id'].toString()),
       bilId: int.parse(json['bil_id'].toString()),
       matId: int.parse(json['mat_id'].toString()),
@@ -49,7 +49,7 @@ class BillDetailModel {
       'det_quntity': detQuantity,
       'det_single_price': detSinglePrice,
       'det_price': detPrice,
-      'str_id': strId, 
+      'str_id': strId,
     };
   }
 }
