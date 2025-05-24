@@ -70,7 +70,28 @@ class _HomeViewState extends State<HomeView> {
         actions: [
           IconButton(
             onPressed: () {
-              context.read<BillCubit>().fetchBill();
+              context.read<BillCubit>().insertBill(
+                BillModel(
+                  bilId: 102,
+                  accId: 11,
+                  bilNumber: '99',
+                  bilTotal: 991,
+                  bilDiscount: 4,
+                  bilExtra: 3,
+                  bilKind: '0',
+                  bilPayment: 114,
+                  bilNet: 4,
+                ),
+                BillDetailsModel(
+                  detId: 14,
+                  bilId: 102,
+                  matId: 670,
+                  detQuantity: 500,
+                  detSinglePrice: 400,
+                  detPrice: 1500,
+                  strId: 1,
+                ),
+              );
             },
             icon: Icon(Icons.more_vert_outlined),
           ),
