@@ -11,7 +11,7 @@ import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/invoice_details_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
-import 'package:template/widgets/sales%20invoice%20view/editable_data_column.dart';
+import 'package:template/widgets/sales%20invoice%20view/invoice_item_card.dart';
 
 class CreateASalesInvoiceView extends StatefulWidget {
   const CreateASalesInvoiceView({super.key});
@@ -24,6 +24,8 @@ class CreateASalesInvoiceView extends StatefulWidget {
 
 class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   bool showScanner = false;
+  List<MaterialModel> searchResults = [];
+  bool isSearching = false;
 
   final MobileScannerController scannerController = MobileScannerController();
   final TextEditingController controller = TextEditingController();
@@ -36,6 +38,39 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   void _toggleScanner() {
     setState(() {
       showScanner = !showScanner;
+    });
+  }
+
+  void _searchMaterials(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        searchResults = [];
+        isSearching = false;
+      });
+      return;
+    }
+
+    setState(() {
+      isSearching = true;
+    });
+
+    final materials = context.read<MaterialCubit>().materials;
+    final results = materials.where((material) {
+      return material.materialName.toLowerCase().contains(query.toLowerCase()) ||
+          material.materialCode.toLowerCase().contains(query.toLowerCase());
+    }).toList();
+
+    setState(() {
+      searchResults = results;
+    });
+  }
+
+  void _addMaterial(MaterialModel material) {
+    setState(() {
+      materialModel.add(material);
+      controllerSerch.clear();
+      searchResults = [];
+      isSearching = false;
     });
   }
 
@@ -71,8 +106,9 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                                       color: kBlueAccent,
                                     ),
                                   ),
-                                  hintText: 'ادخل اسم المادة',
+                                  hintText: 'ادخل اسم المادة أو الكود',
                                   controller: controllerSerch,
+                                  onChanged: _searchMaterials,
                                 ),
                               ),
                             ],
@@ -97,23 +133,63 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                                       if (code != null && code.isNotEmpty) {
                                         controller.text = code;
                                         scannerController.stop();
-                                        materialModel.add(
-                                          context
+                                        try {
+                                          final material = context
                                               .read<MaterialCubit>()
                                               .materials
                                               .firstWhere(
                                                 (element) =>
                                                     element.materialCode ==
                                                     controller.text,
-                                              ),
-                                        );
-
+                                              );
+                                          _addMaterial(material);
+                                        } catch (e) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                  'لم يتم العثور على المادة'),
+                                            ),
+                                          );
+                                        }
                                         setState(() {
                                           showScanner = false;
                                         });
                                       }
                                     },
                                   ),
+                                ),
+                              ),
+                            ),
+                          if (isSearching && searchResults.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 3,
+                                      offset: Offset(0, 2),
+                                  )],
+                                ),
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: searchResults.length,
+                                  itemBuilder: (context, index) {
+                                    final material = searchResults[index];
+                                    return ListTile(
+                                      title: Text(material.materialName),
+                                      subtitle: Text(material.materialCode),
+                                      onTap: () {
+                                        _addMaterial(material);
+                                      },
+                                    );
+                                  },
                                 ),
                               ),
                             ),
@@ -155,7 +231,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'بنود : 1 |كمية : 0 | مجموع : 5 ل.س',
+                    'بنود : ${materialModel.length} |كمية : 0 | مجموع : 5 ل.س',
                     style: TextStyle(fontSize: getResponsiveText(context, 16)),
                   ),
                 ],
@@ -171,140 +247,6 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
             SizedBox(height: 15),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class InvoiceItemCard extends StatelessWidget {
-  const InvoiceItemCard({
-    super.key,
-    required this.context,
-    required this.materialName,
-    required this.materialNameNumber,
-    required this.totalController,
-    required this.priceController,
-    required this.quantityController,
-    required this.unity,
-  });
-
-  final BuildContext context;
-  final String materialName;
-  final String materialNameNumber;
-  final TextEditingController totalController;
-  final TextEditingController priceController;
-  final TextEditingController quantityController;
-  final String unity;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Column(
-        children: [
-          CustomContainer(
-            borderRadius: BorderRadius.circular(10),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, right: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      FittedBox(
-                        child: Text(
-                          materialName,
-                          style: FontStyleApp.black18.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: getResponsiveText(context, 18),
-                          ),
-                        ),
-                      ),
-
-                      FittedBox(
-                        child: Text(
-                          '  $materialNameNumber',
-                          style: FontStyleApp.black18.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: getResponsiveText(context, 18),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: EditableDataColumn(
-                          conttroller: totalController,
-                          text: 'المجموع',
-                        ),
-                      ),
-
-                      Expanded(
-                        child: EditableDataColumn(
-                          conttroller: priceController,
-                          text: 'السعر',
-                        ),
-                      ),
-
-                      Expanded(
-                        child: EditableDataColumn(
-                          conttroller: quantityController,
-                          text: 'الكمية',
-                        ),
-                      ),
-
-                      Expanded(
-                        child: InkWell(
-                          onTapDown: (details) {
-                            final RenderBox overlay =
-                                Overlay.of(context).context.findRenderObject()
-                                    as RenderBox;
-                            showMenu(
-                              context: context,
-                              position: RelativeRect.fromRect(
-                                details.globalPosition & const Size(60, 60),
-                                Offset.zero & overlay.size,
-                              ),
-                              items: [
-                                PopupMenuItem(
-                                  child: ListTile(
-                                    title: Text('قطعة'),
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ),
-                                PopupMenuItem(
-                                  child: ListTile(
-                                    title: Text('طرد'),
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                          child: EditableDataColumn(
-                            text: 'الوحدة',
-                            conttroller: TextEditingController(text: unity),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                SizedBox(height: 10),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }

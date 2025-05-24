@@ -11,7 +11,7 @@ class CustomTextField extends StatelessWidget {
     this.validator,
     this.suffixIcon,
     this.canRead,
-    this.prefixIcon,
+    this.prefixIcon, this.onChanged,
   });
   final String hintText;
   final TextEditingController controller;
@@ -20,12 +20,14 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final bool? canRead;
+final void Function(String)? onChanged;
   
   @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: TextFormField(
+        onChanged:onChanged ,
         onTap: () {
           DatePickerField();
         },
