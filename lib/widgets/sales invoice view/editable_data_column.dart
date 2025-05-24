@@ -61,7 +61,6 @@ class EditableDataColumn extends StatelessWidget {
             onChanged: onChanged,
           ),
         ),
-        SizedBox(height: 10),
       ],
     );
   }

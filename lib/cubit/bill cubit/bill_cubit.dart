@@ -19,14 +19,9 @@ class BillCubit extends Cubit<BillStatus> {
     }
     try {
       bill = [];
-      billDetails = [];
-      resultBill = await BillServices.fetchBillss();
-      resultBillDetails = await BillServices.fetchBillDetails();
-      log(resultBill.length.toString());
-      log(resultBillDetails.length.toString());
-      for (var i = 0; i < resultBill.length; i++) {
-        bill.add(BillModel.fromJson(resultBill[i]));
-        billDetails.add(BillDetailsModel.fromJson(resultBillDetails[i]));
+      resultBill = await BillServices.fetchAll();
+      for (var element in resultBill) {
+        bill.add(BillModel.fromJson(element));
       }
       emit(SuccessStateBill(bill: bill));
     } catch (e) {

@@ -120,7 +120,7 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
-      height: MediaQuery.sizeOf(context).height * .18,
+      height: MediaQuery.sizeOf(context).height * .17,
       decoration: BoxDecoration(
         boxShadow: [bosShadow()],
         color: kWhite,
@@ -142,10 +142,12 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
                     color: kSecondColor,
                     borderRadius: BorderRadius.circular(18),
                   ),
-                  child: Text(
-                    categoryName, // التصنيف
-                    style: FontStyleApp.white18.copyWith(
-                      fontSize: getResponsiveText(context, 12),
+                  child: FittedBox(
+                    child: Text(
+                      categoryName, // التصنيف
+                      style: FontStyleApp.white18.copyWith(
+                        fontSize: getResponsiveText(context, 12),
+                      ),
                     ),
                   ),
                 ),
@@ -173,10 +175,13 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
             ],
           ),
           SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: TableFIelds(),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: TableFIelds(),
+            ),
           ),
+          SizedBox(height: 10),
         ],
       ),
     );

@@ -58,6 +58,7 @@ flutter:
     - assets/img/Login/
     - assets/img/Public/
     - assets/img/Text Box/
+    - assets/img/home cards/
 
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
