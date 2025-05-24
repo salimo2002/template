@@ -103,139 +103,14 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                       ),
 
                       SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Column(
-                          children: [
-                            CustomContainer(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 10,
-                                      right: 10,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        FittedBox(
-                                          child: Text(
-                                            'سكر',
-                                            style: FontStyleApp.black18
-                                                .copyWith(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: getResponsiveText(
-                                                    context,
-                                                    18,
-                                                  ),
-                                                ),
-                                          ),
-                                        ),
-
-                                        FittedBox(
-                                          child: Text(
-                                            '  -1',
-                                            style: FontStyleApp.black18
-                                                .copyWith(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: getResponsiveText(
-                                                    context,
-                                                    18,
-                                                  ),
-                                                ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 15,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: EditableDataColumn(
-                                            conttroller: TextEditingController(
-                                              text: "1",
-                                            ),
-                                            text: 'المجموع',
-                                          ),
-                                        ),
-
-                                        Expanded(
-                                          child: EditableDataColumn(
-                                            conttroller: TextEditingController(
-                                              text: "1",
-                                            ),
-                                            text: 'السعر',
-                                          ),
-                                        ),
-
-                                        Expanded(
-                                          child: EditableDataColumn(
-                                            conttroller: TextEditingController(
-                                              text: "1",
-                                            ),
-                                            text: 'الكمية',
-                                          ),
-                                        ),
-
-                                        Expanded(
-                                          child: InkWell(
-                                            onTapDown: (details) {
-                                              final RenderBox overlay =
-                                                  Overlay.of(context).context
-                                                          .findRenderObject()
-                                                      as RenderBox;
-                                              showMenu(
-                                                context: context,
-                                                position: RelativeRect.fromRect(
-                                                  details.globalPosition &
-                                                      const Size(60, 60),
-                                                  Offset.zero & overlay.size,
-                                                ),
-                                                items: [
-                                                  PopupMenuItem(
-                                                    child: ListTile(
-                                                      title: Text('قطعة'),
-                                                      onTap: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                    ),
-                                                  ),
-                                                  PopupMenuItem(
-                                                    child: ListTile(
-                                                      title: Text('طرد'),
-                                                      onTap: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                    ),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                            child: EditableDataColumn(
-                                              text: 'الوحدة',
-                                              conttroller:
-                                                  TextEditingController(
-                                                    text: 'قطعة',
-                                                  ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                  SizedBox(height: 10),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                      InvoiceItemCard(
+                        unity: '1',
+                        total: '10',
+                        context: context,
+                        materialName: 'سكر',
+                        materialNameNumber: '1',
+                        price: '100',
+                        quantity: '10',
                       ),
                     ],
                   ),
@@ -264,6 +139,140 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
             SizedBox(height: 15),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class InvoiceItemCard extends StatelessWidget {
+  const InvoiceItemCard({
+    super.key,
+    required this.context,
+    required this.materialName,
+    required this.materialNameNumber,
+    required this.total,
+    required this.price,
+    required this.quantity,
+    required this.unity,
+  });
+
+  final BuildContext context;
+  final String materialName;
+  final String materialNameNumber;
+  final String total;
+  final String price;
+  final String quantity;
+  final String unity;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: Column(
+        children: [
+          CustomContainer(
+            borderRadius: BorderRadius.circular(10),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, right: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      FittedBox(
+                        child: Text(
+                          materialName,
+                          style: FontStyleApp.black18.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: getResponsiveText(context, 18),
+                          ),
+                        ),
+                      ),
+
+                      FittedBox(
+                        child: Text(
+                          '  $materialNameNumber',
+                          style: FontStyleApp.black18.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: getResponsiveText(context, 18),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: EditableDataColumn(
+                          conttroller: TextEditingController(text: total),
+                          text: 'المجموع',
+                        ),
+                      ),
+
+                      Expanded(
+                        child: EditableDataColumn(
+                          conttroller: TextEditingController(text: price),
+                          text: 'السعر',
+                        ),
+                      ),
+
+                      Expanded(
+                        child: EditableDataColumn(
+                          conttroller: TextEditingController(text: quantity),
+                          text: 'الكمية',
+                        ),
+                      ),
+
+                      Expanded(
+                        child: InkWell(
+                          onTapDown: (details) {
+                            final RenderBox overlay =
+                                Overlay.of(context).context.findRenderObject()
+                                    as RenderBox;
+                            showMenu(
+                              context: context,
+                              position: RelativeRect.fromRect(
+                                details.globalPosition & const Size(60, 60),
+                                Offset.zero & overlay.size,
+                              ),
+                              items: [
+                                PopupMenuItem(
+                                  child: ListTile(
+                                    title: Text('قطعة'),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  child: ListTile(
+                                    title: Text('طرد'),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                          child: EditableDataColumn(
+                            text: 'الوحدة',
+                            conttroller: TextEditingController(text: 'قطعة'),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 10),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

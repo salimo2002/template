@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/Service/bill_service.dart';
 import 'package:template/cubit/bill%20cubit/bill_status.dart';
@@ -15,6 +17,7 @@ class BillCubit extends Cubit<BillStatus> {
       resultBill = await BillServices.fetchAll();
       for (var element in resultBill) {
         bill.add(BillModel.fromJson(element));
+        log(element[0].toString());
       }
       emit(SuccessStateBill(bill: bill));
     } on Exception catch (e) {

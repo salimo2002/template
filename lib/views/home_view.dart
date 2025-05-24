@@ -37,10 +37,7 @@ class _HomeViewState extends State<HomeView> {
     ),
     SingleChildScrollView(
       padding: const EdgeInsets.all(8),
-      child: SizedBox(
-        height: 700, // لتجنب مشكلة overflow
-        child: AccountsAndMaterialsTab(),
-      ),
+      child: SizedBox(height: 700, child: AccountsAndMaterialsTab()),
     ),
     SingleChildScrollView(
       padding: const EdgeInsets.all(8),
@@ -71,6 +68,7 @@ class _HomeViewState extends State<HomeView> {
         actions: [
           IconButton(
             onPressed: () {
+              //////////////////////////////////////
               context.read<BillCubit>().fetchBill();
             },
             icon: Icon(Icons.more_vert_outlined),
