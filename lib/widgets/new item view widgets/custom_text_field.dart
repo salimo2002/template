@@ -20,6 +20,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final bool? canRead;
+  
   @override
   Widget build(BuildContext context) {
     return Directionality(
