@@ -10,14 +10,28 @@ import 'package:template/widgets/invoice%20details%20view/text_field_date.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
 
-class InvoiceDetailsView extends StatelessWidget {
+class InvoiceDetailsView extends StatefulWidget {
   const InvoiceDetailsView({super.key});
   static String id = 'InvoiceDetailsView';
 
   @override
+  State<InvoiceDetailsView> createState() => _InvoiceDetailsViewState();
+}
+
+class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
+  final TextEditingController date = TextEditingController();
+  final TextEditingController hour = TextEditingController();
+  final TextEditingController nameAccount = TextEditingController();
+  final TextEditingController mainBox = TextEditingController();
+  final TextEditingController countInvois = TextEditingController();
+  final TextEditingController discount = TextEditingController();
+  final TextEditingController totalInvois = TextEditingController();
+  final TextEditingController amountRecived = TextEditingController();
+  final TextEditingController remainingAmound = TextEditingController();
+  final TextEditingController numberBebar = TextEditingController();
+  final TextEditingController note = TextEditingController();
+  @override
   Widget build(BuildContext context) {
-    TextEditingController date = TextEditingController();
-    TextEditingController hour = TextEditingController();
     return Scaffold(
       appBar: customAppBar(
         context: context,
@@ -33,7 +47,7 @@ class InvoiceDetailsView extends StatelessWidget {
                 ContainerFields(
                   children: [
                     TextFieldAndDetails(
-                      controller: TextEditingController(),
+                      controller: nameAccount,
                       icon: const Icon(Icons.close),
                       hintText: 'اسم الحساب',
                     ),
@@ -82,7 +96,7 @@ class InvoiceDetailsView extends StatelessWidget {
                     ),
                     TextFieldAndDetails(
                       hintText: 'الصندوق الرئيسي',
-                      controller: TextEditingController(),
+                      controller: mainBox,
                     ),
                   ],
                 ),
@@ -92,23 +106,23 @@ class InvoiceDetailsView extends StatelessWidget {
                   children: [
                     TextFieldAndDetails(
                       hintText: 'مجموع الفاتورة',
-                      controller: TextEditingController(),
+                      controller: countInvois,
                     ),
                     TextFieldAndDetails(
                       hintText: 'الحسم الممنوح',
-                      controller: TextEditingController(),
+                      controller: discount,
                     ),
                     TextFieldAndDetails(
                       hintText: 'صافي الفاتورة',
-                      controller: TextEditingController(),
+                      controller: totalInvois,
                     ),
                     TextFieldAndDetails(
                       hintText: 'المبلغ المقبوض',
-                      controller: TextEditingController(),
+                      controller: amountRecived,
                     ),
                     TextFieldAndDetails(
                       hintText: 'المبلغ المتبقي',
-                      controller: TextEditingController(),
+                      controller: remainingAmound,
                     ),
                   ],
                 ),
@@ -128,12 +142,12 @@ class InvoiceDetailsView extends StatelessWidget {
                     TextFieldAndDetails(
                       keyType: TextInputType.numberWithOptions(),
                       hintText: 'رقم الورقة',
-                      controller: TextEditingController(),
+                      controller: numberBebar,
                     ),
                     CommentsTextField(
                       maxLines: 4,
                       label: 'ملاحظة',
-                      controller: TextEditingController(),
+                      controller: note,
                     ),
                   ],
                 ),
