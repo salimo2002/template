@@ -43,12 +43,19 @@ class InvoiceDetailsView extends StatelessWidget {
                         color: kWhite,
                       ),
                       height: 30,
-                      width: MediaQuery.sizeOf(context).width * 0.75,
-                      child:  Center(child: Text('الرصيد: 2500',style: FontStyleApp.black18.copyWith(fontSize: 15),)),
+                      width: MediaQuery.sizeOf(context).width * 0.77,
+                      child: Center(
+                        child: Text(
+                          'الرصيد: 2500',
+                          style: FontStyleApp.black18.copyWith(
+                            fontSize: getResponsiveText(context, 14),
+                          ),
+                        ),
+                      ),
                     ),
                     Container(
                       height: 40,
-                      width: MediaQuery.sizeOf(context).width * 0.75,
+                      width: MediaQuery.sizeOf(context).width * 0.77,
                       decoration: BoxDecoration(
                         color: kWhite,
                         borderRadius: BorderRadius.circular(15),
@@ -58,14 +65,16 @@ class InvoiceDetailsView extends StatelessWidget {
                           Directionality(
                             textDirection: TextDirection.rtl,
                             child: const Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(1),
                               child: RadioMenuButtons(),
                             ),
                           ),
-                          Text(
-                            'نمط الدفع',
-                            style: FontStyleApp.blueAccent18.copyWith(
-                              fontSize: 12,
+                          Flexible(
+                            child: Text(
+                              'نمط الدفع',
+                              style: FontStyleApp.blueAccent18.copyWith(
+                                fontSize: getResponsiveText(context, 14),
+                              ),
                             ),
                           ),
                         ],
@@ -78,7 +87,7 @@ class InvoiceDetailsView extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 10),
-                
+
                 ContainerFields(
                   children: [
                     TextFieldAndDetails(
@@ -129,7 +138,8 @@ class InvoiceDetailsView extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 10),
-                CustomContainer(borderRadius:BorderRadius.circular(0),
+                CustomContainer(
+                  borderRadius: BorderRadius.circular(0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -138,7 +148,8 @@ class InvoiceDetailsView extends StatelessWidget {
                       const SizedBox(width: 15),
                     ],
                   ),
-                ),SizedBox(height: 10,),
+                ),
+                SizedBox(height: 10),
                 TextButton(
                   onPressed: () {},
                   child: Text(
