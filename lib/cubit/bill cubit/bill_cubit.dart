@@ -23,9 +23,11 @@ class BillCubit extends Cubit<BillStatus> {
       resultBillDetails = await BillServices.fetchBillDetails();
       log(resultBill.length.toString());
       log(resultBillDetails.length.toString());
-      for (var i = 0; i < resultBill.length; i++) {
-        bill.add(BillModel.fromJson(resultBill[i]));
-        billDetails.add(BillDetailsModel.fromJson(resultBillDetails[i]));
+      for (var element in resultBill) {
+        bill.add(BillModel.fromJson(element));
+      }
+      for (var element in resultBillDetails) {
+        billDetails.add(BillDetailsModel.fromJson(element));
       }
       emit(SuccessStateBill(bill: bill));
     } catch (e) {
@@ -43,10 +45,10 @@ class BillCubit extends Cubit<BillStatus> {
     }
   }
 
-  Future<void> insertBill(BillModel bill, BillDetailsModel billDetails) async {
+  Future<void> insertBill(BillModel bill, List<BillDetailsModel> billDetails) async {
     try {
       emit(LoadingStateBill());
-      await BillServices.addBillWithDetails(bill: bill, details: [billDetails]);
+      await BillServices.addBillWithDetails(bill: bill, details: billDetails);
       fetchBills(isRefresh: true);
     } catch (e) {
       emit(FaliureStateBill(errorMessage: e.toString()));

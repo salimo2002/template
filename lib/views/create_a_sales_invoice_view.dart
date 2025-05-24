@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:template/cubit/material%20cubit/material_cubit.dart';
+import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
@@ -25,6 +28,10 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   final MobileScannerController scannerController = MobileScannerController();
   final TextEditingController controller = TextEditingController();
   final TextEditingController controllerSerch = TextEditingController();
+  final TextEditingController totalController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController quantityController = TextEditingController();
+  List<MaterialModel> materialModel = [];
 
   void _toggleScanner() {
     setState(() {
@@ -90,6 +97,17 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                                       if (code != null && code.isNotEmpty) {
                                         controller.text = code;
                                         scannerController.stop();
+                                        materialModel.add(
+                                          context
+                                              .read<MaterialCubit>()
+                                              .materials
+                                              .firstWhere(
+                                                (element) =>
+                                                    element.materialCode ==
+                                                    controller.text,
+                                              ),
+                                        );
+
                                         setState(() {
                                           showScanner = false;
                                         });
@@ -103,14 +121,28 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                       ),
 
                       SizedBox(height: 10),
-                      InvoiceItemCard(
-                        unity: '1',
-                        total: '10',
-                        context: context,
-                        materialName: 'سكر',
-                        materialNameNumber: '1',
-                        price: '100',
-                        quantity: '10',
+                      SizedBox(
+                        height: 600,
+                        child: ListView.builder(
+                          itemCount: materialModel.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: InvoiceItemCard(
+                                unity:
+                                    materialModel[index].materialUnitDefault == 1
+                                        ? materialModel[index].materialUnit
+                                        : materialModel[index].materialUnit2,
+                                totalController: totalController,
+                                context: context,
+                                materialName: materialModel[index].materialName,
+                                materialNameNumber: '1',
+                                priceController: priceController,
+                                quantityController: quantityController,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -150,18 +182,18 @@ class InvoiceItemCard extends StatelessWidget {
     required this.context,
     required this.materialName,
     required this.materialNameNumber,
-    required this.total,
-    required this.price,
-    required this.quantity,
+    required this.totalController,
+    required this.priceController,
+    required this.quantityController,
     required this.unity,
   });
 
   final BuildContext context;
   final String materialName;
   final String materialNameNumber;
-  final String total;
-  final String price;
-  final String quantity;
+  final TextEditingController totalController;
+  final TextEditingController priceController;
+  final TextEditingController quantityController;
   final String unity;
   @override
   Widget build(BuildContext context) {
@@ -207,21 +239,21 @@ class InvoiceItemCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: EditableDataColumn(
-                          conttroller: TextEditingController(text: total),
+                          conttroller: totalController,
                           text: 'المجموع',
                         ),
                       ),
 
                       Expanded(
                         child: EditableDataColumn(
-                          conttroller: TextEditingController(text: price),
+                          conttroller: priceController,
                           text: 'السعر',
                         ),
                       ),
 
                       Expanded(
                         child: EditableDataColumn(
-                          conttroller: TextEditingController(text: quantity),
+                          conttroller: quantityController,
                           text: 'الكمية',
                         ),
                       ),
@@ -260,7 +292,7 @@ class InvoiceItemCard extends StatelessWidget {
                           },
                           child: EditableDataColumn(
                             text: 'الوحدة',
-                            conttroller: TextEditingController(text: 'قطعة'),
+                            conttroller: TextEditingController(text: unity),
                           ),
                         ),
                       ),
