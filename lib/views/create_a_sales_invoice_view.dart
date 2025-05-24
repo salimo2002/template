@@ -25,26 +25,10 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   final MobileScannerController scannerController = MobileScannerController();
   final TextEditingController controller = TextEditingController();
   final TextEditingController controllerSerch = TextEditingController();
-  List<String> materials = ['سكر', 'رز', 'زيت', 'طحين']; // كمثال
-  List<String> filteredMaterials = [];
 
   void _toggleScanner() {
     setState(() {
       showScanner = !showScanner;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    controllerSerch.addListener(() {
-      final query = controllerSerch.text.toLowerCase();
-      setState(() {
-        filteredMaterials =
-            materials
-                .where((item) => item.toLowerCase().contains(query))
-                .toList();
-      });
     });
   }
 
@@ -86,34 +70,32 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                               ),
                             ],
                           ),
-                          if (filteredMaterials.isNotEmpty)
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 5),
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(10),
+                          if (showScanner)
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 8.0,
+                                left: 5,
+                                right: 5,
                               ),
                               child: SizedBox(
-                                height: 150, // يمكنك زيادته حسب الحاجة
-                                child: ListView.builder(
-                                  itemCount: filteredMaterials.length,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                      title: Text(
-                                        filteredMaterials[index],
-                                        textAlign: TextAlign.right,
-                                      ),
-                                      onTap: () {
-                                        controllerSerch.text =
-                                            filteredMaterials[index];
+                                height: 150,
+                                width: double.infinity,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: MobileScanner(
+                                    controller: scannerController,
+                                    onDetect: (capture) {
+                                      final String? code =
+                                          capture.barcodes.first.rawValue;
+                                      if (code != null && code.isNotEmpty) {
+                                        controller.text = code;
+                                        scannerController.stop();
                                         setState(() {
-                                          filteredMaterials.clear();
+                                          showScanner = false;
                                         });
-                                      },
-                                    );
-                                  },
+                                      }
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
