@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
-import 'package:template/cubit/category%20cubit/category_cubit.dart';
-import 'package:template/cubit/material%20cubit/material_cubit.dart';
 import 'package:template/models/bill_details_model.dart';
 import 'package:template/models/bill_model.dart';
 import 'package:template/utils/constants.dart';
@@ -49,9 +46,9 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
-    context.read<MaterialCubit>().fetchMaterials();
-    context.read<CategoryCubit>().fetchCategory();
-    context.read<AccountsCubit>().fetchAccounts();
+    // context.read<MaterialCubit>().fetchMaterials();
+    // context.read<CategoryCubit>().fetchCategory();
+    // context.read<AccountsCubit>().fetchAccounts();
     super.initState();
   }
 
@@ -237,9 +234,7 @@ class _AccountsAndMaterialsTabState extends State<AccountsAndMaterialsTab>
         Expanded(
           child: TabBarView(
             controller: _tabController,
-            children: const [
-              Accounts(), DebtsAndSupplies()
-              ],
+            children: const [Accounts(), DebtsAndSupplies()],
           ),
         ),
       ],
