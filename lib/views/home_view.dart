@@ -1,10 +1,7 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
-import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
-import 'package:template/cubit/category%20cubit/category_cubit.dart';
-import 'package:template/cubit/material%20cubit/material_cubit.dart';
+import 'package:template/Service/bill_service.dart';
 import 'package:template/models/bill_details_model.dart';
 import 'package:template/models/bill_model.dart';
 import 'package:template/utils/constants.dart';
@@ -49,9 +46,9 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
-    context.read<MaterialCubit>().fetchMaterials();
-    context.read<CategoryCubit>().fetchCategory();
-    context.read<AccountsCubit>().fetchAccounts();
+    // context.read<MaterialCubit>().fetchMaterials();
+    // context.read<CategoryCubit>().fetchCategory();
+    // context.read<AccountsCubit>().fetchAccounts();
     super.initState();
   }
 
@@ -70,28 +67,44 @@ class _HomeViewState extends State<HomeView> {
         actions: [
           IconButton(
             onPressed: () {
-              context.read<BillCubit>().insertBill(
-                BillModel(
-                  bilId: 102,
-                  accId: 11,
-                  bilNumber: '99',
-                  bilTotal: 991,
-                  bilDiscount: 4,
-                  bilExtra: 3,
-                  bilKind: '0',
-                  bilPayment: 114,
-                  bilNet: 4,
-                ),
+              BillModel bill = BillModel(
+                bilId: null,
+                accId: 491,
+                bilNumber: 'BILL-12345',
+                bilTotal: 1000.0,
+                bilDiscount: 50.0,
+                bilExtra: 20.0,
+                bilKind: 'buy',
+                bilPayment: 970.0,
+                bilNet: 970.0,
+              );
+
+              List<BillDetailsModel> details = [
                 BillDetailsModel(
-                  detId: 14,
-                  bilId: 102,
-                  matId: 670,
-                  detQuantity: 500,
-                  detSinglePrice: 400,
-                  detPrice: 1500,
+                  detId: null,
+                  bilId: null,
+                  matId: 698,
+                  detQuantity: 2,
+                  detSinglePrice: 500,
+                  detPrice: 1000,
                   strId: 1,
                 ),
-              );
+                BillDetailsModel(
+                  detId: null,
+                  bilId: null,
+                  matId: 699,
+                  detQuantity: 20,
+                  detSinglePrice: 200,
+                  detPrice: 2000,
+                  strId: 1,
+                ),
+              ];
+              try {
+                BillServices.addBillWithDetails(bill: bill, details: details);
+                log('Success');
+              } catch (e) {
+                log(e.toString());
+              }
             },
             icon: Icon(Icons.more_vert_outlined),
           ),
@@ -237,9 +250,7 @@ class _AccountsAndMaterialsTabState extends State<AccountsAndMaterialsTab>
         Expanded(
           child: TabBarView(
             controller: _tabController,
-            children: const [
-              Accounts(), DebtsAndSupplies()
-              ],
+            children: const [Accounts(), DebtsAndSupplies()],
           ),
         ),
       ],
