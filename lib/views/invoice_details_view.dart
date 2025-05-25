@@ -1,8 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
+import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
+import 'package:template/cubit/bill%20cubit/bill_status.dart';
+import 'package:template/models/bill_details_model.dart';
+import 'package:template/models/bill_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
+import 'package:template/views/home_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/invoice%20details%20view/comments_text_field.dart';
 import 'package:template/widgets/invoice%20details%20view/radio_menu_buttons.dart';
@@ -30,6 +39,52 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
   final TextEditingController remainingAmound = TextEditingController();
   final TextEditingController numberBebar = TextEditingController();
   final TextEditingController note = TextEditingController();
+  final FocusNode s = FocusNode();
+  final FocusNode ss = FocusNode();
+  final FocusNode sss = FocusNode();
+  final FocusNode ssss = FocusNode();
+  final FocusNode sssss = FocusNode();
+  final FocusNode ssssss = FocusNode();
+   int accIdd =0;
+  List<BillDetailsModel> bills = [];
+  @override
+  void initState() {
+    super.initState();
+    discount.addListener(calculateTotals);
+    amountRecived.addListener(calculateTotals);
+  }
+
+  @override
+  void dispose() {
+    discount.removeListener(calculateTotals);
+    amountRecived.removeListener(calculateTotals);
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    Map<String, dynamic> billList =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    bills = billList['bill'];
+    countInvois.text = billList['total'];
+
+    calculateTotals();
+    super.didChangeDependencies();
+  }
+
+  void calculateTotals() {
+    final total = double.tryParse(countInvois.text) ?? 0;
+    final discountValue = double.tryParse(discount.text) ?? 0;
+    final paid = double.tryParse(amountRecived.text) ?? 0;
+
+    final net = total - discountValue;
+    final remaining = net - paid;
+
+    totalInvois.text = net.toStringAsFixed(1);
+    remainingAmound.text = remaining.toStringAsFixed(1);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +102,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                 ContainerFields(
                   children: [
                     TextFieldAndDetails(
+                      focusNode: s,
                       controller: nameAccount,
                       icon: const Icon(Icons.close),
                       hintText: 'اسم الحساب',
@@ -95,38 +151,52 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                       ),
                     ),
                     TextFieldAndDetails(
+                      focusNode: FocusNode(),
                       hintText: 'الصندوق الرئيسي',
                       controller: mainBox,
                     ),
                   ],
                 ),
                 const SizedBox(height: 10),
-
                 ContainerFields(
                   children: [
                     TextFieldAndDetails(
+                      focusNode: ss,
+                      keyType: TextInputType.number,
+                      canRead: true,
                       hintText: 'مجموع الفاتورة',
                       controller: countInvois,
                     ),
                     TextFieldAndDetails(
+                      focusNode: ssssss,
+                      keyType: TextInputType.number,
                       hintText: 'الحسم الممنوح',
                       controller: discount,
                     ),
                     TextFieldAndDetails(
+                      focusNode: sss,
+                      keyType: TextInputType.number,
                       hintText: 'صافي الفاتورة',
                       controller: totalInvois,
+                      canRead: true,
                     ),
                     TextFieldAndDetails(
+                      focusNode: ssss,
+                      keyType: TextInputType.number,
                       hintText: 'المبلغ المقبوض',
                       controller: amountRecived,
                     ),
+
                     TextFieldAndDetails(
+                      focusNode: sssss,
+                      keyType: TextInputType.number,
                       hintText: 'المبلغ المتبقي',
                       controller: remainingAmound,
+                      canRead: true,
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 ContainerFields(
                   children: [
                     TextFieldDate(
@@ -140,7 +210,8 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                       label: 'الوقت',
                     ),
                     TextFieldAndDetails(
-                      keyType: TextInputType.numberWithOptions(),
+                      focusNode: FocusNode(),
+                      keyType: TextInputType.number,
                       hintText: 'رقم الورقة',
                       controller: numberBebar,
                     ),
@@ -151,7 +222,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 CustomContainer(
                   borderRadius: BorderRadius.circular(0),
                   child: Row(
@@ -163,16 +234,62 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                     ],
                   ),
                 ),
-                SizedBox(height: 10),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'حفظ وإنهاء',
-                    style: TextStyle(
-                      color: const Color.fromARGB(255, 130, 128, 128),
-                      fontSize: getResponsiveText(context, 20),
-                    ),
-                  ),
+                const SizedBox(height: 10),
+                BlocBuilder<BillCubit, BillStatus>(
+                  builder: (context, state) {
+                    if (state is SuccessStateBill) {
+                    
+                      return TextButton(
+                        onPressed: () {
+                            for (var element in AccountsCubit.accounts) {
+                        // ignore: unrelated_type_equality_checks
+                        if (element.accName == nameAccount.text) {
+                          accIdd = element.accID!;
+                        }
+
+                        log(
+                          'ssssssssssssssssss$accIdd------------------------',
+                        );
+                      }
+                          context.read<BillCubit>().insertBill(
+                            BillModel(
+                              bilId: null,
+                              accId: accIdd,
+                              bilNumber: '10',
+                              bilTotal: double.parse(totalInvois.text),
+                              bilDiscount: double.parse(discount.text),
+                              bilExtra: double.parse('1'),
+                              bilKind: 'buy',
+                              bilPayment: double.parse(amountRecived.text),
+                              bilNet: double.parse(remainingAmound.text),
+                            ),
+                            bills,
+                          );
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            HomeView.id,
+                            (route) => false,
+                          );
+                        },
+                        child: Text(
+                          'حفظ وإنهاء',
+                          style: TextStyle(
+                            color: const Color.fromARGB(255, 130, 128, 128),
+                            fontSize: getResponsiveText(context, 20),
+                          ),
+                        ),
+                      );
+                    } else if (state is LoadingStateBill) {
+                      return Center(
+                        child: CircularProgressIndicator(color: kBlueAccent),
+                      );
+                    } else if (state is FaliureStateBill) {
+                      log(state.errorMessage);
+                      return SizedBox(height: 200);
+                    } else {
+                      return SizedBox();
+                    }
+                  },
                 ),
               ],
             ),

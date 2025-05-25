@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:template/cubit/material%20cubit/material_cubit.dart';
+import 'package:template/models/bill_details_model.dart';
 import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
@@ -36,6 +37,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   final List<TextEditingController> totalController = [];
   final List<TextEditingController> priceController = [];
   final List<TextEditingController> quantityController = [];
+  final List<BillDetailsModel> bills = [];
   List<MaterialModel> materialModel = [];
 
   void _toggleScanner() {
@@ -77,11 +79,13 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
       controllerSerch.clear();
       searchResults = [];
       isSearching = false;
+
       totalController.add(
         TextEditingController(text: '0')..addListener(updateTotalAll),
       );
       priceController.add(TextEditingController(text: '0'));
       quantityController.add(TextEditingController(text: '0'));
+
       updateTotalAll();
     });
   }
@@ -121,6 +125,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                               const SizedBox(width: 5),
                               Expanded(
                                 child: CustomTextField(
+                                  focusNode: FocusNode(),
                                   prefixIcon: IconButton(
                                     onPressed: _toggleScanner,
                                     icon: const Icon(
@@ -264,7 +269,24 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
             const SizedBox(height: 30),
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, InvoiceDetailsView.id);
+                for (var i = 0; i < totalController.length; i++) {
+                  bills.add(
+                    BillDetailsModel(
+                      detId: null,
+                      bilId: null,
+                      matId: materialModel[i].materialId,
+                      detQuantity: double.parse(quantityController[i].text),
+                      detSinglePrice: double.parse(priceController[i].text),
+                      detPrice: double.parse(totalController[i].text),
+                      strId: 1,
+                    ),
+                  );
+                }
+                Navigator.pushNamed(
+                  context,
+                  InvoiceDetailsView.id,
+                  arguments: {'bill': bills, 'total': totalAllPrice.text},
+                );
               },
               child: Text('التالي', style: FontStyleApp.black18),
             ),

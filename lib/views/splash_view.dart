@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
+import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/category%20cubit/category_cubit.dart';
 import 'package:template/cubit/material%20cubit/material_cubit.dart';
 import 'package:template/views/home_view.dart';
@@ -27,6 +28,7 @@ class _SplashVideoScreenState extends State<SplashVideoScreen> {
       context.read<MaterialCubit>().fetchMaterials();
       context.read<CategoryCubit>().fetchCategory();
       context.read<AccountsCubit>().fetchAccounts();
+      context.read<BillCubit>().fetchBills();
     });
 
     _controller = VideoPlayerController.asset(

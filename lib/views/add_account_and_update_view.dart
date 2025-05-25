@@ -157,6 +157,7 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
+                            focusNode: FocusNode(),
                             hintText: 'اسم الحساب',
                             controller: nameAcc,
                           ),
@@ -165,6 +166,7 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
+                            focusNode: FocusNode(),
                             hintText: 'رقم الهاتف',
                             controller: phonAcc,
                           ),
@@ -173,6 +175,7 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
+                            focusNode: FocusNode(),
                             hintText: 'رقم الموبايل',
                             controller: mobileAcc,
                           ),
@@ -181,6 +184,7 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
+                            focusNode: FocusNode(),
                             hintText: 'العنوان',
                             controller: addressAcc,
                           ),
@@ -189,6 +193,7 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
+                            focusNode: FocusNode(),
                             hintText: 'البريد الاكتروني',
                             controller: emailAcc,
                           ),
@@ -197,6 +202,7 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
                       ContainerFields(
                         children: [
                           TextFieldAndDetails(
+                            focusNode: FocusNode(),
                             hintText: 'الرقم الضريبي',
                             controller: taxAcc,
                           ),

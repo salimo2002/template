@@ -9,8 +9,9 @@ class TextFieldAndDetails extends StatelessWidget {
     this.keyType = TextInputType.text,
     this.validator,
     this.icon,
-    this.canRead,
+    this.canRead, required this.focusNode,
   });
+  final FocusNode focusNode;
   final String hintText;
   final TextEditingController controller;
   final TextInputType? keyType;
@@ -27,6 +28,7 @@ class TextFieldAndDetails extends StatelessWidget {
         children: [
           Expanded(
             child: CustomTextField(
+              focusNode: focusNode,
               canRead: canRead,
               suffixIcon: icon,
               validator: validator,

@@ -26,6 +26,7 @@ class ConvertOperatorTextField extends StatelessWidget {
         const SizedBox(width: 2),
         Expanded(
           child: CustomTextField(
+            focusNode: FocusNode(),
             
             keyType: keyType,
             hintText: hintText,

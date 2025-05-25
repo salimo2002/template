@@ -12,7 +12,7 @@ class CustomTextField extends StatelessWidget {
     this.suffixIcon,
     this.canRead,
     this.prefixIcon,
-    this.onChanged,
+    this.onChanged, required this.focusNode,
   });
   final String hintText;
   final TextEditingController controller;
@@ -22,13 +22,13 @@ class CustomTextField extends StatelessWidget {
   final Widget? prefixIcon;
   final bool? canRead;
   final void Function(String)? onChanged;
-
+  final FocusNode focusNode;
   @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: TextFormField(
-        focusNode: FocusNode(),
+        focusNode: focusNode,
         onChanged: onChanged,
         onTap: () {
           DatePickerField();

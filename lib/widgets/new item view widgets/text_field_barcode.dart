@@ -26,6 +26,7 @@ class _TextFieldBaracodeState extends State<TextFieldBaracode> {
     return Column(
       children: [
         TextFieldAndDetails(
+          focusNode: FocusNode(),
           icon: IconButton(
             onPressed: _toggleScanner,
             icon: Icon(FontAwesomeIcons.barcode, size: 20, color: kBlueAccent),

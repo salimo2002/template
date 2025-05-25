@@ -107,6 +107,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                 ContainerFields(
                   children: [
                     TextFieldAndDetails(
+                      focusNode: FocusNode(),
                       controller: materialName,
                       hintText: 'اسم المادة',
                       validator: (p0) {
@@ -117,6 +118,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                       },
                     ),
                     TextFieldAndDetails(
+                      focusNode: FocusNode(),
                       canRead: true,
                       icon: InkWell(
                         onTapDown: showCategory,
@@ -136,15 +138,18 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                 ContainerFields(
                   children: [
                     TextFieldAndDetails(
+                      focusNode: FocusNode(),
                       controller: unit1,
                       hintText: 'الوحدة الاولى',
                     ),
                     TextFieldAndDetails(
+                      focusNode: FocusNode(),
                       controller: purchasePrice,
                       hintText: 'سعر الجملة',
                       keyType: TextInputType.number,
                     ),
                     TextFieldAndDetails(
+                      focusNode: FocusNode(),
                       controller: price1,
                       hintText: 'سعر المستهلك',
                       keyType: TextInputType.number,
@@ -155,6 +160,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                 ContainerFields(
                   children: [
                     TextFieldAndDetails(
+                      focusNode: FocusNode(),
                       controller: unit2,
                       hintText: 'الوحدة الثانية',
                     ),
@@ -165,12 +171,14 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                       keyType: TextInputType.number,
                     ),
                     TextFieldAndDetails(
+                      focusNode: FocusNode(),
                       hintText: 'سعر المستهلك',
                       controller: price2,
                       keyType: TextInputType.number,
                     ),
                     TextFieldBaracode(controller: baraCode2),
                     TextFieldAndDetails(
+                      focusNode: FocusNode(),
                       canRead: true,
                       icon: InkWell(
                         onTapDown: showUnits,
