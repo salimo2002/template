@@ -247,9 +247,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                           accIdd = element.accID!;
                         }
 
-                        log(
-                          'ssssssssssssssssss$accIdd------------------------',
-                        );
+                  
                       }
                           context.read<BillCubit>().insertBill(
                             BillModel(
