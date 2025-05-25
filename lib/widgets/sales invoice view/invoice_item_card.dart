@@ -1,11 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/sales%20invoice%20view/editable_data_column.dart';
 
-class InvoiceItemCard extends StatelessWidget {
+class InvoiceItemCard extends StatefulWidget {
   const InvoiceItemCard({
     super.key,
     required this.context,
@@ -15,6 +14,7 @@ class InvoiceItemCard extends StatelessWidget {
     required this.priceController,
     required this.quantityController,
     required this.unity,
+    required this.isNumericOnly,
   });
 
   final BuildContext context;
@@ -24,6 +24,64 @@ class InvoiceItemCard extends StatelessWidget {
   final TextEditingController priceController;
   final TextEditingController quantityController;
   final String unity;
+  final bool isNumericOnly;
+
+  @override
+  State<InvoiceItemCard> createState() => _InvoiceItemCardState();
+}
+
+class _InvoiceItemCardState extends State<InvoiceItemCard> {
+  late final TextEditingController unityController;
+  bool isUpdating = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    unityController = TextEditingController(text: widget.unity);
+
+    widget.priceController.addListener(updateTotal);
+    widget.quantityController.addListener(updateTotal);
+    widget.totalController.addListener(updatePriceFromTotal);
+  }
+
+  void updateTotal() {
+    if (isUpdating) return;
+    isUpdating = true;
+
+    final price = double.tryParse(widget.priceController.text);
+    final quantity = double.tryParse(widget.quantityController.text);
+
+    if (price != null && quantity != null) {
+      widget.totalController.text = (price * quantity).toStringAsFixed(2);
+    }
+
+    isUpdating = false;
+  }
+
+  void updatePriceFromTotal() {
+    if (isUpdating) return;
+    isUpdating = true;
+
+    final total = double.tryParse(widget.totalController.text);
+    final quantity = double.tryParse(widget.quantityController.text);
+
+    if (total != null && quantity != null && quantity != 0) {
+      widget.priceController.text = (total / quantity).toStringAsFixed(2);
+    }
+
+    isUpdating = false;
+  }
+
+  @override
+  void dispose() {
+    widget.priceController.removeListener(updateTotal);
+    widget.quantityController.removeListener(updateTotal);
+    widget.totalController.removeListener(updatePriceFromTotal);
+    unityController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,17 +99,16 @@ class InvoiceItemCard extends StatelessWidget {
                     children: [
                       FittedBox(
                         child: Text(
-                          materialName,
+                          widget.materialName,
                           style: FontStyleApp.black18.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: getResponsiveText(context, 18),
                           ),
                         ),
                       ),
-
                       FittedBox(
                         child: Text(
-                          '  $materialNameNumber',
+                          '  ${widget.materialNameNumber}',
                           style: FontStyleApp.black18.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: getResponsiveText(context, 18),
@@ -61,32 +118,35 @@ class InvoiceItemCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
                     children: [
                       Expanded(
                         child: EditableDataColumn(
-                          conttroller: totalController,
+                          focusNode: FocusNode(),
+                          conttroller: widget.totalController,
                           text: 'المجموع',
+                          isNumericOnly: true,
                         ),
                       ),
-
                       Expanded(
                         child: EditableDataColumn(
-                          conttroller: priceController,
+                          focusNode: FocusNode(),
+                          conttroller: widget.priceController,
                           text: 'السعر',
+                          isNumericOnly: widget.isNumericOnly,
                         ),
                       ),
-
                       Expanded(
                         child: EditableDataColumn(
-                          conttroller: quantityController,
+                          focusNode: FocusNode(),
+                          conttroller: widget.quantityController,
                           text: 'الكمية',
+                          isNumericOnly: widget.isNumericOnly,
                         ),
                       ),
-
                       Expanded(
                         child: InkWell(
                           onTapDown: (details) {
@@ -102,16 +162,18 @@ class InvoiceItemCard extends StatelessWidget {
                               items: [
                                 PopupMenuItem(
                                   child: ListTile(
-                                    title: Text('قطعة'),
+                                    title: const Text('قطعة'),
                                     onTap: () {
+                                      unityController.text = 'قطعة';
                                       Navigator.pop(context);
                                     },
                                   ),
                                 ),
                                 PopupMenuItem(
                                   child: ListTile(
-                                    title: Text('طرد'),
+                                    title: const Text('طرد'),
                                     onTap: () {
+                                      unityController.text = 'طرد';
                                       Navigator.pop(context);
                                     },
                                   ),
@@ -120,16 +182,16 @@ class InvoiceItemCard extends StatelessWidget {
                             );
                           },
                           child: EditableDataColumn(
+                            focusNode: FocusNode(),
                             text: 'الوحدة',
-                            conttroller: TextEditingController(text: unity),
+                            conttroller: unityController,
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
               ],
             ),
           ),

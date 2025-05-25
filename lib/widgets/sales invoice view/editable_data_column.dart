@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // مهم جداً للفلترة
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
@@ -9,11 +10,13 @@ class EditableDataColumn extends StatelessWidget {
     required this.text,
     required this.conttroller,
     this.onChanged,
+    this.isNumericOnly = false, required this.focusNode, // خيار لتفعيل الفلترة الرقمية
   });
-
+  final FocusNode focusNode;
   final String text;
   final TextEditingController conttroller;
   final void Function(String)? onChanged;
+  final bool isNumericOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class EditableDataColumn extends StatelessWidget {
           width: 80,
           height: 30,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),
             ),
@@ -44,8 +47,8 @@ class EditableDataColumn extends StatelessWidget {
           height: 30,
           width: 80,
           decoration: BoxDecoration(
-            color: Color(0xffd8d8d8),
-            borderRadius: BorderRadius.only(
+            color: const Color(0xffd8d8d8),
+            borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(10),
               bottomRight: Radius.circular(10),
             ),
@@ -53,12 +56,20 @@ class EditableDataColumn extends StatelessWidget {
           child: EditableText(
             textAlign: TextAlign.center,
             controller: conttroller,
-            focusNode: FocusNode(),
-            style: TextStyle(fontSize: 16, color: Colors.black),
+            focusNode: focusNode,
+            style: const TextStyle(fontSize: 16, color: Colors.black),
             cursorColor: Colors.blue,
             backgroundCursorColor: Colors.transparent,
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
             onChanged: onChanged,
+            inputFormatters:
+                isNumericOnly
+                    ? [
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'^\d*\.?\d{0,4}'),
+                      ),
+                    ]
+                    : [],
           ),
         ),
       ],

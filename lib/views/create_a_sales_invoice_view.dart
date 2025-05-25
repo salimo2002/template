@@ -28,11 +28,14 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   bool isSearching = false;
 
   final MobileScannerController scannerController = MobileScannerController();
+
   final TextEditingController controller = TextEditingController();
   final TextEditingController controllerSerch = TextEditingController();
-  final TextEditingController totalController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
-  final TextEditingController quantityController = TextEditingController();
+
+  final TextEditingController totalAllPrice = TextEditingController(text: '0');
+  final List<TextEditingController> totalController = [];
+  final List<TextEditingController> priceController = [];
+  final List<TextEditingController> quantityController = [];
   List<MaterialModel> materialModel = [];
 
   void _toggleScanner() {
@@ -55,10 +58,13 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
     });
 
     final materials = context.read<MaterialCubit>().materials;
-    final results = materials.where((material) {
-      return material.materialName.toLowerCase().contains(query.toLowerCase()) ||
-          material.materialCode.toLowerCase().contains(query.toLowerCase());
-    }).toList();
+    final results =
+        materials.where((material) {
+          return material.materialName.toLowerCase().contains(
+                query.toLowerCase(),
+              ) ||
+              material.materialCode.toLowerCase().contains(query.toLowerCase());
+        }).toList();
 
     setState(() {
       searchResults = results;
@@ -71,7 +77,23 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
       controllerSerch.clear();
       searchResults = [];
       isSearching = false;
+      totalController.add(
+        TextEditingController(text: '0')..addListener(updateTotalAll),
+      );
+      priceController.add(TextEditingController(text: '0'));
+      quantityController.add(TextEditingController(text: '0'));
+      updateTotalAll();
     });
+  }
+
+  void updateTotalAll() {
+    double total = 0;
+    for (var controller in totalController) {
+      final value = double.tryParse(controller.text);
+      if (value != null) total += value;
+    }
+    totalAllPrice.text = total.toStringAsFixed(1);
+    setState(() {});
   }
 
   @override
@@ -96,7 +118,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                         children: [
                           Row(
                             children: [
-                              SizedBox(width: 5),
+                              const SizedBox(width: 5),
                               Expanded(
                                 child: CustomTextField(
                                   prefixIcon: IconButton(
@@ -144,11 +166,13 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                                               );
                                           _addMaterial(material);
                                         } catch (e) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            const SnackBar(
                                               content: Text(
-                                                  'لم يتم العثور على المادة'),
+                                                'لم يتم العثور على المادة',
+                                              ),
                                             ),
                                           );
                                         }
@@ -173,21 +197,20 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                                       color: Colors.grey.withOpacity(0.5),
                                       spreadRadius: 1,
                                       blurRadius: 3,
-                                      offset: Offset(0, 2),
-                                  )],
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
                                 ),
                                 child: ListView.builder(
                                   shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: searchResults.length,
                                   itemBuilder: (context, index) {
                                     final material = searchResults[index];
                                     return ListTile(
                                       title: Text(material.materialName),
                                       subtitle: Text(material.materialCode),
-                                      onTap: () {
-                                        _addMaterial(material);
-                                      },
+                                      onTap: () => _addMaterial(material),
                                     );
                                   },
                                 ),
@@ -195,8 +218,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                             ),
                         ],
                       ),
-
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       SizedBox(
                         height: 600,
                         child: ListView.builder(
@@ -205,16 +227,18 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                             return Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child: InvoiceItemCard(
+                                isNumericOnly: true,
                                 unity:
-                                    materialModel[index].materialUnitDefault == 1
+                                    materialModel[index].materialUnitDefault ==
+                                            1
                                         ? materialModel[index].materialUnit
                                         : materialModel[index].materialUnit2,
-                                totalController: totalController,
+                                totalController: totalController[index],
                                 context: context,
                                 materialName: materialModel[index].materialName,
                                 materialNameNumber: '1',
-                                priceController: priceController,
-                                quantityController: quantityController,
+                                priceController: priceController[index],
+                                quantityController: quantityController[index],
                               ),
                             );
                           },
@@ -231,20 +255,20 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'بنود : ${materialModel.length} |كمية : 0 | مجموع : 5 ل.س',
+                    'بنود : ${materialModel.length} |كمية : 0 | مجموع : ${totalAllPrice.text} ل.س',
                     style: TextStyle(fontSize: getResponsiveText(context, 16)),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             TextButton(
               onPressed: () {
                 Navigator.pushNamed(context, InvoiceDetailsView.id);
               },
               child: Text('التالي', style: FontStyleApp.black18),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
           ],
         ),
       ),
