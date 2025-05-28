@@ -1,60 +1,80 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:template/views/tree_accounts_view.dart';
-import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
-import 'package:template/widgets/home%20view%20widgets/row_custom_button.dart';
+import 'package:template/widgets/home%20view%20widgets/custom_button_.dart';
 
 class Accounts extends StatelessWidget {
   const Accounts({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CustomContainer(borderRadius: BorderRadius.circular(10),
+    return Padding(
+      padding: const EdgeInsets.only(right: 15),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: 20,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          SizedBox(height: 5),
-          RowCustomButton(
-            
-            text3: 'فاتورة مردود مشتريات',
-            icon3: Icons.ac_unit,
-            onTap3: () {},
-            icon1: FontAwesomeIcons.faceSmileBeam,
-            icon2: FontAwesomeIcons.grinStars,
-            onTap1: () {},
-            onTap2: () {},
-            text2: 'الزبائن',
-            text1: 'الموردين',
+          FittedBox(
+            child: Row(
+              spacing: 50,
+              children: [
+                CustomButton(
+                  text: 'فاتورة مردود مشتريات',
+                  icon: 'assets/img/home cards/medical-icon_i-billing.svg',
+                  onTap: () {},
+                ),
+                CustomButton(
+                  text: 'الزبائن',
+                  icon: 'assets/img/home cards/hugeicons_payment-01.svg',
+                  onTap: () {},
+                ),
+                CustomButton(
+                  text: 'الموردين',
+                  icon: 'assets/img/home cards/hugeicons_payment-02.svg',
+                  onTap: () {},
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 5),
-          RowCustomButton(
-            
-            text3: 'فاتورة مردود مشتريات',
-            icon3: Icons.abc,
-            onTap3: () {},
-            icon1: FontAwesomeIcons.bookmark,
-            icon2: FontAwesomeIcons.boxArchive,
-            onTap1: () {},
-            onTap2: () {},
-            text1: 'المصاريف و الإرادات',
-            text2: 'الصناديق و البنوك',
+          Row(
+            spacing: 50,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CustomButton(
+                text: 'فاتورة مردود مشتريات',
+                icon: 'assets/img/home cards/fluent-mdl2_product-variant.svg',
+                onTap: () {},
+              ),
+              CustomButton(
+                text: 'المصاريف و الإرادات',
+                icon: 'assets/img/home cards/marketeq_bill-dollar.svg',
+                onTap: () {},
+              ),
+            ],
           ),
-
-          RowCustomButton(
-          
-            text3: 'فاتورة مردود مشتريات',
-            icon3: Icons.abc,
-            onTap3: () {},
-            icon1: FontAwesomeIcons.tree,
-            icon2: Icons.list_alt,
-            onTap1: () {
-              Navigator.pushNamed(context, TreeAccountsView.id);
-            },
-            onTap2: () {},
-            text1: 'شجرة الحسابات',
-            text2: 'قائمة كل الحسابات',
+          Divider(),
+          Row(
+            spacing: 50,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CustomButton(
+                text: 'الصناديق و البنوك',
+                icon: 'assets/img/home cards/hugeicons_payment-01.svg',
+                onTap: () {},
+              ),
+              CustomButton(
+                text: 'شجرة الحسابات',
+                icon: 'assets/img/home cards/hugeicons_payment-02.svg',
+                onTap: () {
+                  Navigator.pushNamed(context, TreeAccountsView.id);
+                },
+              ),
+              CustomButton(
+                text: 'قائمة كل الحسابات',
+                icon: 'assets/img/home cards/hugeicons_payment-02.svg',
+                onTap: () {},
+              ),
+            ],
           ),
-          SizedBox(height: 5),
         ],
       ),
     );
