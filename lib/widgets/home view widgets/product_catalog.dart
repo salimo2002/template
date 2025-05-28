@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
+import 'package:template/views/invoice_review_view.dart';
 import 'package:template/views/material_card_view.dart';
 import 'package:template/views/material_classifications_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
@@ -35,7 +36,10 @@ class ProductCatalog extends StatelessWidget {
             onTap3: () {},
             icon1: Icons.speed,
             icon2: FontAwesomeIcons.boxArchive,
-            onTap1: () {},
+            onTap1: () {
+              Navigator.pushNamed(context, InvoiceReviewView.id);
+
+            },
             onTap2: () {
               Navigator.pushNamed(context, MaterialClassificationsView.id);
             },
