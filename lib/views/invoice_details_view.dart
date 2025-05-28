@@ -45,7 +45,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
   final FocusNode ssss = FocusNode();
   final FocusNode sssss = FocusNode();
   final FocusNode ssssss = FocusNode();
-   int accIdd =0;
+  int accIdd = 0;
   List<BillDetailsModel> bills = [];
   @override
   void initState() {
@@ -238,17 +238,14 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                 BlocBuilder<BillCubit, BillStatus>(
                   builder: (context, state) {
                     if (state is SuccessStateBill) {
-                    
                       return TextButton(
                         onPressed: () {
-                            for (var element in AccountsCubit.accounts) {
-                        // ignore: unrelated_type_equality_checks
-                        if (element.accName == nameAccount.text) {
-                          accIdd = element.accID!;
-                        }
-
-                  
-                      }
+                          for (var element in AccountsCubit.accounts) {
+                            // ignore: unrelated_type_equality_checks
+                            if (element.accName == nameAccount.text) {
+                              accIdd = element.accID!;
+                            }
+                          }
                           context.read<BillCubit>().insertBill(
                             BillModel(
                               bilId: null,

@@ -256,7 +256,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
           materialPrice1: double.tryParse(purchasePrice.text) ?? 0.0,
           materialPrice3: double.tryParse(price1.text) ?? 0.0,
           materialUnit2: unit2.text,
-          materialUnit2Number:
+          materialUnit2Number:  
               double.tryParse(convertOperatorTextField.text) ?? 1.0,
           materialUnit2Price3: double.tryParse(price2.text) ?? 0.0,
           materialKind: 0,
