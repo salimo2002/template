@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -7,6 +5,7 @@ import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_status.dart';
 import 'package:template/models/bill_details_model.dart';
 import 'package:template/models/bill_model.dart';
+import 'package:template/utils/bill_type.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/custom_snack_bar.dart';
@@ -309,7 +308,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
         bilTotal: double.parse(totalInvois.text),
         bilDiscount: double.parse(discount.text),
         bilExtra: double.parse('1'),
-        bilKind: 'sales',
+        bilKind: BillType.sales,
         bilPayment: double.parse(amountRecived.text),
         bilNet: double.parse(remainingAmound.text),
       ),
