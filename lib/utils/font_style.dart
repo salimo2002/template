@@ -35,4 +35,10 @@ class FontStyleApp {
     fontSize: 18,
     color: kBlueAccent,
   );
+  static const grey14 = TextStyle(
+    fontWeight: FontWeight.w100,
+    fontFamily: 'NotoKufiArabic',
+    fontSize: 14,
+    color: kGreyText,
+  );
 }

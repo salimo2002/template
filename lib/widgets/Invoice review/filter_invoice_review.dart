@@ -10,6 +10,7 @@ class FilterInvoiceReview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ContainerFilter(
           containerColor: kWhite,

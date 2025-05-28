@@ -7,6 +7,8 @@ const kGreen = Colors.green;
 const kBlueAccent = Color.fromARGB(255, 17, 116, 197);
 const kRed = Color(0xffc00000);
 const kGrey = Color(0xfff3f3f3);
+
+const kGreyText = Color.fromARGB(255, 146, 146, 146);
 const kLogo = 'assets/images/loogo.png';
 const kColorBorder = Color(0xfff6f6f8);
 const kBorderTextFieldColor = Color.fromARGB(255, 233, 228, 228);
