@@ -68,8 +68,8 @@ class Template extends StatelessWidget {
           CreateASalesInvoiceView.id: (context) => CreateASalesInvoiceView(),
           InvoiceDetailsView.id: (context) => InvoiceDetailsView(),
           SplashVideoScreen.id: (context) => SplashVideoScreen(),
-          InvoiceReviewView.id:(context)=> InvoiceReviewView(),
-          ReviewInvoices.id:(context)=>ReviewInvoices()
+          InvoiceReviewView.id: (context) => InvoiceReviewView(),
+          ReviewInvoices.id: (context) => ReviewInvoices(),
         },
         initialRoute: SplashVideoScreen.id,
       ),

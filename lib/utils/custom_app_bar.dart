@@ -11,10 +11,14 @@ AppBar customAppBar({
   return AppBar(
     // automaticallyImplyLeading: false,
     backgroundColor: kBlueAccent,
-    title: Text(
-      title,
-      style: FontStyleApp.white18.copyWith(
-        fontSize: getResponsiveText(context, 18),
+    title: Align(
+      alignment: Alignment.centerRight,
+      child: Text(
+        textDirection: TextDirection.ltr,
+        title,
+        style: FontStyleApp.white18.copyWith(
+          fontSize: getResponsiveText(context, 18),
+        ),
       ),
     ),
     actions:
