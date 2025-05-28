@@ -4,6 +4,7 @@ import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
+import 'package:template/widgets/Invoice%20review/filter_invoice_review.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/invoice%20details%20view/radio_menu_buttons.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
@@ -32,8 +33,9 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
         showIcons: false,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(top: 10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           spacing: 15,
           children: [
             ContainerFields(
@@ -99,6 +101,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                 ),
               ],
             ),
+            FilterInvoiceReview(),
           ],
         ),
       ),
