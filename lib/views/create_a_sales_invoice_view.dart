@@ -27,12 +27,9 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   bool showScanner = false;
   List<MaterialModel> searchResults = [];
   bool isSearching = false;
-
   final MobileScannerController scannerController = MobileScannerController();
-
   final TextEditingController controller = TextEditingController();
   final TextEditingController controllerSerch = TextEditingController();
-
   final TextEditingController totalAllPrice = TextEditingController(text: '0');
   final List<TextEditingController> totalController = [];
   final List<TextEditingController> priceController = [];
@@ -79,7 +76,6 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
       controllerSerch.clear();
       searchResults = [];
       isSearching = false;
-
       totalController.add(
         TextEditingController(text: '0')..addListener(updateTotalAll),
       );

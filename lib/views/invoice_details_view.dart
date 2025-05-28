@@ -9,6 +9,7 @@ import 'package:template/models/bill_details_model.dart';
 import 'package:template/models/bill_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/home_view.dart';
@@ -235,37 +236,40 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                BlocBuilder<BillCubit, BillStatus>(
+                BlocConsumer<BillCubit, BillStatus>(
+                  listener: (context, state) {
+                    if (state is SuccessStateBill) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        HomeView.id,
+                        (route) => false,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        customSnackBar(
+                          context,
+                          'تم اضافة الفاتورة بنجاح',
+                          kBlueAccent,
+                        ),
+                      );
+                    } else if (state is FaliureStateBill) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        HomeView.id,
+                        (route) => false,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        customSnackBar(
+                          context,
+                          'حدث خطأ اثناء اضافة الفاتورة',
+                          kBlueAccent,
+                        ),
+                      );
+                    }
+                  },
                   builder: (context, state) {
                     if (state is SuccessStateBill) {
                       return TextButton(
-                        onPressed: () {
-                          for (var element in AccountsCubit.accounts) {
-                            // ignore: unrelated_type_equality_checks
-                            if (element.accName == nameAccount.text) {
-                              accIdd = element.accID!;
-                            }
-                          }
-                          context.read<BillCubit>().insertBill(
-                            BillModel(
-                              bilId: null,
-                              accId: accIdd,
-                              bilNumber: '10',
-                              bilTotal: double.parse(totalInvois.text),
-                              bilDiscount: double.parse(discount.text),
-                              bilExtra: double.parse('1'),
-                              bilKind: 'buy',
-                              bilPayment: double.parse(amountRecived.text),
-                              bilNet: double.parse(remainingAmound.text),
-                            ),
-                            bills,
-                          );
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            HomeView.id,
-                            (route) => false,
-                          );
-                        },
+                        onPressed: insertBill,
                         child: Text(
                           'حفظ وإنهاء',
                           style: TextStyle(
@@ -278,9 +282,6 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                       return Center(
                         child: CircularProgressIndicator(color: kBlueAccent),
                       );
-                    } else if (state is FaliureStateBill) {
-                      log(state.errorMessage);
-                      return SizedBox(height: 200);
                     } else {
                       return SizedBox();
                     }
@@ -291,6 +292,28 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
           ),
         ),
       ),
+    );
+  }
+
+  void insertBill() {
+    for (var element in AccountsCubit.accounts) {
+      if (element.accName == nameAccount.text) {
+        accIdd = element.accID!;
+      }
+    }
+    context.read<BillCubit>().insertBill(
+      BillModel(
+        bilId: null,
+        accId: accIdd,
+        bilNumber: '10',
+        bilTotal: double.parse(totalInvois.text),
+        bilDiscount: double.parse(discount.text),
+        bilExtra: double.parse('1'),
+        bilKind: 'sales',
+        bilPayment: double.parse(amountRecived.text),
+        bilNet: double.parse(remainingAmound.text),
+      ),
+      bills,
     );
   }
 }
