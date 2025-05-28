@@ -10,6 +10,7 @@ import 'package:template/views/add_account_and_update_view.dart';
 import 'package:template/views/create_a_sales_invoice_view.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/views/invoice_details_view.dart';
+import 'package:template/views/invoice_review_view.dart';
 import 'package:template/views/material_card_view.dart';
 import 'package:template/views/material_classifications_view.dart';
 import 'package:template/views/new_material_view.dart';
@@ -66,6 +67,7 @@ class Template extends StatelessWidget {
           CreateASalesInvoiceView.id: (context) => CreateASalesInvoiceView(),
           InvoiceDetailsView.id: (context) => InvoiceDetailsView(),
           SplashVideoScreen.id: (context) => SplashVideoScreen(),
+          InvoiceReviewView.id: (context)=> InvoiceReviewView()
         },
         initialRoute: SplashVideoScreen.id,
       ),
