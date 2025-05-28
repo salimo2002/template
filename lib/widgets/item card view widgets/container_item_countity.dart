@@ -26,7 +26,7 @@ class ContainerItemCountity extends StatefulWidget {
 }
 
 class _ContainerItemCountityState extends State<ContainerItemCountity> {
-   String categoryName ='';
+  String categoryName = '';
   @override
   void initState() {
     context.read<CategoryCubit>().categories.forEach((element) {
@@ -144,7 +144,7 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
                   ),
                   child: FittedBox(
                     child: Text(
-                      categoryName, // التصنيف
+                      categoryName,
                       style: FontStyleApp.white18.copyWith(
                         fontSize: getResponsiveText(context, 12),
                       ),
@@ -178,7 +178,14 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: TableFIelds(),
+              child: TableFIelds(
+                lable1: 'الكمية المتوفرة',
+                value1: '250',
+                lable2: 'الكمية المباعة',
+                value2: '250',
+                lable3: 'الكمية الكلية',
+                value3: '250',
+              ),
             ),
           ),
           SizedBox(height: 10),
