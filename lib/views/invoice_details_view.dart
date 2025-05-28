@@ -45,7 +45,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
   final FocusNode ssss = FocusNode();
   final FocusNode sssss = FocusNode();
   final FocusNode ssssss = FocusNode();
-   int accIdd =0;
+  int accIdd = 0;
   List<BillDetailsModel> bills = [];
   @override
   void initState() {
@@ -235,54 +235,57 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                // BlocConsumer<BillCubit, BillStatus>(
-                //   listener: (context, state) {
-                //     if (state is SuccessStateBill) {
-                //       return TextButton(
-                //         onPressed: () {
-                //           for (var element in AccountsCubit.accounts) {
-                //             // ignore: unrelated_type_equality_checks
-                //             if (element.accName == nameAccount.text) {
-                //               accIdd = element.accID!;
-                //             }
-                //           }
-                //           context.read<BillCubit>().insertBill(
-                //             BillModel(
-                //               bilId: null,
-                //               accId: accIdd,
-                //               bilNumber: '10',
-                //               bilTotal: double.parse(totalInvois.text),
-                //               bilDiscount: double.parse(discount.text),
-                //               bilExtra: double.parse('1'),
-                //               bilKind: 'buy',
-                //               bilPayment: double.parse(amountRecived.text),
-                //               bilNet: double.parse(remainingAmound.text),
-                //             ),
-                //             bills,
-                //           );
-                //           Navigator.pushNamedAndRemoveUntil(
-                //             context,
-                //             HomeView.id,
-                //             (route) => false,
-                //           );
-                //         },
-                //         child: Text(
-                //           'حفظ وإنهاء',
-                //           style: TextStyle(
-                //             color: const Color.fromARGB(255, 130, 128, 128),
-                //             fontSize: getResponsiveText(context, 20),
-                //           ),
-                //         ),
-                //       );
-                //     } else if (state is LoadingStateBill) {
-                //       return Center(
-                //         child: CircularProgressIndicator(color: kBlueAccent),
-                //       );
-                //     } else {
-                //       return SizedBox();
-                //     }
-                //   },
-                // ),
+                BlocConsumer<BillCubit, BillStatus>(
+                  listener: (context, state) {
+                    if (state is SuccessStateBill) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        HomeView.id,
+                        (route) => false,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        customSnackBar(
+                          context,
+                          'تم اضافة الفاتورة بنجاح',
+                          kBlueAccent,
+                        ),
+                      );
+                    } else if (state is FaliureStateBill) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        HomeView.id,
+                        (route) => false,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        customSnackBar(
+                          context,
+                          'حدث خطأ اثناء اضافة الفاتورة',
+                          kBlueAccent,
+                        ),
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is SuccessStateBill) {
+                      return TextButton(
+                        onPressed: insertBill,
+                        child: Text(
+                          'حفظ وإنهاء',
+                          style: TextStyle(
+                            color: const Color.fromARGB(255, 130, 128, 128),
+                            fontSize: getResponsiveText(context, 20),
+                          ),
+                        ),
+                      );
+                    } else if (state is LoadingStateBill) {
+                      return Center(
+                        child: CircularProgressIndicator(color: kBlueAccent),
+                      );
+                    } else {
+                      return SizedBox();
+                    }
+                  },
+                ),
               ],
             ),
           ),

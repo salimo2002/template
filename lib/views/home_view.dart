@@ -1,9 +1,5 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:template/Service/bill_service.dart';
-import 'package:template/models/bill_details_model.dart';
-import 'package:template/models/bill_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
@@ -67,44 +63,7 @@ class _HomeViewState extends State<HomeView> {
         actions: [
           IconButton(
             onPressed: () {
-              BillModel bill = BillModel(
-                bilId: null,
-                accId: 491,
-                bilNumber: 'BILL-12345',
-                bilTotal: 1000.0,
-                bilDiscount: 50.0,
-                bilExtra: 20.0,
-                bilKind: 'buy',
-                bilPayment: 970.0,
-                bilNet: 970.0,
-              );
-
-              List<BillDetailsModel> details = [
-                BillDetailsModel(
-                  detId: null,
-                  bilId: null,
-                  matId: 698,
-                  detQuantity: 2,
-                  detSinglePrice: 500,
-                  detPrice: 1000,
-                  strId: 1,
-                ),
-                BillDetailsModel(
-                  detId: null,
-                  bilId: null,
-                  matId: 699,
-                  detQuantity: 20,
-                  detSinglePrice: 200,
-                  detPrice: 2000,
-                  strId: 1,
-                ),
-              ];
-              try {
-                BillServices.addBillWithDetails(bill: bill, details: details);
-                log('Success');
-              } catch (e) {
-                log(e.toString());
-              }
+          
             },
             icon: Icon(Icons.more_vert_outlined),
           ),
