@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -7,8 +5,10 @@ import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_status.dart';
 import 'package:template/models/bill_details_model.dart';
 import 'package:template/models/bill_model.dart';
+import 'package:template/utils/bill_type.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/home_view.dart';
@@ -235,20 +235,17 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                BlocBuilder<BillCubit, BillStatus>(
-                  builder: (context, state) {
+                BlocConsumer<BillCubit, BillStatus>(
+                  listener: (context, state) {
                     if (state is SuccessStateBill) {
-                    
                       return TextButton(
                         onPressed: () {
-                            for (var element in AccountsCubit.accounts) {
-                        // ignore: unrelated_type_equality_checks
-                        if (element.accName == nameAccount.text) {
-                          accIdd = element.accID!;
-                        }
-
-                  
-                      }
+                          for (var element in AccountsCubit.accounts) {
+                            // ignore: unrelated_type_equality_checks
+                            if (element.accName == nameAccount.text) {
+                              accIdd = element.accID!;
+                            }
+                          }
                           context.read<BillCubit>().insertBill(
                             BillModel(
                               bilId: null,
@@ -281,9 +278,6 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                       return Center(
                         child: CircularProgressIndicator(color: kBlueAccent),
                       );
-                    } else if (state is FaliureStateBill) {
-                      log(state.errorMessage);
-                      return SizedBox(height: 200);
                     } else {
                       return SizedBox();
                     }
@@ -294,6 +288,28 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
           ),
         ),
       ),
+    );
+  }
+
+  void insertBill() {
+    for (var element in AccountsCubit.accounts) {
+      if (element.accName == nameAccount.text) {
+        accIdd = element.accID!;
+      }
+    }
+    context.read<BillCubit>().insertBill(
+      BillModel(
+        bilId: null,
+        accId: accIdd,
+        bilNumber: '10',
+        bilTotal: double.parse(totalInvois.text),
+        bilDiscount: double.parse(discount.text),
+        bilExtra: double.parse('1'),
+        bilKind: BillType.sales,
+        bilPayment: double.parse(amountRecived.text),
+        bilNet: double.parse(remainingAmound.text),
+      ),
+      bills,
     );
   }
 }

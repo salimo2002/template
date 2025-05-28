@@ -26,7 +26,7 @@ class ContainerItemCountity extends StatefulWidget {
 }
 
 class _ContainerItemCountityState extends State<ContainerItemCountity> {
-  late String categoryName;
+   String categoryName ='';
   @override
   void initState() {
     context.read<CategoryCubit>().categories.forEach((element) {
