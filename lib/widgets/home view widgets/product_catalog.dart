@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
-import 'package:template/views/invoice_review_view.dart';
 import 'package:template/views/material_card_view.dart';
 import 'package:template/views/material_classifications_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
@@ -11,14 +10,15 @@ class ProductCatalog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomContainer(borderRadius: BorderRadius.circular(10),
-      
+    return CustomContainer(
+      borderRadius: BorderRadius.circular(10),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-
           SizedBox(height: 5),
-          RowCustomButton(  text3: 'فاتورة مردود مشتريات',
+          RowCustomButton(
+            text3: 'فاتورة مردود مشتريات',
             icon3: Icons.abc,
             onTap3: () {},
             icon1: FontAwesomeIcons.fileEdit,
@@ -31,15 +31,13 @@ class ProductCatalog extends StatelessWidget {
             text1: 'فاتورة مواد أول المدة',
           ),
           SizedBox(height: 5),
-          RowCustomButton(  text3: 'فاتورة مردود مشتريات',
+          RowCustomButton(
+            text3: 'فاتورة مردود مشتريات',
             icon3: Icons.abc,
             onTap3: () {},
             icon1: Icons.speed,
             icon2: FontAwesomeIcons.boxArchive,
-            onTap1: () {
-              Navigator.pushNamed(context, InvoiceReviewView.id);
-
-            },
+            onTap1: () {},
             onTap2: () {
               Navigator.pushNamed(context, MaterialClassificationsView.id);
             },
@@ -47,7 +45,8 @@ class ProductCatalog extends StatelessWidget {
             text2: 'تصنيفات المواد',
           ),
           SizedBox(height: 5),
-          RowCustomButton(  text3: 'فاتورة مردود مشتريات',
+          RowCustomButton(
+            text3: 'فاتورة مردود مشتريات',
             icon3: Icons.abc,
             onTap3: () {},
             icon1: FontAwesomeIcons.fileEdit,
