@@ -37,65 +37,6 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   final List<BillDetailsModel> bills = [];
   List<MaterialModel> materialModel = [];
 
-  void _toggleScanner() {
-    setState(() {
-      showScanner = !showScanner;
-    });
-  }
-
-  void _searchMaterials(String query) {
-    if (query.isEmpty) {
-      setState(() {
-        searchResults = [];
-        isSearching = false;
-      });
-      return;
-    }
-
-    setState(() {
-      isSearching = true;
-    });
-
-    final materials = context.read<MaterialCubit>().materials;
-    final results =
-        materials.where((material) {
-          return material.materialName.toLowerCase().contains(
-                query.toLowerCase(),
-              ) ||
-              material.materialCode.toLowerCase().contains(query.toLowerCase());
-        }).toList();
-
-    setState(() {
-      searchResults = results;
-    });
-  }
-
-  void _addMaterial(MaterialModel material) {
-    setState(() {
-      materialModel.add(material);
-      controllerSerch.clear();
-      searchResults = [];
-      isSearching = false;
-      totalController.add(
-        TextEditingController(text: '0')..addListener(updateTotalAll),
-      );
-      priceController.add(TextEditingController(text: '0'));
-      quantityController.add(TextEditingController(text: '0'));
-
-      updateTotalAll();
-    });
-  }
-
-  void updateTotalAll() {
-    double total = 0;
-    for (var controller in totalController) {
-      final value = double.tryParse(controller.text);
-      if (value != null) total += value;
-    }
-    totalAllPrice.text = total.toStringAsFixed(1);
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,38 +91,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                                   borderRadius: BorderRadius.circular(10),
                                   child: MobileScanner(
                                     controller: scannerController,
-                                    onDetect: (capture) {
-                                      final String? code =
-                                          capture.barcodes.first.rawValue;
-                                      if (code != null && code.isNotEmpty) {
-                                        controller.text = code;
-                                        scannerController.stop();
-                                        try {
-                                          final material = context
-                                              .read<MaterialCubit>()
-                                              .materials
-                                              .firstWhere(
-                                                (element) =>
-                                                    element.materialCode ==
-                                                    controller.text,
-                                              );
-                                          _addMaterial(material);
-                                        } catch (e) {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            const SnackBar(
-                                              content: Text(
-                                                'لم يتم العثور على المادة',
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                        setState(() {
-                                          showScanner = false;
-                                        });
-                                      }
-                                    },
+                                    onDetect: cleanScanner,
                                   ),
                                 ),
                               ),
@@ -204,7 +114,6 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                                 ),
                                 child: ListView.builder(
                                   shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: searchResults.length,
                                   itemBuilder: (context, index) {
                                     final material = searchResults[index];
@@ -264,26 +173,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
             ),
             const SizedBox(height: 30),
             TextButton(
-              onPressed: () {
-                for (var i = 0; i < totalController.length; i++) {
-                  bills.add(
-                    BillDetailsModel(
-                      detId: null,
-                      bilId: null,
-                      matId: materialModel[i].materialId,
-                      detQuantity: double.parse(quantityController[i].text),
-                      detSinglePrice: double.parse(priceController[i].text),
-                      detPrice: double.parse(totalController[i].text),
-                      strId: 1,
-                    ),
-                  );
-                }
-                Navigator.pushNamed(
-                  context,
-                  InvoiceDetailsView.id,
-                  arguments: {'bill': bills, 'total': totalAllPrice.text},
-                );
-              },
+              onPressed: navigateToInvoiceDetailsView,
               child: Text('التالي', style: FontStyleApp.black18),
             ),
             const SizedBox(height: 15),
@@ -291,5 +181,106 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
         ),
       ),
     );
+  }
+
+  void navigateToInvoiceDetailsView() {
+    for (var i = 0; i < totalController.length; i++) {
+      bills.add(
+        BillDetailsModel(
+          detId: null,
+          bilId: null,
+          matId: materialModel[i].materialId,
+          detQuantity: double.parse(quantityController[i].text),
+          detSinglePrice: double.parse(priceController[i].text),
+          detPrice: double.parse(totalController[i].text),
+          strId: 1,
+        ),
+      );
+    }
+    Navigator.pushNamed(
+      context,
+      InvoiceDetailsView.id,
+      arguments: {'bill': bills, 'total': totalAllPrice.text},
+    );
+  }
+
+  void _toggleScanner() {
+    setState(() {
+      showScanner = !showScanner;
+    });
+  }
+
+  void _searchMaterials(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        searchResults = [];
+        isSearching = false;
+      });
+      return;
+    }
+
+    setState(() {
+      isSearching = true;
+    });
+
+    final materials = context.read<MaterialCubit>().materials;
+    final results =
+        materials.where((material) {
+          return material.materialName.toLowerCase().contains(
+                query.toLowerCase(),
+              ) ||
+              material.materialCode.toLowerCase().contains(query.toLowerCase());
+        }).toList();
+
+    setState(() {
+      searchResults = results;
+    });
+  }
+
+  void _addMaterial(MaterialModel material) {
+    setState(() {
+      materialModel.add(material);
+      controllerSerch.clear();
+      searchResults = [];
+      isSearching = false;
+      totalController.add(
+        TextEditingController(text: '0')..addListener(updateTotalAll),
+      );
+      priceController.add(TextEditingController(text: '0'));
+      quantityController.add(TextEditingController(text: '0'));
+
+      updateTotalAll();
+    });
+  }
+
+  void updateTotalAll() {
+    double total = 0;
+    for (var controller in totalController) {
+      final value = double.tryParse(controller.text);
+      if (value != null) total += value;
+    }
+    totalAllPrice.text = total.toStringAsFixed(1);
+    setState(() {});
+  }
+
+  void cleanScanner(BarcodeCapture capture) {
+    final String? code = capture.barcodes.first.rawValue;
+    if (code != null && code.isNotEmpty) {
+      controller.text = code;
+      scannerController.stop();
+      try {
+        final material = context.read<MaterialCubit>().materials.firstWhere(
+          (element) => element.materialCode == controller.text,
+        );
+        _addMaterial(material);
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('لم يتم العثور على المادة')),
+        );
+      }
+      setState(() {
+        showScanner = false;
+      });
+    }
   }
 }
