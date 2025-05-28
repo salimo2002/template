@@ -15,7 +15,7 @@ import 'package:template/views/material_card_view.dart';
 import 'package:template/views/material_classifications_view.dart';
 import 'package:template/views/new_material_view.dart';
 import 'package:template/views/edit_prodict_view.dart';
-  import 'package:template/views/splash_view.dart';
+import 'package:template/views/splash_view.dart';
 import 'package:template/views/tree_accounts_view.dart';
 
 void main(List<String> args) {
@@ -67,7 +67,8 @@ class Template extends StatelessWidget {
           CreateASalesInvoiceView.id: (context) => CreateASalesInvoiceView(),
           InvoiceDetailsView.id: (context) => InvoiceDetailsView(),
           SplashVideoScreen.id: (context) => SplashVideoScreen(),
-          InvoiceReviewView.id:(context)=> InvoiceReviewView()
+          InvoiceReviewView.id:(context)=> InvoiceReviewView(),
+          ReviewInvoices.id:(context)=>ReviewInvoices()
         },
         initialRoute: SplashVideoScreen.id,
       ),
