@@ -245,10 +245,13 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
       searchResults = [];
       isSearching = false;
       totalController.add(
-        TextEditingController(text: '0')..addListener(updateTotalAll),
+        TextEditingController(text: material.materialPrice3.toString())
+          ..addListener(updateTotalAll),
       );
-      priceController.add(TextEditingController(text: '0'));
-      quantityController.add(TextEditingController(text: '0'));
+      priceController.add(
+        TextEditingController(text: material.materialPrice3.toString()),
+      );
+      quantityController.add(TextEditingController(text: '1'));
 
       updateTotalAll();
     });
