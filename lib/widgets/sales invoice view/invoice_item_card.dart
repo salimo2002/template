@@ -33,7 +33,10 @@ class InvoiceItemCard extends StatefulWidget {
 class _InvoiceItemCardState extends State<InvoiceItemCard> {
   late final TextEditingController unityController;
   bool isUpdating = false;
-
+  final FocusNode focusNode1 = FocusNode();
+  final FocusNode focusNode2 = FocusNode();
+  final FocusNode focusNode3 = FocusNode();
+  final FocusNode focusNode4 = FocusNode();
   @override
   void initState() {
     super.initState();
@@ -125,7 +128,7 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                     children: [
                       Expanded(
                         child: EditableDataColumn(
-                          focusNode: FocusNode(),
+                          focusNode: focusNode1,
                           conttroller: widget.totalController,
                           text: 'المجموع',
                           isNumericOnly: true,
@@ -133,7 +136,7 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                       ),
                       Expanded(
                         child: EditableDataColumn(
-                          focusNode: FocusNode(),
+                          focusNode: focusNode2,
                           conttroller: widget.priceController,
                           text: 'السعر',
                           isNumericOnly: widget.isNumericOnly,
@@ -141,7 +144,7 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                       ),
                       Expanded(
                         child: EditableDataColumn(
-                          focusNode: FocusNode(),
+                          focusNode: focusNode3,
                           conttroller: widget.quantityController,
                           text: 'الكمية',
                           isNumericOnly: widget.isNumericOnly,
@@ -182,7 +185,7 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                             );
                           },
                           child: EditableDataColumn(
-                            focusNode: FocusNode(),
+                            focusNode: focusNode4,
                             text: 'الوحدة',
                             conttroller: unityController,
                           ),
