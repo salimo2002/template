@@ -64,7 +64,7 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
       emailAcc.text = existingAccount.accEmail ?? '';
       taxAcc.text = existingAccount.accTaxNo ?? '';
     }
-    for (AccountModel element in AccountsCubit.accounts) {
+    for (AccountModel element in context.read<AccountsCubit>().accounts) {
       if (element.accID == existingAccount.parentId) {
         parentName = element.accName;
         parentId = element.accID;

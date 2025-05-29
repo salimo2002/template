@@ -5,7 +5,9 @@ import 'package:template/cubit/category%20cubit/category_cubit.dart';
 import 'package:template/cubit/category%20cubit/category_status.dart';
 import 'package:template/models/category_model.dart';
 import 'package:template/utils/constants.dart';
+import 'package:template/utils/custom_Floating_action_button.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/home_view.dart';
@@ -42,28 +44,35 @@ class _MaterialClassificationsViewState
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CategoryCubit, CategoryStatus>(
+    return BlocConsumer<CategoryCubit, CategoryStatus>(
+      listener: (context, state) {
+        if (state is SuccessStateCategory) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(customSnackBar(context, 'نجحت العملية', kBlueAccent));
+        }
+        if (state is FaliureStateCategory) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(customSnackBar(context, 'حدث خطأ', kRed));
+        }
+      },
       builder: (context, state) {
         if (state is SuccessStateCategory) {
           if (allCategories != state.categories) {
             allCategories = state.categories;
             filteredCategories = List.from(allCategories);
           }
-
           return Scaffold(
             floatingActionButtonLocation:
-                FloatingActionButtonLocation.startFloat,
+                FloatingActionButtonLocation.endFloat,
             appBar: customAppBar(
               context: context,
               title: 'تصنيفات المواد',
               showIcons: false,
             ),
-            floatingActionButton: FloatingActionButton(
-              heroTag: null,
-              shape: const CircleBorder(),
-              tooltip: 'ادخال بطاقة مادة',
-              backgroundColor: kBlueAccent,
-              child: const Icon(Icons.add_circle, color: kWhite),
+            floatingActionButton: CustomFloatingActionButton(
+              hint: 'اضافة تصنيف جديد',
               onPressed: () {
                 showDialog(
                   context: context,
@@ -111,7 +120,7 @@ class _MaterialClassificationsViewState
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Text(
-                              'لا توجد تصنيفات مطابقة للبحث',
+                              'لا توجد تصنيفات',
                               style: FontStyleApp.black18.copyWith(
                                 fontSize: getResponsiveText(context, 18),
                               ),

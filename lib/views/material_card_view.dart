@@ -4,6 +4,7 @@ import 'package:template/cubit/material%20cubit/material_cubit.dart';
 import 'package:template/cubit/material%20cubit/material_status.dart';
 import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
+import 'package:template/utils/custom_Floating_action_button.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/edit_prodict_view.dart';
@@ -73,15 +74,11 @@ class _MaterialCardViewState extends State<MaterialCardView> {
                 SizedBox(width: 15),
               ],
             ),
-            floatingActionButton: FloatingActionButton(
-              heroTag: null,
-              shape: CircleBorder(),
-              tooltip: 'ادخال بطاقة مادة',
-              backgroundColor: kBlueAccent,
+            floatingActionButton: CustomFloatingActionButton(
+              hint: 'اضافة بطاقة مادة',
               onPressed: () {
                 Navigator.pushNamed(context, NewMaterialView.id);
               },
-              child: Icon(Icons.add_circle_outline, color: kWhite, size: 30),
             ),
             body: SafeArea(
               child: Padding(

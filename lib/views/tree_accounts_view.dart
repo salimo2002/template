@@ -121,7 +121,6 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
     );
   }
 
-  // باقي الدوال تبقى كما هي...
   void showPopupMenu(
     TapDownDetails details,
     BuildContext context,
