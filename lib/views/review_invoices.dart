@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
@@ -47,13 +46,17 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                       ContainerFields(
                         children: [
                           CustomTextField(
+                            canRead: true,
                             suffixIcon: IconButton(
                               color: kBlueAccent,
                               onPressed: () {},
-                              icon: Icon(
-                                Icons.arrow_drop_down,
-                                color: kBlueAccent,
-                                size: 30,
+                              icon: InkWell(
+                                onTapDown: showUnits,
+                                child: Icon(
+                                  Icons.arrow_drop_down,
+                                  color: kBlueAccent,
+                                  size: 30,
+                                ),
                               ),
                             ),
                             hintText: 'فواتير المبيعات',
@@ -61,15 +64,16 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                             focusNode: _focusNode,
                           ),
                           CustomTextField(
-                            suffixIcon: IconButton(
-                              color: kBlueAccent,
-                              onPressed: () {},
-                              icon: Icon(
+                            suffixIcon: InkWell(
+                              onTapDown: (details) {},
+
+                              child: Icon(
                                 Icons.more_vert,
                                 color: kBlueAccent,
                                 size: 25,
                               ),
                             ),
+
                             hintText: 'الحساب المتربط',
                             controller: TextEditingController(),
                             focusNode: _focusNode2,
@@ -134,6 +138,36 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
           ),
         ),
       ),
+    );
+  }
+
+  void showUnits(TapDownDetails details) {
+    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    showMenu(
+      menuPadding: EdgeInsets.zero,
+      context: context,
+      position: RelativeRect.fromRect(
+        details.globalPosition & const Size(60, 60),
+        Offset.zero & overlay.size,
+      ),
+      items: [
+        CheckedPopupMenuItem(
+          child: Center(child: Text('فواتير المشتريات')),
+          onTap: () {},
+        ),
+        CheckedPopupMenuItem(
+          child: Center(child: Text('فواتير المبيعات')),
+          onTap: () {},
+        ),
+        CheckedPopupMenuItem(
+          child: Center(child: Text('فواتير مرتجع المشتريات')),
+          onTap: () {},
+        ),
+        CheckedPopupMenuItem(
+          child: Center(child: Text('فواتير مرتجع المبيعات')),
+          onTap: () {},
+        ),
+      ],
     );
   }
 }
