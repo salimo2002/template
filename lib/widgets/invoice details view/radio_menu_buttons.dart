@@ -47,21 +47,6 @@ class _RadioMenuButtonsState extends State<RadioMenuButtons> {
             ),
           ),
         ),
-        RadioMenuButton<int>(
-          value: 3,
-          groupValue: selectedValue,
-          onChanged: (value) {
-            setState(() {
-              selectedValue = value!;
-            });
-          },
-          child: Text(
-            'جزئي',
-            style: FontStyleApp.black18.copyWith(
-              fontSize: getResponsiveText(context, 12),
-            ),
-          ),
-        ),
       ],
     );
   }
