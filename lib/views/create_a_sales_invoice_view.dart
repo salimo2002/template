@@ -7,6 +7,7 @@ import 'package:template/models/bill_details_model.dart';
 import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/invoice_details_view.dart';
@@ -275,7 +276,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
         _addMaterial(material);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('لم يتم العثور على المادة')),
+          customSnackBar(context, 'لم يتم العثور على المادة', kRed),
         );
       }
       setState(() {

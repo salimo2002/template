@@ -8,7 +8,7 @@ import 'package:template/models/account_model.dart';
 class AccountsCubit extends Cubit<AccountsStatusAccounts> {
   AccountsCubit() : super(InitStateAccounts());
   List<dynamic> resultAccounts = [];
-  static List<AccountModel> accounts = [];
+   List<AccountModel> accounts = [];
   List<dynamic> resultParentsAccounts = [];
   List<ParentAccountsModel> parentsAccounts = [];
   Future<void> fetchAccounts({bool isRefresh = false}) async {

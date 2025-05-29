@@ -9,7 +9,8 @@ class TextFieldAndDetails extends StatelessWidget {
     this.keyType = TextInputType.text,
     this.validator,
     this.icon,
-    this.canRead, required this.focusNode,
+    this.canRead,
+    required this.focusNode,  this.onChangedl,
   });
   final FocusNode focusNode;
   final String hintText;
@@ -18,7 +19,7 @@ class TextFieldAndDetails extends StatelessWidget {
   final String? Function(String?)? validator;
   final Widget? icon;
   final bool? canRead;
-
+  final Function(String)? onChangedl;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,6 +29,7 @@ class TextFieldAndDetails extends StatelessWidget {
         children: [
           Expanded(
             child: CustomTextField(
+              onChanged: onChangedl,
               focusNode: focusNode,
               canRead: canRead,
               suffixIcon: icon,
