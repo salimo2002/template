@@ -1,102 +1,112 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
+import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
+import 'package:template/cubit/bill%20cubit/bill_status.dart';
+import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
+import 'package:template/views/home_view.dart';
+import 'package:template/widgets/Invoice%20review/bill.dart';
 import 'package:template/widgets/Invoice%20review/filter_invoice_review.dart';
-import 'package:template/widgets/item%20card%20view%20widgets/table_fields.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 
-class InvoiceReviewView extends StatelessWidget {
+class InvoiceReviewView extends StatefulWidget {
   const InvoiceReviewView({super.key});
   static String id = 'InvoiceReviewView';
+
+  @override
+  State<InvoiceReviewView> createState() => _InvoiceReviewViewState();
+}
+
+class _InvoiceReviewViewState extends State<InvoiceReviewView> {
+  late String nameAcuont;
+  late String billType;
+  late Map mapModalRoute;
+  @override
+  void didChangeDependencies() {
+    mapModalRoute = ModalRoute.of(context)!.settings.arguments as Map;
+    nameAcuont = mapModalRoute['nameAcuont'];
+    billType = mapModalRoute['billType'];
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(
-        context: context,
-        title: 'فواتير مشتريات',
-        showIcons: false,
-      ),
+      appBar: customAppBar(context: context, title: billType, showIcons: false),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: 15),
           FilterInvoiceReview(),
           SizedBox(height: 40),
-          ContainerFields(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'نقداً',
-                    style: FontStyleApp.blueAccent18.copyWith(
-                      fontSize: getResponsiveText(context, 14),
-                    ),
+          BlocBuilder<BillCubit, BillStatus>(
+            builder: (context, state) {
+              if (state is SuccessStateBill) {
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        child: Bill(
+                          paymentStyle:
+                              state.bill[index].bilPayment == 1
+                                  ? 'نقدي'
+                                  : 'آجل؟',
+                          invoiceNumber: state.bill[index].bilId.toString(),
+                          billDate: '2025-5-1',
+                          billTime: '5:00 PM',
+                          nameAccuont:
+                              context
+                                  .read<AccountsCubit>()
+                                  .accounts
+                                  .where(
+                                    (element) =>
+                                        element.accID ==
+                                        state.bill[index].accId,
+                                  )
+                                  .first
+                                  .accName,
+                          total: state.bill[index].bilTotal.toString(),
+                          amountPaid: state.bill[index].bilPayment.toString(),
+                          reminingAmount: state.bill[index].bilNet.toString(),
+                          note: 'ملاحظة',
+                        ),
+                      );
+                    },
                   ),
-                  Text(
-                    'فاتورة مشتريات رقم : 1',
-                    style: FontStyleApp.blueAccent18.copyWith(
-                      fontSize: getResponsiveText(context, 14),
-                    ),
+                );
+              } else if (state is LoadingStateBill) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'حدث خطأ حاول مجددا',
+                        style: FontStyleApp.black18.copyWith(
+                          fontSize: getResponsiveText(context, 18),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            HomeView.id,
+                            (route) => false,
+                          );
+                        },
+                        icon: Icon(Icons.refresh, color: kBlueAccent, size: 40),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '25-5-2025',
-                    style: FontStyleApp.grey14.copyWith(
-                      fontSize: getResponsiveText(context, 14),
-                    ),
-                  ),
-                  Text(
-                    '4:00 PM',
-                    style: FontStyleApp.grey14.copyWith(
-                      fontSize: getResponsiveText(context, 14),
-                    ),
-                  ),
-                  Text(
-                    'مورد نقدي',
-                    style: FontStyleApp.grey14.copyWith(
-                      fontSize: getResponsiveText(context, 14),
-                    ),
-                  ),
-                ],
-              ),
-              Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'المستودع الرئيسي',
-                    style: FontStyleApp.blackCustom18.copyWith(
-                      fontSize: getResponsiveText(context, 16),
-                    ),
-                  ),
-                ],
-              ),
-              TableFIelds(
-                lable1: 'المبلغ المتبقي',
-                value1: '500',
-                lable2: 'المبلغ المدفوع',
-                value2: '250',
-                lable3: 'مبلغ الفاتورة',
-                value3: '500',
-              ),SizedBox(height: 20,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'هنا يوجد نص',
-                    style: FontStyleApp.blackCustom18.copyWith(
-                      fontSize: getResponsiveText(context, 16),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                );
+              }
+            },
           ),
         ],
       ),

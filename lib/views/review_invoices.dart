@@ -164,7 +164,14 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                 padding: const EdgeInsets.only(bottom: 30, top: 10),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, InvoiceReviewView.id);
+                    Navigator.pushNamed(
+                      context,
+                      InvoiceReviewView.id,
+                      arguments: {
+                        'billType': invoiceController.text,
+                        'nameAcuont': accountController.text,
+                      },
+                    );
                   },
                   child: Text(
                     'موافق',
@@ -204,15 +211,15 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
           },
         ),
         CheckedPopupMenuItem(
-          child: Center(child: Text('فواتير مرتجع المشتريات')),
+          child: Center(child: Text('فواتير مردود المشتريات')),
           onTap: () {
-            invoiceController.text = 'فواتير مرتجع المشتريات';
+            invoiceController.text = 'فواتير مردود المشتريات';
           },
         ),
         CheckedPopupMenuItem(
-          child: Center(child: Text('فواتير مرتجع المبيعات')),
+          child: Center(child: Text('فواتير مردود المبيعات')),
           onTap: () {
-            invoiceController.text = 'فواتير مرتجع المبيعات';
+            invoiceController.text = 'فواتير مردود المبيعات';
           },
         ),
       ],
