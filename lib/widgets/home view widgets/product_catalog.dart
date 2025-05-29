@@ -37,6 +37,22 @@ class ProductCatalog extends StatelessWidget {
               ],
             ),
           ),
+          Row(
+            spacing: 50,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CustomButton(
+                text: 'test',
+                icon: 'assets/img/home cards/fluent-mdl2_product-variant.svg',
+                onTap: () {},
+              ),
+              CustomButton(
+                text: 'test',
+                icon: 'assets/img/home cards/marketeq_bill-dollar.svg',
+                onTap: () {},
+              ),
+            ],
+          ),
         ],
       ),
     );
