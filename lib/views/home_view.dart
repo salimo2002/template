@@ -7,7 +7,6 @@ import 'package:template/widgets/home%20view%20widgets/accounts.dart';
 import 'package:template/widgets/home%20view%20widgets/create_financial_documents.dart';
 import 'package:template/widgets/home%20view%20widgets/debts_and_supplies.dart';
 import 'package:template/widgets/home%20view%20widgets/financial_reports.dart';
-import 'package:template/widgets/home%20view%20widgets/lookup.dart';
 import 'package:template/widgets/home%20view%20widgets/product_catalog.dart';
 
 class HomeView extends StatefulWidget {
@@ -36,17 +35,9 @@ class _HomeViewState extends State<HomeView> {
     ),
     SingleChildScrollView(
       padding: const EdgeInsets.all(8),
-      child: Column(children: [ProductCatalog(), Lookup()]),
+      child: Column(children: [ProductCatalog()]),
     ),
   ];
-
-  @override
-  void initState() {
-    // context.read<MaterialCubit>().fetchMaterials();
-    // context.read<CategoryCubit>().fetchCategory();
-    // context.read<AccountsCubit>().fetchAccounts();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +52,7 @@ class _HomeViewState extends State<HomeView> {
         ),
         backgroundColor: kBlueAccent,
         actions: [
-          IconButton(
-            onPressed: () {
-          
-            },
-            icon: Icon(Icons.more_vert_outlined),
-          ),
+          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_outlined)),
         ],
       ),
       body: Stack(

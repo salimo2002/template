@@ -8,7 +8,7 @@ class Accounts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 15),
+      padding: const EdgeInsets.only(right: 15, top: 15),
       child: Column(
         spacing: 20,
         crossAxisAlignment: CrossAxisAlignment.end,
