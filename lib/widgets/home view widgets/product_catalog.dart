@@ -12,7 +12,6 @@ class ProductCatalog extends StatelessWidget {
       child: Column(
         spacing: 20,
         crossAxisAlignment: CrossAxisAlignment.end,
-
         children: [
           FittedBox(
             child: Row(
@@ -24,6 +23,16 @@ class ProductCatalog extends StatelessWidget {
                   onTap: () {
                     Navigator.pushNamed(context, MaterialCardView.id);
                   },
+                ),
+                CustomButton(
+                  text: 'test',
+                  icon: 'assets/img/home cards/medical-icon_i-billing.svg',
+                  onTap: () {},
+                ),
+                CustomButton(
+                  text: 'test',
+                  icon: 'assets/img/home cards/medical-icon_i-billing.svg',
+                  onTap: () {},
                 ),
               ],
             ),
