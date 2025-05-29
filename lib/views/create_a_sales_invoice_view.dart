@@ -37,10 +37,27 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   final List<TextEditingController> quantityController = [];
   final List<BillDetailsModel> bills = [];
   List<MaterialModel> materialModel = [];
+  final FocusNode searchFocusNode = FocusNode(); // FocusNode محفوظ
+
+  @override
+  void dispose() {
+    searchFocusNode.dispose();
+    controller.dispose();
+    controllerSerch.dispose();
+    totalAllPrice.dispose();
+    scannerController.dispose();
+    for (var c in totalController) c.dispose();
+    for (var c in priceController) c.dispose();
+    for (var c in quantityController) c.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
+      resizeToAvoidBottomInset: false, // يمنع القفز عند فتح الكيبورد
       appBar: customAppBar(
         context: context,
         title: 'فاتورة مبيعات جديدة',
@@ -51,112 +68,104 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              const SizedBox(width: 5),
-                              Expanded(
-                                child: CustomTextField(
-                                  focusNode: FocusNode(),
-                                  prefixIcon: IconButton(
-                                    onPressed: _toggleScanner,
-                                    icon: const Icon(
-                                      FontAwesomeIcons.barcode,
-                                      color: kBlueAccent,
-                                    ),
-                                  ),
-                                  hintText: 'ادخل اسم المادة أو الكود',
-                                  controller: controllerSerch,
-                                  onChanged: _searchMaterials,
-                                ),
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        const SizedBox(width: 5),
+                        Expanded(
+                          child: CustomTextField(
+                            focusNode: searchFocusNode,
+                            prefixIcon: IconButton(
+                              onPressed: _toggleScanner,
+                              icon: const Icon(
+                                FontAwesomeIcons.barcode,
+                                color: kBlueAccent,
+                              ),
+                            ),
+                            hintText: 'ادخل اسم المادة أو الكود',
+                            controller: controllerSerch,
+                            onChanged: _searchMaterials,
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (showScanner)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: SizedBox(
+                          height: 150,
+                          width: double.infinity,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: MobileScanner(
+                              controller: scannerController,
+                              onDetect: cleanScanner,
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (isSearching && searchResults.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 3,
+                                offset: const Offset(0, 2),
                               ),
                             ],
                           ),
-                          if (showScanner)
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 8.0,
-                                left: 5,
-                                right: 5,
-                              ),
-                              child: SizedBox(
-                                height: 150,
-                                width: double.infinity,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: MobileScanner(
-                                    controller: scannerController,
-                                    onDetect: cleanScanner,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          if (isSearching && searchResults.isNotEmpty)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 3,
-                                      offset: const Offset(0, 2),
-                                    ),
-                                  ],
-                                ),
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: searchResults.length,
-                                  itemBuilder: (context, index) {
-                                    final material = searchResults[index];
-                                    return ListTile(
-                                      title: Text(material.materialName),
-                                      subtitle: Text(material.materialCode),
-                                      onTap: () => _addMaterial(material),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      SizedBox(
-                        height: 600,
-                        child: ListView.builder(
-                          itemCount: materialModel.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: InvoiceItemCard(
-                                isNumericOnly: true,
-                                unity:
-                                    materialModel[index].materialUnitDefault ==
-                                            1
-                                        ? materialModel[index].materialUnit
-                                        : materialModel[index].materialUnit2,
-                                totalController: totalController[index],
-                                context: context,
-                                materialName: materialModel[index].materialName,
-                                materialNameNumber: '1',
-                                priceController: priceController[index],
-                                quantityController: quantityController[index],
-                              ),
-                            );
-                          },
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: searchResults.length,
+                            itemBuilder: (context, index) {
+                              final material = searchResults[index];
+                              return ListTile(
+                                title: Text(material.materialName),
+                                subtitle: Text(material.materialCode),
+                                onTap: () => _addMaterial(material),
+                              );
+                            },
+                          ),
                         ),
                       ),
-                    ],
-                  ),
+                    const SizedBox(height: 10),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: screenHeight * 0.6,
+                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: materialModel.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: InvoiceItemCard(
+                              isNumericOnly: true,
+                              unity:
+                                  materialModel[index].materialUnitDefault == 1
+                                      ? materialModel[index].materialUnit
+                                      : materialModel[index].materialUnit2,
+                              totalController: totalController[index],
+                              context: context,
+                              materialName: materialModel[index].materialName,
+                              materialNameNumber: '1',
+                              priceController: priceController[index],
+                              quantityController: quantityController[index],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -166,7 +175,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'بنود : ${materialModel.length} |كمية : 0 | مجموع : ${totalAllPrice.text} ل.س',
+                    'بنود : ${materialModel.length} | كمية : 0 | مجموع : ${totalAllPrice.text} ل.س',
                     style: TextStyle(fontSize: getResponsiveText(context, 16)),
                   ),
                 ],
@@ -174,7 +183,10 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
             ),
             const SizedBox(height: 30),
             TextButton(
-              onPressed: navigateToInvoiceDetailsView,
+              onPressed: () {
+                FocusScope.of(context).unfocus(); // إغلاق الكيبورد
+                navigateToInvoiceDetailsView();
+              },
               child: Text('التالي', style: FontStyleApp.black18),
             ),
             const SizedBox(height: 15),
@@ -185,6 +197,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   }
 
   void navigateToInvoiceDetailsView() {
+    bills.clear();
     for (var i = 0; i < totalController.length; i++) {
       bills.add(
         BillDetailsModel(
@@ -244,6 +257,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
       controllerSerch.clear();
       searchResults = [];
       isSearching = false;
+
       totalController.add(
         TextEditingController(text: material.materialPrice3.toString())
           ..addListener(updateTotalAll),
