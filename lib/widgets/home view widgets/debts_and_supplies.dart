@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
-import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
-import 'package:template/widgets/home%20view%20widgets/row_custom_button.dart';
+import 'package:template/widgets/home%20view%20widgets/custom_button_.dart';
 
 class DebtsAndSupplies extends StatelessWidget {
   const DebtsAndSupplies({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CustomContainer(borderRadius: BorderRadius.circular(10),
+    return Padding(
+      padding: const EdgeInsets.only(right: 15, top: 15),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: 20,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-
-          SizedBox(height: 5),
-          RowCustomButton(
-            text3: 'فاتورة مردود مشتريات',
-            icon3: Icons.abc,
-            onTap3: () {},
-            icon1: FontAwesomeIcons.fileCircleMinus,
-            icon2: FontAwesomeIcons.fileCirclePlus,
-            onTap1: () {},
-            onTap2: () {},
-            text2: 'الديون (لنا)',
-            text1: 'المستحقات (علينا)',
+          FittedBox(
+            child: Row(
+              spacing: 50,
+              children: [
+                CustomButton(
+                  text: 'الديون لنا',
+                  icon: 'assets/img/home cards/medical-icon_i-billing.svg',
+                  onTap: () {},
+                ),
+                CustomButton(
+                  text: ' المستحقات علينا',
+                  icon: 'assets/img/home cards/hugeicons_payment-01.svg',
+                  onTap: () {},
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 5),
         ],
       ),
     );

@@ -4,8 +4,11 @@ import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
+import 'package:template/views/invoice_review_view.dart';
+import 'package:template/widgets/Invoice%20review/filter_invoice_review.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/invoice%20details%20view/radio_menu_buttons.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
 
 class ReviewInvoices extends StatefulWidget {
@@ -20,6 +23,8 @@ class ReviewInvoices extends StatefulWidget {
 class _ReviewInvoicesState extends State<ReviewInvoices> {
   final FocusNode _focusNode = FocusNode();
   final FocusNode _focusNode2 = FocusNode();
+  final TextEditingController invoiceController = TextEditingController();
+  final TextEditingController accountController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,72 +33,105 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
         title: 'استعراض فواتير',
         showIcons: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          spacing: 10,
-          children: [
-            CustomContainer(
-              borderRadius: BorderRadius.circular(12),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  spacing: 10,
-                  children: [
-                    CustomTextField(
-                      hintText: 'فواتير المبيعات',
-                      controller: TextEditingController(),
-                      focusNode: _focusNode,
-                    ),
-                    CustomTextField(
-                      hintText: 'الحساب المتربط',
-                      controller: TextEditingController(),
-                      focusNode: _focusNode2,
-                    ),
-                  ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    spacing: 15,
+                    children: [
+                      ContainerFields(
+                        children: [
+                          CustomTextField(
+                            suffixIcon: IconButton(
+                              color: kBlueAccent,
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.arrow_drop_down,
+                                color: kBlueAccent,
+                                size: 30,
+                              ),
+                            ),
+                            hintText: 'فواتير المبيعات',
+                            controller: TextEditingController(),
+                            focusNode: _focusNode,
+                          ),
+                          CustomTextField(
+                            suffixIcon: IconButton(
+                              color: kBlueAccent,
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.more_vert,
+                                color: kBlueAccent,
+                                size: 25,
+                              ),
+                            ),
+                            hintText: 'الحساب المتربط',
+                            controller: TextEditingController(),
+                            focusNode: _focusNode2,
+                          ),
+                        ],
+                      ),
+                      ContainerFields(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 30,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                color: kBlueAccent,
+                                borderRadius: BorderRadius.circular(40),
+                              ),
+                              child: Text(
+                                'نمط الدفع',
+                                style: FontStyleApp.white18.copyWith(
+                                  fontSize: getResponsiveText(context, 12),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CustomContainer(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: const Padding(
+                                  padding: EdgeInsets.all(1),
+                                  child: RadioMenuButtons(),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      FilterInvoiceReview(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            CustomContainer(
-              borderRadius: BorderRadius.circular(10),
-              child: Column(
-                spacing: 10,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 30,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        color: kBlueAccent,
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      child: Text(
-                        'نمط الدفع',
-                        style: FontStyleApp.white18.copyWith(
-                          fontSize: getResponsiveText(context, 12),
-                        ),
-                      ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 30, top: 10),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, InvoiceReviewView.id);
+                  },
+                  child: Text(
+                    'موافق',
+                    style: FontStyleApp.black18.copyWith(
+                      fontSize: getResponsiveText(context, 14),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomContainer(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: const Padding(
-                          padding: EdgeInsets.all(1),
-                          child: RadioMenuButtons(),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
