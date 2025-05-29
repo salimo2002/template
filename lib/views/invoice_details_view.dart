@@ -6,7 +6,6 @@ import 'package:template/cubit/bill%20cubit/bill_status.dart';
 import 'package:template/models/account_model.dart';
 import 'package:template/models/bill_details_model.dart';
 import 'package:template/models/bill_model.dart';
-import 'package:template/utils/bill_type.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/custom_snack_bar.dart';
@@ -51,6 +50,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
   bool isSearching = false;
   int accIdd = 0;
   List<BillDetailsModel> bills = [];
+  late String billType;
   @override
   void initState() {
     super.initState();
@@ -67,10 +67,13 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
 
   @override
   void didChangeDependencies() {
+    discount.text = '0';
+    amountRecived.text = '0';
     Map<String, dynamic> billList =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     bills = billList['bill'];
     countInvois.text = billList['total'];
+    billType = billList['billType'];
 
     calculateTotals();
     super.didChangeDependencies();
@@ -387,7 +390,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
             bilTotal: double.parse(totalInvois.text),
             bilDiscount: double.parse(discount.text),
             bilExtra: double.parse('1'),
-            bilKind: BillType.sales,
+            bilKind: billType,
             bilPayment: double.parse(amountRecived.text),
             bilNet: double.parse(remainingAmound.text),
           ),

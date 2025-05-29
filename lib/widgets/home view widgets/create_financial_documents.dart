@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:template/utils/bill_type.dart';
 import 'package:template/views/create_a_sales_invoice_view.dart';
 import 'package:template/views/review_invoices.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_button_.dart';
@@ -21,19 +22,35 @@ class CreateFinancialDocuments extends StatelessWidget {
                 CustomButton(
                   text: 'فاتورة مردود مشتريات',
                   icon: 'assets/img/home cards/medical-icon_i-billing.svg',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      CreateASalesInvoiceView.id,
+                      arguments: BillType.undoBuy,
+                    );
+                  },
                 ),
                 CustomButton(
                   text: 'فاتورة مبيعات',
                   icon: 'assets/img/home cards/hugeicons_payment-01.svg',
                   onTap: () {
-                    Navigator.pushNamed(context, CreateASalesInvoiceView.id);
+                    Navigator.pushNamed(
+                      context,
+                      CreateASalesInvoiceView.id,
+                      arguments: BillType.sales,
+                    );
                   },
                 ),
                 CustomButton(
                   text: 'فاتورة مشتريات',
                   icon: 'assets/img/home cards/hugeicons_payment-02.svg',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      CreateASalesInvoiceView.id,
+                      arguments: BillType.buy,
+                    );
+                  },
                 ),
               ],
             ),
@@ -50,7 +67,13 @@ class CreateFinancialDocuments extends StatelessWidget {
               CustomButton(
                 text: 'فاتورة مردود مبيعات',
                 icon: 'assets/img/home cards/marketeq_bill-dollar.svg',
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    CreateASalesInvoiceView.id,
+                    arguments: BillType.undoSell,
+                  );
+                },
               ),
             ],
           ),

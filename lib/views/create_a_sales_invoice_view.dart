@@ -37,8 +37,8 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   final List<TextEditingController> quantityController = [];
   final List<BillDetailsModel> bills = [];
   List<MaterialModel> materialModel = [];
-  final FocusNode searchFocusNode = FocusNode(); // FocusNode محفوظ
-
+  final FocusNode searchFocusNode = FocusNode();
+  late String billType;
   @override
   void dispose() {
     searchFocusNode.dispose();
@@ -46,21 +46,32 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
     controllerSerch.dispose();
     totalAllPrice.dispose();
     scannerController.dispose();
-    for (var c in totalController) c.dispose();
-    for (var c in priceController) c.dispose();
-    for (var c in quantityController) c.dispose();
+    for (var c in totalController) {
+      c.dispose();
+    }
+    for (var c in priceController) {
+      c.dispose();
+    }
+    for (var c in quantityController) {
+      c.dispose();
+    }
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    billType = ModalRoute.of(context)!.settings.arguments.toString();
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
-      resizeToAvoidBottomInset: false, // يمنع القفز عند فتح الكيبورد
+      resizeToAvoidBottomInset: false,
       appBar: customAppBar(
         context: context,
-        title: 'فاتورة مبيعات جديدة',
+        title: 'فاتورة  جديدة',
         showIcons: false,
       ),
       body: SafeArea(
@@ -115,6 +126,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
                               BoxShadow(
+                                // ignore: deprecated_member_use
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 1,
                                 blurRadius: 3,
@@ -184,7 +196,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
             const SizedBox(height: 30),
             TextButton(
               onPressed: () {
-                FocusScope.of(context).unfocus(); // إغلاق الكيبورد
+                FocusScope.of(context).unfocus();
                 navigateToInvoiceDetailsView();
               },
               child: Text('التالي', style: FontStyleApp.black18),
@@ -214,7 +226,11 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
     Navigator.pushNamed(
       context,
       InvoiceDetailsView.id,
-      arguments: {'bill': bills, 'total': totalAllPrice.text},
+      arguments: {
+        'bill': bills,
+        'total': totalAllPrice.text,
+        'billType': billType,
+      },
     );
   }
 

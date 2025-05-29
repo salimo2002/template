@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
+import 'package:template/models/account_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
@@ -24,6 +27,8 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
   final FocusNode _focusNode2 = FocusNode();
   final TextEditingController invoiceController = TextEditingController();
   final TextEditingController accountController = TextEditingController();
+  List<AccountModel> searchResults = [];
+  bool isSearching = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,23 +52,20 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                         children: [
                           CustomTextField(
                             canRead: true,
-                            suffixIcon: IconButton(
-                              color: kBlueAccent,
-                              onPressed: () {},
-                              icon: InkWell(
-                                onTapDown: showUnits,
-                                child: Icon(
-                                  Icons.arrow_drop_down,
-                                  color: kBlueAccent,
-                                  size: 30,
-                                ),
+                            suffixIcon: InkWell(
+                              onTapDown: showUnits,
+                              child: Icon(
+                                Icons.arrow_drop_down,
+                                color: kBlueAccent,
+                                size: 30,
                               ),
                             ),
-                            hintText: 'فواتير المبيعات',
-                            controller: TextEditingController(),
+                            hintText: 'نوع الفاتورة',
+                            controller: invoiceController,
                             focusNode: _focusNode,
                           ),
                           CustomTextField(
+                            onChanged: searchAccount,
                             suffixIcon: InkWell(
                               onTapDown: (details) {},
 
@@ -75,9 +77,47 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                             ),
 
                             hintText: 'الحساب المتربط',
-                            controller: TextEditingController(),
+                            controller: accountController,
                             focusNode: _focusNode2,
                           ),
+                          if (isSearching)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 3,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: searchResults.length,
+                                  itemBuilder: (context, index) {
+                                    final account = searchResults[index];
+                                    return ListTile(
+                                      title: Text(account.accName),
+                                      subtitle: Text(
+                                        account.accKind.toString(),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          accountController.text =
+                                              account.accName;
+                                          isSearching = false;
+                                        });
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                       ContainerFields(
@@ -153,21 +193,53 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
       items: [
         CheckedPopupMenuItem(
           child: Center(child: Text('فواتير المشتريات')),
-          onTap: () {},
+          onTap: () {
+            invoiceController.text = 'فواتير المشتريات';
+          },
         ),
         CheckedPopupMenuItem(
           child: Center(child: Text('فواتير المبيعات')),
-          onTap: () {},
+          onTap: () {
+            invoiceController.text = 'فواتير المبيعات';
+          },
         ),
         CheckedPopupMenuItem(
           child: Center(child: Text('فواتير مرتجع المشتريات')),
-          onTap: () {},
+          onTap: () {
+            invoiceController.text = 'فواتير مرتجع المشتريات';
+          },
         ),
         CheckedPopupMenuItem(
           child: Center(child: Text('فواتير مرتجع المبيعات')),
-          onTap: () {},
+          onTap: () {
+            invoiceController.text = 'فواتير مرتجع المبيعات';
+          },
         ),
       ],
     );
+  }
+
+  void searchAccount(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        searchResults = [];
+        isSearching = false;
+      });
+      return;
+    }
+
+    setState(() {
+      isSearching = true;
+    });
+
+    final accounts = context.read<AccountsCubit>().accounts;
+    final results =
+        accounts.where((account) {
+          return account.accName.toLowerCase().contains(query.toLowerCase());
+        }).toList();
+
+    setState(() {
+      searchResults = results;
+    });
   }
 }
