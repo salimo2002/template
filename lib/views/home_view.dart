@@ -18,7 +18,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  int _currentIndex = 0;
+  int _currentIndex = 3;
 
   final List<Widget> _pages = [
     SingleChildScrollView(
