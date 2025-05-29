@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:template/views/material_card_view.dart';
+import 'package:template/views/material_classifications_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_button_.dart';
 
 class ProductCatalog extends StatelessWidget {
@@ -25,9 +26,14 @@ class ProductCatalog extends StatelessWidget {
                   },
                 ),
                 CustomButton(
-                  text: 'test',
+                  text: 'تصنيفات',
                   icon: 'assets/img/home cards/medical-icon_i-billing.svg',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      MaterialClassificationsView.id,
+                    );
+                  },
                 ),
                 CustomButton(
                   text: 'test',

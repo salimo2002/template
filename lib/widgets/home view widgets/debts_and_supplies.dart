@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:template/views/material_card_view.dart';
+import 'package:template/views/material_classifications_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_button_.dart';
 
 class DebtsAndSupplies extends StatelessWidget {
@@ -26,8 +28,31 @@ class DebtsAndSupplies extends StatelessWidget {
                   icon: 'assets/img/home cards/hugeicons_payment-01.svg',
                   onTap: () {},
                 ),
+                CustomButton(
+                  text: 'تصنيفات',
+                  icon: 'assets/img/home cards/medical-icon_i-billing.svg',
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      MaterialClassificationsView.id,
+                    );
+                  },
+                ),
               ],
             ),
+          ),
+          Row(
+            spacing: 50,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CustomButton(
+                text: 'بطاقات المواد',
+                icon: 'assets/img/home cards/medical-icon_i-billing.svg',
+                onTap: () {
+                  Navigator.pushNamed(context, MaterialCardView.id);
+                },
+              ),
+            ],
           ),
         ],
       ),
