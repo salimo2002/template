@@ -14,7 +14,7 @@ class InvoiceItemCard extends StatefulWidget {
     required this.priceController,
     required this.quantityController,
     required this.unity,
-    required this.isNumericOnly,
+    required this.isNumericOnly, required this.bounsContoler,
   });
 
   final BuildContext context;
@@ -23,6 +23,8 @@ class InvoiceItemCard extends StatefulWidget {
   final TextEditingController totalController;
   final TextEditingController priceController;
   final TextEditingController quantityController;
+  final TextEditingController bounsContoler;
+
   final String unity;
   final bool isNumericOnly;
 
@@ -37,6 +39,7 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
   final FocusNode focusNode2 = FocusNode();
   final FocusNode focusNode3 = FocusNode();
   final FocusNode focusNode4 = FocusNode();
+  final FocusNode focusNode5 = FocusNode();
   @override
   void initState() {
     super.initState();
@@ -132,6 +135,14 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                           conttroller: widget.totalController,
                           text: 'المجموع',
                           isNumericOnly: true,
+                        ),
+                      ),
+                      Expanded(
+                        child: EditableDataColumn(
+                          focusNode: focusNode5,
+                          conttroller: widget.bounsContoler,
+                          text: 'الهدايا',
+                          isNumericOnly: widget.isNumericOnly,
                         ),
                       ),
                       Expanded(

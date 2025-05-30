@@ -6,6 +6,7 @@ class BillDetailsModel {
   final double? detSinglePrice;
   final double? detPrice;
   final int strId;
+  final double? detBouns; 
 
   BillDetailsModel({
     required this.detId,
@@ -15,17 +16,19 @@ class BillDetailsModel {
     required this.detSinglePrice,
     required this.detPrice,
     required this.strId,
+    required this.detBouns, 
   });
 
   factory BillDetailsModel.fromJson(Map<String, dynamic> json) {
     return BillDetailsModel(
-      detId: int.parse(json['det_id'].toString()),
-      bilId: int.parse(json['bil_id'].toString()),
-      matId: int.parse(json['mat_id'].toString()),
-      detQuantity: double.parse(json['det_quntity'].toString()),
-      detSinglePrice: double.parse(json['det_single_price'].toString()),
-      detPrice: double.parse(json['det_price'].toString()),
+      detId: int.tryParse(json['det_id'].toString()),
+      bilId: int.tryParse(json['bil_id'].toString()),
+      matId: int.tryParse(json['mat_id'].toString()),
+      detQuantity: double.tryParse(json['det_quntity'].toString()),
+      detSinglePrice: double.tryParse(json['det_single_price'].toString()),
+      detPrice: double.tryParse(json['det_price'].toString()),
       strId: int.parse(json['str_id'].toString()),
+      detBouns: double.tryParse(json['det_bouns'].toString()),
     );
   }
 
@@ -38,6 +41,7 @@ class BillDetailsModel {
       'det_single_price': detSinglePrice.toString(),
       'det_price': detPrice.toString(),
       'str_id': strId.toString(),
+      'det_bouns': detBouns.toString(), 
     };
   }
 
@@ -50,6 +54,7 @@ class BillDetailsModel {
       'det_single_price': detSinglePrice,
       'det_price': detPrice,
       'str_id': strId,
+      'det_bouns': detBouns, 
     };
   }
 }

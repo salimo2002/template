@@ -34,6 +34,8 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   final TextEditingController totalAllPrice = TextEditingController(text: '0');
   final List<TextEditingController> totalController = [];
   final List<TextEditingController> priceController = [];
+    final List<TextEditingController> bounsController = [];
+
   final List<TextEditingController> quantityController = [];
   final List<BillDetailsModel> bills = [];
   List<MaterialModel> materialModel = [];
@@ -47,6 +49,9 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
     totalAllPrice.dispose();
     scannerController.dispose();
     for (var c in totalController) {
+      c.dispose();
+    }
+      for (var c in bounsController) {
       c.dispose();
     }
     for (var c in priceController) {
@@ -161,6 +166,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                           return Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: InvoiceItemCard(
+                              bounsContoler: bounsController[index],
                               isNumericOnly: true,
                               unity:
                                   materialModel[index].materialUnitDefault == 1
@@ -220,6 +226,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
           detSinglePrice: double.parse(priceController[i].text),
           detPrice: double.parse(totalController[i].text),
           strId: 1,
+          detBouns: double.parse(bounsController[i].text),
         ),
       );
     }
@@ -285,6 +292,9 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
 
       updateTotalAll();
     });
+       bounsController.add(
+        TextEditingController(text: 0.toString()),
+      );
   }
 
   void updateTotalAll() {
