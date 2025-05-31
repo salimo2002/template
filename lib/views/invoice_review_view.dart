@@ -46,33 +46,38 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
               if (state is SuccessStateBill) {
                 return Expanded(
                   child: ListView.builder(
-                    itemCount: 10,
+                    itemCount: state.bill.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Bill(
-                          paymentStyle:
-                              state.bill[index].bilPayment == 1
-                                  ? 'نقدي'
-                                  : 'آجل؟',
-                          invoiceNumber: state.bill[index].bilId.toString(),
-                          billDate: '2025-5-1',
-                          billTime: '5:00 PM',
-                          nameAccuont:
-                              context
-                                  .read<AccountsCubit>()
-                                  .accounts
-                                  .where(
-                                    (element) =>
-                                        element.accID ==
-                                        state.bill[index].accId,
-                                  )
-                                  .first
-                                  .accName,
-                          total: state.bill[index].bilTotal.toString(),
-                          amountPaid: state.bill[index].bilPayment.toString(),
-                          reminingAmount: state.bill[index].bilNet.toString(),
-                          note: 'ملاحظة',
+                        child: GestureDetector(
+                          onTapDown: (details) {
+                            showUnits(details,state.bill[index].bilId!);
+                          },
+                          child: Bill(
+                            paymentStyle:
+                                state.bill[index].bilPayment == 1
+                                    ? 'نقدي'
+                                    : 'آجل؟',
+                            invoiceNumber: state.bill[index].bilId.toString(),
+                            billDate: '2025-5-1',
+                            billTime: '5:00 PM',
+                            nameAccuont:
+                                context
+                                    .read<AccountsCubit>()
+                                    .accounts
+                                    .where(
+                                      (element) =>
+                                          element.accID ==
+                                          state.bill[index].accId,
+                                    )
+                                    .first
+                                    .accName,
+                            total: state.bill[index].bilTotal.toString(),
+                            amountPaid: state.bill[index].bilPayment.toString(),
+                            reminingAmount: state.bill[index].bilNet.toString(),
+                            note: 'ملاحظة',
+                          ),
                         ),
                       );
                     },
@@ -110,6 +115,30 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
           ),
         ],
       ),
+    );
+  }
+
+  void showUnits(TapDownDetails details,int id) {
+    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    showMenu(
+      menuPadding: EdgeInsets.zero,
+      context: context,
+      position: RelativeRect.fromRect(
+        details.globalPosition & const Size(60, 60),
+        Offset.zero & overlay.size,
+      ),
+      items: [
+        CheckedPopupMenuItem(
+          child: Center(child: Text('حذف الفاتورة')),
+          onTap: () {
+            context.read<BillCubit>(). billDeletById(id:id );
+          },
+        ),
+        CheckedPopupMenuItem(
+          child: Center(child: Text('تعديل الفاتورة')),
+          onTap: () {},
+        ),
+      ],
     );
   }
 }
