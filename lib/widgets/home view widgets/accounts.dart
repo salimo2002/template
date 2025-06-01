@@ -18,41 +18,19 @@ class Accounts extends StatelessWidget {
               spacing: 50,
               children: [
                 CustomButton(
-                  text: 'شجرة الحسابات',
-                  icon: 'assets/img/home cards/hugeicons_payment-02.svg',
-                  onTap: () {
-                    Navigator.pushNamed(context, TreeAccountsView.id);
-                  },
-                ),
-                CustomButton(
                   text: 'حساب جديد',
                   icon: 'assets/img/home cards/hugeicons_payment-01.svg',
                   onTap: () {},
                 ),
                 CustomButton(
-                  text: 'كشف حساب',
+                  text: 'دليل الحسابات',
                   icon: 'assets/img/home cards/hugeicons_payment-02.svg',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, TreeAccountsView.id);
+                  },
                 ),
               ],
             ),
-          ),
-          Row(
-            spacing: 50,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              CustomButton(
-                text: 'الارصدة',
-                icon: 'assets/img/home cards/fluent-mdl2_product-variant.svg',
-                onTap: () {},
-              ),
-            ],
-          ),
-
-          Row(
-            spacing: 50,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [],
           ),
         ],
       ),

@@ -17,17 +17,17 @@ class FinancialReports extends StatelessWidget {
               spacing: 50,
               children: [
                 CustomButton(
-                  text: 'حركة فواتير',
+                  text: 'كشف حساب',
                   icon: 'assets/img/home cards/carbon_product.svg',
                   onTap: () {},
                 ),
                 CustomButton(
-                  text: 'أرصدة',
+                  text: 'جرد مستودعات',
                   icon: 'assets/img/home cards/hugeicons_money-bag-01.svg',
                   onTap: () {},
                 ),
                 CustomButton(
-                  text: 'كشف حساب',
+                  text: 'مبيعات',
                   icon: 'assets/img/home cards/vaadin_money-exchange.svg',
                   onTap: () {},
                 ),
@@ -39,14 +39,31 @@ class FinancialReports extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               CustomButton(
-                text: 'تقرير مبيعات',
+                text: 'يومية الصندوق',
                 icon:
                     'assets/img/home cards/hugeicons_money-receive-circle.svg',
                 onTap: () {},
               ),
               CustomButton(
-                text: 'جرد مستودعات',
+                text: 'ارصدة',
                 icon: 'assets/img/home cards/vaadin_storage.svg',
+                onTap: () {},
+              ),
+              CustomButton(
+                text: 'سند قبض',
+                icon: 'assets/img/home cards/vaadin_storage.svg',
+                onTap: () {},
+              ),
+            ],
+          ),
+          Row(
+            spacing: 50,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CustomButton(
+                text: 'سند دفع',
+                icon:
+                    'assets/img/home cards/hugeicons_money-receive-circle.svg',
                 onTap: () {},
               ),
             ],
