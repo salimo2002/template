@@ -9,17 +9,14 @@ class CustomButtonEditClassifications extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: kBlueAccent,
-        borderRadius: BorderRadius.circular(4),
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4)),
       width: 125,
       height: 30,
       child: Center(
         child: Text(
-          textAlign: TextAlign.center,
           text,
           style: FontStyleApp.white18.copyWith(
+            color: Colors.black,
             fontSize: getResponsiveText(context, 14),
           ),
         ),

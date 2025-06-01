@@ -64,8 +64,7 @@ class _MaterialClassificationsViewState
             filteredCategories = List.from(allCategories);
           }
           return Scaffold(
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.endFloat,
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             appBar: customAppBar(
               context: context,
               title: 'تصنيفات المواد',
@@ -78,7 +77,7 @@ class _MaterialClassificationsViewState
                   context: context,
                   builder: (context) {
                     return CustomAlertDialog(
-                      text: 'اضافة تصنيف',
+                      text: 'تصنيف جديد',
                       globalKey: globalKey,
                       validator: (p0) {
                         if (p0 == null || p0 == '') {
@@ -87,7 +86,7 @@ class _MaterialClassificationsViewState
                         return null;
                       },
                       categoryNameUpdate: categoryNameInsert,
-                      onTap: () async {
+                      onTapSave: () async {
                         if (globalKey.currentState!.validate()) {
                           Navigator.pop(context);
                           context.read<CategoryCubit>().insertCategory(
@@ -99,6 +98,10 @@ class _MaterialClassificationsViewState
                           );
                           categoryNameInsert.clear();
                         }
+                      },
+                      onTapCancel: () {
+                        Navigator.pop(context);
+                        categoryNameInsert.clear();
                       },
                     );
                   },
@@ -148,27 +151,36 @@ class _MaterialClassificationsViewState
                                           globalKey: globalKey,
                                           validator: (p0) {
                                             if (p0 == null || p0 == '') {
-                                              return 'ادخل قيمة';
+                                              return 'ادخل اسم التصنيف';
+                                            }
+                                            if (category.matName ==
+                                                categoryNameUpdate.text) {
+                                              return 'الرجاء تغيير اسم التصنيف';
                                             }
                                             return null;
                                           },
                                           categoryNameUpdate:
                                               categoryNameUpdate,
-                                          onTap: () async {
-                                            Navigator.pop(context);
-
-                                            await context
-                                                .read<CategoryCubit>()
-                                                .updateCategory(
-                                                  CategoryModel(
-                                                    matId: category.matId,
-                                                    matName:
-                                                        categoryNameUpdate.text,
-                                                    matNumber:
-                                                        category.matNumber,
-                                                  ),
-                                                );
+                                          onTapSave: () async {
+                                            if (globalKey.currentState!
+                                                .validate()) {
+                                              Navigator.pop(context);
+                                              await context
+                                                  .read<CategoryCubit>()
+                                                  .updateCategory(
+                                                    CategoryModel(
+                                                      matId: category.matId,
+                                                      matName:
+                                                          categoryNameUpdate
+                                                              .text,
+                                                      matNumber:
+                                                          category.matNumber,
+                                                    ),
+                                                  );
+                                            }
                                           },
+                                          onTapCancel:
+                                              () => Navigator.pop(context),
                                         );
                                       },
                                     );

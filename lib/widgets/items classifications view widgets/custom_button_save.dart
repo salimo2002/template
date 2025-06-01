@@ -3,8 +3,9 @@ import 'package:template/utils/constants.dart';
 import 'package:template/utils/responsive_text.dart';
 
 class CustomButtonSave extends StatelessWidget {
-  const CustomButtonSave({super.key,required this.onTap});
+  const CustomButtonSave({super.key, required this.onTap, required this.label});
   final void Function()? onTap;
+  final String label;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -20,7 +21,7 @@ class CustomButtonSave extends StatelessWidget {
         child: Center(
           child: Text(
             textAlign: TextAlign.center,
-            'حفظ',
+            label,
             style: TextStyle(
               fontSize: getResponsiveText(context, 14),
               color: const Color.fromARGB(255, 82, 82, 82),
