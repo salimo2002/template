@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:template/views/material_card_view.dart';
 import 'package:template/views/material_classifications_view.dart';
+import 'package:template/views/new_material_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_button_.dart';
 
 class DebtsAndSupplies extends StatelessWidget {
@@ -19,14 +20,18 @@ class DebtsAndSupplies extends StatelessWidget {
               spacing: 50,
               children: [
                 CustomButton(
-                  text: 'الديون لنا',
+                  text: 'مادة جديدة',
                   icon: 'assets/img/home cards/medical-icon_i-billing.svg',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, NewMaterialView.id);
+                  },
                 ),
                 CustomButton(
-                  text: ' المستحقات علينا',
+                  text: 'دليل المواد',
                   icon: 'assets/img/home cards/hugeicons_payment-01.svg',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, MaterialCardView.id);
+                  },
                 ),
                 CustomButton(
                   text: 'تصنيفات',
@@ -46,11 +51,9 @@ class DebtsAndSupplies extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               CustomButton(
-                text: 'بطاقات المواد',
+                text: 'حركة مادة',
                 icon: 'assets/img/home cards/medical-icon_i-billing.svg',
-                onTap: () {
-                  Navigator.pushNamed(context, MaterialCardView.id);
-                },
+                onTap: () {},
               ),
             ],
           ),

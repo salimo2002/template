@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -13,12 +15,12 @@ class SplashVideoScreen extends StatefulWidget {
   const SplashVideoScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _SplashVideoScreenState createState() => _SplashVideoScreenState();
 }
 
 class _SplashVideoScreenState extends State<SplashVideoScreen> {
-  late VideoPlayerController _controller;
+  late VideoPlayerController? _controller;
+  bool _isMobile = false;
 
   @override
   void initState() {
@@ -31,19 +33,29 @@ class _SplashVideoScreenState extends State<SplashVideoScreen> {
       context.read<BillCubit>().fetchBills();
     });
 
-    _controller = VideoPlayerController.asset(
-      'assets/videos/splash_intro_1.mp4',
-    );
-    _initializeVideo();
+    _isMobile = Platform.isAndroid || Platform.isIOS;
+
+
+    if (_isMobile) {
+      _controller = VideoPlayerController.asset('assets/videos/splash_intro_1.mp4');
+      _initializeVideo();
+    } else {
+      _controller = null;
+      Future.delayed(const Duration(seconds: 1), () {
+        if (mounted) {
+          Navigator.pushReplacementNamed(context, HomeView.id);
+        }
+      });
+    }
   }
 
   Future<void> _initializeVideo() async {
-    await _controller.initialize();
+    await _controller!.initialize();
     setState(() {});
-    _controller.play();
+    _controller!.play();
 
-    _controller.addListener(() {
-      if (_controller.value.position >= _controller.value.duration) {
+    _controller!.addListener(() {
+      if (_controller!.value.position >= _controller!.value.duration) {
         if (mounted) {
           Navigator.pushReplacementNamed(context, HomeView.id);
         }
@@ -53,20 +65,20 @@ class _SplashVideoScreenState extends State<SplashVideoScreen> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_controller.value.isInitialized) {
+    if (!_isMobile || _controller == null || !_controller!.value.isInitialized) {
       return const Scaffold(
         backgroundColor: Colors.white,
-        body: Center(child: SizedBox()),
+        body: Center(child: CircularProgressIndicator()),
       );
     }
 
-    final videoSize = _controller.value.size;
+    final videoSize = _controller!.value.size;
     final aspectRatio = videoSize.width / videoSize.height;
 
     double width = MediaQuery.of(context).size.width;
@@ -78,7 +90,7 @@ class _SplashVideoScreenState extends State<SplashVideoScreen> {
         child: SizedBox(
           width: width,
           height: height,
-          child: VideoPlayer(_controller),
+          child: VideoPlayer(_controller!),
         ),
       ),
     );

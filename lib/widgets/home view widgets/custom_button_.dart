@@ -45,8 +45,7 @@ class CustomButton extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 6),
-            SizedBox(
-              height: 32,
+            Center(
               child: Text(
                 text,
                 textAlign: TextAlign.center,
