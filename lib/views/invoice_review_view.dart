@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_status.dart';
+import 'package:template/models/bill_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
@@ -23,18 +24,23 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
   late String nameAcuont;
   late String billType;
   late Map mapModalRoute;
+  List<BillModel> bill=[];
   @override
   void didChangeDependencies() {
     mapModalRoute = ModalRoute.of(context)!.settings.arguments as Map;
     nameAcuont = mapModalRoute['nameAcuont'];
     billType = mapModalRoute['billType'];
     super.didChangeDependencies();
+    context.read<BillCubit>().bill.forEach((element) {
+      if (element.bilKind==billType) {
+        bill.add(element);      }
+    },);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context: context, title: billType, showIcons: false),
+      appBar: customAppBar(context: context, title: mapModalRoute['title'], showIcons: false),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -46,20 +52,20 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
               if (state is SuccessStateBill) {
                 return Expanded(
                   child: ListView.builder(
-                    itemCount: state.bill.length,
+                    itemCount: bill.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: GestureDetector(
                           onTapDown: (details) {
-                            showUnits(details,state.bill[index].bilId!);
+                            showUnits(details,bill[index].bilId!);
                           },
                           child: Bill(
                             paymentStyle:
-                                state.bill[index].bilPayment == 1
+                                bill[index].bilPayment == 1
                                     ? 'نقدي'
                                     : 'آجل؟',
-                            invoiceNumber: state.bill[index].bilId.toString(),
+                            invoiceNumber: bill[index].bilId.toString(),
                             billDate: '2025-5-1',
                             billTime: '5:00 PM',
                             nameAccuont:
@@ -69,13 +75,13 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                                     .where(
                                       (element) =>
                                           element.accID ==
-                                          state.bill[index].accId,
+                                          bill[index].accId,
                                     )
                                     .first
                                     .accName,
-                            total: state.bill[index].bilTotal.toString(),
-                            amountPaid: state.bill[index].bilPayment.toString(),
-                            reminingAmount: state.bill[index].bilNet.toString(),
+                            total: bill[index].bilTotal.toString(),
+                            amountPaid: bill[index].bilPayment.toString(),
+                            reminingAmount: bill[index].bilNet.toString(),
                             note: 'ملاحظة',
                           ),
                         ),
