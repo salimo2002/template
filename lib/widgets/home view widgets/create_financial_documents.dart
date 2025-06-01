@@ -62,7 +62,13 @@ class CreateFinancialDocuments extends StatelessWidget {
               CustomButton(
                 text: 'فاتورة طلبات',
                 icon: 'assets/img/home cards/fluent-mdl2_product-variant.svg',
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    CreateASalesInvoiceView.id,
+                    arguments: BillType.order,
+                  );
+                },
               ),
               CustomButton(
                 text: 'فاتورة مردود مبيعات',
