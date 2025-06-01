@@ -302,14 +302,14 @@ class _NewMaterialViewState extends State<NewMaterialView> {
       ),
       items: [
         CheckedPopupMenuItem(
-          child: Center(child: Text(unit1.text)),
+          child: Center(child: Text('الوحدة الاولى')),
           onTap: () {
             matUnitDef = 1;
             unitDefault.text = unit1.text;
           },
         ),
         CheckedPopupMenuItem(
-          child: Center(child: Text(unit2.text)),
+          child: Center(child: Text('الوحدة الثانية')),
           onTap: () {
             matUnitDef = 2;
             unitDefault.text = unit2.text;
