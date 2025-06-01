@@ -26,7 +26,6 @@ class _SplashVideoScreenState extends State<SplashVideoScreen> {
   void initState() {
     super.initState();
 
-    // تحميل البيانات
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<MaterialCubit>().fetchMaterials();
       context.read<CategoryCubit>().fetchCategory();
@@ -34,16 +33,14 @@ class _SplashVideoScreenState extends State<SplashVideoScreen> {
       context.read<BillCubit>().fetchBills();
     });
 
-    // التحقق من النظام
     _isMobile = Platform.isAndroid || Platform.isIOS;
 
-    // إذا كان الهاتف، قم بتشغيل الفيديو
+
     if (_isMobile) {
       _controller = VideoPlayerController.asset('assets/videos/splash_intro_1.mp4');
       _initializeVideo();
     } else {
       _controller = null;
-      // تخطي الفيديو على Windows وغيره
       Future.delayed(const Duration(seconds: 1), () {
         if (mounted) {
           Navigator.pushReplacementNamed(context, HomeView.id);
