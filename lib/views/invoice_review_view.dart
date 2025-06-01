@@ -24,7 +24,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
   late String nameAcuont;
   late String billType;
   late Map mapModalRoute;
-  List<BillModel> bill=[];
+  List<BillModel> bill = [];
   @override
   void didChangeDependencies() {
     mapModalRoute = ModalRoute.of(context)!.settings.arguments as Map;
@@ -32,15 +32,20 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
     billType = mapModalRoute['billType'];
     super.didChangeDependencies();
     context.read<BillCubit>().bill.forEach((element) {
-      if (element.bilKind==billType) {
-        bill.add(element);      }
-    },);
+      if (element.bilKind == billType) {
+        bill.add(element);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context: context, title: mapModalRoute['title'], showIcons: false),
+      appBar: customAppBar(
+        context: context,
+        title: mapModalRoute['title'],
+        showIcons: false,
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -58,13 +63,11 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: GestureDetector(
                           onTapDown: (details) {
-                            showUnits(details,bill[index].bilId!);
+                            showMenuu(details, bill[index].bilId!);
                           },
                           child: Bill(
                             paymentStyle:
-                                bill[index].bilPayment == 1
-                                    ? 'نقدي'
-                                    : 'آجل؟',
+                                bill[index].bilPayment == 1 ? 'نقدي' : 'آجل؟',
                             invoiceNumber: bill[index].bilId.toString(),
                             billDate: '2025-5-1',
                             billTime: '5:00 PM',
@@ -74,8 +77,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                                     .accounts
                                     .where(
                                       (element) =>
-                                          element.accID ==
-                                          bill[index].accId,
+                                          element.accID == bill[index].accId,
                                     )
                                     .first
                                     .accName,
@@ -124,7 +126,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
     );
   }
 
-  void showUnits(TapDownDetails details,int id) {
+  void showMenuu(TapDownDetails details, int id) {
     final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
     showMenu(
       menuPadding: EdgeInsets.zero,
@@ -134,15 +136,12 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
         Offset.zero & overlay.size,
       ),
       items: [
+        CheckedPopupMenuItem(child: Center(child: Text('تعديل')), onTap: () {}),
         CheckedPopupMenuItem(
-          child: Center(child: Text('حذف الفاتورة')),
+          child: Center(child: Text('حذف')),
           onTap: () {
-            context.read<BillCubit>(). billDeletById(id:id );
+            context.read<BillCubit>().billDeletById(id: id);
           },
-        ),
-        CheckedPopupMenuItem(
-          child: Center(child: Text('تعديل الفاتورة')),
-          onTap: () {},
         ),
       ],
     );
