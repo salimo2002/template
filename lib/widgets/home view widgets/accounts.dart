@@ -18,17 +18,19 @@ class Accounts extends StatelessWidget {
               spacing: 50,
               children: [
                 CustomButton(
-                  text: 'فاتورة مردود مشتريات',
-                  icon: 'assets/img/home cards/medical-icon_i-billing.svg',
-                  onTap: () {},
+                  text: 'شجرة الحسابات',
+                  icon: 'assets/img/home cards/hugeicons_payment-02.svg',
+                  onTap: () {
+                    Navigator.pushNamed(context, TreeAccountsView.id);
+                  },
                 ),
                 CustomButton(
-                  text: 'الزبائن',
+                  text: 'حساب جديد',
                   icon: 'assets/img/home cards/hugeicons_payment-01.svg',
                   onTap: () {},
                 ),
                 CustomButton(
-                  text: 'الموردين',
+                  text: 'كشف حساب',
                   icon: 'assets/img/home cards/hugeicons_payment-02.svg',
                   onTap: () {},
                 ),
@@ -40,40 +42,17 @@ class Accounts extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               CustomButton(
-                text: 'فاتورة مردود مشتريات',
+                text: 'الارصدة',
                 icon: 'assets/img/home cards/fluent-mdl2_product-variant.svg',
-                onTap: () {},
-              ),
-              CustomButton(
-                text: 'المصاريف و الإرادات',
-                icon: 'assets/img/home cards/marketeq_bill-dollar.svg',
                 onTap: () {},
               ),
             ],
           ),
-          Divider(),
+
           Row(
             spacing: 50,
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              CustomButton(
-                text: 'الصناديق و البنوك',
-                icon: 'assets/img/home cards/hugeicons_payment-01.svg',
-                onTap: () {},
-              ),
-              CustomButton(
-                text: 'شجرة الحسابات',
-                icon: 'assets/img/home cards/hugeicons_payment-02.svg',
-                onTap: () {
-                  Navigator.pushNamed(context, TreeAccountsView.id);
-                },
-              ),
-              CustomButton(
-                text: 'قائمة كل الحسابات',
-                icon: 'assets/img/home cards/hugeicons_payment-02.svg',
-                onTap: () {},
-              ),
-            ],
+            children: [],
           ),
         ],
       ),
