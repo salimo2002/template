@@ -64,14 +64,14 @@ class CustomTextField extends StatelessWidget {
   OutlineInputBorder borderStyle() {
     return OutlineInputBorder(
       borderSide: BorderSide(color: kBorderTextFieldColor),
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(8),
     );
   }
 
   OutlineInputBorder borderErrorStyle() {
     return OutlineInputBorder(
       borderSide: BorderSide(color: Colors.red),
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(8),
     );
   }
 }
