@@ -46,7 +46,18 @@ class _NewMaterialViewState extends State<NewMaterialView> {
   final GlobalKey<FormState> globalKey = GlobalKey();
   late int parentId = context.read<CategoryCubit>().categories[0].matId;
   ValueNotifier<String> imageUpdate = ValueNotifier('');
+ FocusNode matName=FocusNode();
 
+ FocusNode matCategory1=FocusNode();
+ FocusNode materialPrice1=FocusNode();
+
+ FocusNode materialPrice2=FocusNode();
+ FocusNode materialPrice3=FocusNode();
+ FocusNode materialUnit=FocusNode();
+ FocusNode materialUnit2=FocusNode();
+ FocusNode convertOperator=FocusNode();
+ FocusNode baraCode=FocusNode();
+ 
   @override
   void initState() {
     unit1.addListener(() {
@@ -107,7 +118,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                 ContainerFields(
                   children: [
                     TextFieldAndDetails(
-                      focusNode: FocusNode(),
+                      focusNode: matName,
                       controller: materialName,
                       hintText: 'اسم المادة',
                       validator: (p0) {
@@ -118,7 +129,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                       },
                     ),
                     TextFieldAndDetails(
-                      focusNode: FocusNode(),
+                      focusNode: matCategory1,
                       canRead: true,
                       icon: InkWell(
                         onTapDown: showCategory,
@@ -138,18 +149,18 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                 ContainerFields(
                   children: [
                     TextFieldAndDetails(
-                      focusNode: FocusNode(),
+                      focusNode: materialUnit,
                       controller: unit1,
                       hintText: 'الوحدة الاولى',
                     ),
                     TextFieldAndDetails(
-                      focusNode: FocusNode(),
+                      focusNode: materialPrice1,
                       controller: purchasePrice,
                       hintText: 'سعر الجملة',
                       keyType: TextInputType.number,
                     ),
                     TextFieldAndDetails(
-                      focusNode: FocusNode(),
+                      focusNode: materialPrice3,
                       controller: price1,
                       hintText: 'سعر المستهلك',
                       keyType: TextInputType.number,
@@ -160,7 +171,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                 ContainerFields(
                   children: [
                     TextFieldAndDetails(
-                      focusNode: FocusNode(),
+                      focusNode: materialUnit2,
                       controller: unit2,
                       hintText: 'الوحدة الثانية',
                     ),
@@ -171,7 +182,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                       keyType: TextInputType.number,
                     ),
                     TextFieldAndDetails(
-                      focusNode: FocusNode(),
+                      focusNode:materialPrice2,
                       hintText: 'سعر المستهلك',
                       controller: price2,
                       keyType: TextInputType.number,

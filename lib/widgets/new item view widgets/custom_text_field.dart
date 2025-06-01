@@ -42,7 +42,7 @@ class CustomTextField extends StatelessWidget {
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
           floatingLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-          label: Text(hintText, style: TextStyle(color: kBlueAccent)),
+          label: Text(hintText, style: TextStyle(color: kBlueAccent,)),
           isDense: true,
           contentPadding: const EdgeInsets.symmetric(
             vertical: 12,
