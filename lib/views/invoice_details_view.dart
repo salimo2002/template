@@ -37,7 +37,6 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
   final TextEditingController totalInvois = TextEditingController();
   final TextEditingController amountRecived = TextEditingController();
   final TextEditingController remainingAmound = TextEditingController();
-  final TextEditingController numberBebar = TextEditingController();
   final TextEditingController note = TextEditingController();
   final FocusNode s = FocusNode();
   final FocusNode ss = FocusNode();
@@ -263,12 +262,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                         hoursOrYear: false,
                         label: 'الوقت',
                       ),
-                      TextFieldAndDetails(
-                        focusNode: FocusNode(),
-                        keyType: TextInputType.number,
-                        hintText: 'رقم الورقة',
-                        controller: numberBebar,
-                      ),
+                  
                       CommentsTextField(
                         maxLines: 4,
                         label: 'ملاحظة',
@@ -389,7 +383,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
             bilNumber: '10',
             bilTotal: double.parse(totalInvois.text),
             bilDiscount: double.parse(discount.text),
-            bilExtra: double.parse('1'),
+            bilExtra: double.parse('0'),
             bilKind: billType,
             bilPayment: double.parse(amountRecived.text),
             bilNet: double.parse(remainingAmound.text),

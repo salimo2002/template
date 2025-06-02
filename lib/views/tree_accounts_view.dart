@@ -135,7 +135,7 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
       ),
       items: [
          CheckedPopupMenuItem(
-          child: const Text('إضافة حساب'),
+          child: const Text('إضافة'),
           onTap: () {
             Navigator.pushNamed(
               context,
@@ -146,7 +146,7 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
         ),
         CheckedPopupMenuItem(
           
-          child: const Text('بطاقة حساب'),
+          child: const Text('تعديل'),
           onTap: () {
             Navigator.pushNamed(
               context,
@@ -156,7 +156,7 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
           },
         ),
         CheckedPopupMenuItem(
-          child: const Text('حذف حساب'),
+          child: const Text('حذف'),
           onTap: () {
             showDialog(
               context: context,

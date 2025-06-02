@@ -64,8 +64,7 @@ class _MaterialClassificationsViewState
             filteredCategories = List.from(allCategories);
           }
           return Scaffold(
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.endFloat,
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             appBar: customAppBar(
               context: context,
               title: 'تصنيفات المواد',
@@ -78,27 +77,22 @@ class _MaterialClassificationsViewState
                   context: context,
                   builder: (context) {
                     return CustomAlertDialog(
-                      text: 'اضافة تصنيف',
+                      text: 'تصنيف جديد',
                       globalKey: globalKey,
                       validator: (p0) {
+                        if (categoryNameIsFound(p0)) {
+                          return 'هذا التصنيف موجود';
+                        }
                         if (p0 == null || p0 == '') {
                           return 'الرجاء ادخال اسم التصنيف';
                         }
                         return null;
                       },
                       categoryNameUpdate: categoryNameInsert,
-                      onTap: () async {
-                        if (globalKey.currentState!.validate()) {
-                          Navigator.pop(context);
-                          context.read<CategoryCubit>().insertCategory(
-                            CategoryModel(
-                              matId: 0,
-                              matName: categoryNameInsert.text,
-                              matNumber: Random().nextInt(10000).toString(),
-                            ),
-                          );
-                          categoryNameInsert.clear();
-                        }
+                      onTapSave: insertCategory,
+                      onTapCancel: () {
+                        Navigator.pop(context);
+                        categoryNameInsert.clear();
                       },
                     );
                   },
@@ -147,28 +141,40 @@ class _MaterialClassificationsViewState
                                           text: 'تعديل التصنيف',
                                           globalKey: globalKey,
                                           validator: (p0) {
+                                            if (categoryNameIsFound(p0)) {
+                                              return 'هذا التصنيف موجود';
+                                            }
                                             if (p0 == null || p0 == '') {
-                                              return 'ادخل قيمة';
+                                              return 'ادخل اسم التصنيف';
+                                            }
+                                            if (category.matName ==
+                                                categoryNameUpdate.text) {
+                                              return 'الرجاء تغيير اسم التصنيف';
                                             }
                                             return null;
                                           },
                                           categoryNameUpdate:
                                               categoryNameUpdate,
-                                          onTap: () async {
-                                            Navigator.pop(context);
-
-                                            await context
-                                                .read<CategoryCubit>()
-                                                .updateCategory(
-                                                  CategoryModel(
-                                                    matId: category.matId,
-                                                    matName:
-                                                        categoryNameUpdate.text,
-                                                    matNumber:
-                                                        category.matNumber,
-                                                  ),
-                                                );
+                                          onTapSave: () async {
+                                            if (globalKey.currentState!
+                                                .validate()) {
+                                              Navigator.pop(context);
+                                              await context
+                                                  .read<CategoryCubit>()
+                                                  .updateCategory(
+                                                    CategoryModel(
+                                                      matId: category.matId,
+                                                      matName:
+                                                          categoryNameUpdate
+                                                              .text,
+                                                      matNumber:
+                                                          category.matNumber,
+                                                    ),
+                                                  );
+                                            }
                                           },
+                                          onTapCancel:
+                                              () => Navigator.pop(context),
                                         );
                                       },
                                     );
@@ -216,6 +222,29 @@ class _MaterialClassificationsViewState
         }
       },
     );
+  }
+
+  Future<void> insertCategory() async {
+    if (globalKey.currentState!.validate()) {
+      Navigator.pop(context);
+      context.read<CategoryCubit>().insertCategory(
+        CategoryModel(
+          matId: 0,
+          matName: categoryNameInsert.text,
+          matNumber: Random().nextInt(10000).toString(),
+        ),
+      );
+      categoryNameInsert.clear();
+    }
+  }
+
+  bool categoryNameIsFound(String? p0) {
+    for (var element in filteredCategories) {
+      if (element.matName == p0) {
+        return true;
+      }
+    }
+    return false;
   }
 
   void _filterCategories(String query) {

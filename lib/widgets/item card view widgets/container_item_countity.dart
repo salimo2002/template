@@ -53,14 +53,14 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
             PopupMenuItem(
               child: ListTile(
                 leading: Icon(Icons.visibility),
-                title: Text('فتح بطاقة المادة'),
+                title: Text('بطاقة المادة'),
                 onTap: widget.openItemCard,
               ),
             ),
             PopupMenuItem(
               child: ListTile(
                 leading: Icon(Icons.edit),
-                title: Text('استعراض حركة مادة'),
+                title: Text('حركة مادة'),
                 onTap: () {
                   Navigator.pop(context);
                 },
@@ -69,7 +69,7 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
             PopupMenuItem(
               child: ListTile(
                 leading: Icon(Icons.delete),
-                title: Text('حذف هذه المادة'),
+                title: Text('حذف'),
                 onTap: () {
                   Navigator.pop(context);
                   showDialog(

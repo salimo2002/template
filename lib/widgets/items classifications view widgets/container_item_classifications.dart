@@ -33,7 +33,7 @@ class ContainerItemClassifications extends StatelessWidget {
             PopupMenuItem(
               child: ListTile(
                 leading: Icon(Icons.edit),
-                title: Text('تعديل مادة'),
+                title: Text('تعديل'),
                 onTap: () {
                   Navigator.pop(context);
                   Future.delayed(Duration.zero, onTap);
@@ -43,7 +43,7 @@ class ContainerItemClassifications extends StatelessWidget {
             PopupMenuItem(
               child: ListTile(
                 leading: Icon(Icons.delete),
-                title: Text('حذف هذه المادة'),
+                title: Text('حذف'),
                 onTap: () {
                   Navigator.pop(context);
 
@@ -59,7 +59,7 @@ class ContainerItemClassifications extends StatelessWidget {
                               color: kBlueAccent,
                             ),
                             SizedBox(width: 7),
-                            Text('حذف المادة'),
+                            Text('حذف'),
                           ],
                         ),
                         content: Text('هل أنت متأكد أنك تريد حذف هذه المادة؟'),

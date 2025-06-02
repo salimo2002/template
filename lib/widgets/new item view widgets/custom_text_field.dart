@@ -51,6 +51,7 @@ class CustomTextField extends StatelessWidget {
           fillColor: kWhite,
           filled: true,
           enabledBorder: borderStyle(),
+          
           border: borderStyle(),
           focusedBorder: borderStyle(),
           errorBorder: borderErrorStyle(),
