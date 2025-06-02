@@ -8,7 +8,6 @@ import 'package:template/utils/custom_Floating_action_button.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/edit_prodict_view.dart';
-import 'package:template/views/home_view.dart';
 import 'package:template/views/new_material_view.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/container_item_countity.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/search_text_field.dart';
@@ -128,18 +127,20 @@ class _MaterialCardViewState extends State<MaterialCardView> {
               ),
             ),
           );
-        } else if (state is LoadingState) {
+        }
+        if (state is LoadingState) {
           return Scaffold(
             body: Center(child: CircularProgressIndicator(color: kBlueAccent)),
           );
-        } else {
+        }
+        if (state is FaliureState) {
           return Scaffold(
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'حدث خطأ حاول مجددا',
+                    state.errorMessage,
                     style: FontStyleApp.black18.copyWith(
                       fontSize: getResponsiveText(context, 18),
                     ),
@@ -147,11 +148,7 @@ class _MaterialCardViewState extends State<MaterialCardView> {
                   SizedBox(height: 10),
                   IconButton(
                     onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        HomeView.id,
-                        (route) => false,
-                      );
+                      context.read<MaterialCubit>().fetchMaterials();
                     },
                     icon: Icon(Icons.refresh, color: kBlueAccent, size: 40),
                   ),
@@ -159,6 +156,8 @@ class _MaterialCardViewState extends State<MaterialCardView> {
               ),
             ),
           );
+        } else {
+          return Scaffold();
         }
       },
     );
