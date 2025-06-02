@@ -69,18 +69,17 @@ class _SettingViewState extends State<SettingView> {
                   CustomTextField(
                     canRead: true,
                     suffixIcon: InkWell(
-                      onTapDown:
-                          (details) => showPrice(details, priceBuyInvoice),
+                      onTapDown: (details) => showPrice(details, priceBuyInvoice),
                       child: Icon(Icons.arrow_drop_down, size: 30),
                     ),
-
+          
                     hintText: 'سعر فاتورة المشتريات',
                     controller: priceBuyInvoice,
                     focusNode: buyInvoice,
                   ),
                   CustomTextField(
                     canRead: true,
-
+          
                     suffixIcon: InkWell(
                       onTapDown:
                           (details) => showPrice(details, priceUndobuyInvoice),
@@ -95,52 +94,49 @@ class _SettingViewState extends State<SettingView> {
               SizedBox(height: 12),
               ContainerFields(
                 children: [
-                  CustomTextField(
-                    onChanged: (p0) => searchAccount(p0),
+                  CustomTextField(onChanged: (p0) => searchAccount(p0),
                     hintText: 'الصندوق الرئيسي',
                     controller: mainBoxController,
                     focusNode: mainBox,
                   ),
                 ],
-              ),
-              if (isSearching)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: SizedBox(
-                    height: MediaQuery.sizeOf(context).height * .3,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 3,
-                            offset: const Offset(0, 2),
+              ), if (isSearching)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: SizedBox(height: MediaQuery.sizeOf(context).height*.3,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 3,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: searchResults.length,
+                                  itemBuilder: (context, index) {
+                                    final account = searchResults[index];
+                                    return ListTile(
+                                      title: Text(account.accName),
+                                      subtitle: Text(account.accKind.toString()),
+                                      onTap: () {
+                                        setState(() {
+                                          mainBoxController.text = account.accName;
+                                          isSearching = false;
+                                        });
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
                           ),
-                        ],
-                      ),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: searchResults.length,
-                        itemBuilder: (context, index) {
-                          final account = searchResults[index];
-                          return ListTile(
-                            title: Text(account.accName),
-                            subtitle: Text(account.accKind.toString()),
-                            onTap: () {
-                              setState(() {
-                                mainBoxController.text = account.accName;
-                                isSearching = false;
-                              });
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
             ],
           ),
         ),
