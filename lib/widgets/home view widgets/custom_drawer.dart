@@ -15,11 +15,7 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: [
-          SizedBox(
-            height: 100,
-            width: double.infinity,
-            child: Center(child: Text('imageeeeeee Logo')),
-          ),
+         DrawerHeader(child: Text('image logo')),
           InkWell(onTap: () => Navigator.pushNamed(context, SettingView.id),
             child: ListTile(
               trailing: Icon(Icons.settings),
