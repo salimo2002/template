@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
+import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 
 class CustomButtonSave extends StatelessWidget {
@@ -14,17 +15,17 @@ class CustomButtonSave extends StatelessWidget {
         height: 30,
         width: 100,
         decoration: BoxDecoration(
-          color: kGrey,
-          border: Border.all(color: const Color.fromARGB(255, 138, 137, 137)),
+          color: kBlueAccent,
+          border: Border.all(color: kBlueAccent),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Center(
           child: Text(
             textAlign: TextAlign.center,
             label,
-            style: TextStyle(
+            style: FontStyleApp.white18.copyWith(
               fontSize: getResponsiveText(context, 14),
-              color: const Color.fromARGB(255, 82, 82, 82),
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),

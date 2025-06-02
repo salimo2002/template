@@ -16,6 +16,7 @@ import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/invoice%20details%20view/comments_text_field.dart';
 import 'package:template/widgets/invoice%20details%20view/radio_menu_buttons.dart';
 import 'package:template/widgets/invoice%20details%20view/text_field_date.dart';
+import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
 
@@ -262,7 +263,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                         hoursOrYear: false,
                         label: 'الوقت',
                       ),
-                  
+
                       CommentsTextField(
                         maxLines: 4,
                         label: 'ملاحظة',
@@ -315,14 +316,19 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                     },
                     builder: (context, state) {
                       if (state is SuccessStateBill) {
-                        return TextButton(
-                          onPressed: insertBill,
-                          child: Text(
-                            'حفظ وإنهاء',
-                            style: TextStyle(
-                              color: const Color.fromARGB(255, 130, 128, 128),
-                              fontSize: getResponsiveText(context, 20),
-                            ),
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 18),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              CustomButtonSave(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                label: 'الغاء',
+                              ),
+                              CustomButtonSave(onTap: insertBill, label: 'حفظ'),
+                            ],
                           ),
                         );
                       } else if (state is LoadingStateBill) {
