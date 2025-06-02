@@ -216,6 +216,8 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
 
   void navigateToInvoiceDetailsView() {
     bills.clear();
+    if (materialModel.isNotEmpty) {
+      
     for (var i = 0; i < totalController.length; i++) {
       bills.add(
         BillDetailsModel(
@@ -239,6 +241,12 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
         'billType': billType,
       },
     );
+    }else{
+       ScaffoldMessenger.of(context).showSnackBar(
+          customSnackBar(context, 'قم بإدخال مواد', kRed),
+        );
+    }
+
   }
 
   void _toggleScanner() {
