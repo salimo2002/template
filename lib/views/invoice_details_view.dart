@@ -183,7 +183,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                           color: kWhite,
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        child: Row(
+                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Directionality(
                               textDirection: TextDirection.rtl,
@@ -192,6 +192,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                                 child: RadioMenuButtons(),
                               ),
                             ),
+                            ///////////////////////////////////////// تفعيل
                             Flexible(
                               child: Text(
                                 'نمط الدفع',
@@ -262,7 +263,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                         hoursOrYear: false,
                         label: 'الوقت',
                       ),
-                  
+                  /////////////////////////////////////////////////////////زبطو الموديل و الphp
                       CommentsTextField(
                         maxLines: 4,
                         label: 'ملاحظة',

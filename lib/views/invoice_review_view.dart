@@ -10,7 +10,6 @@ import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/widgets/Invoice%20review/bill.dart';
-import 'package:template/widgets/Invoice%20review/filter_invoice_review.dart';
 
 class InvoiceReviewView extends StatefulWidget {
   const InvoiceReviewView({super.key});
@@ -50,9 +49,8 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 15),
-          FilterInvoiceReview(),
-          SizedBox(height: 40),
+         
+          SizedBox(height: 10),
           BlocBuilder<BillCubit, BillStatus>(
             builder: (context, state) {
               if (state is SuccessStateBill) {
