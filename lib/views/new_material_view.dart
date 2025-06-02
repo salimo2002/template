@@ -9,7 +9,7 @@ import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/custom_snack_bar.dart';
-import 'package:template/utils/font_style.dart';
+import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/convert_operator_text_field.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_barcode.dart';
@@ -46,18 +46,18 @@ class _NewMaterialViewState extends State<NewMaterialView> {
   final GlobalKey<FormState> globalKey = GlobalKey();
   late int parentId = context.read<CategoryCubit>().categories[0].matId;
   ValueNotifier<String> imageUpdate = ValueNotifier('');
- FocusNode matName=FocusNode();
+  FocusNode matName = FocusNode();
 
- FocusNode matCategory1=FocusNode();
- FocusNode materialPrice1=FocusNode();
+  FocusNode matCategory1 = FocusNode();
+  FocusNode materialPrice1 = FocusNode();
 
- FocusNode materialPrice2=FocusNode();
- FocusNode materialPrice3=FocusNode();
- FocusNode materialUnit=FocusNode();
- FocusNode materialUnit2=FocusNode();
- FocusNode convertOperator=FocusNode();
- FocusNode baraCode=FocusNode();
- 
+  FocusNode materialPrice2 = FocusNode();
+  FocusNode materialPrice3 = FocusNode();
+  FocusNode materialUnit = FocusNode();
+  FocusNode materialUnit2 = FocusNode();
+  FocusNode convertOperator = FocusNode();
+  FocusNode baraCode = FocusNode();
+
   @override
   void initState() {
     unit1.addListener(() {
@@ -182,7 +182,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                       keyType: TextInputType.number,
                     ),
                     TextFieldAndDetails(
-                      focusNode:materialPrice2,
+                      focusNode: materialPrice2,
                       hintText: 'سعر المستهلك',
                       controller: price2,
                       keyType: TextInputType.number,
@@ -225,20 +225,23 @@ class _NewMaterialViewState extends State<NewMaterialView> {
                   },
                   builder: (context, state) {
                     if (state is SuccessState) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text('الغاء', style: FontStyleApp.black18),
-                          ),
-                          TextButton(
-                            onPressed: insertMaterial,
-                            child: Text('حفظ', style: FontStyleApp.black18),
-                          ),
-                        ],
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 18),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            CustomButtonSave(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              label: 'الغاء',
+                            ),
+                            CustomButtonSave(
+                              onTap: insertMaterial,
+                              label: 'حفظ',
+                            ),
+                          ],
+                        ),
                       );
                     } else if (state is LoadingState) {
                       return CircularProgressIndicator(color: kBlueAccent);
@@ -267,7 +270,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
           materialPrice1: double.tryParse(purchasePrice.text) ?? 0.0,
           materialPrice3: double.tryParse(price1.text) ?? 0.0,
           materialUnit2: unit2.text,
-          materialUnit2Number:  
+          materialUnit2Number:
               double.tryParse(convertOperatorTextField.text) ?? 1.0,
           materialUnit2Price3: double.tryParse(price2.text) ?? 0.0,
           materialKind: 0,
