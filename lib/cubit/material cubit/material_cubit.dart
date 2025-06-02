@@ -49,10 +49,21 @@ class MaterialCubit extends Cubit<MaterialStatus> {
   Future<void> deleteMaterial(MaterialModel material) async {
     try {
       emit(LoadingState());
-      await MaterialServices.deleteMaterial(material.materialId);
-      await fetchMaterials(isRefresh: true);
+      final int statusCode = await MaterialServices.deleteMaterial(
+        material.materialId,
+      );
+      if (statusCode == 1) {
+        await fetchMaterials(isRefresh: true);
+      }
+      if (statusCode == 2) {
+        emit(
+          FaliureState(
+            errorMessage: 'المادة مرتبطة بفاتورة الرجاء حذف الفاتورة',
+          ),
+        );
+      }
     } catch (e) {
-      emit(FaliureState(errorMessage: e.toString()));
+      emit(FaliureState(errorMessage: 'حدث هطأ ما حاول مجددا او تحقق من اتصالك بالانترنت'));
     }
   }
 }

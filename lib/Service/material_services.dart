@@ -46,18 +46,20 @@ class MaterialServices {
     throw Exception('فشل الإضافة: $json');
   }
 
-  static Future<bool> deleteMaterial(int id) async {
+  static Future<int> deleteMaterial(int id) async {
     final url = Uri.parse(_urlDeleteMaterial);
     final response = await http.post(
       url,
       body: {'database_name': 'itechsy_test', 'MAT_ID': id.toString()},
     );
-    if (response.statusCode != 200) {
-      throw Exception('HTTP ${response.statusCode}');
-    }
     final json = jsonDecode(response.body);
-    if (json['success'] == true) return true;
-    throw Exception('Delete failed: ${json['error']}');
+    if (json['success'] == true) {
+      return 1;
+    } else if (json['code'] == 1451) {
+      return 2;
+    } else {
+      throw Exception(json['error']);
+    }
   }
 
   static Future<bool> updateMaterialById(MaterialModel model) async {
