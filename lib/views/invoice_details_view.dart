@@ -383,7 +383,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
             bilNumber: '10',
             bilTotal: double.parse(totalInvois.text),
             bilDiscount: double.parse(discount.text),
-            bilExtra: double.parse('1'),
+            bilExtra: double.parse('0'),
             bilKind: billType,
             bilPayment: double.parse(amountRecived.text),
             bilNet: double.parse(remainingAmound.text),
