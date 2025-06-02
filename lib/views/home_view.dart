@@ -5,6 +5,7 @@ import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/home%20view%20widgets/accounts.dart';
 import 'package:template/widgets/home%20view%20widgets/create_financial_documents.dart';
+import 'package:template/widgets/home%20view%20widgets/custom_drawer.dart';
 import 'package:template/widgets/home%20view%20widgets/debts_and_supplies.dart';
 import 'package:template/widgets/home%20view%20widgets/financial_reports.dart';
 import 'package:template/widgets/home%20view%20widgets/product_catalog.dart';
@@ -42,7 +43,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(),
+      drawer: CustomDrawer(),
       appBar: AppBar(
         title: Text(
           'تداول',
@@ -150,6 +151,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
+
 
 class AccountsAndMaterialsTab extends StatefulWidget {
   const AccountsAndMaterialsTab({super.key});

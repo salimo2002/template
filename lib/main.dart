@@ -16,6 +16,7 @@ import 'package:template/views/material_classifications_view.dart';
 import 'package:template/views/new_material_view.dart';
 import 'package:template/views/edit_prodict_view.dart';
 import 'package:template/views/review_invoices.dart';
+import 'package:template/views/setting_view.dart';
 import 'package:template/views/splash_view.dart';
 import 'package:template/views/tree_accounts_view.dart';
 
@@ -70,6 +71,7 @@ class Template extends StatelessWidget {
           SplashVideoScreen.id: (context) => SplashVideoScreen(),
           InvoiceReviewView.id: (context) => InvoiceReviewView(),
           ReviewInvoices.id: (context) => ReviewInvoices(),
+          SettingView.id: (context) => SettingView(),
         },
         initialRoute: SplashVideoScreen.id,
       ),

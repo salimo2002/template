@@ -25,6 +25,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
   late String billType;
   late Map mapModalRoute;
   List<BillModel> bill = [];
+  double billAmound=0;
   @override
   void didChangeDependencies() {
     mapModalRoute = ModalRoute.of(context)!.settings.arguments as Map;
@@ -59,6 +60,8 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                   child: ListView.builder(
                     itemCount: bill.length,
                     itemBuilder: (context, index) {
+                      billAmound=bill[index].bilNet!-bill[index].bilPayment!;
+
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: GestureDetector(
@@ -83,7 +86,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                                     .accName,
                             total: bill[index].bilTotal.toString(),
                             amountPaid: bill[index].bilPayment.toString(),
-                            reminingAmount: bill[index].bilNet.toString(),
+                            reminingAmount: billAmound.toString(),
                             note: 'ملاحظة',
                           ),
                         ),

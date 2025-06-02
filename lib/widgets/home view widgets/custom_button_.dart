@@ -45,14 +45,15 @@ class CustomButton extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 6),
-            Center(
-              child: Text(
-                text,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: FontStyleApp.black18.copyWith(
-                  fontSize: getResponsiveText(context, 12),
+            FittedBox(
+              child: Center(
+                child: Text(
+                  text,
+                  textAlign: TextAlign.center,
+
+                  style: FontStyleApp.black18.copyWith(
+                    fontSize: getResponsiveText(context, 12),
+                  ),
                 ),
               ),
             ),
