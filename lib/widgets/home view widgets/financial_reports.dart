@@ -34,27 +34,30 @@ class FinancialReports extends StatelessWidget {
               ],
             ),
           ),
-          Row(
-            spacing: 50,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              CustomButton(
-                text: 'يومية الصندوق',
-                icon:
-                    'assets/img/home cards/hugeicons_money-receive-circle.svg',
-                onTap: () {},
-              ),
-              CustomButton(
-                text: 'ارصدة',
-                icon: 'assets/img/home cards/vaadin_storage.svg',
-                onTap: () {},
-              ),
-              CustomButton(
-                text: 'سند قبض',
-                icon: 'assets/img/home cards/vaadin_storage.svg',
-                onTap: () {},
-              ),
-            ],
+          FittedBox(
+            child: Row(
+              spacing: 50,
+              mainAxisAlignment: MainAxisAlignment.end,
+
+              children: [
+                CustomButton(
+                  text: 'يومية الصندوق',
+                  icon:
+                      'assets/img/home cards/hugeicons_money-receive-circle.svg',
+                  onTap: () {},
+                ),
+                CustomButton(
+                  text: 'ارصدة',
+                  icon: 'assets/img/home cards/vaadin_storage.svg',
+                  onTap: () {},
+                ),
+                CustomButton(
+                  text: 'سند قبض',
+                  icon: 'assets/img/home cards/vaadin_storage.svg',
+                  onTap: () {},
+                ),
+              ],
+            ),
           ),
           Row(
             spacing: 50,

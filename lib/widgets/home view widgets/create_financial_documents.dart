@@ -20,7 +20,7 @@ class CreateFinancialDocuments extends StatelessWidget {
               spacing: 50,
               children: [
                 CustomButton(
-                  text: 'فاتورة مردود مشتريات',
+                  text: 'مردود مشتريات',
                   icon: 'assets/img/home cards/medical-icon_i-billing.svg',
                   onTap: () {
                     Navigator.pushNamed(
@@ -30,8 +30,9 @@ class CreateFinancialDocuments extends StatelessWidget {
                     );
                   },
                 ),
+
                 CustomButton(
-                  text: 'فاتورة مبيعات',
+                  text: 'مبيعات',
                   icon: 'assets/img/home cards/hugeicons_payment-01.svg',
                   onTap: () {
                     Navigator.pushNamed(
@@ -42,7 +43,7 @@ class CreateFinancialDocuments extends StatelessWidget {
                   },
                 ),
                 CustomButton(
-                  text: 'فاتورة مشتريات',
+                  text: 'مشتريات',
                   icon: 'assets/img/home cards/hugeicons_payment-02.svg',
                   onTap: () {
                     Navigator.pushNamed(
@@ -60,7 +61,7 @@ class CreateFinancialDocuments extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               CustomButton(
-                text: 'فاتورة طلبات',
+                text: 'طلبات',
                 icon: 'assets/img/home cards/fluent-mdl2_product-variant.svg',
                 onTap: () {
                   Navigator.pushNamed(
@@ -71,7 +72,7 @@ class CreateFinancialDocuments extends StatelessWidget {
                 },
               ),
               CustomButton(
-                text: 'فاتورة مردود مبيعات',
+                text: 'مردود مبيعات',
                 icon: 'assets/img/home cards/marketeq_bill-dollar.svg',
                 onTap: () {
                   Navigator.pushNamed(
