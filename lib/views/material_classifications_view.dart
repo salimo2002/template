@@ -80,25 +80,16 @@ class _MaterialClassificationsViewState
                       text: 'تصنيف جديد',
                       globalKey: globalKey,
                       validator: (p0) {
+                        if (categoryNameIsFound(p0)) {
+                          return 'هذا التصنيف موجود';
+                        }
                         if (p0 == null || p0 == '') {
                           return 'الرجاء ادخال اسم التصنيف';
                         }
                         return null;
                       },
                       categoryNameUpdate: categoryNameInsert,
-                      onTapSave: () async {
-                        if (globalKey.currentState!.validate()) {
-                          Navigator.pop(context);
-                          context.read<CategoryCubit>().insertCategory(
-                            CategoryModel(
-                              matId: 0,
-                              matName: categoryNameInsert.text,
-                              matNumber: Random().nextInt(10000).toString(),
-                            ),
-                          );
-                          categoryNameInsert.clear();
-                        }
-                      },
+                      onTapSave: insertCategory,
                       onTapCancel: () {
                         Navigator.pop(context);
                         categoryNameInsert.clear();
@@ -150,6 +141,9 @@ class _MaterialClassificationsViewState
                                           text: 'تعديل التصنيف',
                                           globalKey: globalKey,
                                           validator: (p0) {
+                                            if (categoryNameIsFound(p0)) {
+                                              return 'هذا التصنيف موجود';
+                                            }
                                             if (p0 == null || p0 == '') {
                                               return 'ادخل اسم التصنيف';
                                             }
@@ -228,6 +222,29 @@ class _MaterialClassificationsViewState
         }
       },
     );
+  }
+
+  Future<void> insertCategory() async {
+    if (globalKey.currentState!.validate()) {
+      Navigator.pop(context);
+      context.read<CategoryCubit>().insertCategory(
+        CategoryModel(
+          matId: 0,
+          matName: categoryNameInsert.text,
+          matNumber: Random().nextInt(10000).toString(),
+        ),
+      );
+      categoryNameInsert.clear();
+    }
+  }
+
+  bool categoryNameIsFound(String? p0) {
+    for (var element in filteredCategories) {
+      if (element.matName == p0) {
+        return true;
+      }
+    }
+    return false;
   }
 
   void _filterCategories(String query) {
