@@ -4,9 +4,9 @@ import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/models/account_model.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/views/support_views.dart';
+import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/save_and_exite_button.dart';
 
 class AccountStatementView extends StatefulWidget {
   const AccountStatementView({super.key});
@@ -63,8 +63,19 @@ class _AccountStatementViewState extends State<AccountStatementView> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 30, top: 10),
-                child: SaveAndExitButton(onPressed: () {}, text: 'التالي'),
+                padding: const EdgeInsets.only(bottom: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CustomButtonSave(
+                      label: 'إلغاء',
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    CustomButtonSave(label: 'التالي', onTap: () {}),
+                  ],
+                ),
               ),
             ],
           ),
