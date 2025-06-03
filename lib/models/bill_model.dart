@@ -8,7 +8,9 @@ class BillModel {
   final String? bilKind;
   final double? bilPayment;
   final double? bilNet;
-  final int? pay_type;
+  final int? payType;
+  final DateTime? bilDate;
+  final String? bilNote;
 
   BillModel({
     required this.bilId,
@@ -20,7 +22,9 @@ class BillModel {
     required this.bilKind,
     required this.bilPayment,
     required this.bilNet,
-     required this.pay_type, 
+    required this.payType,
+    required this.bilDate,
+    required this.bilNote,
   });
 
   factory BillModel.fromJson(Map<String, dynamic> json) {
@@ -33,8 +37,10 @@ class BillModel {
       bilExtra: double.parse(json['bil_extra']),
       bilKind: json['bil_kind'],
       bilPayment: double.parse(json['bil_payment']),
-      bilNet: double.parse(json['bil_net']), 
-      pay_type:  int.parse(json['pay_type']),
+      bilNet: double.parse(json['bil_net']),
+      payType: int.parse(json['pay_type']),
+      bilDate: DateTime.parse(json['BIL_DATE']),
+      bilNote: json['BIL_NOTE'] ?? '',
     );
   }
 
@@ -50,7 +56,10 @@ class BillModel {
       'bil_kind': bilKind!,
       'bil_payment': bilPayment.toString(),
       'bil_net': bilNet.toString(),
-      'pay_type':pay_type.toString()
+      'pay_type': payType.toString(),
+      'BIL_DATE':
+          bilDate?.toIso8601String() ?? DateTime.now().toIso8601String(),
+      'BIL_NOTE': bilNote ?? '',
     };
   }
 }

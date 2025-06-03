@@ -116,6 +116,8 @@ class BillServices {
       'bil_extra': bill.bilExtra.toString(),
       'bil_kind': bill.bilKind,
       'bil_payment': bill.bilPayment.toString(),
+      'BIL_DATE':bill.bilDate,
+      'BIL_NOTE':bill.bilNote,
       'details': jsonEncode(detailsList),
     };
 
