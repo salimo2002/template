@@ -190,13 +190,13 @@ class _AccountsAndMaterialsTabState extends State<AccountsAndMaterialsTab>
             borderSide: BorderSide(width: 2.5, color: kBlueAccent),
             insets: EdgeInsets.symmetric(horizontal: 1),
           ),
-          tabs: const [Tab(text: 'الحسابات'), Tab(text: 'المواد')],
+          tabs: const [Tab(text: 'المواد'), Tab(text: 'الحسابات')],
         ),
         SizedBox(height: 10),
         Expanded(
           child: TabBarView(
             controller: _tabController,
-            children: const [Accounts(), DebtsAndSupplies()],
+            children: const [DebtsAndSupplies(), Accounts()],
           ),
         ),
       ],
