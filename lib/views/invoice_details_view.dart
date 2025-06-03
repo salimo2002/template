@@ -184,7 +184,8 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                           color: kWhite,
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Directionality(
                               textDirection: TextDirection.rtl,
@@ -193,7 +194,6 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                                 child: RadioMenuButtons(),
                               ),
                             ),
-                            ///////////////////////////////////////// تفعيل
                             Flexible(
                               child: Text(
                                 'نمط الدفع',
@@ -236,6 +236,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                         canRead: true,
                       ),
                       TextFieldAndDetails(
+                        canRead: RadioMenuButtons.payType==0?true:false ,
                         focusNode: ssss,
                         keyType: TextInputType.number,
                         hintText: 'المبلغ المقبوض',
@@ -246,7 +247,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                         focusNode: sssss,
                         keyType: TextInputType.number,
                         hintText: 'المبلغ المتبقي',
-                        controller: remainingAmound,
+                        controller: RadioMenuButtons.payType==0?TextEditingController(text: '0'): remainingAmound,
                         canRead: true,
                       ),
                     ],
@@ -264,7 +265,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                         hoursOrYear: false,
                         label: 'الوقت',
                       ),
-                  
+
                       CommentsTextField(
                         maxLines: 4,
                         label: 'ملاحظة',
@@ -385,6 +386,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
         }
         context.read<BillCubit>().insertBill(
           BillModel(
+            pay_type: RadioMenuButtons.payType,
             bilId: null,
             accId: accIdd,
             bilNumber: '10',

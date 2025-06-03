@@ -33,7 +33,7 @@ class CustomTextField extends StatelessWidget {
         onTap: () {
           DatePickerField();
         },
-        readOnly: canRead == null ? false : true,
+        readOnly: canRead == null|| canRead==false ? false : true,
         validator: validator,
         keyboardType: keyType,
         controller: controller,
