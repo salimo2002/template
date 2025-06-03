@@ -10,6 +10,7 @@ import 'package:template/views/invoice_review_view.dart';
 import 'package:template/widgets/Invoice%20review/filter_invoice_review.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/invoice%20details%20view/radio_menu_buttons.dart';
+import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
 
@@ -30,7 +31,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
   List<AccountModel> searchResults = [];
   bool isSearching = false;
   GlobalKey<FormState> globalKey = GlobalKey();
-  String billType='';
+  String billType = '';
 
   @override
   Widget build(BuildContext context) {
@@ -171,16 +172,25 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                     ),
                   ),
                 ),
+
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 30, top: 10),
-                  child: TextButton(
-                    onPressed: navigatorToInvoiceReview,
-                    child: Text(
-                      'موافق',
-                      style: FontStyleApp.black18.copyWith(
-                        fontSize: getResponsiveText(context, 14),
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CustomButtonSave(
+                        label: 'إلغاء',
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
                       ),
-                    ),
+                      CustomButtonSave(
+                        label: 'موافق',
+                        onTap: () {
+                          navigatorToInvoiceReview();
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -205,28 +215,28 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
           child: Center(child: Text('فواتير المشتريات')),
           onTap: () {
             invoiceController.text = 'فواتير المشتريات';
-            billType='buy';
+            billType = 'buy';
           },
         ),
         CheckedPopupMenuItem(
           child: Center(child: Text('فواتير المبيعات')),
           onTap: () {
             invoiceController.text = 'فواتير المبيعات';
-            billType='sell';
+            billType = 'sell';
           },
         ),
         CheckedPopupMenuItem(
           child: Center(child: Text('فواتير مردود المشتريات')),
           onTap: () {
             invoiceController.text = 'فواتير مردود المشتريات';
-            billType='undo_buy';
+            billType = 'undo_buy';
           },
         ),
         CheckedPopupMenuItem(
           child: Center(child: Text('فواتير مردود المبيعات')),
           onTap: () {
             invoiceController.text = 'فواتير مردود المبيعات';
-            billType='undo_sell';
+            billType = 'undo_sell';
           },
         ),
       ],
@@ -263,7 +273,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
         context,
         InvoiceReviewView.id,
         arguments: {
-          'title':invoiceController.text,
+          'title': invoiceController.text,
           'billType': billType,
           'nameAcuont': accountController.text,
         },

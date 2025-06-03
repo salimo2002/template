@@ -6,6 +6,7 @@ import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/category%20cubit/category_cubit.dart';
 import 'package:template/cubit/material%20cubit/material_cubit.dart';
 import 'package:template/utils/constants.dart';
+import 'package:template/views/account_statement_view.dart';
 import 'package:template/views/add_account_and_update_view.dart';
 import 'package:template/views/create_a_sales_invoice_view.dart';
 import 'package:template/views/home_view.dart';
@@ -18,6 +19,7 @@ import 'package:template/views/edit_prodict_view.dart';
 import 'package:template/views/review_invoices.dart';
 import 'package:template/views/setting_view.dart';
 import 'package:template/views/splash_view.dart';
+import 'package:template/views/support_views.dart';
 import 'package:template/views/tree_accounts_view.dart';
 
 void main(List<String> args) {
@@ -72,6 +74,8 @@ class Template extends StatelessWidget {
           InvoiceReviewView.id: (context) => InvoiceReviewView(),
           ReviewInvoices.id: (context) => ReviewInvoices(),
           SettingView.id: (context) => SettingView(),
+          SupportViews.id: (context) => SupportViews(),
+          AccountStatementView.id: (context) => AccountStatementView(),
         },
         initialRoute: SplashVideoScreen.id,
       ),

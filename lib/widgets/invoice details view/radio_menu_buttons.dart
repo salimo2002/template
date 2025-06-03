@@ -4,7 +4,7 @@ import 'package:template/utils/responsive_text.dart';
 
 class RadioMenuButtons extends StatefulWidget {
   const RadioMenuButtons({super.key});
-
+  static int payType = 1;
   @override
   State<RadioMenuButtons> createState() => _RadioMenuButtonsState();
 }
@@ -18,11 +18,12 @@ class _RadioMenuButtonsState extends State<RadioMenuButtons> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         RadioMenuButton<int>(
-          value: 1,
+          value: 0,
           groupValue: selectedValue,
           onChanged: (value) {
             setState(() {
               selectedValue = value!;
+              RadioMenuButtons.payType = 0;
             });
           },
           child: Text(
@@ -33,11 +34,12 @@ class _RadioMenuButtonsState extends State<RadioMenuButtons> {
           ),
         ),
         RadioMenuButton<int>(
-          value: 2,
+          value: 1,
           groupValue: selectedValue,
           onChanged: (value) {
             setState(() {
               selectedValue = value!;
+              RadioMenuButtons.payType = 1;
             });
           },
           child: Text(

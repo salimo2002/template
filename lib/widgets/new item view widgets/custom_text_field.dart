@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
-import 'package:template/widgets/invoice%20details%20view/date_picker_field.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
@@ -12,7 +11,8 @@ class CustomTextField extends StatelessWidget {
     this.suffixIcon,
     this.canRead,
     this.prefixIcon,
-    this.onChanged, required this.focusNode,
+    this.onChanged,
+    required this.focusNode,
   });
   final String hintText;
   final TextEditingController controller;
@@ -30,9 +30,7 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         focusNode: focusNode,
         onChanged: onChanged,
-        onTap: () {
-          DatePickerField();
-        },
+     
         readOnly: canRead == null ? false : true,
         validator: validator,
         keyboardType: keyType,
@@ -42,7 +40,7 @@ class CustomTextField extends StatelessWidget {
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
           floatingLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-          label: Text(hintText, style: TextStyle(color: kBlueAccent,)),
+          label: Text(hintText, style: TextStyle(color: kBlueAccent)),
           isDense: true,
           contentPadding: const EdgeInsets.symmetric(
             vertical: 12,
@@ -51,7 +49,7 @@ class CustomTextField extends StatelessWidget {
           fillColor: kWhite,
           filled: true,
           enabledBorder: borderStyle(),
-          
+
           border: borderStyle(),
           focusedBorder: borderStyle(),
           errorBorder: borderErrorStyle(),

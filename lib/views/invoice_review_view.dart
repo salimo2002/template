@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -10,6 +13,7 @@ import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/widgets/Invoice%20review/bill.dart';
+import 'package:template/widgets/invoice%20details%20view/radio_menu_buttons.dart';
 
 class InvoiceReviewView extends StatefulWidget {
   const InvoiceReviewView({super.key});
@@ -24,18 +28,21 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
   late String billType;
   late Map mapModalRoute;
   List<BillModel> bill = [];
-  double billAmound=0;
+  double billAmound = 0;
   @override
   void didChangeDependencies() {
     mapModalRoute = ModalRoute.of(context)!.settings.arguments as Map;
+    bill = [];
     nameAcuont = mapModalRoute['nameAcuont'];
     billType = mapModalRoute['billType'];
-    super.didChangeDependencies();
     context.read<BillCubit>().bill.forEach((element) {
-      if (element.bilKind == billType) {
+      if (element.bilKind == billType &&
+          RadioMenuButtons.payType == element.payType) {
         bill.add(element);
       }
     });
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -49,7 +56,6 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-         
           SizedBox(height: 10),
           BlocBuilder<BillCubit, BillStatus>(
             builder: (context, state) {
@@ -58,7 +64,9 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                   child: ListView.builder(
                     itemCount: bill.length,
                     itemBuilder: (context, index) {
-                      billAmound=bill[index].bilNet!-bill[index].bilPayment!;
+                      log(bill[index].bilNote!);
+                      billAmound =
+                          bill[index].bilNet! - bill[index].bilPayment!;
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
@@ -68,10 +76,12 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                           },
                           child: Bill(
                             paymentStyle:
-                                bill[index].bilPayment == 1 ? 'نقدي' : 'آجل؟',
+                                bill[index].payType == 0 ? 'نقدي' : 'آجل',
                             invoiceNumber: bill[index].bilId.toString(),
-                            billDate: '2025-5-1',
-                            billTime: '5:00 PM',
+                            billDate:
+                                '${bill[index].bilDate!.year.toString()}-${bill[index].bilDate!.month.toString()}-${bill[index].bilDate!.day.toString()}',
+                            billTime:
+                                '${bill[index].bilDate!.hour.toString()}:${bill[index].bilDate!.minute.toString()}',
                             nameAccuont:
                                 context
                                     .read<AccountsCubit>()
@@ -85,7 +95,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                             total: bill[index].bilTotal.toString(),
                             amountPaid: bill[index].bilPayment.toString(),
                             reminingAmount: billAmound.toString(),
-                            note: 'ملاحظة',
+                            note: decodeToUtf8(bill[index].bilNote!),
                           ),
                         ),
                       );
@@ -125,6 +135,11 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
         ],
       ),
     );
+  }
+
+  String decodeToUtf8(String brokenText) {
+    final latin1Bytes = latin1.encode(brokenText);
+    return utf8.decode(latin1Bytes);
   }
 
   void showMenuu(TapDownDetails details, int id) {
