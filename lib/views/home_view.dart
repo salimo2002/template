@@ -57,49 +57,52 @@ class _HomeViewState extends State<HomeView> {
         backgroundColor: kBlueAccent,
         actions: [
           IconButton(
-            onPressed: () async {
-              final debit = {
-                "voucher_number": 30,
-                "acc_id": 456,
-                "acc_id2": 491,
-                "deb_amount": 500.75,
-                "ty": 2,
-                "deb_note": "دفعة جديدة",
-                "cur_id": 1,
-                "deb_date": "2025-06-04",
-              };
+            // onPressed: () async {
+            //   final debit = {
+            //     "voucher_number": 30,
+            //     "acc_id": 456,
+            //     "acc_id2": 491,
+            //     "deb_amount": 500.75,
+            //     "ty": 2,
+            //     "deb_note": "دفعة جديدة",
+            //     "cur_id": 1,
+            //     "deb_date": "2025-06-04",
+            //   };
 
-              final details = [
-                {
-                  "acc_id": 491,
-                  "acc_id2": 456,
-                  "det_maduin": 200,
-                  "det_loaner": 300,
-                  "cur_id": 1,
-                },
-                {
-                  "acc_id": 456,
-                  "acc_id2": 491,
-                  "det_maduin": 400,
-                  "det_loaner": 500,
-                  "cur_id": 2,
-                },
-              ];
+            //   final details = [
+            //     {
+            //       "acc_id": 491,
+            //       "acc_id2": 456,
+            //       "det_maduin": 200,
+            //       "det_loaner": 300,
+            //       "cur_id": 1,
+            //     },
+            //     {
+            //       "acc_id": 456,
+            //       "acc_id2": 491,
+            //       "det_maduin": 400,
+            //       "det_loaner": 500,
+            //       "cur_id": 2,
+            //     },
+            //   ];
 
-              // إرسال البيانات إلى API
-              await DebitService.addDebitWithDetails(
-                debit: debit,
-                details: details,
-              );
+            //   // إرسال البيانات إلى API
+            //   await DebitService.addDebitWithDetails(
+            //     debit: debit,
+            //     details: details,
+            //   );
 
-              try {
-                await DebitService.addDebitWithDetails(
-                  debit: debit,
-                  details: details,
-                );
-              } on Exception catch (e) {
-                throw Exception(e);
-              }
+            //   try {
+            //     await DebitService.addDebitWithDetails(
+            //       debit: debit,
+            //       details: details,
+            //     );
+            //   } on Exception catch (e) {
+            //     throw Exception(e);
+            //   }
+            // },
+            onPressed: () {
+              
             },
             icon: Icon(Icons.more_vert_outlined),
           ),
