@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -94,7 +95,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                             total: bill[index].bilTotal.toString(),
                             amountPaid: bill[index].bilPayment.toString(),
                             reminingAmount: billAmound.toString(),
-                            note: bill[index].bilNote!,
+                            note: decodeToUtf8(bill[index].bilNote!),
                           ),
                         ),
                       );
@@ -134,6 +135,11 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
         ],
       ),
     );
+  }
+
+  String decodeToUtf8(String brokenText) {
+    final latin1Bytes = latin1.encode(brokenText);
+    return utf8.decode(latin1Bytes);
   }
 
   void showMenuu(TapDownDetails details, int id) {
