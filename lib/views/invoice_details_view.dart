@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -383,10 +385,11 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
             accIdd = element.accID!;
             break;
           }
-        }
+        } 
+        log(DateTime.parse('${date.text} ${hour.text.replaceAll(' PM', '').replaceAll(' AM', '')}:00').toString());
         context.read<BillCubit>().insertBill(
           BillModel(
-            pay_type: RadioMenuButtons.payType,
+            payType: RadioMenuButtons.payType,
             bilId: null,
             accId: accIdd,
             bilNumber: '10',
@@ -396,10 +399,13 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
             bilKind: billType,
             bilPayment: double.parse(amountRecived.text),
             bilNet: double.parse(remainingAmound.text),
+            bilDate: DateTime.parse('${date.text} ${hour.text.replaceAll(' PM', '').replaceAll(' AM', '')}:00'),
+            bilNote: note.text
           ),
           bills,
         );
       } catch (e) {
+        log(e.toString());
         ScaffoldMessenger.of(context).showSnackBar(
           customSnackBar(context, 'لم يتم العثور على الحساب', kRed),
         );

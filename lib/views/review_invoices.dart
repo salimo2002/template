@@ -259,6 +259,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
 
   void navigatorToInvoiceReview() {
     if (globalKey.currentState!.validate()) {
+      
       Navigator.pushNamed(
         context,
         InvoiceReviewView.id,
