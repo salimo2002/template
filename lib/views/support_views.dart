@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -29,13 +31,21 @@ class _SupportViewsState extends State<SupportViews> {
   final TextEditingController _noteController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
 
+  late String documentType;
+
   List<AccountModel> debtorSearchResults = [];
   List<AccountModel> creditorSearchResults = [];
   bool isSearchingDebtor = false;
   bool isSearchingCreditor = false;
+  @override
+  void didChangeDependencies() {
+    documentType = ModalRoute.of(context)!.settings.arguments as String;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
+    log(documentType);
     return Scaffold(
       appBar: customAppBar(context: context, title: 'سند', showIcons: false),
       body: SafeArea(
@@ -71,14 +81,18 @@ class _SupportViewsState extends State<SupportViews> {
                             focusNode: _focusNode0,
                           ),
                           if (isSearchingDebtor)
-                            SearchResultsList(
-                              results: debtorSearchResults,
-                              onSelect: (account) {
-                                setState(() {
-                                  _nameAccountController.text = account.accName;
-                                  isSearchingDebtor = false;
-                                });
-                              },
+                            Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: SearchResultsList(
+                                results: debtorSearchResults,
+                                onSelect: (account) {
+                                  setState(() {
+                                    _nameAccountController.text =
+                                        account.accName;
+                                    isSearchingDebtor = false;
+                                  });
+                                },
+                              ),
                             ),
                           CustomTextField(
                             onChanged:
@@ -90,17 +104,21 @@ class _SupportViewsState extends State<SupportViews> {
                             focusNode: _focusNode2,
                           ),
                           if (isSearchingCreditor)
-                            SearchResultsList(
-                              results: creditorSearchResults,
-                              onSelect: (account) {
-                                setState(() {
-                                  _nameAccountController2.text =
-                                      account.accName;
-                                  isSearchingCreditor = false;
-                                });
-                              },
+                            Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: SearchResultsList(
+                                results: creditorSearchResults,
+                                onSelect: (account) {
+                                  setState(() {
+                                    _nameAccountController2.text =
+                                        account.accName;
+                                    isSearchingCreditor = false;
+                                  });
+                                },
+                              ),
                             ),
                           CustomTextField(
+                            keyType: TextInputType.numberWithOptions(),
                             hintText: 'المبلغ',
                             controller: _amountController,
                             focusNode: _focusNode,

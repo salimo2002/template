@@ -56,7 +56,11 @@ class FinancialReports extends StatelessWidget {
                   text: 'سند قبض',
                   icon: 'assets/img/home cards/vaadin_storage.svg',
                   onTap: () {
-                    Navigator.pushNamed(context, SupportViews.id);
+                    Navigator.pushNamed(
+                      context,
+                      SupportViews.id,
+                      arguments: 'catch',
+                    );
                   },
                 ),
               ],
@@ -71,7 +75,11 @@ class FinancialReports extends StatelessWidget {
                 icon:
                     'assets/img/home cards/hugeicons_money-receive-circle.svg',
                 onTap: () {
-                  Navigator.pushNamed(context, SupportViews.id);
+                  Navigator.pushNamed(
+                    context,
+                    SupportViews.id,
+                    arguments: 'push',
+                  );
                 },
               ),
             ],
