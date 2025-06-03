@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // مهم جداً للفلترة
+import 'package:flutter/services.dart'; 
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
@@ -10,7 +10,7 @@ class EditableDataColumn extends StatelessWidget {
     required this.text,
     required this.conttroller,
     this.onChanged,
-    this.isNumericOnly = false, required this.focusNode, // خيار لتفعيل الفلترة الرقمية
+    this.isNumericOnly = false, required this.focusNode,
   });
   final FocusNode focusNode;
   final String text;

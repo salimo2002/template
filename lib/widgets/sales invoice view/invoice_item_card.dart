@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
@@ -13,8 +14,10 @@ class InvoiceItemCard extends StatefulWidget {
     required this.totalController,
     required this.priceController,
     required this.quantityController,
-    required this.unity,
-    required this.isNumericOnly, required this.bounsContoler,
+    required this.unit1,
+    
+    required this.isNumericOnly,
+    required this.bounsContoler, required this.unit2,
   });
 
   final BuildContext context;
@@ -25,7 +28,9 @@ class InvoiceItemCard extends StatefulWidget {
   final TextEditingController quantityController;
   final TextEditingController bounsContoler;
 
-  final String unity;
+  final String unit1;
+    final String unit2;
+
   final bool isNumericOnly;
 
   @override
@@ -44,7 +49,7 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
   void initState() {
     super.initState();
 
-    unityController = TextEditingController(text: widget.unity);
+    unityController = TextEditingController(text: widget.unit1);
 
     widget.priceController.addListener(updateTotal);
     widget.quantityController.addListener(updateTotal);
@@ -103,6 +108,62 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      SizedBox(width: 20,),
+                      InkWell(
+                        onTapDown: (details) {
+                          final RenderBox overlay =
+                              Overlay.of(context).context.findRenderObject()
+                                  as RenderBox;
+                          showMenu(
+                            context: context,
+                            position: RelativeRect.fromRect(
+                              details.globalPosition & const Size(60, 60),
+                              Offset.zero & overlay.size,
+                            ),
+                            items: [
+                              PopupMenuItem(
+                                child: ListTile(
+                                  title:  Text( widget.unit1),
+                                  onTap: () {
+                                    unityController.text =widget.unit1;
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ),
+                              PopupMenuItem(
+                                child: ListTile(
+                                  title:  Text(widget.unit2),
+                                  onTap: () {
+                                    unityController.text = widget.unit2;
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                        child: Container(
+                          width: 90,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            borderRadius:  BorderRadius.circular(
+8
+                            ),
+                            color: kBlueAccent,
+                          ),
+                          
+                          child: Center(
+                            child: FittedBox(
+                              child: Text(
+                                unityController.text,
+                                style: FontStyleApp.white18.copyWith(
+                                  fontSize: getResponsiveText(context, 12),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),Spacer(),
                       FittedBox(
                         child: Text(
                           widget.materialName,
@@ -159,47 +220,6 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                           conttroller: widget.quantityController,
                           text: 'الكمية',
                           isNumericOnly: widget.isNumericOnly,
-                        ),
-                      ),
-                      Expanded(
-                        child: InkWell(
-                          onTapDown: (details) {
-                            final RenderBox overlay =
-                                Overlay.of(context).context.findRenderObject()
-                                    as RenderBox;
-                            showMenu(
-                              context: context,
-                              position: RelativeRect.fromRect(
-                                details.globalPosition & const Size(60, 60),
-                                Offset.zero & overlay.size,
-                              ),
-                              items: [
-                                PopupMenuItem(
-                                  child: ListTile(
-                                    title: const Text('قطعة'),
-                                    onTap: () {
-                                      unityController.text = 'قطعة';
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ),
-                                PopupMenuItem(
-                                  child: ListTile(
-                                    title: const Text('طرد'),
-                                    onTap: () {
-                                      unityController.text = 'طرد';
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                          child: EditableDataColumn(
-                            focusNode: focusNode4,
-                            text: 'الوحدة',
-                            conttroller: unityController,
-                          ),
                         ),
                       ),
                     ],
