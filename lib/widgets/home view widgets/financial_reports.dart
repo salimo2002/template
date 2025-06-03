@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:template/views/support_views.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_button_.dart';
 
 class FinancialReports extends StatelessWidget {
@@ -54,7 +55,9 @@ class FinancialReports extends StatelessWidget {
                 CustomButton(
                   text: 'سند قبض',
                   icon: 'assets/img/home cards/vaadin_storage.svg',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, SupportViews.id);
+                  },
                 ),
               ],
             ),
@@ -67,7 +70,9 @@ class FinancialReports extends StatelessWidget {
                 text: 'سند دفع',
                 icon:
                     'assets/img/home cards/hugeicons_money-receive-circle.svg',
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, SupportViews.id);
+                },
               ),
             ],
           ),
