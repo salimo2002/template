@@ -30,7 +30,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
   List<AccountModel> searchResults = [];
   bool isSearching = false;
   GlobalKey<FormState> globalKey = GlobalKey();
-  String billType='';
+  String billType = '';
 
   @override
   Widget build(BuildContext context) {
@@ -205,28 +205,28 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
           child: Center(child: Text('فواتير المشتريات')),
           onTap: () {
             invoiceController.text = 'فواتير المشتريات';
-            billType='buy';
+            billType = 'buy';
           },
         ),
         CheckedPopupMenuItem(
           child: Center(child: Text('فواتير المبيعات')),
           onTap: () {
             invoiceController.text = 'فواتير المبيعات';
-            billType='sell';
+            billType = 'sell';
           },
         ),
         CheckedPopupMenuItem(
           child: Center(child: Text('فواتير مردود المشتريات')),
           onTap: () {
             invoiceController.text = 'فواتير مردود المشتريات';
-            billType='undo_buy';
+            billType = 'undo_buy';
           },
         ),
         CheckedPopupMenuItem(
           child: Center(child: Text('فواتير مردود المبيعات')),
           onTap: () {
             invoiceController.text = 'فواتير مردود المبيعات';
-            billType='undo_sell';
+            billType = 'undo_sell';
           },
         ),
       ],
@@ -263,7 +263,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
         context,
         InvoiceReviewView.id,
         arguments: {
-          'title':invoiceController.text,
+          'title': invoiceController.text,
           'billType': billType,
           'nameAcuont': accountController.text,
         },
