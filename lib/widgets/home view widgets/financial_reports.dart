@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:template/views/account_statement_view.dart';
 import 'package:template/views/support_views.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_button_.dart';
 
@@ -20,7 +21,9 @@ class FinancialReports extends StatelessWidget {
                 CustomButton(
                   text: 'كشف حساب',
                   icon: 'assets/img/home cards/carbon_product.svg',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, AccountStatementView.id);
+                  },
                 ),
                 CustomButton(
                   text: 'جرد مستودعات',

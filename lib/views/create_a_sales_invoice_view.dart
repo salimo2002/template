@@ -8,10 +8,10 @@ import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/custom_snack_bar.dart';
-import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/invoice_details_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
+import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
 import 'package:template/widgets/sales%20invoice%20view/invoice_item_card.dart';
 
@@ -34,7 +34,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   final TextEditingController totalAllPrice = TextEditingController(text: '0');
   final List<TextEditingController> totalController = [];
   final List<TextEditingController> priceController = [];
-    final List<TextEditingController> bounsController = [];
+  final List<TextEditingController> bounsController = [];
 
   final List<TextEditingController> quantityController = [];
   final List<BillDetailsModel> bills = [];
@@ -51,7 +51,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
     for (var c in totalController) {
       c.dispose();
     }
-      for (var c in bounsController) {
+    for (var c in bounsController) {
       c.dispose();
     }
     for (var c in priceController) {
@@ -199,15 +199,30 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                 ],
               ),
             ),
-            const SizedBox(height: 30),
-            TextButton(
-              onPressed: () {
-                FocusScope.of(context).unfocus();
-                navigateToInvoiceDetailsView();
-              },
-              child: Text('التالي', style: FontStyleApp.black18),
+            const SizedBox(height: 40),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CustomButtonSave(
+                    label: 'إلغاء',
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  CustomButtonSave(
+                    label: 'التالي',
+                    onTap: () {
+                      FocusScope.of(context).unfocus();
+                      navigateToInvoiceDetailsView();
+                    },
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 15),
+
+            // ///
           ],
         ),
       ),
@@ -217,36 +232,34 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   void navigateToInvoiceDetailsView() {
     bills.clear();
     if (materialModel.isNotEmpty) {
-      
-    for (var i = 0; i < totalController.length; i++) {
-      bills.add(
-        BillDetailsModel(
-          detId: null,
-          bilId: null,
-          matId: materialModel[i].materialId,
-          detQuantity: double.parse(quantityController[i].text),
-          detSinglePrice: double.parse(priceController[i].text),
-          detPrice: double.parse(totalController[i].text),
-          strId: 1,
-          detBouns: double.parse(bounsController[i].text),
-        ),
-      );
-    }
-    Navigator.pushNamed(
-      context,
-      InvoiceDetailsView.id,
-      arguments: {
-        'bill': bills,
-        'total': totalAllPrice.text,
-        'billType': billType,
-      },
-    );
-    }else{
-       ScaffoldMessenger.of(context).showSnackBar(
-          customSnackBar(context, 'قم بإدخال مواد', kRed),
+      for (var i = 0; i < totalController.length; i++) {
+        bills.add(
+          BillDetailsModel(
+            detId: null,
+            bilId: null,
+            matId: materialModel[i].materialId,
+            detQuantity: double.parse(quantityController[i].text),
+            detSinglePrice: double.parse(priceController[i].text),
+            detPrice: double.parse(totalController[i].text),
+            strId: 1,
+            detBouns: double.parse(bounsController[i].text),
+          ),
         );
+      }
+      Navigator.pushNamed(
+        context,
+        InvoiceDetailsView.id,
+        arguments: {
+          'bill': bills,
+          'total': totalAllPrice.text,
+          'billType': billType,
+        },
+      );
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(customSnackBar(context, 'قم بإدخال مواد', kRed));
     }
-
   }
 
   void _toggleScanner() {
@@ -300,9 +313,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
 
       updateTotalAll();
     });
-       bounsController.add(
-        TextEditingController(text: 0.toString()),
-      );
+    bounsController.add(TextEditingController(text: 0.toString()));
   }
 
   void updateTotalAll() {

@@ -7,9 +7,9 @@ import 'package:template/models/account_model.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/widgets/invoice%20details%20view/comments_text_field.dart';
 import 'package:template/widgets/invoice%20details%20view/text_field_date.dart';
+import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
-import 'package:template/widgets/new%20item%20view%20widgets/save_and_exite_button.dart';
 
 class SupportViews extends StatefulWidget {
   const SupportViews({super.key});
@@ -132,7 +132,18 @@ class _SupportViewsState extends State<SupportViews> {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 30),
-              child: SaveAndExitButton(text: 'حفظ', onPressed: () {}),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CustomButtonSave(
+                    label: 'إلغاء',
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  CustomButtonSave(label: 'حفظ', onTap: () {}),
+                ],
+              ),
             ),
           ],
         ),

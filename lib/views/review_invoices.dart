@@ -10,6 +10,7 @@ import 'package:template/views/invoice_review_view.dart';
 import 'package:template/widgets/Invoice%20review/filter_invoice_review.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/invoice%20details%20view/radio_menu_buttons.dart';
+import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
 
@@ -171,16 +172,25 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                     ),
                   ),
                 ),
+
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 30, top: 10),
-                  child: TextButton(
-                    onPressed: navigatorToInvoiceReview,
-                    child: Text(
-                      'موافق',
-                      style: FontStyleApp.black18.copyWith(
-                        fontSize: getResponsiveText(context, 14),
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CustomButtonSave(
+                        label: 'إلغاء',
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
                       ),
-                    ),
+                      CustomButtonSave(
+                        label: 'موافق',
+                        onTap: () {
+                          navigatorToInvoiceReview();
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -259,7 +269,6 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
 
   void navigatorToInvoiceReview() {
     if (globalKey.currentState!.validate()) {
-      
       Navigator.pushNamed(
         context,
         InvoiceReviewView.id,

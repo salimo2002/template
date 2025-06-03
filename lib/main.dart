@@ -6,6 +6,7 @@ import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/category%20cubit/category_cubit.dart';
 import 'package:template/cubit/material%20cubit/material_cubit.dart';
 import 'package:template/utils/constants.dart';
+import 'package:template/views/account_statement_view.dart';
 import 'package:template/views/add_account_and_update_view.dart';
 import 'package:template/views/create_a_sales_invoice_view.dart';
 import 'package:template/views/home_view.dart';
@@ -74,6 +75,7 @@ class Template extends StatelessWidget {
           ReviewInvoices.id: (context) => ReviewInvoices(),
           SettingView.id: (context) => SettingView(),
           SupportViews.id: (context) => SupportViews(),
+          AccountStatementView.id: (context) => AccountStatementView(),
         },
         initialRoute: SplashVideoScreen.id,
       ),
