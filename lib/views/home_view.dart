@@ -125,7 +125,7 @@ class _HomeViewState extends State<HomeView> {
                               BlendMode.srcIn,
                             ),
                           ),
-                          label: "حسابات وموارد",
+                          label: "الحسابات والمواد",
                         ),
                         BottomNavigationBarItem(
                           icon: SvgPicture.asset(
@@ -151,7 +151,6 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
-
 
 class AccountsAndMaterialsTab extends StatefulWidget {
   const AccountsAndMaterialsTab({super.key});
@@ -191,7 +190,7 @@ class _AccountsAndMaterialsTabState extends State<AccountsAndMaterialsTab>
             borderSide: BorderSide(width: 2.5, color: kBlueAccent),
             insets: EdgeInsets.symmetric(horizontal: 1),
           ),
-          tabs: const [Tab(text: 'دليل الحسابات'), Tab(text: 'دليل المواد')],
+          tabs: const [Tab(text: 'الحسابات'), Tab(text: 'المواد')],
         ),
         SizedBox(height: 10),
         Expanded(
