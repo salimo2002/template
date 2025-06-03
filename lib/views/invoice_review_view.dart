@@ -24,18 +24,20 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
   late String billType;
   late Map mapModalRoute;
   List<BillModel> bill = [];
-  double billAmound=0;
+  double billAmound = 0;
   @override
   void didChangeDependencies() {
     mapModalRoute = ModalRoute.of(context)!.settings.arguments as Map;
+    bill=[];
     nameAcuont = mapModalRoute['nameAcuont'];
     billType = mapModalRoute['billType'];
+      context.read<BillCubit>().bill.forEach((element) {
+        if (element.bilKind == billType) {
+          bill.add(element);
+        }
+      });
+    
     super.didChangeDependencies();
-    context.read<BillCubit>().bill.forEach((element) {
-      if (element.bilKind == billType) {
-        bill.add(element);
-      }
-    });
   }
 
   @override
@@ -49,7 +51,6 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-         
           SizedBox(height: 10),
           BlocBuilder<BillCubit, BillStatus>(
             builder: (context, state) {
@@ -58,7 +59,8 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                   child: ListView.builder(
                     itemCount: bill.length,
                     itemBuilder: (context, index) {
-                      billAmound=bill[index].bilNet!-bill[index].bilPayment!;
+                      billAmound =
+                          bill[index].bilNet! - bill[index].bilPayment!;
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
