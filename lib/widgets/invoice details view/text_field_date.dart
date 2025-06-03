@@ -100,13 +100,13 @@ class _TextFieldDateState extends State<TextFieldDate> {
 OutlineInputBorder borderErrorStyle() {
   return OutlineInputBorder(
     borderSide: const BorderSide(color: Colors.red),
-    borderRadius: BorderRadius.circular(18),
+    borderRadius: BorderRadius.circular(6),
   );
 }
 
 OutlineInputBorder borderStyle() {
   return OutlineInputBorder(
     borderSide: BorderSide(color: kBorderTextFieldColor),
-    borderRadius: BorderRadius.circular(18),
+    borderRadius: BorderRadius.circular(6),
   );
 }

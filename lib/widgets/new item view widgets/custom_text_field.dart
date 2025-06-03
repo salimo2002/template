@@ -30,7 +30,9 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         focusNode: focusNode,
         onChanged: onChanged,
-
+        onTap: () {
+          DatePickerField();
+        },
         readOnly: canRead == null ? false : true,
         validator: validator,
         keyboardType: keyType,
