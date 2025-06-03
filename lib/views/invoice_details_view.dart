@@ -47,6 +47,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
   final FocusNode ssss = FocusNode();
   final FocusNode sssss = FocusNode();
   final FocusNode ssssss = FocusNode();
+  final FocusNode _sssssss = FocusNode();
   GlobalKey<FormState> globalKey = GlobalKey();
   List<AccountModel> searchResults = [];
   bool isSearching = false;
@@ -238,7 +239,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                         canRead: true,
                       ),
                       TextFieldAndDetails(
-                        canRead: RadioMenuButtons.payType==0?true:false ,
+                        canRead: RadioMenuButtons.payType == 0 ? true : false,
                         focusNode: ssss,
                         keyType: TextInputType.number,
                         hintText: 'المبلغ المقبوض',
@@ -249,7 +250,10 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                         focusNode: sssss,
                         keyType: TextInputType.number,
                         hintText: 'المبلغ المتبقي',
-                        controller: RadioMenuButtons.payType==0?TextEditingController(text: '0'): remainingAmound,
+                        controller:
+                            RadioMenuButtons.payType == 0
+                                ? TextEditingController(text: '0')
+                                : remainingAmound,
                         canRead: true,
                       ),
                     ],
@@ -269,6 +273,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                       ),
 
                       CommentsTextField(
+                        focusNode: _sssssss,
                         maxLines: 4,
                         label: 'ملاحظة',
                         controller: note,

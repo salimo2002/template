@@ -18,6 +18,7 @@ import 'package:template/views/edit_prodict_view.dart';
 import 'package:template/views/review_invoices.dart';
 import 'package:template/views/setting_view.dart';
 import 'package:template/views/splash_view.dart';
+import 'package:template/views/support_views.dart';
 import 'package:template/views/tree_accounts_view.dart';
 
 void main(List<String> args) {
@@ -72,6 +73,7 @@ class Template extends StatelessWidget {
           InvoiceReviewView.id: (context) => InvoiceReviewView(),
           ReviewInvoices.id: (context) => ReviewInvoices(),
           SettingView.id: (context) => SettingView(),
+          SupportViews.id: (context) => SupportViews(),
         },
         initialRoute: SplashVideoScreen.id,
       ),
