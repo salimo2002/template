@@ -33,7 +33,7 @@ class SmallTextField extends StatelessWidget {
   OutlineInputBorder borderStyle() {
     return OutlineInputBorder(
       borderSide: BorderSide(color: const Color.fromARGB(255, 233, 228, 228)),
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(8),
     );
   }
 }
