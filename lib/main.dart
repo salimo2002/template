@@ -1,17 +1,21 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/category%20cubit/category_cubit.dart';
+import 'package:template/cubit/debit%20cubit/debit_cubit.dart';
 import 'package:template/cubit/material%20cubit/material_cubit.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/views/account_statement_view.dart';
 import 'package:template/views/add_account_and_update_view.dart';
 import 'package:template/views/create_a_sales_invoice_view.dart';
+import 'package:template/views/fund_journal_view.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/views/invoice_details_view.dart';
 import 'package:template/views/invoice_review_view.dart';
+import 'package:template/views/log_in_view.dart';
 import 'package:template/views/material_card_view.dart';
 import 'package:template/views/material_classifications_view.dart';
 import 'package:template/views/new_material_view.dart';
@@ -20,10 +24,11 @@ import 'package:template/views/review_invoices.dart';
 import 'package:template/views/setting_view.dart';
 import 'package:template/views/splash_view.dart';
 import 'package:template/views/detailed_account_statement_views.dart';
+import 'package:template/views/support_details_views.dart';
 import 'package:template/views/support_views.dart';
 import 'package:template/views/tree_accounts_view.dart';
 
-void main(List<String> args) {
+void main(List<String> args) async {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: kWhite,
@@ -45,6 +50,7 @@ class Template extends StatelessWidget {
         BlocProvider<CategoryCubit>(create: (context) => CategoryCubit()),
         BlocProvider<AccountsCubit>(create: (context) => AccountsCubit()),
         BlocProvider<BillCubit>(create: (context) => BillCubit()),
+        BlocProvider<DebitCubit>(create: (context) => DebitCubit()),
       ],
 
       child: MaterialApp(
@@ -77,8 +83,11 @@ class Template extends StatelessWidget {
           SettingView.id: (context) => SettingView(),
           SupportViews.id: (context) => SupportViews(),
           AccountStatementView.id: (context) => AccountStatementView(),
-          DetailedAccountStatementView.id:
-              (context) => DetailedAccountStatementView(),
+          LogInView.id:(context)=>LogInView(),
+          AccountStatementView.id:(context)=>AccountStatementView(),
+          SupportDetailsViews.id:(context)=> SupportDetailsViews(),
+          DetailedAccountStatementView.id:(context)=>DetailedAccountStatementView(),
+          FundJournalView.id:(context)=>FundJournalView(),
         },
         initialRoute: SplashVideoScreen.id,
       ),

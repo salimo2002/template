@@ -17,7 +17,7 @@ class ContainerFields extends StatelessWidget {
           boxShadow: [bosShadow()],
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           child: Column(spacing: 10, children: children),
         ),
       ),
