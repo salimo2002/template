@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ import 'package:template/views/fund_journal_view.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/views/invoice_details_view.dart';
 import 'package:template/views/invoice_review_view.dart';
+import 'package:template/views/log_in_view.dart';
 import 'package:template/views/material_card_view.dart';
 import 'package:template/views/material_classifications_view.dart';
 import 'package:template/views/new_material_view.dart';
@@ -26,7 +28,7 @@ import 'package:template/views/support_details_views.dart';
 import 'package:template/views/support_views.dart';
 import 'package:template/views/tree_accounts_view.dart';
 
-void main(List<String> args) {
+void main(List<String> args) async {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: kWhite,
@@ -81,9 +83,11 @@ class Template extends StatelessWidget {
           SettingView.id: (context) => SettingView(),
           SupportViews.id: (context) => SupportViews(),
           AccountStatementView.id: (context) => AccountStatementView(),
-          SupportDetailsViews.id: (context) => SupportDetailsViews(),
+          LogInView.id:(context)=>LogInView(),
+          AccountStatementView.id:(context)=>AccountStatementView(),
+          SupportDetailsViews.id:(context)=> SupportDetailsViews(),
+          DetailedAccountStatementView.id:(context)=>DetailedAccountStatementView(),
           FundJournalView.id:(context)=>FundJournalView(),
-          DetailedAccountStatementView.id:(context)=>DetailedAccountStatementView()
         },
         initialRoute: SplashVideoScreen.id,
       ),
