@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/Service/company_services.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/category%20cubit/category_cubit.dart';
@@ -12,6 +15,7 @@ import 'package:template/views/create_a_sales_invoice_view.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/views/invoice_details_view.dart';
 import 'package:template/views/invoice_review_view.dart';
+import 'package:template/views/log_in_view.dart';
 import 'package:template/views/material_card_view.dart';
 import 'package:template/views/material_classifications_view.dart';
 import 'package:template/views/new_material_view.dart';
@@ -22,7 +26,7 @@ import 'package:template/views/splash_view.dart';
 import 'package:template/views/support_views.dart';
 import 'package:template/views/tree_accounts_view.dart';
 
-void main(List<String> args) {
+void main(List<String> args) async {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: kWhite,
@@ -76,6 +80,7 @@ class Template extends StatelessWidget {
           SettingView.id: (context) => SettingView(),
           SupportViews.id: (context) => SupportViews(),
           AccountStatementView.id: (context) => AccountStatementView(),
+          LogInView.id: (context) => LogInView(),
         },
         initialRoute: SplashVideoScreen.id,
       ),
