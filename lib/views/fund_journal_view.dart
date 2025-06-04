@@ -23,6 +23,10 @@ class _FundJournalViewState extends State<FundJournalView> {
   TextEditingController accountControler = TextEditingController();
   TextEditingController currencyControler = TextEditingController();
   TextEditingController statementControler = TextEditingController();
+
+  ValueNotifier<bool> isPayments = ValueNotifier(false);
+  ValueNotifier<bool> isRecipt = ValueNotifier(false);
+
   FocusNode receivablesFoucs = FocusNode();
   FocusNode paymentsFoucs = FocusNode();
   FocusNode accountFoucs = FocusNode();
@@ -85,17 +89,39 @@ class _FundJournalViewState extends State<FundJournalView> {
             SizedBox(height: 40),
             ContainerFields(
               children: [
-                CustomTextField(
-                  keyType: TextInputType.number,
-                  hintText: 'المقبوضات',
-                  controller: receivablesControler,
-                  focusNode: receivablesFoucs,
+                ValueListenableBuilder(
+                  valueListenable: isRecipt,
+                  builder: (context, value, child) {
+                    return CustomTextField(
+                      onChanged: (p0) {
+                        p0 != ''
+                            ? isPayments.value = true
+                            : isPayments.value = false;
+                      },
+                      canRead: isRecipt.value,
+                      keyType: TextInputType.number,
+                      hintText: 'المقبوضات',
+                      controller: receivablesControler,
+                      focusNode: receivablesFoucs,
+                    );
+                  },
                 ),
-                CustomTextField(
-                  keyType: TextInputType.number,
-                  hintText: 'المدفوعات',
-                  controller: paymentsControler,
-                  focusNode: paymentsFoucs,
+                ValueListenableBuilder(
+                  valueListenable: isPayments,
+                  builder: (context, value, child) {
+                    return CustomTextField(
+                      onChanged: (p0) {
+                        p0 != ''
+                            ? isRecipt.value = true
+                            : isRecipt.value = false;
+                      },
+                      canRead: isPayments.value,
+                      keyType: TextInputType.number,
+                      hintText: 'المدفوعات',
+                      controller: paymentsControler,
+                      focusNode: paymentsFoucs,
+                    );
+                  },
                 ),
                 CustomTextField(
                   hintText: 'الحساب المقابل',
@@ -105,7 +131,22 @@ class _FundJournalViewState extends State<FundJournalView> {
                 CustomTextField(
                   canRead: false,
                   suffixIcon: InkWell(
-                    onTapDown: (details) {},
+                    onTapDown: (TapDownDetails details) {
+                      final RenderBox overlay =
+                          Overlay.of(context).context.findRenderObject()
+                              as RenderBox;
+                      showMenu(
+                        context: context,
+                        position: RelativeRect.fromRect(
+                          details.globalPosition & const Size(60, 60),
+                          Offset.zero & overlay.size,
+                        ),
+                        items: [
+                          PopupMenuItem(child: Text('ل.س'),onTap: () => currencyControler.text='ل.س',),
+                          PopupMenuItem(child: Text('دولار'),onTap: () => currencyControler.text='دولار',),
+                        ],
+                      );
+                    },
                     child: Icon(Icons.arrow_drop_down, size: 33),
                   ),
                   hintText: 'العملة',
@@ -121,10 +162,14 @@ class _FundJournalViewState extends State<FundJournalView> {
                 ),
               ],
             ),
-            SizedBox(height: MediaQuery.sizeOf(context).height*.28),
-            Row( mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [CustomButtonSave(onTap: () {}, label: 'الغاء'),
-              CustomButtonSave(onTap: () {}, label: 'حفظ'),],)
+            SizedBox(height: MediaQuery.sizeOf(context).height * .28),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                CustomButtonSave(onTap: () {}, label: 'الغاء'),
+                CustomButtonSave(onTap: () {}, label: 'حفظ'),
+              ],
+            ),
           ],
         ),
       ),

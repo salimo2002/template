@@ -61,7 +61,7 @@ class _HomeViewState extends State<HomeView> {
               //   accId: 1,
               //   accId2: 491,
               //   debAmount: 525.25,
-              //   ty: 1,
+              //   ty: 0,
               //   debNote: 'debNote',
               //   curId: 1,
               //   debDate: DateTime.now(),
