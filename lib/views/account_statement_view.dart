@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/models/account_model.dart';
 import 'package:template/utils/custom_app_bar.dart';
-import 'package:template/views/support_details_views.dart';
+import 'package:template/views/detailed_account_statement_views.dart';
 import 'package:template/views/support_views.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
@@ -42,7 +42,7 @@ class _AccountStatementViewState extends State<AccountStatementView> {
                       CustomTextField(
                         onChanged: (query) => searchAccount(query),
                         suffixIcon: const SizedBox(width: 40, height: 40),
-                        hintText: 'الحساب المدين',
+                        hintText: 'الحساب',
                         controller: accountController,
                         focusNode: _focusNode,
                       ),
@@ -77,7 +77,11 @@ class _AccountStatementViewState extends State<AccountStatementView> {
                     CustomButtonSave(
                       label: 'التالي',
                       onTap: () {
-                        Navigator.pushNamed(context, SupportDetailsViews.id);
+                        Navigator.pushNamed(
+                          context,
+                          DetailedAccountStatementView.id,
+                          arguments: accountController,
+                        );
                       },
                     ),
                   ],
