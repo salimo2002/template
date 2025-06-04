@@ -1,9 +1,7 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:template/Service/company_services.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/category%20cubit/category_cubit.dart';
@@ -85,6 +83,11 @@ class Template extends StatelessWidget {
           SettingView.id: (context) => SettingView(),
           SupportViews.id: (context) => SupportViews(),
           AccountStatementView.id: (context) => AccountStatementView(),
+          LogInView.id:(context)=>LogInView(),
+          AccountStatementView.id:(context)=>AccountStatementView(),
+          SupportDetailsViews.id:(context)=> SupportDetailsViews(),
+          DetailedAccountStatementView.id:(context)=>DetailedAccountStatementView(),
+          FundJournalView.id:(context)=>FundJournalView(),
         },
         initialRoute: SplashVideoScreen.id,
       ),
