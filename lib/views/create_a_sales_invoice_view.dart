@@ -165,13 +165,13 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(top: 10),
-                            child: InvoiceItemCard(
+                            child: InvoiceItemCard(unit2: materialModel[index].materialUnit2 ,
                               bounsContoler: bounsController[index],
                               isNumericOnly: true,
-                              unity:
-                                  materialModel[index].materialUnitDefault == 1
-                                      ? materialModel[index].materialUnit
-                                      : materialModel[index].materialUnit2,
+                              unit1:
+                                 
+                                       materialModel[index].materialUnit
+                                      ,
                               totalController: totalController[index],
                               context: context,
                               materialName: materialModel[index].materialName,

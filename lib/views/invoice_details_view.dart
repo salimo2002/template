@@ -273,6 +273,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                       ),
 
                       CommentsTextField(
+                        width: MediaQuery.sizeOf(context).width * 0.75,
                         focusNode: _sssssss,
                         maxLines: 4,
                         label: 'ملاحظة',
@@ -390,8 +391,12 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
             accIdd = element.accID!;
             break;
           }
-        } 
-        log(DateTime.parse('${date.text} ${hour.text.replaceAll(' PM', '').replaceAll(' AM', '')}:00').toString());
+        }
+        log(
+          DateTime.parse(
+            '${date.text} ${hour.text.replaceAll(' PM', '').replaceAll(' AM', '')}:00',
+          ).toString(),
+        );
         context.read<BillCubit>().insertBill(
           BillModel(
             payType: RadioMenuButtons.payType,
@@ -404,8 +409,10 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
             bilKind: billType,
             bilPayment: double.parse(amountRecived.text),
             bilNet: double.parse(remainingAmound.text),
-            bilDate: DateTime.parse('${date.text} ${hour.text.replaceAll(' PM', '').replaceAll(' AM', '')}:00'),
-            bilNote: note.text
+            bilDate: DateTime.parse(
+              '${date.text} ${hour.text.replaceAll(' PM', '').replaceAll(' AM', '')}:00',
+            ),
+            bilNote: note.text,
           ),
           bills,
         );

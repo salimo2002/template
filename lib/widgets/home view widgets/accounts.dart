@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:template/views/tree_accounts_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_button_.dart';
 
-class Accounts extends StatelessWidget {
+class Accounts extends StatefulWidget {
   const Accounts({super.key});
 
+  @override
+  State<Accounts> createState() => _AccountsState();
+}
+
+class _AccountsState extends State<Accounts> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,11 +22,6 @@ class Accounts extends StatelessWidget {
             child: Row(
               spacing: 50,
               children: [
-                CustomButton(
-                  text: 'حساب جديد',
-                  icon: 'assets/img/home cards/hugeicons_payment-01.svg',
-                  onTap: () {},
-                ),
                 CustomButton(
                   text: 'دليل الحسابات',
                   icon: 'assets/img/home cards/hugeicons_payment-02.svg',
