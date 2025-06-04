@@ -65,7 +65,7 @@ class _SupportViewsState extends State<SupportViews> {
                             hoursOrYear: true,
                             label: 'التاريخ',
                           ),
-                          CommentsTextField(
+                          CommentsTextField(width: MediaQuery.sizeOf(context).width * 0.75,
                             focusNode: _focusNode3,
                             maxLines: 4,
                             label: 'ملاحظة',

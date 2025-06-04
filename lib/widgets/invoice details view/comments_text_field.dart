@@ -10,7 +10,7 @@ class CommentsTextField extends StatelessWidget {
     this.keyType = TextInputType.text,
     this.validator,
     required this.maxLines,
-    required this.label, required this.focusNode,
+    required this.label, required this.focusNode, required this.width,
   });
   final TextEditingController controller;
   final TextInputType? keyType;
@@ -18,10 +18,11 @@ class CommentsTextField extends StatelessWidget {
   final int maxLines;
   final String label;
   final  FocusNode focusNode;
+  final double width;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.sizeOf(context).width * 0.75,
+      width: width,
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: TextFormField(

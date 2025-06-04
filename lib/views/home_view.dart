@@ -54,17 +54,31 @@ class _HomeViewState extends State<HomeView> {
         backgroundColor: kBlueAccent,
         actions: [
           IconButton(
-            // onPressed: () async {
-            //   final debit = {
-            //     "voucher_number": 30,
-            //     "acc_id": 456,
-            //     "acc_id2": 491,
-            //     "deb_amount": 500.75,
-            //     "ty": 2,
-            //     "deb_note": "دفعة جديدة",
-            //     "cur_id": 1,
-            //     "deb_date": "2025-06-04",
-            //   };
+            onPressed: () {
+              // final DebitModel debit = DebitModel(
+              //   debId: 0,
+              //   voucherNumber: 1002,
+              //   accId: 1,
+              //   accId2: 491,
+              //   debAmount: 525.25,
+              //   ty: 1,
+              //   debNote: 'debNote',
+              //   curId: 1,
+              //   debDate: DateTime.now(),
+              // );
+              // context.read<DebitCubit>().insertDebit(debit);
+
+              // {
+              //   "voucher_number":1001,
+              //   "acc_id": 1,
+              //   "acc_id2": 491,
+              //   "deb_amount": 500.75,
+              //   "ty": 2,
+              //   "deb_note": "دفعة جديدة",
+              //   "cur_id": 1,
+              //   "deb_date": "2025-06-04",
+              // };
+            },
 
             //   final details = [
             //     {
@@ -98,9 +112,6 @@ class _HomeViewState extends State<HomeView> {
             //     throw Exception(e);
             //   }
             // },
-            onPressed: () {
-              
-            },
             icon: Icon(Icons.more_vert_outlined),
           ),
         ],
