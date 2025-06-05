@@ -9,16 +9,13 @@ class CompanyServices {
   static final String _activateDeviceUrl = '$_baseUrl/activate_device.php';
 
   static Future<Map<String, dynamic>> checkCompany({
-    required String comName,
-    required String serial,
+    required String companyName,
+    required String comSerial,
   }) async {
     final url = Uri.parse(_checkCompanyUrl);
     final response = await http.post(
       url,
-      body: {
-        'com_name': comName,
-        'com_serial': serial,
-      },
+      body: {'com_name': companyName, 'com_serial': comSerial},
     );
 
     if (response.statusCode != 200) {
@@ -31,12 +28,7 @@ class CompanyServices {
 
   static Future<List<String>> getCompanyDevices({required int comId}) async {
     final url = Uri.parse(_getDevicesUrl);
-    final response = await http.post(
-      url,
-      body: {
-        'com_id': comId.toString(),
-      },
-    );
+    final response = await http.post(url, body: {'com_id': comId.toString()});
 
     if (response.statusCode != 200) {
       throw Exception('فشل الاتصال بالخادم.');
@@ -57,10 +49,7 @@ class CompanyServices {
     final url = Uri.parse(_activateDeviceUrl);
     final response = await http.post(
       url,
-      body: {
-        'com_id': comId.toString(),
-        'imei': imei,
-      },
+      body: {'com_id': comId.toString(), 'imei': imei},
     );
 
     if (response.statusCode != 200) {
