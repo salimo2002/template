@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -20,6 +22,7 @@ class _AccountStatementViewState extends State<AccountStatementView> {
   List<AccountModel> searchResults = [];
   bool isSearching = false;
   final FocusNode _focusNode = FocusNode();
+  int accIdElement = 0;
 
   final TextEditingController accountController = TextEditingController();
   @override
@@ -77,10 +80,18 @@ class _AccountStatementViewState extends State<AccountStatementView> {
                     CustomButtonSave(
                       label: 'التالي',
                       onTap: () {
+                        context.read<AccountsCubit>().accounts.forEach((
+                          element,
+                        ) {
+                          if (element.accName == accountController.text) {
+                            accIdElement = element.accID!;
+                            log(accIdElement.toString());
+                          }
+                        });
                         Navigator.pushNamed(
                           context,
                           DetailedAccountStatementView.id,
-                          arguments: accountController,
+                          arguments: 491,
                         );
                       },
                     ),
