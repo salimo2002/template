@@ -30,8 +30,8 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         focusNode: focusNode,
         onChanged: onChanged,
-     
-        readOnly: canRead == null ||canRead==false ? false : true,
+
+        readOnly: (canRead == null || canRead == false) ? false : true,
         validator: validator,
         keyboardType: keyType,
         controller: controller,

@@ -12,10 +12,10 @@ class CompanyModel {
   });
   factory CompanyModel.fromJson(json) {
     return CompanyModel(
-      comId: json['com_id'],
-      comName: json['com_name'],
-      comSerial: json['com_serial'],
-      comCount: json['com_count'],
+      comId: json['COM_ID'],
+      comName: json['COM_NAME'],
+      comSerial: json['COM_SERIAL'],
+      comCount: json['COM_COUNT'],
     );
   }
 }
