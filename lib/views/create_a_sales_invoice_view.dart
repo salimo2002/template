@@ -222,8 +222,6 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                 ],
               ),
             ),
-
-            // ///
           ],
         ),
       ),
