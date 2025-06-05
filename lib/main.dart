@@ -92,6 +92,8 @@ class Template extends StatelessWidget {
           DetailedAccountStatementView.id:
               (context) => DetailedAccountStatementView(),
           FundJournalView.id: (context) => FundJournalView(),
+          DevicesActivatedView.id: (context) => DevicesActivatedView(),
+          MovementOfMatterView.id:(context)=>MovementOfMatterView(),
         },
         initialRoute: LogInView.id,
       ),
