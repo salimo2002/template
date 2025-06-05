@@ -11,6 +11,7 @@ import 'package:template/utils/constants.dart';
 import 'package:template/views/account_statement_view.dart';
 import 'package:template/views/add_account_and_update_view.dart';
 import 'package:template/views/create_a_sales_invoice_view.dart';
+import 'package:template/views/devices_activated_view.dart.dart';
 import 'package:template/views/fund_journal_view.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/views/invoice_details_view.dart';
@@ -90,6 +91,7 @@ class Template extends StatelessWidget {
           DetailedAccountStatementView.id:
               (context) => DetailedAccountStatementView(),
           FundJournalView.id: (context) => FundJournalView(),
+          DevicesActivatedView.id: (context) => DevicesActivatedView(),
         },
         initialRoute: LogInView.id,
       ),
