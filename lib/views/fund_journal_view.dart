@@ -12,6 +12,7 @@ import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
+import 'package:template/views/home_view.dart';
 import 'package:template/widgets/Invoice%20review/filter_invoice_review.dart';
 import 'package:template/widgets/invoice%20details%20view/comments_text_field.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
@@ -257,7 +258,7 @@ class _FundJournalViewState extends State<FundJournalView> {
                       children: [
                         CustomButtonSave(
                           onTap: () {
-                            Navigator.pop(context);
+                            Navigator.pushNamedAndRemoveUntil(context, HomeView.id,(route) => false,);
                           },
                           label: 'الغاء',
                         ),
