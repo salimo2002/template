@@ -54,7 +54,7 @@ class _HomeViewState extends State<HomeView> {
         backgroundColor: kBlueAccent,
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
               // final DebitModel debit = DebitModel(
               //   debId: 0,
               //   voucherNumber: 1002,
