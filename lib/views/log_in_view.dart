@@ -6,6 +6,7 @@ import 'package:template/cubit/company%20cubit/company_status.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/utils/font_style.dart';
+import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/splash_view.dart';
 import 'package:template/widgets/log%20in%20view/main_button.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
@@ -50,7 +51,7 @@ class _LogInViewState extends State<LogInView> {
                     Text(
                       'تفعيل التطبيق',
                       style: FontStyleApp.blueAccent18.copyWith(
-                        fontSize: 24,
+                        fontSize: getResponsiveText(context, 24),
                         fontWeight: FontWeight.bold,
                       ),
                     ),

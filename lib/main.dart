@@ -11,6 +11,7 @@ import 'package:template/utils/constants.dart';
 import 'package:template/views/account_statement_view.dart';
 import 'package:template/views/add_account_and_update_view.dart';
 import 'package:template/views/create_a_sales_invoice_view.dart';
+import 'package:template/views/devices_activated_view.dart.dart';
 import 'package:template/views/fund_journal_view.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/views/invoice_details_view.dart';
@@ -18,6 +19,7 @@ import 'package:template/views/invoice_review_view.dart';
 import 'package:template/views/log_in_view.dart';
 import 'package:template/views/material_card_view.dart';
 import 'package:template/views/material_classifications_view.dart';
+import 'package:template/views/movement_of_matter_view.dart';
 import 'package:template/views/new_material_view.dart';
 import 'package:template/views/edit_prodict_view.dart';
 import 'package:template/views/review_invoices.dart';
@@ -90,6 +92,8 @@ class Template extends StatelessWidget {
           DetailedAccountStatementView.id:
               (context) => DetailedAccountStatementView(),
           FundJournalView.id: (context) => FundJournalView(),
+          DevicesActivatedView.id: (context) => DevicesActivatedView(),
+          MovementOfMatterView.id:(context)=>MovementOfMatterView(),
         },
         initialRoute: LogInView.id,
       ),
