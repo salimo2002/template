@@ -55,12 +55,12 @@ class FinancialReports extends StatelessWidget {
                 ),
                 CustomButton(
                   text: 'ارصدة',
-                  icon: 'assets/img/home cards/vaadin_storage.svg',
+                  icon: 'assets/img/Home/comment-dollar-svgrepo-com.svg',
                   onTap: () {},
                 ),
                 CustomButton(
                   text: 'سند قبض',
-                  icon: 'assets/img/home cards/vaadin_storage.svg',
+                  icon: 'assets/img/Home/document-plus-svgrepo-com.svg',
                   onTap: () {
                     Navigator.pushNamed(
                       context,
@@ -78,8 +78,7 @@ class FinancialReports extends StatelessWidget {
             children: [
               CustomButton(
                 text: 'سند دفع',
-                icon:
-                    'assets/img/home cards/hugeicons_money-receive-circle.svg',
+                icon: 'assets/img/Home/document-minus-svgrepo-com.svg',
                 onTap: () {
                   Navigator.pushNamed(
                     context,

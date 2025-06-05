@@ -24,7 +24,7 @@ class _AccountsState extends State<Accounts> {
               children: [
                 CustomButton(
                   text: 'دليل الحسابات',
-                  icon: 'assets/img/home cards/hugeicons_payment-02.svg',
+                  icon: 'assets/img/Home/tree-structure-thin-svgrepo-com.svg',
                   onTap: () {
                     Navigator.pushNamed(context, TreeAccountsView.id);
                   },

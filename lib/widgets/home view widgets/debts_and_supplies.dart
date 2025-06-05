@@ -21,21 +21,22 @@ class DebtsAndSupplies extends StatelessWidget {
               children: [
                 CustomButton(
                   text: 'مادة جديدة',
-                  icon: 'assets/img/home cards/medical-icon_i-billing.svg',
+                  icon: 'assets/img/Home/cube-free-material-2-svgrepo-com.svg',
                   onTap: () {
                     Navigator.pushNamed(context, NewMaterialView.id);
                   },
                 ),
                 CustomButton(
                   text: 'دليل المواد',
-                  icon: 'assets/img/home cards/hugeicons_payment-01.svg',
+                  icon: 'assets/img/Home/guide-svgrepo-com.svg',
                   onTap: () {
                     Navigator.pushNamed(context, MaterialCardView.id);
                   },
                 ),
                 CustomButton(
                   text: 'تصنيفات',
-                  icon: 'assets/img/home cards/medical-icon_i-billing.svg',
+                  icon:
+                      'assets/img/Home/tags-category-categories-labels-svgrepo-com.svg',
                   onTap: () {
                     Navigator.pushNamed(
                       context,
@@ -52,7 +53,8 @@ class DebtsAndSupplies extends StatelessWidget {
             children: [
               CustomButton(
                 text: 'حركة مادة',
-                icon: 'assets/img/home cards/medical-icon_i-billing.svg',
+                icon:
+                    'assets/img/Home/arrow-up-right-from-square-svgrepo-com.svg',
                 onTap: () {},
               ),
             ],
