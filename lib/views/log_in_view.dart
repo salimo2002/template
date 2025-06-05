@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:template/cubit/company%20cubit/company_cubit.dart';
 import 'package:template/cubit/company%20cubit/company_status.dart';
-import 'package:template/cubit/material%20cubit/material_status.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/utils/font_style.dart';
@@ -61,6 +60,7 @@ class _LogInViewState extends State<LogInView> {
                         if (p0 == null || p0 == '') {
                           return 'الرجاء ادخال اسم الشركة';
                         }
+                        return null;
                       },
                       hintText: 'اسم الشركة',
                       controller: companyName,
@@ -76,6 +76,7 @@ class _LogInViewState extends State<LogInView> {
                         if (p0 == null || p0 == '') {
                           return 'الرجاء ادخال مفتاح التفعيل';
                         }
+                        return null;
                       },
                       hintText: 'مفتاح التفعيل',
                       controller: activateKey,
