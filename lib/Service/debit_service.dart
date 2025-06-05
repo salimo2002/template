@@ -13,6 +13,7 @@ static Future<void> addDebit({
 final body = {
   ...debit.toMap().map((key, value) => MapEntry(key, value.toString())),
 };
+
   try {
     final response = await http.post(url, body: body);
 
