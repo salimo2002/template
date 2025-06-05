@@ -5,8 +5,11 @@ import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_status.dart';
 import 'package:template/models/bill_details_model.dart';
 import 'package:template/models/bill_model.dart';
+import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
-import 'package:template/views/invoice_review_view.dart';
+import 'package:template/utils/font_style.dart';
+import 'package:template/utils/responsive_text.dart';
+import 'package:template/views/home_view.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/table_labels.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/table_values.dart';
 
@@ -21,7 +24,7 @@ class DetailedAccountStatementView extends StatefulWidget {
 
 class _DetailedAccountStatementViewState
     extends State<DetailedAccountStatementView> {
-  TapDownDetails? _tapPosition;
+  TapDownDetails? tapPosition;
   int? accID;
   List<BillDetailsModel> listBillDetails = [];
   List<BillModel> listBill = [];
@@ -92,25 +95,53 @@ class _DetailedAccountStatementViewState
                           final rowColor =
                               isEven ? Colors.white : Colors.grey.shade200;
                           return buildDataRow(
-                            statement: decodeToUtf8(
+                            statement:
+                                listBillDetails[index].detSinglePrice
+                                    .toString(),
+                            rowColor: rowColor,
+                            balance: listBillDetails[index].detPrice.toString(),
+                            date: listBillDetails[index].detQuantity.toString(),
+                            amount:
+                                '${listBill[index].bilDate!.year.toString()}/${listBill[index].bilDate!.month.toString()}/${listBill[index].bilDate!.day.toString()}',
+                            individualPrice: decodeToUtf8(
                               listBill[index].bilNote.toString(),
                             ),
-                            rowColor: rowColor,
-                            balance: listBillDetails[index].detBouns.toString(),
-                            date: listBill[index].bilDate.toString(),
-                            amount:
-                                listBillDetails[index].detQuantity.toString(),
-                            individualPrice:
-                                listBillDetails[index].detPrice.toString(),
-                            total: listBill[index].bilTotal.toString(),
+                            total: '2500',
                           );
                         }),
                       ],
                     );
                   } else if (state is LoadingStateBill) {
-                    return Text('sssssssssssssssssssssssssssssss');
+                    return CircularProgressIndicator();
                   } else {
-                    return Text('data');
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'حدث خطأ حاول جدداً',
+                            style: FontStyleApp.black18.copyWith(
+                              fontSize: getResponsiveText(context, 18),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                HomeView.id,
+                                (route) => false,
+                              );
+                            },
+                            icon: Icon(
+                              Icons.refresh,
+                              color: kBlueAccent,
+                              size: 40,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
                   }
                 },
               ),
@@ -127,40 +158,40 @@ class _DetailedAccountStatementViewState
   }
 
   void _storeTapPosition(TapDownDetails details) {
-    _tapPosition = details;
+    tapPosition = details;
   }
 
-  void _showPopupMenu() {
-    if (_tapPosition == null) return;
+  // void _showPopupMenu() {
+  //   if (_tapPosition == null) return;
 
-    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+  //   final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
 
-    showMenu(
-      context: context,
-      position: RelativeRect.fromRect(
-        _tapPosition!.globalPosition & const Size(40, 40),
-        Offset.zero & overlay.size,
-      ),
-      items: [
-        PopupMenuItem(
-          child: const Text('فاتورة'),
-          onTap: () {
-            Future.delayed(Duration.zero, () {
-              Navigator.pushNamed(
-                context,
-                InvoiceReviewView.id,
-                arguments: {
-                  'nameAcuont': accountController.text,
-                  'billType': 'sell',
-                  'title': 'فاتورة....',
-                },
-              );
-            });
-          },
-        ),
-      ],
-    );
-  }
+  //   showMenu(
+  //     context: context,
+  //     position: RelativeRect.fromRect(
+  //       _tapPosition!.globalPosition & const Size(40, 40),
+  //       Offset.zero & overlay.size,
+  //     ),
+  //     items: [
+  //       PopupMenuItem(
+  //         child: const Text('فاتورة'),
+  //         onTap: () {
+  //           Future.delayed(Duration.zero, () {
+  //             Navigator.pushNamed(
+  //               context,
+  //               InvoiceReviewView.id,
+  //               arguments: {
+  //                 'nameAcuont': accountController.text,
+  //                 'billType': 'sell',
+  //                 'title': 'فاتورة....',
+  //               },
+  //             );
+  //           });
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
 
   TableRow buildDataRow({
     required Color rowColor,
@@ -176,15 +207,14 @@ class _DetailedAccountStatementViewState
       children: List.generate(6, (index) {
         final values = [
           total,
-          individualPrice,
           amount,
+          individualPrice,
           statement,
           date,
           balance,
         ];
         return GestureDetector(
           onTapDown: _storeTapPosition,
-          onTap: _showPopupMenu,
           behavior: HitTestBehavior.translucent,
           child: TableValues(value: values[index]),
         );
