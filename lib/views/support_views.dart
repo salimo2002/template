@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -45,7 +43,6 @@ class _SupportViewsState extends State<SupportViews> {
 
   @override
   Widget build(BuildContext context) {
-    log(documentType);
     return Scaffold(
       appBar: customAppBar(context: context, title: 'سند', showIcons: false),
       body: SafeArea(

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/Service/bill_service.dart';
 import 'package:template/cubit/bill%20cubit/bill_status.dart';
@@ -21,8 +19,7 @@ class BillCubit extends Cubit<BillStatus> {
       billDetails = [];
       resultBill = await BillServices.fetchBillss();
       resultBillDetails = await BillServices.fetchBillDetails();
-      log(resultBill.length.toString());
-      log(resultBillDetails.length.toString());
+     
       for (var element in resultBill) {
         bill.add(BillModel.fromJson(element));
       }

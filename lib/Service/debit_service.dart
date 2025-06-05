@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:template/models/debit_model.dart';
 
@@ -24,15 +23,12 @@ final body = {
     final json = jsonDecode(response.body);
 
     if (json.containsKey('error')) {
-      log("خطأ من PHP: ${json['error']}");
       throw Exception(json['error']);
     }
 
     if (json['deb_id'] != null) {
-      log("تم إدراج السجل بنجاح برقم: ${json['deb_id']}");
     }
   } catch (e) {
-    log("حدث خطأ أثناء الإضافة: $e");
     throw Exception("فشل العملية: $e");
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -85,7 +83,6 @@ class _AccountStatementViewState extends State<AccountStatementView> {
                         ) {
                           if (element.accName == accountController.text) {
                             accIdElement = element.accID!;
-                            log(accIdElement.toString());
                           }
                         });
                         Navigator.pushNamed(

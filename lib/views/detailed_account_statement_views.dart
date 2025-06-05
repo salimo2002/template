@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
@@ -32,7 +30,6 @@ class _DetailedAccountStatementViewState
   void didChangeDependencies() {
     accID = int.parse(ModalRoute.of(context)!.settings.arguments.toString());
     for (var i = 0; i < context.read<BillCubit>().bill.length; i++) {
-      log(accID.toString());
       if (accID == context.read<BillCubit>().bill[i].accId) {
         for (var j = 0; j < context.read<BillCubit>().billDetails.length; j++) {
           if (context.read<BillCubit>().billDetails[j].bilId ==
@@ -50,7 +47,6 @@ class _DetailedAccountStatementViewState
 
   @override
   Widget build(BuildContext context) {
-    log(accID.toString());
     return Scaffold(
       appBar: customAppBar(
         context: context,
