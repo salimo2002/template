@@ -8,7 +8,7 @@ import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/custom_snack_bar.dart';
-import 'package:template/utils/font_style.dart';
+import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/convert_operator_text_field.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_barcode.dart';
@@ -46,6 +46,7 @@ class _NewItemViewState extends State<EditProdictView> {
   String? image;
   late int parentId;
   bool _isInit = true;
+
   @override
   void initState() {
     unit1.addListener(() {
@@ -253,26 +254,26 @@ class _NewItemViewState extends State<EditProdictView> {
                         },
                         builder: (context, state) {
                           if (state is SuccessState) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(
-                                    'الغاء',
-                                    style: FontStyleApp.black18,
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButtonSave(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    label: 'إلغاء',
                                   ),
-                                ),
-                                TextButton(
-                                  onPressed: editMaterial,
-                                  child: Text(
-                                    'حفظ',
-                                    style: FontStyleApp.black18,
+                                  CustomButtonSave(
+                                    onTap: () {
+                                      editMaterial();
+                                    },
+                                    label: 'حفظ',
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             );
                           } else if (state is LoadingState) {
                             return Padding(

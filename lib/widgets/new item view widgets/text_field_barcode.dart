@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -14,7 +15,7 @@ class TextFieldBaracode extends StatefulWidget {
 class _TextFieldBaracodeState extends State<TextFieldBaracode> {
   bool showScanner = false;
   final MobileScannerController scannerController = MobileScannerController();
-
+  final AudioPlayer _audioPlayer = AudioPlayer();
   void _toggleScanner() {
     setState(() {
       showScanner = !showScanner;
@@ -35,23 +36,31 @@ class _TextFieldBaracodeState extends State<TextFieldBaracode> {
           hintText: 'الباركود',
         ),
         if (showScanner)
-          SizedBox(
-            height: 300,
-            child: MobileScanner(
-              controller: scannerController,
-              onDetect: (capture) {
-                final String? code = capture.barcodes.first.rawValue;
-                if (code != null && code.isNotEmpty) {
-                  widget.controller.text = code;
-                  scannerController.stop();
-                  setState(() {
-                    showScanner = false;
-                  });
-                }
-              },
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              height: 150,
+              child: MobileScanner(
+                controller: scannerController,
+                onDetect: (capture) {
+                  final String? code = capture.barcodes.first.rawValue;
+                  if (code != null && code.isNotEmpty) {
+                    widget.controller.text = code;
+                    _playBeepSound();
+                    scannerController.stop();
+                    setState(() {
+                      showScanner = false;
+                    });
+                  }
+                },
+              ),
             ),
           ),
       ],
     );
+  }
+
+  Future<void> _playBeepSound() async {
+    await _audioPlayer.play(AssetSource('sounds/beep.mp3'));
   }
 }
