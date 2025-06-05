@@ -79,12 +79,12 @@ class _DetailedAccountStatementViewState
                         const TableRow(
                           decoration: BoxDecoration(color: Colors.white),
                           children: [
-                            TableLabels(label: 'الاجمالي'),
+                            TableLabels(label: 'الرصيد'),
+                            TableLabels(label: 'التاريخ'),
+                            TableLabels(label: 'البيان'),
                             TableLabels(label: 'سعر الافرادي'),
                             TableLabels(label: 'الكمية'),
-                            TableLabels(label: 'البيان'),
-                            TableLabels(label: 'التاريخ'),
-                            TableLabels(label: 'الرصيد'),
+                            TableLabels(label: 'الاجمالي'),
                           ],
                         ),
                         ...List.generate(listBillDetails.length, (index) {

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
-import 'package:template/widgets/item%20card%20view%20widgets/table_fields.dart';
+import 'package:template/widgets/Invoice%20review/table_fields_review.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 
 class Bill extends StatelessWidget {
@@ -86,7 +86,7 @@ class Bill extends StatelessWidget {
             ),
           ],
         ),
-        TableFIelds(
+        TableFieldsReview(
           lable1: 'المبلغ المتبقي',
           value1: reminingAmount,
           lable2: 'المبلغ المدفوع',
