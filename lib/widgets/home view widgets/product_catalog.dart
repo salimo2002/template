@@ -19,15 +19,16 @@ class ProductCatalog extends StatelessWidget {
               spacing: 50,
               children: [
                 CustomButton(
-                  text: 'بطاقات المواد',
-                  icon: 'assets/img/home cards/medical-icon_i-billing.svg',
+                  text: 'دليل المواد',
+                  icon: 'assets/img/Home/guide-svgrepo-com.svg',
                   onTap: () {
                     Navigator.pushNamed(context, MaterialCardView.id);
                   },
                 ),
                 CustomButton(
                   text: 'تصنيفات',
-                  icon: 'assets/img/home cards/medical-icon_i-billing.svg',
+                  icon:
+                      'assets/img/Home/tags-category-categories-labels-svgrepo-com.svg',
                   onTap: () {
                     Navigator.pushNamed(
                       context,

@@ -73,6 +73,8 @@ class _MaterialCardViewState extends State<MaterialCardView> {
                 SizedBox(width: 15),
               ],
             ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.startFloat,
             floatingActionButton: CustomFloatingActionButton(
               hint: 'اضافة بطاقة مادة',
               onPressed: () {
