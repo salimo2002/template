@@ -64,12 +64,14 @@ class _MaterialClassificationsViewState
             filteredCategories = List.from(allCategories);
           }
           return Scaffold(
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             appBar: customAppBar(
               context: context,
               title: 'تصنيفات المواد',
               showIcons: false,
             ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.startFloat,
+
             floatingActionButton: CustomFloatingActionButton(
               hint: 'اضافة تصنيف جديد',
               onPressed: () {
