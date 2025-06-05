@@ -1,8 +1,17 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
+import 'package:template/cubit/debit%20cubit/debit_cubit.dart';
+import 'package:template/cubit/debit%20cubit/debit_status.dart';
+import 'package:template/models/account_model.dart';
+import 'package:template/models/debit_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
+import 'package:template/views/home_view.dart';
 import 'package:template/widgets/Invoice%20review/filter_invoice_review.dart';
 import 'package:template/widgets/invoice%20details%20view/comments_text_field.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
@@ -18,15 +27,17 @@ class FundJournalView extends StatefulWidget {
 }
 
 class _FundJournalViewState extends State<FundJournalView> {
-  TextEditingController receivablesControler = TextEditingController();
-  TextEditingController paymentsControler = TextEditingController();
+  TextEditingController receivablesControler = TextEditingController(text: '');
+  TextEditingController paymentsControler = TextEditingController(text: '');
   TextEditingController accountControler = TextEditingController();
   TextEditingController currencyControler = TextEditingController();
   TextEditingController statementControler = TextEditingController();
 
   ValueNotifier<bool> isPayments = ValueNotifier(false);
   ValueNotifier<bool> isRecipt = ValueNotifier(false);
-
+  int accId = 0;
+  List<AccountModel> searchResults = [];
+  bool isSearching = false;
   FocusNode receivablesFoucs = FocusNode();
   FocusNode paymentsFoucs = FocusNode();
   FocusNode accountFoucs = FocusNode();
@@ -124,10 +135,46 @@ class _FundJournalViewState extends State<FundJournalView> {
                   },
                 ),
                 CustomTextField(
+                  onChanged: searchAccount,
                   hintText: 'الحساب المقابل',
                   controller: accountControler,
                   focusNode: accountFoucs,
                 ),
+                if (isSearching)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 3,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: searchResults.length,
+                        itemBuilder: (context, index) {
+                          final account = searchResults[index];
+                          return ListTile(
+                            title: Text(account.accName),
+                            subtitle: Text(account.accKind.toString()),
+                            onTap: () {
+                              setState(() {
+                                accountControler.text = account.accName;
+                                isSearching = false;
+                              });
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                 CustomTextField(
                   canRead: false,
                   suffixIcon: InkWell(
@@ -142,8 +189,14 @@ class _FundJournalViewState extends State<FundJournalView> {
                           Offset.zero & overlay.size,
                         ),
                         items: [
-                          PopupMenuItem(child: Text('ل.س'),onTap: () => currencyControler.text='ل.س',),
-                          PopupMenuItem(child: Text('دولار'),onTap: () => currencyControler.text='دولار',),
+                          PopupMenuItem(
+                            child: Text('ليرة سورية'),
+                            onTap: () => currencyControler.text = 'ليرة سورية',
+                          ),
+                          PopupMenuItem(
+                            child: Text('دولار'),
+                            onTap: () => currencyControler.text = 'دولار',
+                          ),
                         ],
                       );
                     },
@@ -163,16 +216,87 @@ class _FundJournalViewState extends State<FundJournalView> {
               ],
             ),
             SizedBox(height: MediaQuery.sizeOf(context).height * .28),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                CustomButtonSave(onTap: () {}, label: 'الغاء'),
-                CustomButtonSave(onTap: () {}, label: 'حفظ'),
-              ],
+            BlocBuilder<DebitCubit, DebitStatus>(
+              builder: (context, state) {
+                if (state is SuccessStateDebit) {
+                  
+                }
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    CustomButtonSave(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      label: 'الغاء',
+                    ),
+                    CustomButtonSave(
+                      onTap: () {
+                        context.read<AccountsCubit>().accounts.forEach((
+                          element,
+                        ) {
+                          if (accountControler.text == element.accName) {
+                            accId = element.accID!;
+                            print(accId.toString());
+                          }
+                        });
+                        context.read<DebitCubit>().insertDebit(
+                          DebitModel(
+                            debId: 0,
+                            voucherNumber: Random().nextInt(100000),
+                            accId: 1,
+                            accId2: accId,
+                            debAmount:
+                                receivablesControler.text ==''
+                                    ? double.parse(paymentsControler.text)
+                                    : double.parse(receivablesControler.text),
+                            ty: isRecipt.value == true ? 0 : 1,
+                            debNote: statementControler.text,
+                            curId: currencyControler.text == 'دولار' ? 1 : 0,
+                            debDate: DateTime.parse(
+                              '${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')}',
+                            ),
+                          ),
+                        );
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          HomeView.id,
+                          (route) => false,
+                        );
+                      },
+                      label: 'حفظ',
+                    ),
+                  ],
+                );
+              },
             ),
           ],
         ),
       ),
     );
+  }
+
+  void searchAccount(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        searchResults = [];
+        isSearching = false;
+      });
+      return;
+    }
+
+    setState(() {
+      isSearching = true;
+    });
+
+    final accounts = context.read<AccountsCubit>().accounts;
+    final results =
+        accounts.where((account) {
+          return account.accName.toLowerCase().contains(query.toLowerCase());
+        }).toList();
+
+    setState(() {
+      searchResults = results;
+    });
   }
 }
