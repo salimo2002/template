@@ -20,6 +20,7 @@ class _AccountStatementViewState extends State<AccountStatementView> {
   List<AccountModel> searchResults = [];
   bool isSearching = false;
   final FocusNode _focusNode = FocusNode();
+  int accIdElement = 0;
 
   final TextEditingController accountController = TextEditingController();
   @override
@@ -77,10 +78,17 @@ class _AccountStatementViewState extends State<AccountStatementView> {
                     CustomButtonSave(
                       label: 'التالي',
                       onTap: () {
+                        context.read<AccountsCubit>().accounts.forEach((
+                          element,
+                        ) {
+                          if (element.accName == accountController.text) {
+                            accIdElement = element.accID!;
+                          }
+                        });
                         Navigator.pushNamed(
                           context,
                           DetailedAccountStatementView.id,
-                          arguments: accountController,
+                          arguments: 491,
                         );
                       },
                     ),

@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
@@ -40,6 +41,8 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   final List<BillDetailsModel> bills = [];
   List<MaterialModel> materialModel = [];
   final FocusNode searchFocusNode = FocusNode();
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
   late String billType;
   @override
   void dispose() {
@@ -165,13 +168,11 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(top: 10),
-                            child: InvoiceItemCard(unit2: materialModel[index].materialUnit2 ,
+                            child: InvoiceItemCard(
+                              unit2: materialModel[index].materialUnit2,
                               bounsContoler: bounsController[index],
                               isNumericOnly: true,
-                              unit1:
-                                 
-                                       materialModel[index].materialUnit
-                                      ,
+                              unit1: materialModel[index].materialUnit,
                               totalController: totalController[index],
                               context: context,
                               materialName: materialModel[index].materialName,
@@ -221,8 +222,6 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
                 ],
               ),
             ),
-
-            // ///
           ],
         ),
       ),
@@ -295,6 +294,10 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
     });
   }
 
+  Future<void> _playBeepSound() async {
+    await _audioPlayer.play(AssetSource('sounds/beep.mp3'));
+  }
+
   void _addMaterial(MaterialModel material) {
     setState(() {
       materialModel.add(material);
@@ -335,6 +338,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
         final material = context.read<MaterialCubit>().materials.firstWhere(
           (element) => element.materialCode == controller.text,
         );
+        _playBeepSound();
         _addMaterial(material);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(

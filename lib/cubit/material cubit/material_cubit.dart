@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/Service/material_services.dart';
 import 'package:template/cubit/material%20cubit/material_status.dart';
@@ -42,7 +41,6 @@ class MaterialCubit extends Cubit<MaterialStatus> {
       await fetchMaterials(isRefresh: true);
     } catch (e) {
       emit(FaliureState(errorMessage: e.toString()));
-      log(e.toString());
     }
   }
 

@@ -15,9 +15,10 @@ class InvoiceItemCard extends StatefulWidget {
     required this.priceController,
     required this.quantityController,
     required this.unit1,
-    
+
     required this.isNumericOnly,
-    required this.bounsContoler, required this.unit2,
+    required this.bounsContoler,
+    required this.unit2,
   });
 
   final BuildContext context;
@@ -29,7 +30,7 @@ class InvoiceItemCard extends StatefulWidget {
   final TextEditingController bounsContoler;
 
   final String unit1;
-    final String unit2;
+  final String unit2;
 
   final bool isNumericOnly;
 
@@ -108,7 +109,7 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      SizedBox(width: 20,),
+                      SizedBox(width: 20),
                       InkWell(
                         onTapDown: (details) {
                           final RenderBox overlay =
@@ -123,16 +124,16 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                             items: [
                               PopupMenuItem(
                                 child: ListTile(
-                                  title:  Text( widget.unit1),
+                                  title: Text(widget.unit1),
                                   onTap: () {
-                                    unityController.text =widget.unit1;
+                                    unityController.text = widget.unit1;
                                     Navigator.pop(context);
                                   },
                                 ),
                               ),
                               PopupMenuItem(
                                 child: ListTile(
-                                  title:  Text(widget.unit2),
+                                  title: Text(widget.unit2),
                                   onTap: () {
                                     unityController.text = widget.unit2;
                                     Navigator.pop(context);
@@ -146,12 +147,10 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                           width: 90,
                           height: 30,
                           decoration: BoxDecoration(
-                            borderRadius:  BorderRadius.circular(
-8
-                            ),
+                            borderRadius: BorderRadius.circular(8),
                             color: kBlueAccent,
                           ),
-                          
+
                           child: Center(
                             child: FittedBox(
                               child: Text(
@@ -163,13 +162,14 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                             ),
                           ),
                         ),
-                      ),Spacer(),
+                      ),
+                      Spacer(),
                       FittedBox(
                         child: Text(
                           widget.materialName,
                           style: FontStyleApp.black18.copyWith(
                             fontWeight: FontWeight.bold,
-                            fontSize: getResponsiveText(context, 18),
+                            fontSize: getResponsiveText(context, 14),
                           ),
                         ),
                       ),

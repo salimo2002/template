@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:template/models/category_model.dart';
-import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -67,7 +66,6 @@ class CategoryServices {
 
     final json = jsonDecode(response.body);
     if (json['material_id'] != null) {
-      log('yes');
       return int.parse(json['material_id'].toString());
     }
     throw Exception('فشل الإضافة: $json');
