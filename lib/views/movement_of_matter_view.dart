@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/material%20cubit/material_cubit.dart';
 import 'package:template/models/material_model.dart';
 import 'package:template/utils/custom_app_bar.dart';
-import 'package:template/views/invoice_review_view.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
@@ -74,23 +73,7 @@ class _AccountStatementViewState extends State<MovementOfMatterView> {
                         Navigator.pop(context);
                       },
                     ),
-                    CustomButtonSave(
-                      label: 'التالي',
-                      onTap: () {
-                        context.read<MaterialCubit>().materials.forEach((
-                          element,
-                        ) {
-                          if (element.materialName == materialController.text) {
-                            matId = element.materialId;
-                          }
-                        });
-                        Navigator.pushNamed(
-                          context,
-                          InvoiceReviewView.id,
-                          arguments: 491,
-                        );
-                      },
-                    ),
+                    CustomButtonSave(label: 'التالي', onTap: () {}),
                   ],
                 ),
               ),
