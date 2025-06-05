@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:template/views/material_card_view.dart';
 import 'package:template/views/material_classifications_view.dart';
+import 'package:template/views/movement_of_matter_view.dart';
 import 'package:template/views/new_material_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_button_.dart';
 
@@ -55,7 +56,9 @@ class DebtsAndSupplies extends StatelessWidget {
                 text: 'حركة مادة',
                 icon:
                     'assets/img/Home/arrow-up-right-from-square-svgrepo-com.svg',
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, MovementOfMatterView.id);
+                },
               ),
             ],
           ),

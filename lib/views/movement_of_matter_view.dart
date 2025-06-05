@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/cubit/material%20cubit/material_cubit.dart';
-import 'package:template/models/account_model.dart';
+import 'package:template/models/material_model.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/views/invoice_review_view.dart';
-import 'package:template/views/support_views.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
@@ -18,7 +16,7 @@ class MovementOfMatterView extends StatefulWidget {
 }
 
 class _AccountStatementViewState extends State<MovementOfMatterView> {
-  List<AccountModel> searchResults = [];
+  List<MaterialModel> searchResults = [];
   bool isSearching = false;
   final FocusNode _focusNode = FocusNode();
   int matId = 0;
@@ -53,9 +51,9 @@ class _AccountStatementViewState extends State<MovementOfMatterView> {
                           textDirection: TextDirection.rtl,
                           child: SearchResultsList(
                             results: searchResults,
-                            onSelect: (account) {
+                            onSelect: (material) {
                               setState(() {
-                                materialController.text = account.accName;
+                                materialController.text = material.materialName;
                                 isSearching = false;
                               });
                             },
@@ -116,14 +114,60 @@ class _AccountStatementViewState extends State<MovementOfMatterView> {
       isSearching = true;
     });
 
-    final accounts = context.read<AccountsCubit>().accounts;
+    final materials = context.read<MaterialCubit>().materials;
     final results =
-        accounts.where((account) {
-          return account.accName.toLowerCase().contains(query.toLowerCase());
+        materials.where((material) {
+          return material.materialName.toLowerCase().contains(
+            query.toLowerCase(),
+          );
         }).toList();
 
     setState(() {
       searchResults = results;
     });
+  }
+}
+
+class SearchResultsList extends StatelessWidget {
+  final List<MaterialModel> results;
+  final void Function(MaterialModel) onSelect;
+
+  const SearchResultsList({
+    super.key,
+    required this.results,
+    required this.onSelect,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 3,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: results.length,
+          itemBuilder: (context, index) {
+            final material = results[index];
+            return ListTile(
+              title: Text(material.materialName),
+              subtitle: Text(material.materialId.toString()),
+              onTap: () => onSelect(material),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
