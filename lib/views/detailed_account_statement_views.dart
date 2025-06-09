@@ -146,6 +146,7 @@ class _DetailedAccountStatementViewState
           child: const Text('فاتورة'),
           onTap: () {
             Future.delayed(Duration.zero, () {
+              if (!mounted) return;
               Navigator.pushNamed(
                 context,
                 InvoiceReviewView.id,

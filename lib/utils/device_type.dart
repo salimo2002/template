@@ -9,7 +9,7 @@ class DeviceType {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
       // IMEI قد لا تتوفر مباشرة بسبب صلاحيات Android 10+
       // بديل: جلب androidId (مُعرف فريد للجهاز)
-      return androidInfo.id;
+      return '${androidInfo.manufacturer} ${androidInfo.model} ${androidInfo.id}';
     } else if (Platform.isIOS) {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
       // iOS لا تسمح بالوصول لـ IMEI

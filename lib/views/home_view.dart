@@ -1,9 +1,9 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:template/cubit/company%20cubit/company_cubit.dart';
 import 'package:template/utils/constants.dart';
-import 'package:template/utils/device_type.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/home%20view%20widgets/accounts.dart';
@@ -23,7 +23,6 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   int _currentIndex = 3;
-
   final List<Widget> _pages = [
     SingleChildScrollView(
       padding: const EdgeInsets.all(8),
@@ -45,6 +44,10 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    log('ssssssssssssssssssssssssssssssssssssssssssssssssssssssss');
+    log(
+      'Name: ${context.read<CompanyCubit>().comp.comName} Id: ${context.read<CompanyCubit>().comp.comId} Serial: ${context.read<CompanyCubit>().comp.comSerial} Count: ${context.read<CompanyCubit>().comp.comCount}',
+    );
     return Scaffold(
       drawer: CustomDrawer(),
       appBar: AppBar(
@@ -57,9 +60,7 @@ class _HomeViewState extends State<HomeView> {
         backgroundColor: kBlueAccent,
         actions: [
           IconButton(
-            onPressed: ()async {
-               var s = await DeviceType.getDeviceImei();
-              log(s ?? 'non');
+            onPressed: () async {
               // final DebitModel debit = DebitModel(
               //   debId: 0,
               //   voucherNumber: 1002,

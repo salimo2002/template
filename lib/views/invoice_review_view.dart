@@ -67,7 +67,6 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                       log(bill[index].bilNote!);
                       billAmound =
                           bill[index].bilNet! - bill[index].bilPayment!;
-
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: GestureDetector(
@@ -152,7 +151,9 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
         Offset.zero & overlay.size,
       ),
       items: [
-        CheckedPopupMenuItem(child: Center(child: Text('تعديل')), onTap: () {}),
+        CheckedPopupMenuItem(child: Center(child: Text('تعديل')), onTap: () {
+          
+        }),
         CheckedPopupMenuItem(
           child: Center(child: Text('حذف')),
           onTap: () {

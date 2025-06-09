@@ -14,6 +14,7 @@ class SearchTextField extends StatelessWidget {
       controller: searchController,
       decoration: InputDecoration(
         hintText: 'ابحث عن مادة',
+        // ignore: deprecated_member_use
         prefixIcon: Icon(FontAwesomeIcons.search),
         floatingLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         isDense: true,
