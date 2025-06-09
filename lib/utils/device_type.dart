@@ -1,6 +1,6 @@
-// import 'dart:io';
+import 'dart:io';
 
-// import 'package:device_info_plus/device_info_plus.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 class DeviceType {
   static Future<String?> getDeviceImei() async {
