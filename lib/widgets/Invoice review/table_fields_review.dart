@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/table_labels.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/table_values.dart';
 
-class TableFIelds extends StatelessWidget {
-  const TableFIelds({
+class TableFieldsReview extends StatelessWidget {
+  const TableFieldsReview({
     super.key,
     required this.lable1,
     required this.lable2,
@@ -12,7 +12,6 @@ class TableFIelds extends StatelessWidget {
     required this.value2,
     required this.value3,
     this.lable4,
-    this.value4,
   });
   final String lable1;
   final String lable2;
@@ -22,7 +21,6 @@ class TableFIelds extends StatelessWidget {
   final String value1;
   final String value2;
   final String value3;
-  final String? value4;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +43,6 @@ class TableFIelds extends StatelessWidget {
             0: FlexColumnWidth(1),
             1: FlexColumnWidth(1),
             2: FlexColumnWidth(1),
-            3: FlexColumnWidth(1),
           },
           children: [
             TableRow(
@@ -54,7 +51,6 @@ class TableFIelds extends StatelessWidget {
                 TableLabels(label: lable1),
                 TableLabels(label: lable2),
                 TableLabels(label: lable3),
-                lable4 == null ? SizedBox() : TableLabels(label: lable4!),
               ],
             ),
             TableRow(
@@ -62,7 +58,6 @@ class TableFIelds extends StatelessWidget {
                 TableValues(value: value1),
                 TableValues(value: value2),
                 TableValues(value: value3),
-                lable4 != null ? TableValues(value: value4!):SizedBox.shrink(),
               ],
             ),
           ],

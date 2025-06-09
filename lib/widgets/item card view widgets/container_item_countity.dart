@@ -120,7 +120,7 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
-      height: MediaQuery.sizeOf(context).height * .17,
+      height: MediaQuery.sizeOf(context).height * .25,
       decoration: BoxDecoration(
         boxShadow: [bosShadow()],
         color: kWhite,
@@ -185,6 +185,8 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
                 value2: '250',
                 lable3: 'الكمية الكلية',
                 value3: '250',
+                lable4: 'الوحدة',
+                value4: 'كغ',
               ),
             ),
           ),

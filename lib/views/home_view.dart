@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -60,7 +61,9 @@ class _HomeViewState extends State<HomeView> {
         backgroundColor: kBlueAccent,
         actions: [
           IconButton(
-            onPressed: () async {
+            onPressed: ()async {
+               var s = await DeviceType.getDeviceImei();
+              log(s ?? 'non');
               // final DebitModel debit = DebitModel(
               //   debId: 0,
               //   voucherNumber: 1002,

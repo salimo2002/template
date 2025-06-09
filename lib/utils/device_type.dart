@@ -1,6 +1,6 @@
-import 'dart:io';
+// import 'dart:io';
 
-import 'package:device_info_plus/device_info_plus.dart';
+// import 'package:device_info_plus/device_info_plus.dart';
 
 class DeviceType {
   static Future<String?> getDeviceImei() async {
@@ -9,7 +9,7 @@ class DeviceType {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
       // IMEI قد لا تتوفر مباشرة بسبب صلاحيات Android 10+
       // بديل: جلب androidId (مُعرف فريد للجهاز)
-      return '${androidInfo.manufacturer} ${androidInfo.model} ${androidInfo.id}';
+      return androidInfo.id;
     } else if (Platform.isIOS) {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
       // iOS لا تسمح بالوصول لـ IMEI
