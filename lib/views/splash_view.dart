@@ -1,26 +1,29 @@
 import 'dart:io' show Platform;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/category%20cubit/category_cubit.dart';
+import 'package:template/cubit/company%20cubit/company_cubit.dart';
+import 'package:template/cubit/imei%20cubit/imei_cubit.dart';
 import 'package:template/cubit/material%20cubit/material_cubit.dart';
 import 'package:template/views/home_view.dart';
 import 'package:video_player/video_player.dart';
 
-class SplashVideoScreen extends StatefulWidget {
+class SplashView extends StatefulWidget {
   static const id = 'SplashVideoScreen';
 
-  const SplashVideoScreen({super.key});
+  const SplashView({super.key});
 
   @override
-  _SplashVideoScreenState createState() => _SplashVideoScreenState();
+  SplashViewState createState() => SplashViewState();
 }
 
-class _SplashVideoScreenState extends State<SplashVideoScreen> {
-  late VideoPlayerController? _controller;
+class SplashViewState extends State<SplashView> {
+  VideoPlayerController? _controller;
   bool _isMobile = false;
+  bool _navigated = false;
+  late VoidCallback _videoListener;
 
   @override
   void initState() {
@@ -31,6 +34,9 @@ class _SplashVideoScreenState extends State<SplashVideoScreen> {
       context.read<CategoryCubit>().fetchCategory();
       context.read<AccountsCubit>().fetchAccounts();
       context.read<BillCubit>().fetchBills();
+      context.read<ImeiCubit>().getDevices(
+        comId: context.read<CompanyCubit>().comp.comId,
+      );
     });
 
     _isMobile = Platform.isAndroid || Platform.isIOS;
@@ -41,11 +47,9 @@ class _SplashVideoScreenState extends State<SplashVideoScreen> {
       );
       _initializeVideo();
     } else {
-      _controller = null;
-      Future.delayed(const Duration(seconds: 1), () {
-        if (mounted) {
-          Navigator.pushReplacementNamed(context, HomeView.id);
-        }
+      Future.delayed(const Duration(milliseconds: 1500), () {
+        if (!mounted) return;
+        Navigator.pushReplacementNamed(context, HomeView.id);
       });
     }
   }
@@ -55,17 +59,22 @@ class _SplashVideoScreenState extends State<SplashVideoScreen> {
     setState(() {});
     _controller!.play();
 
-    _controller!.addListener(() {
-      if (_controller!.value.position >= _controller!.value.duration) {
-        if (mounted) {
-          Navigator.pushReplacementNamed(context, HomeView.id);
-        }
+    _videoListener = () {
+      if (_controller!.value.position >= _controller!.value.duration &&
+          !_navigated) {
+        _navigated = true;
+        _controller!.removeListener(_videoListener);
+        if (!mounted) return;
+        Navigator.pushReplacementNamed(context, HomeView.id);
       }
-    });
+    };
+
+    _controller!.addListener(_videoListener);
   }
 
   @override
   void dispose() {
+    _controller?.removeListener(_videoListener);
     _controller?.dispose();
     super.dispose();
   }
@@ -81,18 +90,11 @@ class _SplashVideoScreenState extends State<SplashVideoScreen> {
       );
     }
 
-    final videoSize = _controller!.value.size;
-    final aspectRatio = videoSize.width / videoSize.height;
-
-    double width = MediaQuery.of(context).size.width;
-    double height = width / aspectRatio;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: SizedBox(
-          width: width,
-          height: height,
+        child: AspectRatio(
+          aspectRatio: _controller!.value.aspectRatio,
           child: VideoPlayer(_controller!),
         ),
       ),

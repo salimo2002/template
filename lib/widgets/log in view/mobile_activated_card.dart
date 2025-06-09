@@ -7,10 +7,11 @@ class MobileActivatedCard extends StatelessWidget {
   const MobileActivatedCard({
     super.key,
     required this.comName,
-    required this.imei,
+    required this.imei, required this.onPressed,
   });
   final String comName;
   final String imei;
+  final VoidCallback onPressed;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,7 +22,7 @@ class MobileActivatedCard extends StatelessWidget {
       ),
       child: ListTile(
         trailing: IconButton(
-          onPressed: () {},
+          onPressed: onPressed,
           icon: Icon(Icons.delete, color: kRed),
         ),
         leading: Icon(Icons.mobile_friendly),

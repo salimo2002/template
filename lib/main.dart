@@ -6,6 +6,7 @@ import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/category%20cubit/category_cubit.dart';
 import 'package:template/cubit/company%20cubit/company_cubit.dart';
 import 'package:template/cubit/debit%20cubit/debit_cubit.dart';
+import 'package:template/cubit/imei%20cubit/imei_cubit.dart';
 import 'package:template/cubit/material%20cubit/material_cubit.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/views/account_statement_view.dart';
@@ -44,17 +45,18 @@ void main(List<String> args) {
 
 class Template extends StatelessWidget {
   const Template({super.key});
-
   @override
   Widget build(BuildContext context) {
+    insertImei();
     return MultiBlocProvider(
       providers: [
+        BlocProvider<CompanyCubit>(create: (context) => CompanyCubit()),
+        BlocProvider<ImeiCubit>(create: (context) => ImeiCubit()),
         BlocProvider<MaterialCubit>(create: (context) => MaterialCubit()),
         BlocProvider<CategoryCubit>(create: (context) => CategoryCubit()),
         BlocProvider<AccountsCubit>(create: (context) => AccountsCubit()),
         BlocProvider<BillCubit>(create: (context) => BillCubit()),
         BlocProvider<DebitCubit>(create: (context) => DebitCubit()),
-        BlocProvider(create: (context) => CompanyCubit()),
       ],
 
       child: MaterialApp(
@@ -81,7 +83,7 @@ class Template extends StatelessWidget {
           AddAccountAndUpdateView.id: (context) => AddAccountAndUpdateView(),
           CreateASalesInvoiceView.id: (context) => CreateASalesInvoiceView(),
           InvoiceDetailsView.id: (context) => InvoiceDetailsView(),
-          SplashVideoScreen.id: (context) => SplashVideoScreen(),
+          SplashView.id: (context) => SplashView(),
           InvoiceReviewView.id: (context) => InvoiceReviewView(),
           ReviewInvoices.id: (context) => ReviewInvoices(),
           SettingView.id: (context) => SettingView(),
@@ -95,7 +97,6 @@ class Template extends StatelessWidget {
           FundJournalView.id: (context) => FundJournalView(),
           DevicesActivatedView.id: (context) => DevicesActivatedView(),
           MovementOfMatterView.id:(context)=>MovementOfMatterView(),
-          MterialInvoiceView.id: (context)=>MterialInvoiceView()
         },
         initialRoute: LogInView.id,
       ),

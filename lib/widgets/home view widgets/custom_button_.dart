@@ -40,6 +40,7 @@ class CustomButton extends StatelessWidget {
                   icon,
                   width: 35,
                   height: 35,
+                  // ignore: deprecated_member_use
                   color: kBlueAccent,
                 ),
               ),

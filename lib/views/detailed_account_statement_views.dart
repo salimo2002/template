@@ -10,6 +10,7 @@ import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/home_view.dart';
+import 'package:template/views/invoice_review_view.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/table_labels.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/table_values.dart';
 
@@ -24,7 +25,7 @@ class DetailedAccountStatementView extends StatefulWidget {
 
 class _DetailedAccountStatementViewState
     extends State<DetailedAccountStatementView> {
-  TapDownDetails? tapPosition;
+  TapDownDetails? _tapPosition;
   int? accID;
   List<BillDetailsModel> listBillDetails = [];
   List<BillModel> listBill = [];
@@ -158,40 +159,41 @@ class _DetailedAccountStatementViewState
   }
 
   void _storeTapPosition(TapDownDetails details) {
-    tapPosition = details;
+    _tapPosition = details;
   }
 
-  // void _showPopupMenu() {
-  //   if (_tapPosition == null) return;
+  void _showPopupMenu() {
+    if (_tapPosition == null) return;
 
-  //   final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
 
-  //   showMenu(
-  //     context: context,
-  //     position: RelativeRect.fromRect(
-  //       _tapPosition!.globalPosition & const Size(40, 40),
-  //       Offset.zero & overlay.size,
-  //     ),
-  //     items: [
-  //       PopupMenuItem(
-  //         child: const Text('فاتورة'),
-  //         onTap: () {
-  //           Future.delayed(Duration.zero, () {
-  //             Navigator.pushNamed(
-  //               context,
-  //               InvoiceReviewView.id,
-  //               arguments: {
-  //                 'nameAcuont': accountController.text,
-  //                 'billType': 'sell',
-  //                 'title': 'فاتورة....',
-  //               },
-  //             );
-  //           });
-  //         },
-  //       ),
-  //     ],
-  //   );
-  // }
+    showMenu(
+      context: context,
+      position: RelativeRect.fromRect(
+        _tapPosition!.globalPosition & const Size(40, 40),
+        Offset.zero & overlay.size,
+      ),
+      items: [
+        PopupMenuItem(
+          child: const Text('فاتورة'),
+          onTap: () {
+            Future.delayed(Duration.zero, () {
+              if (!mounted) return;
+              Navigator.pushNamed(
+                context,
+                InvoiceReviewView.id,
+                arguments: {
+                  'nameAcuont': accountController.text,
+                  'billType': 'sell',
+                  'title': 'فاتورة....',
+                },
+              );
+            });
+          },
+        ),
+      ],
+    );
+  }
 
   TableRow buildDataRow({
     required Color rowColor,
@@ -207,14 +209,15 @@ class _DetailedAccountStatementViewState
       children: List.generate(6, (index) {
         final values = [
           total,
-          amount,
           individualPrice,
+          amount,
           statement,
           date,
           balance,
         ];
         return GestureDetector(
           onTapDown: _storeTapPosition,
+          onTap: _showPopupMenu,
           behavior: HitTestBehavior.translucent,
           child: TableValues(value: values[index]),
         );

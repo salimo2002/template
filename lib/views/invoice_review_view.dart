@@ -72,10 +72,12 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                   return ListView.builder(
                     itemCount: filteredBills.length,
                     itemBuilder: (context, index) {
+
                       final currentBill = filteredBills[index];
                       final billAmount =
                           (currentBill.bilNet ?? 0) -
                           (currentBill.bilPayment ?? 0);
+
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
@@ -163,6 +165,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
         Offset.zero & overlay.size,
       ),
       items: [
+
         CheckedPopupMenuItem(
           child: const Center(child: Text('تعديل')),
           onTap: () {

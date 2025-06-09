@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:template/utils/device_type.dart';
 
 const kBlack = Colors.black;
 const kBlacCustomk = Color.fromARGB(130, 0, 0, 0);
@@ -21,4 +22,9 @@ BoxShadow bosShadow() {
     blurRadius: 3,
     color: Colors.grey,
   );
+}
+
+late String imei;
+void insertImei() async {
+  imei = (await DeviceType.getDeviceImei())!;
 }
