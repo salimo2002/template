@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import '../models/bill_model.dart';
 import '../models/bill_details_model.dart';
@@ -60,11 +61,16 @@ class BillServices {
   }) async {
     final url = Uri.parse(_urlAddBill);
 
-    final body =
-        bill.toMap()
-          ..['details'] = jsonEncode(details.map((e) => e.toMap()).toList());
+    final body = {
+      ...bill.toMap(),
+      'details': jsonEncode(details.map((e) => e.toMap()).toList()),
+      'database_name': 'itechsy_test',
+    };
 
     final response = await http.post(url, body: body);
+    print(response.body); // بعد await http.post(...)
+
+    log(jsonEncode(body)); // للتأكد من البيانات قبل الإرسال
 
     if (response.statusCode != 200) {
       throw Exception('فشل الاتصال عند الإضافة');
@@ -97,33 +103,19 @@ class BillServices {
   static Future<Map<String, dynamic>> updateBillWithDetails({
     required BillModel bill,
     required List<BillDetailsModel> details,
-    required String databaseName,
   }) async {
     final url = Uri.parse(_urlUpdateBill);
 
-    // تحويل التفاصيل إلى قائمة JSON
-    List<Map<String, dynamic>> detailsList =
-        details.map((e) => e.toJson()).toList();
-
     // إعداد البيانات
     final body = {
-      'database_name': databaseName,
-      'bil_id': bill.bilId.toString(),
-      'acc_id': bill.accId.toString(),
-      'bil_number': bill.bilNumber,
-      'bil_total': bill.bilTotal.toString(),
-      'bil_discount': bill.bilDiscount.toString(),
-      'bil_extra': bill.bilExtra.toString(),
-      'bil_kind': bill.bilKind,
-      'bil_payment': bill.bilPayment.toString(),
-      'BIL_DATE':bill.bilDate,
-      'BIL_NOTE':bill.bilNote,
-      'details': jsonEncode(detailsList),
+      ...bill.toMap(), // استخدام الموديل مباشرة
+      'details': jsonEncode(details.map((e) => e.toMap()).toList()),
     };
 
     try {
       final response = await http.post(url, body: body);
       final json = jsonDecode(response.body);
+      log(response.body); // ✅ أضف هذا السطر لرؤية الرد القادم من PHP
 
       if (response.statusCode == 200 && json['success'] == true) {
         return {'success': true, 'bil_id': json['bil_id']};
@@ -135,6 +127,7 @@ class BillServices {
         };
       }
     } catch (e) {
+      log(e.toString());
       return {'success': false, 'error': 'Exception', 'message': e.toString()};
     }
   }

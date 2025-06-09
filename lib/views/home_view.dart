@@ -54,7 +54,7 @@ class _HomeViewState extends State<HomeView> {
         backgroundColor: kBlueAccent,
         actions: [
           IconButton(
-            onPressed: ()async {
+            onPressed: () async {
               //  var s = await DeviceType.getDeviceImei();
               // log(s ?? 'non');
               // final DebitModel debit = DebitModel(

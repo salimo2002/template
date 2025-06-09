@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; 
+import 'package:flutter/services.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
@@ -10,7 +10,8 @@ class EditableDataColumn extends StatelessWidget {
     required this.text,
     required this.conttroller,
     this.onChanged,
-    this.isNumericOnly = false, required this.focusNode,
+    this.isNumericOnly = false,
+    required this.focusNode,
   });
   final FocusNode focusNode;
   final String text;
@@ -64,11 +65,7 @@ class EditableDataColumn extends StatelessWidget {
             onChanged: onChanged,
             inputFormatters:
                 isNumericOnly
-                    ? [
-                      FilteringTextInputFormatter.allow(
-                        RegExp(r'^\d*\.?\d{0,4}'),
-                      ),
-                    ]
+                    ? [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))]
                     : [],
           ),
         ),

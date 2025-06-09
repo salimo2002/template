@@ -35,9 +35,10 @@ class _SplashVideoScreenState extends State<SplashVideoScreen> {
 
     _isMobile = Platform.isAndroid || Platform.isIOS;
 
-
     if (_isMobile) {
-      _controller = VideoPlayerController.asset('assets/videos/splash_intro_1.mp4');
+      _controller = VideoPlayerController.asset(
+        'assets/videos/splash_intro_1.mp4',
+      );
       _initializeVideo();
     } else {
       _controller = null;
@@ -71,7 +72,9 @@ class _SplashVideoScreenState extends State<SplashVideoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_isMobile || _controller == null || !_controller!.value.isInitialized) {
+    if (!_isMobile ||
+        _controller == null ||
+        !_controller!.value.isInitialized) {
       return const Scaffold(
         backgroundColor: Colors.white,
         body: Center(child: CircularProgressIndicator()),
