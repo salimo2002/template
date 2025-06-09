@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:template/cubit/company%20cubit/company_cubit.dart';
 import 'package:template/utils/constants.dart';
-import 'package:template/utils/device_type.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/home%20view%20widgets/accounts.dart';
@@ -62,7 +61,7 @@ class _HomeViewState extends State<HomeView> {
         backgroundColor: kBlueAccent,
         actions: [
           IconButton(
-            onPressed: ()async {
+            onPressed: () async {
               //  var s = await DeviceType.getDeviceImei();
               // log(s ?? 'non');
               // final DebitModel debit = DebitModel(
