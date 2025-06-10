@@ -153,7 +153,8 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
                 ),
               ),
               Spacer(),
-              FittedBox(
+              Flexible(
+                flex: 3,
                 child: Text(
                   widget.material.materialName,
                   style: FontStyleApp.black18.copyWith(
