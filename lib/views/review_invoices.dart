@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -24,11 +26,13 @@ class ReviewInvoices extends StatefulWidget {
 }
 
 class _ReviewInvoicesState extends State<ReviewInvoices> {
+  DateTime? picked;
   final FocusNode _focusNode2 = FocusNode();
   final TextEditingController accountController = TextEditingController();
 
   List<AccountModel> searchResults = [];
   bool isSearching = false;
+  late int accId;
   GlobalKey<FormState> globalKey = GlobalKey();
 
   String? selectedBillType;
@@ -170,6 +174,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                                           setState(() {
                                             accountController.text =
                                                 account.accName;
+                                            accId = account.accID!;
                                             isSearching = false;
                                             searchResults = [];
                                             FocusScope.of(context).unfocus();
@@ -217,7 +222,11 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                             ),
                           ],
                         ),
-                        const FilterInvoiceReview(),
+                        FilterInvoiceReview(
+                          onTap: () {
+                            selectDate(context);
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -247,6 +256,19 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
           ),
         ),
       ),
+    );
+  }
+
+  String formatDate(DateTime date) {
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+  }
+
+  Future<void> selectDate(BuildContext context) async {
+    picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2026),
     );
   }
 
@@ -284,7 +306,9 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
               )['label'] ??
               '',
           'billType': selectedBillType ?? '',
-          'nameAcuont': accountController.text,
+          'nameAcuont': accId,
+          'dateTime':
+              '${picked!.year}-${picked!.month.toString().padLeft(2, '0')}-${picked!.day.toString().padLeft(2, '0')}',
         },
       );
     }

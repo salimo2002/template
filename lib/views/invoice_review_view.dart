@@ -24,16 +24,17 @@ class InvoiceReviewView extends StatefulWidget {
 }
 
 class _InvoiceReviewViewState extends State<InvoiceReviewView> {
-  late String nameAcuont;
+  late int nameAcuont;
   late String billType;
   late Map mapModalRoute;
-
+  late String date;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     mapModalRoute = ModalRoute.of(context)!.settings.arguments as Map;
-    nameAcuont = mapModalRoute['nameAcuont'] ?? '';
+    nameAcuont = mapModalRoute['nameAcuont'] ?? 0;
     billType = mapModalRoute['billType'] ?? '';
+    date = mapModalRoute['dateTime'] ?? '';
   }
 
   @override
@@ -55,7 +56,10 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                   List<BillModel> filteredBills =
                       context.read<BillCubit>().bill.where((bill) {
                         return bill.bilKind == billType &&
-                            RadioMenuButtons.payType == bill.payType;
+                            RadioMenuButtons.payType == bill.payType &&
+                            bill.accId == nameAcuont &&
+                            '${bill.bilDate!.year}-${bill.bilDate!.month}-${bill.bilDate!.day}' ==
+                                date;
                       }).toList();
 
                   if (filteredBills.isEmpty) {
@@ -72,12 +76,10 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                   return ListView.builder(
                     itemCount: filteredBills.length,
                     itemBuilder: (context, index) {
-
                       final currentBill = filteredBills[index];
                       final billAmount =
                           (currentBill.bilNet ?? 0) -
                           (currentBill.bilPayment ?? 0);
-
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
@@ -165,7 +167,6 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
         Offset.zero & overlay.size,
       ),
       items: [
-
         CheckedPopupMenuItem(
           child: const Center(child: Text('تعديل')),
           onTap: () {
