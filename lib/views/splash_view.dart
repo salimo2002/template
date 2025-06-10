@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,35 +34,38 @@ class SplashViewState extends State<SplashView> {
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<MaterialCubit>().fetchMaterials().then((_) {
-        _materialsLoaded = true;
-        checkAndNavigate();
-      });
-
-      context.read<CategoryCubit>().fetchCategory().then((_) {
-        _categoriesLoaded = true;
-        checkAndNavigate();
-      });
-
-      context.read<AccountsCubit>().fetchAccounts().then((_) {
-        _accountsLoaded = true;
-        checkAndNavigate();
-      });
-
-      context.read<BillCubit>().fetchBills().then((_) {
-        _billsLoaded = true;
-        checkAndNavigate();
-      });
-      context
-          .read<ImeiCubit>()
-          .getDevices(comId: context.read<CompanyCubit>().comp.comId)
-          .then((_) {
-            _devicesLoaded = true;
-            checkAndNavigate();
-          });
+    context.read<MaterialCubit>().fetchMaterials().then((_) {
+      _materialsLoaded = true;
+      log('✅ المواد تم تحميلها');
+      checkAndNavigate();
     });
+
+    context.read<CategoryCubit>().fetchCategory().then((_) {
+      _categoriesLoaded = true;
+      log('✅ التصنيفات تم تحميلها');
+      checkAndNavigate();
+    });
+
+    context.read<AccountsCubit>().fetchAccounts().then((_) {
+      _accountsLoaded = true;
+      log('✅ الحسابات تم تحميلها');
+      checkAndNavigate();
+    });
+
+    context.read<BillCubit>().fetchBills().then((_) {
+      _billsLoaded = true;
+      log('✅ الفواتير تم تحميلها');
+      checkAndNavigate();
+    });
+
+    context
+        .read<ImeiCubit>()
+        .getDevices(comId: context.read<CompanyCubit>().comp.comId)
+        .then((_) {
+          _devicesLoaded = true;
+          log('✅ الأجهزة تم تحميلها');
+          checkAndNavigate();
+        });
 
     _isMobile = Platform.isAndroid || Platform.isIOS;
 
