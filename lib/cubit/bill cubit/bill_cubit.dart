@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/Service/bill_service.dart';
 import 'package:template/cubit/bill%20cubit/bill_status.dart';
@@ -10,22 +12,28 @@ class BillCubit extends Cubit<BillStatus> {
   List<dynamic> resultBillDetails = [];
   List<BillModel> bill = [];
   List<BillDetailsModel> billDetails = [];
-  Future<void> fetchBills({bool isRefresh = false}) async {
-    if (!isRefresh) {
-      emit(LoadingStateBill());
-    }
+  Future<void> fetchBills({
+    bool isRefresh = false,
+    bool includeDetails = true,
+  }) async {
+    if (!isRefresh) emit(LoadingStateBill());
+
     try {
       bill = [];
       billDetails = [];
       resultBill = await BillServices.fetchBillss();
-      resultBillDetails = await BillServices.fetchBillDetails();
-     
+
       for (var element in resultBill) {
         bill.add(BillModel.fromJson(element));
       }
-      for (var element in resultBillDetails) {
-        billDetails.add(BillDetailsModel.fromJson(element));
+
+      if (includeDetails) {
+        resultBillDetails = await BillServices.fetchBillDetails();
+        for (var element in resultBillDetails) {
+          billDetails.add(BillDetailsModel.fromJson(element));
+        }
       }
+
       emit(SuccessStateBill(bill: bill));
     } catch (e) {
       emit(FaliureStateBill(errorMessage: e.toString()));
@@ -42,12 +50,41 @@ class BillCubit extends Cubit<BillStatus> {
     }
   }
 
-  Future<void> insertBill(BillModel bill, List<BillDetailsModel> billDetails) async {
+  Future<void> insertBill(
+    BillModel bill,
+    List<BillDetailsModel> billDetails,
+  ) async {
     try {
       emit(LoadingStateBill());
       await BillServices.addBillWithDetails(bill: bill, details: billDetails);
       fetchBills(isRefresh: true);
     } catch (e) {
+      log(e.toString());
+      emit(FaliureStateBill(errorMessage: e.toString()));
+    }
+  }
+
+  Future<void> updateBill(
+    BillModel bill,
+    List<BillDetailsModel> billDetails,
+  ) async {
+    try {
+      emit(LoadingStateBill());
+      final result = await BillServices.updateBillWithDetails(
+        bill: bill,
+        details: billDetails,
+      );
+      if (result['success'] == true) {
+        await fetchBills(isRefresh: true);
+      } else {
+        emit(
+          FaliureStateBill(
+            errorMessage: result['message'] ?? 'فشل في تعديل الفاتورة',
+          ),
+        );
+      }
+    } catch (e) {
+      log('خطأ في updateBill: $e');
       emit(FaliureStateBill(errorMessage: e.toString()));
     }
   }

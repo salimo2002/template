@@ -13,6 +13,7 @@ class CustomTextField extends StatelessWidget {
     this.prefixIcon,
     this.onChanged,
     required this.focusNode,
+    this.textDirection,
   });
   final String hintText;
   final TextEditingController controller;
@@ -23,19 +24,19 @@ class CustomTextField extends StatelessWidget {
   final bool? canRead;
   final void Function(String)? onChanged;
   final FocusNode focusNode;
+  final TextDirection? textDirection;
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: textDirection ?? TextDirection.rtl,
       child: TextFormField(
         focusNode: focusNode,
         onChanged: onChanged,
-
         readOnly: (canRead == null || canRead == false) ? false : true,
         validator: validator,
         keyboardType: keyType,
         controller: controller,
-        textDirection: TextDirection.rtl,
+        textDirection: textDirection ?? TextDirection.rtl,
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,

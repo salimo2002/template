@@ -28,7 +28,15 @@ class _LogInViewState extends State<LogInView> {
     companyName = TextEditingController();
     activateKey = TextEditingController();
     globalKey = GlobalKey();
+    insertImei();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    companyName.dispose();
+    activateKey.dispose();
+    super.dispose();
   }
 
   @override
@@ -65,8 +73,9 @@ class _LogInViewState extends State<LogInView> {
                       },
                       hintText: 'اسم الشركة',
                       controller: companyName,
+                      textDirection: TextDirection.ltr,
                       focusNode: FocusNode(),
-                      prefixIcon: Icon(
+                      suffixIcon: Icon(
                         FontAwesomeIcons.house,
                         color: kBlueAccent,
                       ),
@@ -81,8 +90,9 @@ class _LogInViewState extends State<LogInView> {
                       },
                       hintText: 'مفتاح التفعيل',
                       controller: activateKey,
+                      textDirection: TextDirection.ltr,
                       focusNode: FocusNode(),
-                      prefixIcon: Icon(
+                      suffixIcon: Icon(
                         FontAwesomeIcons.key,
                         color: kBlueAccent,
                       ),
@@ -91,13 +101,9 @@ class _LogInViewState extends State<LogInView> {
                     BlocConsumer<CompanyCubit, CompanyStatus>(
                       listener: (context, state) {
                         if (state is CompanySuccesState) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            customSnackBar(context, state.message, kBlueAccent),
-                          );
-                          Navigator.pushNamedAndRemoveUntil(
+                          Navigator.pushReplacementNamed(
                             context,
-                            SplashVideoScreen.id,
-                            (route) => false,
+                            SplashView.id,
                           );
                         }
                         if (state is CompanyFaliureState) {
@@ -107,32 +113,25 @@ class _LogInViewState extends State<LogInView> {
                         }
                       },
                       builder: (context, state) {
-                        if (state is CompanyInitState) {
+                        if (state is CompanyLoadingState) {
+                          return CircularProgressIndicator(color: kBlueAccent);
+                        } else {
                           return MainButton(
                             onTap: () {
                               if (globalKey.currentState!.validate()) {
-                                context.read<CompanyCubit>().checkCompany(
-                                  comName: companyName.text,
-                                  comSerial: activateKey.text,
-                                );
+                                context
+                                    .read<CompanyCubit>()
+                                    .verifyAndActivateDevice(
+                                      companyName: companyName.text,
+                                      serialKey: activateKey.text,
+                                      imei: imei,
+                                    );
+                                FocusScope.of(context).unfocus();
                               }
                             },
                             label: 'تفعيل',
                             color: kBlueAccent,
                           );
-                        } else if (state is CompanyFaliureState) {
-                          return MainButton(
-                            onTap: () {
-                              context.read<CompanyCubit>().checkCompany(
-                                comName: companyName.text,
-                                comSerial: activateKey.text,
-                              );
-                            },
-                            label: 'تفعيل',
-                            color: kBlueAccent,
-                          );
-                        } else {
-                          return CircularProgressIndicator(color: kBlueAccent);
                         }
                       },
                     ),

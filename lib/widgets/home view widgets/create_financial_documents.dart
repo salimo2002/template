@@ -26,7 +26,11 @@ class CreateFinancialDocuments extends StatelessWidget {
                     Navigator.pushNamed(
                       context,
                       CreateASalesInvoiceView.id,
-                      arguments: BillType.undoBuy,
+                      arguments: {
+                        'BillType': BillType.undoBuy,
+                        'bill': null,
+                        'isNew': true,
+                      },
                     );
                   },
                 ),
@@ -38,7 +42,11 @@ class CreateFinancialDocuments extends StatelessWidget {
                     Navigator.pushNamed(
                       context,
                       CreateASalesInvoiceView.id,
-                      arguments: BillType.sales,
+                      arguments: {
+                        'BillType': BillType.sales,
+                        'bill': null,
+                        'isNew': true,
+                      },
                     );
                   },
                 ),
@@ -49,7 +57,11 @@ class CreateFinancialDocuments extends StatelessWidget {
                     Navigator.pushNamed(
                       context,
                       CreateASalesInvoiceView.id,
-                      arguments: BillType.buy,
+                      arguments: {
+                        'BillType': BillType.buy,
+                        'bill': null,
+                        'isNew': true,
+                      },
                     );
                   },
                 ),
@@ -67,7 +79,11 @@ class CreateFinancialDocuments extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     CreateASalesInvoiceView.id,
-                    arguments: BillType.order,
+                    arguments: {
+                      'BillType': BillType.order,
+                      'bill': null,
+                      'isNew': true,
+                    },
                   );
                 },
               ),
@@ -78,7 +94,11 @@ class CreateFinancialDocuments extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     CreateASalesInvoiceView.id,
-                    arguments: BillType.undoSell,
+                    arguments: {
+                      'BillType': BillType.undoSell,
+                      'bill': null,
+                      'isNew': true,
+                    },
                   );
                 },
               ),

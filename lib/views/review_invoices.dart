@@ -24,14 +24,21 @@ class ReviewInvoices extends StatefulWidget {
 }
 
 class _ReviewInvoicesState extends State<ReviewInvoices> {
-  final FocusNode _focusNode = FocusNode();
   final FocusNode _focusNode2 = FocusNode();
-  final TextEditingController invoiceController = TextEditingController();
   final TextEditingController accountController = TextEditingController();
+
   List<AccountModel> searchResults = [];
   bool isSearching = false;
   GlobalKey<FormState> globalKey = GlobalKey();
-  String billType = '';
+
+  String? selectedBillType;
+
+  final List<Map<String, String>> billTypes = [
+    {'label': 'فواتير المشتريات', 'value': 'buy'},
+    {'label': 'فواتير المبيعات', 'value': 'sell'},
+    {'label': 'فواتير مردود المشتريات', 'value': 'undo_buy'},
+    {'label': 'فواتير مردود المبيعات', 'value': 'undo_sell'},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -52,55 +59,92 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      spacing: 15,
                       children: [
                         ContainerFields(
                           children: [
-                            CustomTextField(
-                              canRead: true,
-                              suffixIcon: InkWell(
-                                onTapDown: showUnits,
-                                child: Icon(
-                                  Icons.arrow_drop_down,
-                                  color: kBlueAccent,
-                                  size: 30,
+                            Directionality(
+                              textDirection:
+                                  TextDirection
+                                      .rtl, // لجعل النص واللائحة من اليمين
+                              child: DropdownButtonFormField<String>(
+                                decoration: InputDecoration(
+                                  labelText: 'نوع الفاتورة',
+                                  labelStyle: TextStyle(color: kBlueAccent),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                      color: kBlueAccent,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                      color: kBlueAccent,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 2,
+                                    horizontal: 2,
+                                  ),
                                 ),
+                                value: selectedBillType,
+                                items:
+                                    billTypes.map((type) {
+                                      return DropdownMenuItem<String>(
+                                        value: type['value'],
+                                        child: Text(type['label']!),
+                                      );
+                                    }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedBillType = value;
+                                  });
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'اختر نوع الفاتورة';
+                                  }
+                                  return null;
+                                },
+                                iconEnabledColor:
+                                    kBlueAccent, // لون سهم القائمة المنسدلة
+                                dropdownColor:
+                                    Colors.white, // لون خلفية القائمة
                               ),
-                              hintText: 'نوع الفاتورة',
-                              controller: invoiceController,
-                              focusNode: _focusNode,
-                              validator: (p0) {
-                                if (p0 == ' ' || p0 == null || p0 == '') {
-                                  return 'ادخل نوع الفاتورة';
-                                }
-                                return null;
-                              },
                             ),
+
+                            const SizedBox(height: 15),
+
                             CustomTextField(
                               onChanged: searchAccount,
                               suffixIcon: InkWell(
                                 onTapDown: (details) {},
-
-                                child: Icon(
+                                child: const Icon(
                                   Icons.more_vert,
                                   color: kBlueAccent,
                                   size: 25,
                                 ),
                               ),
-
                               hintText: 'الحساب المتربط',
                               controller: accountController,
                               focusNode: _focusNode2,
                             ),
+
                             if (isSearching)
                               Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: Container(
+                                  constraints: const BoxConstraints(
+                                    maxHeight: 250,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(10),
                                     boxShadow: [
                                       BoxShadow(
+                                        // ignore: deprecated_member_use
                                         color: Colors.grey.withOpacity(0.5),
                                         spreadRadius: 1,
                                         blurRadius: 3,
@@ -114,15 +158,21 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                                     itemBuilder: (context, index) {
                                       final account = searchResults[index];
                                       return ListTile(
-                                        title: Text(account.accName),
+                                        title: Text(
+                                          account.accName,
+                                          textAlign: TextAlign.right,
+                                        ),
                                         subtitle: Text(
                                           account.accKind.toString(),
+                                          textAlign: TextAlign.right,
                                         ),
                                         onTap: () {
                                           setState(() {
                                             accountController.text =
                                                 account.accName;
                                             isSearching = false;
+                                            searchResults = [];
+                                            FocusScope.of(context).unfocus();
                                           });
                                         },
                                       );
@@ -167,12 +217,11 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                             ),
                           ],
                         ),
-                        FilterInvoiceReview(),
+                        const FilterInvoiceReview(),
                       ],
                     ),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(bottom: 30),
                   child: Row(
@@ -201,50 +250,8 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
     );
   }
 
-  void showUnits(TapDownDetails details) {
-    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-    showMenu(
-      menuPadding: EdgeInsets.zero,
-      context: context,
-      position: RelativeRect.fromRect(
-        details.globalPosition & const Size(60, 60),
-        Offset.zero & overlay.size,
-      ),
-      items: [
-        CheckedPopupMenuItem(
-          child: Center(child: Text('فواتير المشتريات')),
-          onTap: () {
-            invoiceController.text = 'فواتير المشتريات';
-            billType = 'buy';
-          },
-        ),
-        CheckedPopupMenuItem(
-          child: Center(child: Text('فواتير المبيعات')),
-          onTap: () {
-            invoiceController.text = 'فواتير المبيعات';
-            billType = 'sell';
-          },
-        ),
-        CheckedPopupMenuItem(
-          child: Center(child: Text('فواتير مردود المشتريات')),
-          onTap: () {
-            invoiceController.text = 'فواتير مردود المشتريات';
-            billType = 'undo_buy';
-          },
-        ),
-        CheckedPopupMenuItem(
-          child: Center(child: Text('فواتير مردود المبيعات')),
-          onTap: () {
-            invoiceController.text = 'فواتير مردود المبيعات';
-            billType = 'undo_sell';
-          },
-        ),
-      ],
-    );
-  }
-
   void searchAccount(String query) {
-    if (query.isEmpty) {
+    if (query.trim().isEmpty) {
       setState(() {
         searchResults = [];
         isSearching = false;
@@ -252,11 +259,8 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
       return;
     }
 
-    setState(() {
-      isSearching = true;
-    });
-
     final accounts = context.read<AccountsCubit>().accounts;
+
     final results =
         accounts.where((account) {
           return account.accName.toLowerCase().contains(query.toLowerCase());
@@ -264,6 +268,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
 
     setState(() {
       searchResults = results;
+      isSearching = results.isNotEmpty;
     });
   }
 
@@ -273,8 +278,12 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
         context,
         InvoiceReviewView.id,
         arguments: {
-          'title': invoiceController.text,
-          'billType': billType,
+          'title':
+              billTypes.firstWhere(
+                (element) => element['value'] == selectedBillType,
+              )['label'] ??
+              '',
+          'billType': selectedBillType ?? '',
           'nameAcuont': accountController.text,
         },
       );

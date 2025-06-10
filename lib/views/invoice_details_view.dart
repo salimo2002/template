@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -51,7 +52,23 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
   bool isSearching = false;
   int accIdd = 0;
   List<BillDetailsModel> bills = [];
+  BillModel billData = BillModel(
+    bilId: 0,
+    accId: 0,
+    bilNumber: 'bilNumber',
+    bilTotal: 0,
+    bilDiscount: 0,
+    bilExtra: 0,
+    bilDate: DateTime.now(),
+    bilKind: '',
+    bilNet: 0,
+    bilNote: '',
+    bilPayment: 0,
+    payType: 1,
+  );
   late String billType;
+  late bool isNew;
+
   @override
   void initState() {
     super.initState();
@@ -68,16 +85,45 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
 
   @override
   void didChangeDependencies() {
+    super.didChangeDependencies();
     discount.text = '0';
     amountRecived.text = '0';
-    Map<String, dynamic> billList =
+
+    final Map<String, dynamic> billList =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
     bills = billList['bill'];
     countInvois.text = billList['total'];
     billType = billList['billType'];
+    isNew = billList['isNew'];
+    if (!isNew) {
+      billData = billList['billModel'];
+    }
 
+    if (!isNew) {
+      billType = billData.bilKind.toString();
+      final accounts = context.read<AccountsCubit>().accounts;
+      final account = accounts.firstWhere(
+        (acc) => acc.accID == billData.accId,
+        orElse:
+            () => AccountModel(
+              accName: '',
+              accKind: 0,
+              accNumber: 0,
+              accRefrence: 0,
+              parentId: 0,
+            ),
+      );
+      nameAccount.text = account.accName;
+      discount.text = billData.bilDiscount.toString();
+      amountRecived.text = billData.bilPayment.toString();
+      totalInvois.text = billData.bilTotal.toString();
+      remainingAmound.text = billData.bilNet.toString();
+      date.text = billData.bilDate.toString().split(' ')[0];
+      hour.text = billData.bilDate.toString().split(' ')[1].substring(0, 5);
+      note.text = billData.bilNote ?? '';
+    }
     calculateTotals();
-    super.didChangeDependencies();
   }
 
   void calculateTotals() {
@@ -96,7 +142,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
     return Scaffold(
       appBar: customAppBar(
         context: context,
-        title: 'فاتورة مبيعات جديدة',
+        title: isNew ? 'فاتورة مبيعات جديدة' : 'تعديل فاتورة',
         showIcons: false,
       ),
       body: SafeArea(
@@ -131,11 +177,13 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Container(
+                            constraints: const BoxConstraints(maxHeight: 250),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: [
                                 BoxShadow(
+                                  // ignore: deprecated_member_use
                                   color: Colors.grey.withOpacity(0.5),
                                   spreadRadius: 1,
                                   blurRadius: 3,
@@ -149,12 +197,20 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                               itemBuilder: (context, index) {
                                 final account = searchResults[index];
                                 return ListTile(
-                                  title: Text(account.accName),
-                                  subtitle: Text(account.accKind.toString()),
+                                  title: Text(
+                                    account.accName,
+                                    textAlign: TextAlign.right,
+                                  ),
+                                  subtitle: Text(
+                                    account.accKind.toString(),
+                                    textAlign: TextAlign.right,
+                                  ),
                                   onTap: () {
                                     setState(() {
                                       nameAccount.text = account.accName;
                                       isSearching = false;
+                                      searchResults = [];
+                                      FocusScope.of(context).unfocus();
                                     });
                                   },
                                 );
@@ -243,7 +299,6 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                         hintText: 'المبلغ المقبوض',
                         controller: amountRecived,
                       ),
-
                       TextFieldAndDetails(
                         focusNode: sssss,
                         keyType: TextInputType.number,
@@ -269,7 +324,6 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                         hoursOrYear: false,
                         label: 'الوقت',
                       ),
-
                       CommentsTextField(
                         width: MediaQuery.sizeOf(context).width * 0.75,
                         focusNode: _sssssss,
@@ -303,7 +357,9 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           customSnackBar(
                             context,
-                            'تم اضافة الفاتورة بنجاح',
+                            isNew
+                                ? 'تم اضافة الفاتورة بنجاح'
+                                : 'تم تعديل الفاتورة بنجاح',
                             kBlueAccent,
                           ),
                         );
@@ -316,14 +372,18 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           customSnackBar(
                             context,
-                            'حدث خطأ اثناء اضافة الفاتورة',
+                            'حدث خطأ اثناء العملية',
                             kRed,
                           ),
                         );
                       }
                     },
                     builder: (context, state) {
-                      if (state is SuccessStateBill) {
+                      if (state is LoadingStateBill) {
+                        return Center(
+                          child: CircularProgressIndicator(color: kBlueAccent),
+                        );
+                      } else {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 18),
                           child: Row(
@@ -335,16 +395,13 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                                 },
                                 label: 'الغاء',
                               ),
-                              CustomButtonSave(onTap: insertBill, label: 'حفظ'),
+                              CustomButtonSave(
+                                onTap: insertOrUpdateBill,
+                                label: 'حفظ',
+                              ),
                             ],
                           ),
                         );
-                      } else if (state is LoadingStateBill) {
-                        return Center(
-                          child: CircularProgressIndicator(color: kBlueAccent),
-                        );
-                      } else {
-                        return SizedBox();
                       }
                     },
                   ),
@@ -372,47 +429,99 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
 
     final accounts = context.read<AccountsCubit>().accounts;
     final results =
-        accounts.where((account) {
-          return account.accName.toLowerCase().contains(query.toLowerCase());
-        }).toList();
+        accounts
+            .where(
+              (account) =>
+                  account.accName.toLowerCase().contains(query.toLowerCase()),
+            )
+            .toList();
 
     setState(() {
       searchResults = results;
     });
   }
 
-  void insertBill() {
+  String generateRandomBillNumber() {
+    final random = Random();
+    String number = '';
+    for (int i = 0; i < 6; i++) {
+      number += random.nextInt(10).toString(); // رقم من 0 إلى 9
+    }
+    return number;
+  }
+
+  void insertOrUpdateBill() async {
     if (globalKey.currentState!.validate()) {
       try {
+        accIdd = 0;
         for (var element in context.read<AccountsCubit>().accounts) {
           if (element.accName == nameAccount.text) {
             accIdd = element.accID!;
             break;
           }
         }
-       
-        context.read<BillCubit>().insertBill(
-          BillModel(
-            payType: RadioMenuButtons.payType,
-            bilId: null,
-            accId: accIdd,
-            bilNumber: '10',
-            bilTotal: double.parse(totalInvois.text),
-            bilDiscount: double.parse(discount.text),
-            bilExtra: double.parse('0'),
-            bilKind: billType,
-            bilPayment: double.parse(amountRecived.text),
-            bilNet: double.parse(remainingAmound.text),
-            bilDate: DateTime.parse(
-              '${date.text} ${hour.text.replaceAll(' PM', '').replaceAll(' AM', '')}:00',
-            ),
-            bilNote: note.text,
-          ),
-          bills,
+
+        if (accIdd == 0) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            customSnackBar(context, 'لم يتم العثور على الحساب', kRed),
+          );
+          return;
+        }
+
+        String timeString = hour.text.trim().toUpperCase();
+        final amPmRegex = RegExp(r'(\d{1,2}):(\d{2})\s*(AM|PM)');
+        int hourNum = 0;
+        int minuteNum = 0;
+
+        if (amPmRegex.hasMatch(timeString)) {
+          final match = amPmRegex.firstMatch(timeString)!;
+          hourNum = int.parse(match.group(1)!);
+          minuteNum = int.parse(match.group(2)!);
+          String amPm = match.group(3)!;
+
+          if (amPm == "PM" && hourNum != 12) {
+            hourNum += 12;
+          } else if (amPm == "AM" && hourNum == 12) {
+            hourNum = 0;
+          }
+        } else {
+          final parts = timeString.split(':');
+          hourNum = int.parse(parts[0]);
+          minuteNum = int.parse(parts[1]);
+        }
+        final dateParts = date.text.split('-');
+        if (dateParts.length != 3) {
+          throw FormatException('تنسيق التاريخ غير صحيح');
+        }
+        int year = int.parse(dateParts[0]);
+        int month = int.parse(dateParts[1]);
+        int day = int.parse(dateParts[2]);
+
+        DateTime billDate = DateTime(year, month, day, hourNum, minuteNum);
+
+        final BillModel bill = BillModel(
+          payType: RadioMenuButtons.payType,
+          bilId: isNew ? 0 : billData.bilId,
+          accId: accIdd,
+          bilNumber: isNew ? generateRandomBillNumber() : billData.bilNumber,
+          bilTotal: double.tryParse(totalInvois.text) ?? 0,
+          bilDiscount: double.tryParse(discount.text) ?? 0,
+          bilExtra: 0,
+          bilKind: billType,
+          bilPayment: double.tryParse(amountRecived.text) ?? 0,
+          bilNet: double.tryParse(remainingAmound.text) ?? 0,
+          bilDate: billDate,
+          bilNote: note.text,
         );
+
+        if (isNew) {
+          await context.read<BillCubit>().insertBill(bill, bills);
+        } else {
+          await context.read<BillCubit>().updateBill(bill, bills);
+        }
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          customSnackBar(context, 'لم يتم العثور على الحساب', kRed),
+          customSnackBar(context, 'حدث خطأ: ${e.toString()}', kRed),
         );
       }
     }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +10,7 @@ import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
+import 'package:template/views/create_a_sales_invoice_view.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/widgets/Invoice%20review/bill.dart';
 import 'package:template/widgets/invoice%20details%20view/radio_menu_buttons.dart';
@@ -27,22 +27,13 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
   late String nameAcuont;
   late String billType;
   late Map mapModalRoute;
-  List<BillModel> bill = [];
-  double billAmound = 0;
+
   @override
   void didChangeDependencies() {
-    mapModalRoute = ModalRoute.of(context)!.settings.arguments as Map;
-    bill = [];
-    nameAcuont = mapModalRoute['nameAcuont'];
-    billType = mapModalRoute['billType'];
-    context.read<BillCubit>().bill.forEach((element) {
-      if (element.bilKind == billType &&
-          RadioMenuButtons.payType == element.payType) {
-        bill.add(element);
-      }
-    });
-
     super.didChangeDependencies();
+    mapModalRoute = ModalRoute.of(context)!.settings.arguments as Map;
+    nameAcuont = mapModalRoute['nameAcuont'] ?? '';
+    billType = mapModalRoute['billType'] ?? '';
   }
 
   @override
@@ -50,87 +41,109 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
     return Scaffold(
       appBar: customAppBar(
         context: context,
-        title: mapModalRoute['title'],
+        title: mapModalRoute['title'] ?? 'استعراض الفواتير',
         showIcons: false,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 10),
-          BlocBuilder<BillCubit, BillStatus>(
-            builder: (context, state) {
-              if (state is SuccessStateBill) {
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: bill.length,
+          const SizedBox(height: 10),
+          Expanded(
+            child: BlocBuilder<BillCubit, BillStatus>(
+              builder: (context, state) {
+                if (state is SuccessStateBill) {
+                  List<BillModel> filteredBills =
+                      context.read<BillCubit>().bill.where((bill) {
+                        return bill.bilKind == billType &&
+                            RadioMenuButtons.payType == bill.payType;
+                      }).toList();
+
+                  if (filteredBills.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'لا توجد فواتير لعرضها',
+                        style: FontStyleApp.black18.copyWith(
+                          fontSize: getResponsiveText(context, 18),
+                        ),
+                      ),
+                    );
+                  }
+
+                  return ListView.builder(
+                    itemCount: filteredBills.length,
                     itemBuilder: (context, index) {
-                      log(bill[index].bilNote!);
-                      billAmound =
-                          bill[index].bilNet! - bill[index].bilPayment!;
+
+                      final currentBill = filteredBills[index];
+                      final billAmount =
+                          (currentBill.bilNet ?? 0) -
+                          (currentBill.bilPayment ?? 0);
+
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: GestureDetector(
                           onTapDown: (details) {
-                            showMenuu(details, bill[index].bilId!);
+                            showMenuu(details, currentBill.bilId!, currentBill);
                           },
                           child: Bill(
                             paymentStyle:
-                                bill[index].payType == 0 ? 'نقدي' : 'آجل',
-                            invoiceNumber: bill[index].bilId.toString(),
+                                currentBill.payType == 0 ? 'نقدي' : 'آجل',
+                            invoiceNumber: currentBill.bilId.toString(),
                             billDate:
-                                '${bill[index].bilDate!.year.toString()}-${bill[index].bilDate!.month.toString()}-${bill[index].bilDate!.day.toString()}',
+                                '${currentBill.bilDate!.year}-${currentBill.bilDate!.month}-${currentBill.bilDate!.day}',
                             billTime:
-                                '${bill[index].bilDate!.hour.toString()}:${bill[index].bilDate!.minute.toString()}',
+                                '${currentBill.bilDate!.hour}:${currentBill.bilDate!.minute}',
                             nameAccuont:
                                 context
                                     .read<AccountsCubit>()
                                     .accounts
-                                    .where(
-                                      (element) =>
-                                          element.accID == bill[index].accId,
+                                    .firstWhere(
+                                      (acc) => acc.accID == currentBill.accId,
                                     )
-                                    .first
                                     .accName,
-                            total: bill[index].bilTotal.toString(),
-                            amountPaid: bill[index].bilPayment.toString(),
-                            reminingAmount: billAmound.toString(),
-                            note: decodeToUtf8(bill[index].bilNote!),
+                            total: currentBill.bilTotal.toString(),
+                            amountPaid: currentBill.bilPayment.toString(),
+                            reminingAmount: billAmount.toString(),
+                            note: decodeToUtf8(currentBill.bilNote ?? ''),
                           ),
                         ),
                       );
                     },
-                  ),
-                );
-              } else if (state is LoadingStateBill) {
-                return Center(child: CircularProgressIndicator());
-              } else {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'حدث خطأ حاول مجددا',
-                        style: FontStyleApp.black18.copyWith(
-                          fontSize: getResponsiveText(context, 18),
+                  );
+                } else if (state is LoadingStateBill) {
+                  return const Center(child: CircularProgressIndicator());
+                } else {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'حدث خطأ حاول مجددا',
+                          style: FontStyleApp.black18.copyWith(
+                            fontSize: getResponsiveText(context, 18),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 10),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            HomeView.id,
-                            (route) => false,
-                          );
-                        },
-                        icon: Icon(Icons.refresh, color: kBlueAccent, size: 40),
-                      ),
-                    ],
-                  ),
-                );
-              }
-            },
+                        const SizedBox(height: 10),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              HomeView.id,
+                              (route) => false,
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.refresh,
+                            color: kBlueAccent,
+                            size: 40,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
@@ -142,7 +155,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
     return utf8.decode(latin1Bytes);
   }
 
-  void showMenuu(TapDownDetails details, int id) {
+  void showMenuu(TapDownDetails details, int id, BillModel selectedBill) {
     final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
     showMenu(
       menuPadding: EdgeInsets.zero,
@@ -152,9 +165,25 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
         Offset.zero & overlay.size,
       ),
       items: [
-        CheckedPopupMenuItem(child: Center(child: Text('تعديل')), onTap: () {}),
+
         CheckedPopupMenuItem(
-          child: Center(child: Text('حذف')),
+          child: const Center(child: Text('تعديل')),
+          onTap: () {
+            Future.delayed(Duration.zero, () {
+              Navigator.pushNamed(
+                context,
+                CreateASalesInvoiceView.id,
+                arguments: {
+                  'bill': selectedBill,
+                  'isNew': false,
+                  'BillType': '',
+                },
+              );
+            });
+          },
+        ),
+        CheckedPopupMenuItem(
+          child: const Center(child: Text('حذف')),
           onTap: () {
             context.read<BillCubit>().billDeletById(id: id);
           },

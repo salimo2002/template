@@ -17,8 +17,12 @@ class TreeAccountsView extends StatefulWidget {
 }
 
 class _TreeAccountsViewState extends State<TreeAccountsView> {
-  bool isExpanded = false;
+  Set<int> expandedAccounts = {};
   UniqueKey _expansionKey = UniqueKey();
+  bool isExpanded = false;
+
+  List<AccountModel> allAccounts = [];
+  Map<int, List<AccountModel>> accountChildrenMap = {};
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +39,11 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
             onPressed: () {
               setState(() {
                 isExpanded = !isExpanded;
+                if (isExpanded) {
+                  expandedAccounts = accountChildrenMap.keys.toSet();
+                } else {
+                  expandedAccounts.clear();
+                }
                 _expansionKey = UniqueKey();
               });
             },
@@ -52,15 +61,22 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
         child: BlocBuilder<AccountsCubit, AccountsStatusAccounts>(
           builder: (context, state) {
             if (state is SuccessStateAccounts) {
-              final List<AccountModel> allAccounts = state.accounts;
-              final List<AccountModel> rootAccounts =
-                  allAccounts.where((acc) => acc.parentId == 0).toList();
+              allAccounts = state.accounts;
+
+              accountChildrenMap.clear();
+              for (var account in allAccounts) {
+                accountChildrenMap
+                    .putIfAbsent(account.parentId, () => [])
+                    .add(account);
+              }
+
+              final rootAccounts = accountChildrenMap[0] ?? [];
 
               return ListView.builder(
-                key: _expansionKey, 
+                key: _expansionKey,
                 itemCount: rootAccounts.length,
                 itemBuilder: (context, index) {
-                  return buildTree(context, rootAccounts[index], allAccounts);
+                  return buildTree(context, rootAccounts[index]);
                 },
               );
             } else if (state is FaliureStateAccounts) {
@@ -74,49 +90,79 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
     );
   }
 
-  Widget buildTree(
-    BuildContext context,
-    AccountModel account,
-    List<AccountModel> allAccounts,
-  ) {
-    final children =
-        allAccounts.where((acc) => acc.parentId == account.accID).toList();
+  Widget buildTree(BuildContext context, AccountModel account) {
+    final children = accountChildrenMap[account.accID] ?? [];
+    final isTileExpanded = expandedAccounts.contains(account.accID);
 
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Padding(
-        padding: const EdgeInsets.only(right: 15),
-        child: ExpansionTile(
-          key: ValueKey(account.accID), 
-          initiallyExpanded: isExpanded,
-          iconColor: Colors.transparent,
-          collapsedIconColor: Colors.transparent,
-          title: Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Row(
-              children: [
-                const Icon(Icons.add, color: Colors.black),
-                const SizedBox(width: 10),
-                Container(width: 1, height: 40, color: kBlack),
-                const SizedBox(width: 10),
-                GestureDetector(
-                  onTapDown:
-                      (details) => showPopupMenu(details, context, account),
-                  child: Text(
-                    account.accName,
-                    style: FontStyleApp.black18.copyWith(
-                      fontSize: getResponsiveText(context, 12),
+        padding: EdgeInsets.only(right: children.isEmpty ? 35 : 15),
+        child:
+            children.isEmpty
+                ? ListTile(
+                  title: GestureDetector(
+                    onTapDown:
+                        (details) => showPopupMenu(details, context, account),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 24), // لا أيقونة
+                        Container(width: 1, height: 40, color: kBlack),
+                        const SizedBox(width: 10),
+                        Text(
+                          account.accName,
+                          style: FontStyleApp.black18.copyWith(
+                            fontSize: getResponsiveText(context, 12),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+                )
+                : ExpansionTile(
+                  key: ValueKey(account.accID),
+                  initiallyExpanded: isTileExpanded,
+                  onExpansionChanged: (expanded) {
+                    setState(() {
+                      if (expanded) {
+                        expandedAccounts.add(account.accID!);
+                      } else {
+                        expandedAccounts.remove(account.accID!);
+                      }
+                    });
+                  },
+                  iconColor: Colors.transparent,
+                  collapsedIconColor: Colors.transparent,
+                  title: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Row(
+                      children: [
+                        Icon(
+                          isTileExpanded ? Icons.remove : Icons.add,
+                          color: Colors.black,
+                        ),
+                        const SizedBox(width: 10),
+                        Container(width: 1, height: 40, color: kBlack),
+                        const SizedBox(width: 10),
+                        GestureDetector(
+                          onTapDown:
+                              (details) =>
+                                  showPopupMenu(details, context, account),
+                          child: Text(
+                            account.accName,
+                            style: FontStyleApp.black18.copyWith(
+                              fontSize: getResponsiveText(context, 12),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  children:
+                      children
+                          .map((child) => buildTree(context, child))
+                          .toList(),
                 ),
-              ],
-            ),
-          ),
-          children:
-              children
-                  .map((child) => buildTree(context, child, allAccounts))
-                  .toList(),
-        ),
       ),
     );
   }
@@ -134,7 +180,7 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
         Offset.zero & overlay.size,
       ),
       items: [
-         CheckedPopupMenuItem(
+        CheckedPopupMenuItem(
           child: const Text('إضافة'),
           onTap: () {
             Navigator.pushNamed(
@@ -145,7 +191,6 @@ class _TreeAccountsViewState extends State<TreeAccountsView> {
           },
         ),
         CheckedPopupMenuItem(
-          
           child: const Text('تعديل'),
           onTap: () {
             Navigator.pushNamed(

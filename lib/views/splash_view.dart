@@ -1,66 +1,103 @@
 import 'dart:io' show Platform;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/category%20cubit/category_cubit.dart';
+import 'package:template/cubit/company%20cubit/company_cubit.dart';
+import 'package:template/cubit/imei%20cubit/imei_cubit.dart';
 import 'package:template/cubit/material%20cubit/material_cubit.dart';
 import 'package:template/views/home_view.dart';
 import 'package:video_player/video_player.dart';
 
-class SplashVideoScreen extends StatefulWidget {
+class SplashView extends StatefulWidget {
   static const id = 'SplashVideoScreen';
 
-  const SplashVideoScreen({super.key});
+  const SplashView({super.key});
 
   @override
-  _SplashVideoScreenState createState() => _SplashVideoScreenState();
+  SplashViewState createState() => SplashViewState();
 }
 
-class _SplashVideoScreenState extends State<SplashVideoScreen> {
+class SplashViewState extends State<SplashView> {
   late VideoPlayerController? _controller;
   bool _isMobile = false;
+
+  bool _materialsLoaded = false;
+  bool _categoriesLoaded = false;
+  bool _accountsLoaded = false;
+  bool _billsLoaded = false;
+  bool _videoInitialized = false;
+  bool _devicesLoaded = false;
 
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<MaterialCubit>().fetchMaterials();
-      context.read<CategoryCubit>().fetchCategory();
-      context.read<AccountsCubit>().fetchAccounts();
-      context.read<BillCubit>().fetchBills();
+      context.read<MaterialCubit>().fetchMaterials().then((_) {
+        _materialsLoaded = true;
+        checkAndNavigate();
+      });
+
+      context.read<CategoryCubit>().fetchCategory().then((_) {
+        _categoriesLoaded = true;
+        checkAndNavigate();
+      });
+
+      context.read<AccountsCubit>().fetchAccounts().then((_) {
+        _accountsLoaded = true;
+        checkAndNavigate();
+      });
+
+      context.read<BillCubit>().fetchBills().then((_) {
+        _billsLoaded = true;
+        checkAndNavigate();
+      });
+      context
+          .read<ImeiCubit>()
+          .getDevices(comId: context.read<CompanyCubit>().comp.comId)
+          .then((_) {
+            _devicesLoaded = true;
+            checkAndNavigate();
+          });
     });
 
     _isMobile = Platform.isAndroid || Platform.isIOS;
 
-
     if (_isMobile) {
-      _controller = VideoPlayerController.asset('assets/videos/splash_intro_1.mp4');
+      _controller = VideoPlayerController.asset(
+        'assets/videos/splash_intro_1.mp4',
+      );
       _initializeVideo();
     } else {
       _controller = null;
-      Future.delayed(const Duration(seconds: 1), () {
-        if (mounted) {
-          Navigator.pushReplacementNamed(context, HomeView.id);
-        }
+      Future.delayed(const Duration(milliseconds: 500), () {
+        _videoInitialized = true;
+        checkAndNavigate();
       });
     }
   }
 
   Future<void> _initializeVideo() async {
     await _controller!.initialize();
-    setState(() {});
-    _controller!.play();
-
-    _controller!.addListener(() {
-      if (_controller!.value.position >= _controller!.value.duration) {
-        if (mounted) {
-          Navigator.pushReplacementNamed(context, HomeView.id);
-        }
-      }
+    _controller!.setLooping(true); // ✅ إعادة تشغيل الفيديو تلقائيًا
+    setState(() {
+      _videoInitialized = true;
     });
+    _controller!.play();
+    checkAndNavigate(); // في حال تم تحميل البيانات قبل تهيئة الفيديو
+  }
+
+  void checkAndNavigate() {
+    if (_materialsLoaded &&
+        _categoriesLoaded &&
+        _accountsLoaded &&
+        _billsLoaded &&
+        _devicesLoaded &&
+        _videoInitialized) {
+      Navigator.pushReplacementNamed(context, HomeView.id);
+    }
   }
 
   @override
@@ -71,7 +108,9 @@ class _SplashVideoScreenState extends State<SplashVideoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_isMobile || _controller == null || !_controller!.value.isInitialized) {
+    if (!_isMobile ||
+        _controller == null ||
+        !_controller!.value.isInitialized) {
       return const Scaffold(
         backgroundColor: Colors.white,
         body: Center(child: CircularProgressIndicator()),

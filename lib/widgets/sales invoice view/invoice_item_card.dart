@@ -15,7 +15,6 @@ class InvoiceItemCard extends StatefulWidget {
     required this.priceController,
     required this.quantityController,
     required this.unit1,
-
     required this.isNumericOnly,
     required this.bounsContoler,
     required this.unit2,
@@ -28,10 +27,8 @@ class InvoiceItemCard extends StatefulWidget {
   final TextEditingController priceController;
   final TextEditingController quantityController;
   final TextEditingController bounsContoler;
-
   final String unit1;
   final String unit2;
-
   final bool isNumericOnly;
 
   @override
@@ -41,57 +38,90 @@ class InvoiceItemCard extends StatefulWidget {
 class _InvoiceItemCardState extends State<InvoiceItemCard> {
   late final TextEditingController unityController;
   bool isUpdating = false;
-  final FocusNode focusNode1 = FocusNode();
-  final FocusNode focusNode2 = FocusNode();
-  final FocusNode focusNode3 = FocusNode();
-  final FocusNode focusNode4 = FocusNode();
-  final FocusNode focusNode5 = FocusNode();
+
+  final FocusNode focusNodeTotal = FocusNode();
+  final FocusNode focusNodeBonus = FocusNode();
+  final FocusNode focusNodePrice = FocusNode();
+  final FocusNode focusNodeQuantity = FocusNode();
+
   @override
   void initState() {
     super.initState();
 
     unityController = TextEditingController(text: widget.unit1);
 
-    widget.priceController.addListener(updateTotal);
-    widget.quantityController.addListener(updateTotal);
-    widget.totalController.addListener(updatePriceFromTotal);
-  }
-
-  void updateTotal() {
-    if (isUpdating) return;
-    isUpdating = true;
-
-    final price = double.tryParse(widget.priceController.text);
-    final quantity = double.tryParse(widget.quantityController.text);
-
-    if (price != null && quantity != null) {
-      widget.totalController.text = (price * quantity).toStringAsFixed(2);
-    }
-
-    isUpdating = false;
-  }
-
-  void updatePriceFromTotal() {
-    if (isUpdating) return;
-    isUpdating = true;
-
-    final total = double.tryParse(widget.totalController.text);
-    final quantity = double.tryParse(widget.quantityController.text);
-
-    if (total != null && quantity != null && quantity != 0) {
-      widget.priceController.text = (total / quantity).toStringAsFixed(2);
-    }
-
-    isUpdating = false;
+    widget.priceController.addListener(_onInputChanged);
+    widget.quantityController.addListener(_onInputChanged);
+    widget.totalController.addListener(_onInputChanged);
   }
 
   @override
   void dispose() {
-    widget.priceController.removeListener(updateTotal);
-    widget.quantityController.removeListener(updateTotal);
-    widget.totalController.removeListener(updatePriceFromTotal);
+    widget.priceController.removeListener(_onInputChanged);
+    widget.quantityController.removeListener(_onInputChanged);
+    widget.totalController.removeListener(_onInputChanged);
+
     unityController.dispose();
+
+    focusNodeTotal.dispose();
+    focusNodeBonus.dispose();
+    focusNodePrice.dispose();
+    focusNodeQuantity.dispose();
+
     super.dispose();
+  }
+
+  void _onInputChanged() {
+    if (isUpdating) return;
+    isUpdating = true;
+
+    double price =
+        double.tryParse(widget.priceController.text.replaceAll(',', '')) ?? 0;
+    double quantity =
+        double.tryParse(widget.quantityController.text.replaceAll(',', '')) ??
+        0;
+    double total =
+        double.tryParse(widget.totalController.text.replaceAll(',', '')) ?? 0;
+
+    if (focusNodeTotal.hasFocus) {
+      if (quantity > 0) {
+        double newPrice = total / quantity;
+        newPrice = double.parse(newPrice.toStringAsFixed(2));
+
+        if ((price - newPrice).abs() > 0.01) {
+          final cursorPos = widget.priceController.selection;
+
+          widget.priceController.text = newPrice.toStringAsFixed(2);
+
+          final newPos = cursorPos.baseOffset.clamp(
+            0,
+            widget.priceController.text.length,
+          );
+          widget.priceController.selection = TextSelection.fromPosition(
+            TextPosition(offset: newPos),
+          );
+        }
+      }
+    } else if (focusNodePrice.hasFocus || focusNodeQuantity.hasFocus) {
+      double newTotal = price * quantity;
+      newTotal = double.parse(newTotal.toStringAsFixed(2));
+
+      if ((total - newTotal).abs() > 0.01) {
+        final cursorPos = widget.totalController.selection;
+
+        widget.totalController.text = newTotal.toStringAsFixed(2);
+
+        final newPos = cursorPos.baseOffset.clamp(
+          0,
+          widget.totalController.text.length,
+        );
+        widget.totalController.selection = TextSelection.fromPosition(
+          TextPosition(offset: newPos),
+        );
+      }
+    }
+
+    isUpdating = false;
   }
 
   @override
@@ -109,7 +139,7 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       InkWell(
                         onTapDown: (details) {
                           final RenderBox overlay =
@@ -150,7 +180,6 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                             borderRadius: BorderRadius.circular(8),
                             color: kBlueAccent,
                           ),
-
                           child: Center(
                             child: FittedBox(
                               child: Text(
@@ -163,7 +192,7 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                           ),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       FittedBox(
                         child: Text(
                           widget.materialName,
@@ -192,7 +221,7 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                     children: [
                       Expanded(
                         child: EditableDataColumn(
-                          focusNode: focusNode1,
+                          focusNode: focusNodeTotal,
                           conttroller: widget.totalController,
                           text: 'المجموع',
                           isNumericOnly: true,
@@ -200,7 +229,7 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                       ),
                       Expanded(
                         child: EditableDataColumn(
-                          focusNode: focusNode5,
+                          focusNode: focusNodeBonus,
                           conttroller: widget.bounsContoler,
                           text: 'الهدايا',
                           isNumericOnly: widget.isNumericOnly,
@@ -208,7 +237,7 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                       ),
                       Expanded(
                         child: EditableDataColumn(
-                          focusNode: focusNode2,
+                          focusNode: focusNodePrice,
                           conttroller: widget.priceController,
                           text: 'السعر',
                           isNumericOnly: widget.isNumericOnly,
@@ -216,7 +245,7 @@ class _InvoiceItemCardState extends State<InvoiceItemCard> {
                       ),
                       Expanded(
                         child: EditableDataColumn(
-                          focusNode: focusNode3,
+                          focusNode: focusNodeQuantity,
                           conttroller: widget.quantityController,
                           text: 'الكمية',
                           isNumericOnly: widget.isNumericOnly,

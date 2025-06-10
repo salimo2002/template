@@ -6,22 +6,25 @@ import 'package:template/models/company_model.dart';
 class CompanyCubit extends Cubit<CompanyStatus> {
   CompanyCubit() : super(CompanyInitState());
   late CompanyModel comp;
-  String er = '';
-  void checkCompany({
-    required String comName,
-    required String comSerial,
+  String message = '';
+  void verifyAndActivateDevice({
+    required String companyName,
+    required String serialKey,
+    required String imei,
   }) async {
     emit(CompanyLoadingState());
     try {
-      var result = await CompanyServices.checkCompany(
-        comSerial: comSerial,
-        companyName: comName,
-      );
-      er = result['message'];
-      comp = CompanyModel.fromJson(result['data']);
-      emit(CompanySuccesState(company: comp, message: result['message']));
+      Map<String, dynamic> companyDetails =
+          await CompanyServices.verifyAndActivateDevice(
+            companyName: companyName,
+            serialKey: serialKey,
+            imei: imei,
+          );
+      message = companyDetails['message'];
+      comp = CompanyModel.fromJson(companyDetails['data']);
+      emit(CompanySuccesState(company: comp, message: message));
     } catch (e) {
-      emit(CompanyFaliureState(errorMessage: er));
+      emit(CompanyFaliureState(errorMessage: e.toString()));
     }
   }
 }
