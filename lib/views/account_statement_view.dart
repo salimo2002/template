@@ -88,7 +88,7 @@ class _AccountStatementViewState extends State<AccountStatementView> {
                         Navigator.pushNamed(
                           context,
                           DetailedAccountStatementView.id,
-                          arguments: 491,
+                          arguments: accIdElement,
                         );
                       },
                     ),

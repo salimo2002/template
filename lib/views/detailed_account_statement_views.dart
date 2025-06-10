@@ -10,7 +10,6 @@ import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/home_view.dart';
-import 'package:template/views/invoice_review_view.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/table_labels.dart';
 import 'package:template/widgets/item%20card%20view%20widgets/table_values.dart';
 
@@ -25,7 +24,7 @@ class DetailedAccountStatementView extends StatefulWidget {
 
 class _DetailedAccountStatementViewState
     extends State<DetailedAccountStatementView> {
-  TapDownDetails? _tapPosition;
+  TapDownDetails? tapPosition;
   int? accID;
   List<BillDetailsModel> listBillDetails = [];
   List<BillModel> listBill = [];
@@ -39,7 +38,7 @@ class _DetailedAccountStatementViewState
           if (context.read<BillCubit>().billDetails[j].bilId ==
               context.read<BillCubit>().bill[i].bilId) {
             listBillDetails.add(context.read<BillCubit>().billDetails[j]);
-            listBill.add(context.read<BillCubit>().bill[j]);
+            listBill.add(context.read<BillCubit>().bill[i]);
           }
         }
       }
@@ -113,7 +112,7 @@ class _DetailedAccountStatementViewState
                       ],
                     );
                   } else if (state is LoadingStateBill) {
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   } else {
                     return Center(
                       child: Column(
@@ -159,40 +158,7 @@ class _DetailedAccountStatementViewState
   }
 
   void _storeTapPosition(TapDownDetails details) {
-    _tapPosition = details;
-  }
-
-  void _showPopupMenu() {
-    if (_tapPosition == null) return;
-
-    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-
-    showMenu(
-      context: context,
-      position: RelativeRect.fromRect(
-        _tapPosition!.globalPosition & const Size(40, 40),
-        Offset.zero & overlay.size,
-      ),
-      items: [
-        PopupMenuItem(
-          child: const Text('فاتورة'),
-          onTap: () {
-            Future.delayed(Duration.zero, () {
-              if (!mounted) return;
-              Navigator.pushNamed(
-                context,
-                InvoiceReviewView.id,
-                arguments: {
-                  'nameAcuont': accountController.text,
-                  'billType': 'sell',
-                  'title': 'فاتورة....',
-                },
-              );
-            });
-          },
-        ),
-      ],
-    );
+    tapPosition = details;
   }
 
   TableRow buildDataRow({
@@ -209,15 +175,14 @@ class _DetailedAccountStatementViewState
       children: List.generate(6, (index) {
         final values = [
           total,
-          individualPrice,
           amount,
+          individualPrice,
           statement,
           date,
           balance,
         ];
         return GestureDetector(
           onTapDown: _storeTapPosition,
-          onTap: _showPopupMenu,
           behavior: HitTestBehavior.translucent,
           child: TableValues(value: values[index]),
         );
