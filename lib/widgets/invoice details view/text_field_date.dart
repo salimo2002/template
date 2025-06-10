@@ -41,7 +41,7 @@ class _TextFieldDateState extends State<TextFieldDate> {
     }
   }
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -76,7 +76,7 @@ class _TextFieldDateState extends State<TextFieldDate> {
         child: TextField(
           controller: widget.date,
           readOnly: true,
-          onTap: () => widget.hoursOrYear ? _selectDate(context) : _selectTime(context),
+          onTap: () => widget.hoursOrYear ? selectDate(context) : _selectTime(context),
           textAlign: TextAlign.right, 
           decoration: InputDecoration(
             labelText: widget.label,

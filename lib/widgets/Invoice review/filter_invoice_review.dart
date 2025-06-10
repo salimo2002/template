@@ -1,23 +1,26 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 
 class FilterInvoiceReview extends StatelessWidget {
-  const FilterInvoiceReview({super.key});
-
+  const FilterInvoiceReview({super.key, required this.onTap});
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        ContainerFilter(
-          height: 55,
-          width: MediaQuery.sizeOf(context).width * 0.232,
-          containerColor: kWhite,
-          text: 'مخصص',
-          textColor: kBlueAccent,
+        InkWell(
+          onTap: onTap,
+          child: ContainerFilter(
+            height: 55,
+            width: MediaQuery.sizeOf(context).width * 0.232,
+            containerColor: kWhite,
+            text: 'مخصص',
+            textColor: kBlueAccent,
+          ),
         ),
         ContainerFilter(
           height: 55,
