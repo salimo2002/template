@@ -14,7 +14,9 @@ class DeviceType {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
       // iOS لا تسمح بالوصول لـ IMEI
       return iosInfo.identifierForVendor; // معرف فريد بديل
+    } else {
+      return 'sasassa';
     }
-    return null;
+    // return null;
   }
 }
