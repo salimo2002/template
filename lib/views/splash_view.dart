@@ -20,23 +20,40 @@ class SplashView extends StatefulWidget {
 }
 
 class SplashViewState extends State<SplashView> {
-  VideoPlayerController? _controller;
+  late VideoPlayerController? _controller;
   bool _isMobile = false;
-  bool _navigated = false;
-  late VoidCallback _videoListener;
+
+  bool _materialsLoaded = false;
+  bool _categoriesLoaded = false;
+  bool _accountsLoaded = false;
+  bool _billsLoaded = false;
+  bool _videoInitialized = false;
 
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<MaterialCubit>().fetchMaterials();
-      context.read<CategoryCubit>().fetchCategory();
-      context.read<AccountsCubit>().fetchAccounts();
-      context.read<BillCubit>().fetchBills();
-      context.read<ImeiCubit>().getDevices(
-        comId: context.read<CompanyCubit>().comp.comId,
-      );
+      context.read<MaterialCubit>().fetchMaterials().then((_) {
+        _materialsLoaded = true;
+        checkAndNavigate();
+      });
+
+
+      context.read<CategoryCubit>().fetchCategory().then((_) {
+        _categoriesLoaded = true;
+        checkAndNavigate();
+      });
+
+      context.read<AccountsCubit>().fetchAccounts().then((_) {
+        _accountsLoaded = true;
+        checkAndNavigate();
+      });
+
+      context.read<BillCubit>().fetchBills().then((_) {
+        _billsLoaded = true;
+        checkAndNavigate();
+      });
     });
 
     _isMobile = Platform.isAndroid || Platform.isIOS;
@@ -47,34 +64,36 @@ class SplashViewState extends State<SplashView> {
       );
       _initializeVideo();
     } else {
-      Future.delayed(const Duration(milliseconds: 1500), () {
-        if (!mounted) return;
-        Navigator.pushReplacementNamed(context, HomeView.id);
+      _controller = null;
+      Future.delayed(const Duration(milliseconds: 500), () {
+        _videoInitialized = true;
+        checkAndNavigate();
       });
     }
   }
 
   Future<void> _initializeVideo() async {
     await _controller!.initialize();
-    setState(() {});
+    _controller!.setLooping(true); // ✅ إعادة تشغيل الفيديو تلقائيًا
+    setState(() {
+      _videoInitialized = true;
+    });
     _controller!.play();
+    checkAndNavigate(); // في حال تم تحميل البيانات قبل تهيئة الفيديو
+  }
 
-    _videoListener = () {
-      if (_controller!.value.position >= _controller!.value.duration &&
-          !_navigated) {
-        _navigated = true;
-        _controller!.removeListener(_videoListener);
-        if (!mounted) return;
-        Navigator.pushReplacementNamed(context, HomeView.id);
-      }
-    };
-
-    _controller!.addListener(_videoListener);
+  void checkAndNavigate() {
+    if (_materialsLoaded &&
+        _categoriesLoaded &&
+        _accountsLoaded &&
+        _billsLoaded &&
+        _videoInitialized) {
+      Navigator.pushReplacementNamed(context, HomeView.id);
+    }
   }
 
   @override
   void dispose() {
-    _controller?.removeListener(_videoListener);
     _controller?.dispose();
     super.dispose();
   }
@@ -90,11 +109,18 @@ class SplashViewState extends State<SplashView> {
       );
     }
 
+    final videoSize = _controller!.value.size;
+    final aspectRatio = videoSize.width / videoSize.height;
+
+    double width = MediaQuery.of(context).size.width;
+    double height = width / aspectRatio;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: AspectRatio(
-          aspectRatio: _controller!.value.aspectRatio,
+        child: SizedBox(
+          width: width,
+          height: height,
           child: VideoPlayer(_controller!),
         ),
       ),
