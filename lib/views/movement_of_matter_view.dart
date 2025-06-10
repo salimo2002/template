@@ -148,7 +148,6 @@ class SearchResultsList extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-              // ignore: deprecated_member_use
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 1,
               blurRadius: 3,
