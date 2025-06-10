@@ -67,7 +67,7 @@ class SplashViewState extends State<SplashView> {
 
     if (_isMobile) {
       _controller = VideoPlayerController.asset(
-        'assets/videos/splash_intro_1.mp4',
+        'assets/videos/splash_introedn.mp4',
       );
       _initializeVideo();
     } else {
