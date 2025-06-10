@@ -73,8 +73,9 @@ class _LogInViewState extends State<LogInView> {
                       },
                       hintText: 'اسم الشركة',
                       controller: companyName,
+                      textDirection: TextDirection.ltr,
                       focusNode: FocusNode(),
-                      prefixIcon: Icon(
+                      suffixIcon: Icon(
                         FontAwesomeIcons.house,
                         color: kBlueAccent,
                       ),
@@ -89,8 +90,9 @@ class _LogInViewState extends State<LogInView> {
                       },
                       hintText: 'مفتاح التفعيل',
                       controller: activateKey,
+                      textDirection: TextDirection.ltr,
                       focusNode: FocusNode(),
-                      prefixIcon: Icon(
+                      suffixIcon: Icon(
                         FontAwesomeIcons.key,
                         color: kBlueAccent,
                       ),
