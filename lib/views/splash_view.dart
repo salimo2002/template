@@ -28,6 +28,7 @@ class SplashViewState extends State<SplashView> {
   bool _accountsLoaded = false;
   bool _billsLoaded = false;
   bool _videoInitialized = false;
+  bool _devicesLoaded = false;
 
   @override
   void initState() {
@@ -38,7 +39,6 @@ class SplashViewState extends State<SplashView> {
         _materialsLoaded = true;
         checkAndNavigate();
       });
-
 
       context.read<CategoryCubit>().fetchCategory().then((_) {
         _categoriesLoaded = true;
@@ -54,6 +54,13 @@ class SplashViewState extends State<SplashView> {
         _billsLoaded = true;
         checkAndNavigate();
       });
+      context
+          .read<ImeiCubit>()
+          .getDevices(comId: context.read<CompanyCubit>().comp.comId)
+          .then((_) {
+            _devicesLoaded = true;
+            checkAndNavigate();
+          });
     });
 
     _isMobile = Platform.isAndroid || Platform.isIOS;
@@ -87,6 +94,7 @@ class SplashViewState extends State<SplashView> {
         _categoriesLoaded &&
         _accountsLoaded &&
         _billsLoaded &&
+        _devicesLoaded &&
         _videoInitialized) {
       Navigator.pushReplacementNamed(context, HomeView.id);
     }

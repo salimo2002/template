@@ -18,7 +18,7 @@ class ImeiCubit extends Cubit<ImeiStatus> {
     }
   }
 
-  void getDevices({required int comId}) async {
+  Future<void> getDevices({required int comId}) async {
     emit(ImeiLoadingState());
     try {
       devices = await CompanyServices.getCompanyDevices(comId: comId);
