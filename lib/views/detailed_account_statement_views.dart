@@ -38,7 +38,7 @@ class _DetailedAccountStatementViewState
           if (context.read<BillCubit>().billDetails[j].bilId ==
               context.read<BillCubit>().bill[i].bilId) {
             listBillDetails.add(context.read<BillCubit>().billDetails[j]);
-            listBill.add(context.read<BillCubit>().bill[j]);
+            listBill.add(context.read<BillCubit>().bill[i]);
           }
         }
       }
@@ -112,7 +112,7 @@ class _DetailedAccountStatementViewState
                       ],
                     );
                   } else if (state is LoadingStateBill) {
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   } else {
                     return Center(
                       child: Column(
@@ -160,38 +160,6 @@ class _DetailedAccountStatementViewState
   void _storeTapPosition(TapDownDetails details) {
     tapPosition = details;
   }
-
-  // void _showPopupMenu() {
-  //   if (_tapPosition == null) return;
-
-  //   final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-
-  //   showMenu(
-  //     context: context,
-  //     position: RelativeRect.fromRect(
-  //       _tapPosition!.globalPosition & const Size(40, 40),
-  //       Offset.zero & overlay.size,
-  //     ),
-  //     items: [
-  //       PopupMenuItem(
-  //         child: const Text('فاتورة'),
-  //         onTap: () {
-  //           Future.delayed(Duration.zero, () {
-  //             Navigator.pushNamed(
-  //               context,
-  //               InvoiceReviewView.id,
-  //               arguments: {
-  //                 'nameAcuont': accountController.text,
-  //                 'billType': 'sell',
-  //                 'title': 'فاتورة....',
-  //               },
-  //             );
-  //           });
-  //         },
-  //       ),
-  //     ],
-  //   );
-  // }
 
   TableRow buildDataRow({
     required Color rowColor,
