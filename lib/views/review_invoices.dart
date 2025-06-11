@@ -35,16 +35,15 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
   bool isMonth = false;
   String? selectedBillType;
 
-  Color color1= kWhite;
- Color textColor1= kBlueAccent;
-   Color color2= kWhite;
-   Color textColor2= kBlueAccent;
-   Color color3= kWhite;
-   Color textColor3= kBlueAccent;
-   Color color4= kWhite;
-   Color textColor4= kBlueAccent;
-  
-  
+  Color color1 = kWhite;
+  Color textColor1 = kBlueAccent;
+  Color color2 = kWhite;
+  Color textColor2 = kBlueAccent;
+  Color color3 = kWhite;
+  Color textColor3 = kBlueAccent;
+  Color color4 = kWhite;
+  Color textColor4 = kBlueAccent;
+
   final List<Map<String, String>> billTypes = [
     {'label': 'فواتير المشتريات', 'value': 'buy'},
     {'label': 'فواتير المبيعات', 'value': 'sell'},
@@ -226,48 +225,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                             ),
                           ],
                         ),
-                        FilterInvoiceReview(
-                          color1: color1,
-                          textColor1: textColor1,
-                          color2: color2,
-                          color3: color3,
-                          color4: color4,
-                          textColor2: textColor2,
-                          textColor3: textColor3,
-                          textColor4: textColor4,
-                          onTapDay: () {
-                            setState(() {
-                              color1 = kBlueAccent;
-                              textColor1 = kWhite;
-                            });
-                            picked = DateTime.now();
-                            isMonth = false;
-                          },
-                          onTapAll: () {
-                            setState(() {
-                              color2 = kBlueAccent;
-                              textColor2 = kWhite;
-                            });
-                            picked = null;
-                            isMonth = false;
-                          },
-                          omTapMonth: () {
-                            setState(() {
-                              color3 = kBlueAccent;
-                              textColor3 = kWhite;
-                            });
-                            selectDate(context);
-                            isMonth = true;
-                          },
-                          onTap: () {
-                            setState(() {
-                              color4 = kBlueAccent;
-                              textColor4 = kWhite;
-                            });
-                            isMonth = false;
-                            selectDate(context);
-                          },
-                        ),
+                        FilterInvoiceReviewWrapper(),
                       ],
                     ),
                   ),
