@@ -237,15 +237,16 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                             });
                             selectDate(context);
                           },
-                          onTapDay:() {
+                          onTapDay:  () {
                             setState(() {
-                              picked = null;
+                              picked = DateTime.now();
                               isMonth = false;
                             });
                           },
-                          onTapAll:  () {
+                          onTapAll:
+                          () {
                             setState(() {
-                              picked = DateTime.now();
+                              picked = null;
                               isMonth = false;
                             });
                           }
