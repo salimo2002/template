@@ -3,140 +3,108 @@ import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 
-class FilterInvoiceReviewWrapper extends StatefulWidget {
-  const FilterInvoiceReviewWrapper({super.key});
-
-  @override
-  State<FilterInvoiceReviewWrapper> createState() =>
-      _FilterInvoiceReviewWrapperState();
-}
-
-class _FilterInvoiceReviewWrapperState
-    extends State<FilterInvoiceReviewWrapper> {
-  // المتغير الذي يحمل اسم الزر المختار
-  String selectedFilter = 'الكل';
-
-  // ألوان الزر المختار وغير المختار
-  final Color selectedBgColor = kBlueAccent;
-  final Color selectedTextColor = Colors.white;
-  final Color unselectedBgColor = Colors.white;
-  final Color unselectedTextColor = kBlueAccent;
-
-  // تحديث الزر المختار مع إعادة بناء الواجهة
-  void updateFilter(String filterName) {
-    setState(() {
-      selectedFilter = filterName;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FilterInvoiceReview(
-      onTap: () => updateFilter('مخصص'),
-      omTapMonth: () => updateFilter('هذا الشهر'),
-      onTapDay: () => updateFilter('اليوم'),
-      onTapAll: () => updateFilter('الكل'),
-
-      color1: selectedFilter == 'مخصص' ? selectedBgColor : unselectedBgColor,
-      textColor1:
-          selectedFilter == 'مخصص' ? selectedTextColor : unselectedTextColor,
-
-      color2:
-          selectedFilter == 'هذا الشهر' ? selectedBgColor : unselectedBgColor,
-      textColor2:
-          selectedFilter == 'هذا الشهر'
-              ? selectedTextColor
-              : unselectedTextColor,
-
-      color3: selectedFilter == 'اليوم' ? selectedBgColor : unselectedBgColor,
-      textColor3:
-          selectedFilter == 'اليوم' ? selectedTextColor : unselectedTextColor,
-
-      color4: selectedFilter == 'الكل' ? selectedBgColor : unselectedBgColor,
-      textColor4:
-          selectedFilter == 'الكل' ? selectedTextColor : unselectedTextColor,
-    );
-  }
-}
-
-class FilterInvoiceReview extends StatelessWidget {
-  const FilterInvoiceReview({
-    super.key,
-    required this.onTap,
-    required this.omTapMonth,
-    required this.onTapDay,
-    required this.onTapAll,
-    required this.color1,
-    required this.textColor1,
-    required this.color2,
-    required this.textColor2,
-    required this.color3,
-    required this.textColor3,
-    required this.color4,
-    required this.textColor4,
-  });
-
-  final VoidCallback onTap;
-  final VoidCallback omTapMonth;
+class FilterInvoiceReview extends StatefulWidget {
+  final VoidCallback onTapCustom;
+  final VoidCallback onTapMonth;
   final VoidCallback onTapDay;
   final VoidCallback onTapAll;
 
-  final Color color1;
-  final Color textColor1;
+  const FilterInvoiceReview({
+    super.key,
+    required this.onTapCustom,
+    required this.onTapMonth,
+    required this.onTapDay,
+    required this.onTapAll,
+  });
 
-  final Color color2;
-  final Color textColor2;
+  @override
+  State<FilterInvoiceReview> createState() => _FilterInvoiceReviewState();
+}
 
-  final Color color3;
-  final Color textColor3;
+class _FilterInvoiceReviewState extends State<FilterInvoiceReview> {
+  // 0 -> مخصص
+  // 1 -> هذا الشهر
+  // 2 -> اليوم
+  // 3 -> الكل
+  int selectedIndex = 3; // مثلا نبدأ على "الكل"
 
-  final Color color4;
-  final Color textColor4;
+  void updateSelectedIndex(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+
+    // استدعاء الدالة المناسبة حسب الزر
+    switch (index) {
+      case 0:
+        widget.onTapCustom();
+        break;
+      case 1:
+        widget.onTapMonth();
+        break;
+      case 2:
+        widget.onTapDay();
+        break;
+      case 3:
+        widget.onTapAll();
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    // الدالة لاختيار اللون حسب التحديد
+    Color getBackgroundColor(int index) {
+      return selectedIndex == index ? kBlueAccent : Colors.white;
+    }
+
+    Color getTextColor(int index) {
+      return selectedIndex == index ? Colors.white : kBlueAccent;
+    }
+
+    final double buttonWidth = MediaQuery.sizeOf(context).width * 0.232;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         InkWell(
-          onTap: onTap,
+          onTap: () => updateSelectedIndex(0),
           child: ContainerFilter(
             height: 55,
-            width: MediaQuery.sizeOf(context).width * 0.232,
-            containerColor: color1,
+            width: buttonWidth,
+            containerColor: getBackgroundColor(0),
             text: 'مخصص',
-            textColor: textColor1,
+            textColor: getTextColor(0),
           ),
         ),
         InkWell(
-          onTap: omTapMonth,
+          onTap: () => updateSelectedIndex(1),
           child: ContainerFilter(
             height: 55,
-            width: MediaQuery.sizeOf(context).width * 0.232,
-            containerColor: color2,
+            width: buttonWidth,
+            containerColor: getBackgroundColor(1),
             text: 'هذا الشهر',
-            textColor: textColor2,
+            textColor: getTextColor(1),
           ),
         ),
         InkWell(
-          onTap: onTapDay,
+          onTap: () => updateSelectedIndex(2),
           child: ContainerFilter(
             height: 55,
-            width: MediaQuery.sizeOf(context).width * 0.232,
-            containerColor: color3,
+            width: buttonWidth,
+            containerColor: getBackgroundColor(2),
             text: 'اليوم',
-            textColor: textColor3,
+            textColor: getTextColor(2),
           ),
         ),
         InkWell(
-          onTap: onTapAll,
+          onTap: () => updateSelectedIndex(3),
           child: ContainerFilter(
             height: 55,
-            width: MediaQuery.sizeOf(context).width * 0.232,
-            containerColor: color4,
+            width: buttonWidth,
+            containerColor: getBackgroundColor(3),
             text: 'الكل',
-            textColor: textColor4,
+            textColor: getTextColor(3),
           ),
         ),
       ],
@@ -158,6 +126,7 @@ class ContainerFilter extends StatelessWidget {
   final Color textColor;
   final double width;
   final double height;
+
   @override
   Widget build(BuildContext context) {
     return Container(

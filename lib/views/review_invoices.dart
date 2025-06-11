@@ -50,7 +50,6 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
     {'label': 'فواتير مردود المشتريات', 'value': 'undo_buy'},
     {'label': 'فواتير مردود المبيعات', 'value': 'undo_sell'},
   ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -225,29 +224,57 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                             ),
                           ],
                         ),
-                        FilterInvoiceReviewWrapper(),
+                        FilterInvoiceReview(
+                          onTapCustom: () {
+                            setState(() {
+                              picked = DateTime.now();
+                              isMonth = false;
+                            });
+                          },
+                          onTapMonth: () {
+                            setState(() {
+                              picked = null;
+                              isMonth = false;
+                            });
+                          },
+                          onTapDay: () {
+                            setState(() {
+                              isMonth = true;
+                            });
+                            selectDate(context);
+                          },
+                          onTapAll: () {
+                            setState(() {
+                              isMonth = false;
+                            });
+                            selectDate(context);
+                          },
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              CustomButtonSave(
+                                label: 'إلغاء',
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              CustomButtonSave(
+                                label: 'موافق',
+                                onTap: () {
+                                  navigatorToInvoiceReview();
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CustomButtonSave(
-                        label: 'إلغاء',
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      CustomButtonSave(
-                        label: 'موافق',
-                        onTap: () {
-                          navigatorToInvoiceReview();
-                        },
-                      ),
-                    ],
                   ),
                 ),
               ],
