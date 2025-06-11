@@ -4,7 +4,6 @@ import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/models/account_model.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/views/detailed_account_statement_views.dart';
-import 'package:template/views/support_views.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
@@ -48,16 +47,51 @@ class _AccountStatementViewState extends State<AccountStatementView> {
                         focusNode: _focusNode,
                       ),
                       if (isSearching)
-                        Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: SearchResultsList(
-                            results: searchResults,
-                            onSelect: (account) {
-                              setState(() {
-                                accountController.text = account.accName;
-                                isSearching = false;
-                              });
-                            },
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Container(
+                            constraints: const BoxConstraints(maxHeight: 250),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: searchResults.length,
+                                itemBuilder: (context, index) {
+                                  final account = searchResults[index];
+                                  return ListTile(
+                                    title: Text(
+                                      account.accName,
+                                      textAlign: TextAlign.right,
+                                    ),
+                                    subtitle: Text(
+                                      account.accKind.toString(),
+                                      textAlign: TextAlign.right,
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        accountController.text =
+                                            account.accName;
+                                        isSearching = false;
+                                        searchResults = [];
+                                        FocusScope.of(context).unfocus();
+                                      });
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
                           ),
                         ),
                     ],
