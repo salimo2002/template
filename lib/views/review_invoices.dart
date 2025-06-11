@@ -227,28 +227,29 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                         FilterInvoiceReview(
                           onTapCustom: () {
                             setState(() {
-                              picked = DateTime.now();
                               isMonth = false;
                             });
+                            selectDate(context);
                           },
                           onTapMonth: () {
-                            setState(() {
-                              picked = null;
-                              isMonth = false;
-                            });
-                          },
-                          onTapDay: () {
                             setState(() {
                               isMonth = true;
                             });
                             selectDate(context);
                           },
-                          onTapAll: () {
+                          onTapDay:() {
                             setState(() {
+                              picked = null;
                               isMonth = false;
                             });
-                            selectDate(context);
                           },
+                          onTapAll:  () {
+                            setState(() {
+                              picked = DateTime.now();
+                              isMonth = false;
+                            });
+                          }
+                          
                         ),
 
                         const SizedBox(height: 20),
