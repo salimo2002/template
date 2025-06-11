@@ -28,6 +28,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
   late String billType;
   late Map mapModalRoute;
   late String date;
+  late bool isMonth;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -35,6 +36,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
     nameAcuont = mapModalRoute['nameAcuont'] ?? 0;
     billType = mapModalRoute['billType'] ?? '';
     date = mapModalRoute['dateTime'] ?? '';
+    isMonth = mapModalRoute['isMonth'];
   }
 
   @override
@@ -55,11 +57,23 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                 if (state is SuccessStateBill) {
                   List<BillModel> filteredBills =
                       context.read<BillCubit>().bill.where((bill) {
-                        return bill.bilKind == billType &&
+                        if (isMonth) {
+                          return bill.bilKind == billType &&
+                              RadioMenuButtons.payType == bill.payType &&
+                              bill.accId == nameAcuont &&
+                              '${bill.bilDate!.year}-${bill.bilDate!.month}' ==
+                                  date;
+                        } else if (date == '') {
+                          bill.bilKind == billType &&
+                              RadioMenuButtons.payType == bill.payType &&
+                              bill.accId == nameAcuont;
+                        }else{return bill.bilKind == billType &&
                             RadioMenuButtons.payType == bill.payType &&
                             bill.accId == nameAcuont &&
                             '${bill.bilDate!.year}-${bill.bilDate!.month}-${bill.bilDate!.day}' ==
-                                date;
+                                date;}
+                        return true;
+
                       }).toList();
 
                   if (filteredBills.isEmpty) {

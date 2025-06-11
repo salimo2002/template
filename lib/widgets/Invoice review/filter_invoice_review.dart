@@ -4,8 +4,21 @@ import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 
 class FilterInvoiceReview extends StatelessWidget {
-  const FilterInvoiceReview({super.key, required this.onTap});
+  const FilterInvoiceReview({super.key, required this.onTap, required this.omTapMonth, required this.onTapDay, required this.onTapAll, required this.color1, required this.textColor1, required this.color2, required this.textColor2, required this.color3, required this.textColor3, required this.color4, required this.textColor4});
   final VoidCallback onTap;
+  final VoidCallback omTapMonth;
+  final VoidCallback onTapDay;
+  final VoidCallback onTapAll;
+  final Color color1;
+  final Color textColor1;
+  final Color color2;
+  final Color textColor2;
+  final Color color3;
+  final Color textColor3;
+  final Color color4;
+  final Color textColor4;
+  
+  
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -17,31 +30,41 @@ class FilterInvoiceReview extends StatelessWidget {
           child: ContainerFilter(
             height: 55,
             width: MediaQuery.sizeOf(context).width * 0.232,
-            containerColor: kWhite,
+            containerColor: color1,
             text: 'مخصص',
-            textColor: kBlueAccent,
+            textColor: textColor1,
           ),
         ),
-        ContainerFilter(
-          height: 55,
-          width: MediaQuery.sizeOf(context).width * 0.232,
-          containerColor: kWhite,
-          text: 'هذا الشهر',
-          textColor: kBlueAccent,
+        InkWell(
+          onTap: omTapMonth,
+          child: ContainerFilter(
+            height: 55,
+            width: MediaQuery.sizeOf(context).width * 0.232,
+            containerColor: color2,
+            text: 'هذا الشهر',
+            textColor: textColor2,
+          ),
         ),
-        ContainerFilter(
-          height: 55,
-          width: MediaQuery.sizeOf(context).width * 0.232,
-          containerColor: kWhite,
-          text: 'اليوم',
-          textColor: kBlueAccent,
+        InkWell(
+          onTap: onTapDay,
+          child: ContainerFilter(
+            height: 55,
+            width: MediaQuery.sizeOf(context).width * 0.232,
+            containerColor: color3,
+            text: 'اليوم',
+            textColor: textColor3,
+          ),
         ),
-        ContainerFilter(
-          height: 55,
-          width: MediaQuery.sizeOf(context).width * 0.232,
-          containerColor: kBlueAccent,
-          text: 'الكل',
-          textColor: kWhite,
+        InkWell(
+          onTap: onTapAll,
+          child: ContainerFilter(
+            
+            height: 55,
+            width: MediaQuery.sizeOf(context).width * 0.232,
+            containerColor: color4,
+            text: 'الكل',
+            textColor: textColor4,
+          ),
         ),
       ],
     );
