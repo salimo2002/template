@@ -142,10 +142,12 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                         const SizedBox(height: 10),
                         IconButton(
                           onPressed: () {
+                            context.read<BillCubit>().fetchBills();
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               HomeView.id,
                               (route) => false,
+                              
                             );
                           },
                           icon: const Icon(
