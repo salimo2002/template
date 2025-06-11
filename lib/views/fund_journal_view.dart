@@ -45,6 +45,13 @@ class _FundJournalViewState extends State<FundJournalView> {
   FocusNode currencyFoucs = FocusNode();
   FocusNode statementFoucs = FocusNode();
   final GlobalKey<FormState> globalKey = GlobalKey();
+  Color color1 = kWhite;
+  Color color2 = kWhite;
+  Color color3 = kWhite;
+  Color textColor1 = kBlueAccent;
+  Color textColor2 = kBlueAccent;
+  Color textColor3 = kBlueAccent;
+  late DateTime? dateTime;
 
   @override
   Widget build(BuildContext context) {
@@ -68,26 +75,63 @@ class _FundJournalViewState extends State<FundJournalView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ContainerFilter(
-                            height: 35,
-                            width: MediaQuery.sizeOf(context).width * .22,
-                            text: 'تاريخ مخصص',
-                            containerColor: kWhite,
-                            textColor: kBlueAccent,
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                color1 = kBlueAccent;
+                                textColor1 = kWhite;
+                                color3 = kWhite;
+                                textColor3 = kBlueAccent;
+                                color2 = kWhite;
+                                textColor2 = kBlueAccent;
+                              });
+                              selectDate(context);
+                            },
+                            child: ContainerFilter(
+                              height: 35,
+                              width: MediaQuery.sizeOf(context).width * .22,
+                              text: 'تاريخ مخصص',
+                              containerColor: color1,
+                              textColor: textColor1,
+                            ),
                           ),
-                          ContainerFilter(
-                            height: 35,
-                            width: MediaQuery.sizeOf(context).width * .22,
-                            text: 'الشهر',
-                            containerColor: kWhite,
-                            textColor: kBlueAccent,
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                color2 = kBlueAccent;
+                                textColor2 = kWhite;
+                                color3 = kWhite;
+                                textColor3 = kBlueAccent;
+                                color1 = kWhite;
+                                textColor1 = kBlueAccent;
+                              });
+                            },
+                            child: ContainerFilter(
+                              height: 35,
+                              width: MediaQuery.sizeOf(context).width * .22,
+                              text: 'الشهر',
+                              containerColor: color2,
+                              textColor: textColor2,
+                            ),
                           ),
-                          ContainerFilter(
-                            height: 35,
-                            width: MediaQuery.sizeOf(context).width * .22,
-                            text: 'اليوم',
-                            containerColor: kBlueAccent,
-                            textColor: kWhite,
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                color3 = kBlueAccent;
+                                textColor3 = kWhite;
+                                color2 = kWhite;
+                                textColor2 = kBlueAccent;
+                                color1 = kWhite;
+                                textColor1 = kBlueAccent;
+                              });
+                            },
+                            child: ContainerFilter(
+                              height: 35,
+                              width: MediaQuery.sizeOf(context).width * .22,
+                              text: 'اليوم',
+                              containerColor: color3,
+                              textColor: textColor3,
+                            ),
                           ),
                           Flexible(
                             child: Text(
@@ -259,7 +303,11 @@ class _FundJournalViewState extends State<FundJournalView> {
                       children: [
                         CustomButtonSave(
                           onTap: () {
-                            Navigator.pushNamedAndRemoveUntil(context, HomeView.id,(route) => false,);
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              HomeView.id,
+                              (route) => false,
+                            );
                           },
                           label: 'الغاء',
                         ),
@@ -292,12 +340,15 @@ class _FundJournalViewState extends State<FundJournalView> {
                                           currencyControler.text == 'دولار'
                                               ? 1
                                               : 0,
-                                      debDate: DateTime.parse(
-                                        '${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')}',
-                                      ),
+                                      debDate:
+                                          color1 == kBlueAccent
+                                              ? dateTime!
+                                              : DateTime.parse(
+                                                '${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')}',
+                                              ),
                                     ),
                                   );
-                                   
+
                                   Navigator.pushNamedAndRemoveUntil(
                                     context,
                                     FundJournalView.id,
@@ -310,21 +361,17 @@ class _FundJournalViewState extends State<FundJournalView> {
                                       kBlueAccent,
                                     ),
                                   );
-                                  
-                                } else{accId=-1;}
-                                
-                                
+                                }
                               });
-                              if (accId==-1) {
+                              if (accId == 0) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    customSnackBar(
-                                      context,
-                                      'الحساب المقابل غير موجود في الحسابات',
-                                      kRed,
-                                    ),
-                                  );
+                                  customSnackBar(
+                                    context,
+                                    'الحساب المقابل غير موجود في الحسابات',
+                                    kRed,
+                                  ),
+                                );
                               }
-
                             }
                           },
                           label: 'حفظ',
@@ -338,6 +385,19 @@ class _FundJournalViewState extends State<FundJournalView> {
           ),
         ),
       ),
+    );
+  }
+
+  String formatDate(DateTime date) {
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+  }
+
+  Future<void> selectDate(BuildContext context) async {
+    dateTime = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2025),
+      lastDate: DateTime(2026),
     );
   }
 
