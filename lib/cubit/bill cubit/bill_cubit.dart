@@ -33,7 +33,7 @@ class BillCubit extends Cubit<BillStatus> {
           billDetails.add(BillDetailsModel.fromJson(element));
         }
       }
-
+log('الفواتير كويسة');
       emit(SuccessStateBill(bill: bill));
     } catch (e) {
       emit(FaliureStateBill(errorMessage: e.toString()));

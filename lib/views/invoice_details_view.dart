@@ -19,6 +19,7 @@ import 'package:template/widgets/invoice%20details%20view/radio_menu_buttons.dar
 import 'package:template/widgets/invoice%20details%20view/text_field_date.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
+import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/text_field_details.dart';
 
 class InvoiceDetailsView extends StatefulWidget {
@@ -47,6 +48,8 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
   final FocusNode sssss = FocusNode();
   final FocusNode ssssss = FocusNode();
   final FocusNode _sssssss = FocusNode();
+  final TextEditingController currencyControler = TextEditingController();
+  final FocusNode currencyFoucs = FocusNode();
   GlobalKey<FormState> globalKey = GlobalKey();
   List<AccountModel> searchResults = [];
   bool isSearching = false;
@@ -65,6 +68,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
     bilNote: '',
     bilPayment: 0,
     payType: 1,
+    curId: 0,
   );
   late String billType;
   late bool isNew;
@@ -91,7 +95,9 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
 
     final Map<String, dynamic> billList =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-
+    if (billList['cur_id']==0) {
+      currencyControler.text = 'ليرة سورية';
+    }else{currencyControler.text ='دولار';}
     bills = billList['bill'];
     countInvois.text = billList['total'];
     billType = billList['billType'];
@@ -218,20 +224,48 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                             ),
                           ),
                         ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          color: kWhite,
-                        ),
-                        height: 30,
-                        width: MediaQuery.sizeOf(context).width * 0.77,
-                        child: Center(
-                          child: Text(
-                            'الرصيد: 2500',
-                            style: FontStyleApp.black18.copyWith(
-                              fontSize: getResponsiveText(context, 14),
-                            ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: CustomTextField(
+                          validator: (p0) {
+                            if (p0 == null || p0 == '') {
+                              return 'الرجاء ادخال العملة';
+                            }
+                            return null;
+                          },
+                          canRead: true,
+                          suffixIcon: InkWell(
+                            onTapDown: (TapDownDetails details) {
+                              final RenderBox overlay =
+                                  Overlay.of(context).context.findRenderObject()
+                                      as RenderBox;
+                              showMenu(
+                                context: context,
+                                position: RelativeRect.fromRect(
+                                  details.globalPosition & const Size(60, 60),
+                                  Offset.zero & overlay.size,
+                                ),
+                                items: [
+                                  PopupMenuItem(
+                                    child: Text('ليرة سورية'),
+                                    onTap:
+                                        () =>
+                                            currencyControler.text =
+                                                'ليرة سورية',
+                                  ),
+                                  PopupMenuItem(
+                                    child: Text('دولار'),
+                                    onTap:
+                                        () => currencyControler.text = 'دولار',
+                                  ),
+                                ],
+                              );
+                            },
+                            child: Icon(Icons.arrow_drop_down, size: 33),
                           ),
+                          hintText: 'العملة',
+                          controller: currencyControler,
+                          focusNode: currencyFoucs,
                         ),
                       ),
                       Container(
@@ -512,6 +546,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
           bilNet: double.tryParse(remainingAmound.text) ?? 0,
           bilDate: billDate,
           bilNote: note.text,
+          curId: currencyControler.text == 'دولار' ? 1 : 0,
         );
 
         if (isNew) {

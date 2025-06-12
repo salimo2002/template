@@ -51,6 +51,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   late String billType;
   BillModel? billModel;
   bool isRebuild = true;
+  late int? curId;
 
   @override
   void initState() {
@@ -69,6 +70,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
       billType = billRoute['BillType'] as String;
       billModel =
           billRoute['bill'] != null ? billRoute['bill'] as BillModel : null;
+          curId=billRoute['cur_id'];
 
       if (!isNew && billModel != null) {
         final billDetails = context.read<BillCubit>().billDetails.where(
@@ -317,6 +319,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
         'billType': billType,
         'isNew': isNew,
         'billModel': billModel,
+        'cur_id':curId
       },
     );
   }

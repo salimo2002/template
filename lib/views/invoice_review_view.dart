@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -94,7 +95,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                       final billAmount =
                           (currentBill.bilNet ?? 0) -
                           (currentBill.bilPayment ?? 0);
-
+log(filteredBills[index].curId.toString());
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: GestureDetector(
@@ -194,6 +195,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                   'bill': selectedBill,
                   'isNew': false,
                   'BillType': '',
+                  'cur_id':selectedBill.curId
                 },
               );
             });
