@@ -1,9 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:template/cubit/company%20cubit/company_cubit.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
@@ -45,10 +41,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    log('ssssssssssssssssssssssssssssssssssssssssssssssssssssssss');
-    log(
-      'Name: ${context.read<CompanyCubit>().comp.comName} Id: ${context.read<CompanyCubit>().comp.comId} Serial: ${context.read<CompanyCubit>().comp.comSerial} Count: ${context.read<CompanyCubit>().comp.comCount}',
-    );
     return Scaffold(
       drawer: CustomDrawer(),
       appBar: AppBar(
@@ -60,69 +52,7 @@ class _HomeViewState extends State<HomeView> {
         ),
         backgroundColor: kBlueAccent,
         actions: [
-          IconButton(
-            onPressed: () async {
-              //  var s = await DeviceType.getDeviceImei();
-              // log(s ?? 'non');
-              // final DebitModel debit = DebitModel(
-              //   debId: 0,
-              //   voucherNumber: 1002,
-              //   accId: 1,
-              //   accId2: 491,
-              //   debAmount: 525.25,
-              //   ty: 0,
-              //   debNote: 'debNote',
-              //   curId: 1,
-              //   debDate: DateTime.now(),
-              // );
-              // context.read<DebitCubit>().insertDebit(debit);
-
-              // {
-              //   "voucher_number":1001,
-              //   "acc_id": 1,
-              //   "acc_id2": 491,
-              //   "deb_amount": 500.75,
-              //   "ty": 2,
-              //   "deb_note": "دفعة جديدة",
-              //   "cur_id": 1,
-              //   "deb_date": "2025-06-04",
-              // };
-            },
-
-            //   final details = [
-            //     {
-            //       "acc_id": 491,
-            //       "acc_id2": 456,
-            //       "det_maduin": 200,
-            //       "det_loaner": 300,
-            //       "cur_id": 1,
-            //     },
-            //     {
-            //       "acc_id": 456,
-            //       "acc_id2": 491,
-            //       "det_maduin": 400,
-            //       "det_loaner": 500,
-            //       "cur_id": 2,
-            //     },
-            //   ];
-
-            //   // إرسال البيانات إلى API
-            //   await DebitService.addDebitWithDetails(
-            //     debit: debit,
-            //     details: details,
-            //   );
-
-            //   try {
-            //     await DebitService.addDebitWithDetails(
-            //       debit: debit,
-            //       details: details,
-            //     );
-            //   } on Exception catch (e) {
-            //     throw Exception(e);
-            //   }
-            // },
-            icon: Icon(Icons.more_vert_outlined),
-          ),
+          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_outlined)),
         ],
       ),
       body: Stack(
