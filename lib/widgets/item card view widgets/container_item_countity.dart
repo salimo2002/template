@@ -120,7 +120,7 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
-      height: MediaQuery.sizeOf(context).height * .25,
+      height: MediaQuery.sizeOf(context).height * .2,
       decoration: BoxDecoration(
         boxShadow: [bosShadow()],
         color: kWhite,
