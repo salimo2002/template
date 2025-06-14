@@ -25,6 +25,7 @@ class BillCubit extends Cubit<BillStatus> {
 
       for (var element in resultBill) {
         bill.add(BillModel.fromJson(element));
+        log(element.toString());
       }
 
       if (includeDetails) {
@@ -33,7 +34,7 @@ class BillCubit extends Cubit<BillStatus> {
           billDetails.add(BillDetailsModel.fromJson(element));
         }
       }
-log('الفواتير كويسة');
+      log('الفواتير كويسة');
       emit(SuccessStateBill(bill: bill));
     } catch (e) {
       emit(FaliureStateBill(errorMessage: e.toString()));

@@ -43,7 +43,7 @@ class BillModel {
       payType: int.parse(json['pay_type']),
       bilDate: DateTime.parse(json['BIL_DATE']),
       bilNote: json['BIL_NOTE'] ?? '',
-      curId: int.tryParse(json['CUR_ID'].toString()), 
+      curId: int.tryParse(json['cur_id'].toString()), 
     );
   }
 
@@ -63,7 +63,7 @@ class BillModel {
       'BIL_DATE':
           bilDate?.toIso8601String() ?? DateTime.now().toIso8601String(),
       'BIL_NOTE': bilNote ?? '',
-      'CUR_ID': curId?.toString() ?? '1',
+      'cur_id': curId?.toString() ?? '1',
     };
   }
 }

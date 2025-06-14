@@ -48,6 +48,7 @@ class BillServices {
 
     try {
       List<dynamic> data = jsonDecode(response.body);
+
       return data;
     } catch (e) {
       throw Exception('فشل في تحليل البيانات: $e');
