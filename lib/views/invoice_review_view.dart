@@ -42,6 +42,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
 
   @override
   Widget build(BuildContext context) {
+    log(billType);
     return Scaffold(
       appBar: customAppBar(
         context: context,
@@ -65,16 +66,16 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                               '${bill.bilDate!.year}-${bill.bilDate!.month}' ==
                                   date;
                         } else if (date == '') {
-                          bill.bilKind == billType &&
+                          return bill.bilKind == billType &&
                               RadioMenuButtons.payType == bill.payType &&
                               bill.accId == nameAcuont;
-                        }else{return bill.bilKind == billType &&
-                            RadioMenuButtons.payType == bill.payType &&
-                            bill.accId == nameAcuont &&
-                            '${bill.bilDate!.year}-${bill.bilDate!.month}-${bill.bilDate!.day}' ==
-                                date;}
-                        return true;
-
+                        } else {
+                          return bill.bilKind == billType &&
+                              RadioMenuButtons.payType == bill.payType &&
+                              bill.accId == nameAcuont &&
+                              '${bill.bilDate!.year}-${bill.bilDate!.month}-${bill.bilDate!.day}' ==
+                                  date;
+                        }
                       }).toList();
 
                   if (filteredBills.isEmpty) {
@@ -95,7 +96,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                       final billAmount =
                           (currentBill.bilNet ?? 0) -
                           (currentBill.bilPayment ?? 0);
-log(filteredBills[index].curId.toString());
+                      log(filteredBills[index].curId.toString());
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: GestureDetector(
@@ -148,7 +149,6 @@ log(filteredBills[index].curId.toString());
                               context,
                               HomeView.id,
                               (route) => false,
-                              
                             );
                           },
                           icon: const Icon(
@@ -195,7 +195,7 @@ log(filteredBills[index].curId.toString());
                   'bill': selectedBill,
                   'isNew': false,
                   'BillType': '',
-                  'cur_id':selectedBill.curId
+                  'cur_id': selectedBill.curId,
                 },
               );
             });

@@ -237,20 +237,18 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                             });
                             selectDate(context);
                           },
-                          onTapDay:  () {
+                          onTapDay: () {
                             setState(() {
                               picked = DateTime.now();
                               isMonth = false;
                             });
                           },
-                          onTapAll:
-                          () {
+                          onTapAll: () {
                             setState(() {
                               picked = null;
                               isMonth = false;
                             });
-                          }
-                          
+                          },
                         ),
 
                         const SizedBox(height: 20),
@@ -324,6 +322,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
   }
 
   void navigatorToInvoiceReview() {
+    debugPrint('--------------------------$selectedBillType');
     if (globalKey.currentState!.validate()) {
       Navigator.pushNamed(
         context,
@@ -345,6 +344,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
           'isMonth': isMonth,
         },
       );
+      debugPrint('--------------------------$selectedBillType');
     }
   }
 }
