@@ -95,9 +95,11 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
 
     final Map<String, dynamic> billList =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    if (billList['cur_id']==0) {
+    if (billList['cur_id'] == 1) {
       currencyControler.text = 'ليرة سورية';
-    }else{currencyControler.text ='دولار';}
+    } else {
+      currencyControler.text = 'دولار';
+    }
     bills = billList['bill'];
     countInvois.text = billList['total'];
     billType = billList['billType'];
