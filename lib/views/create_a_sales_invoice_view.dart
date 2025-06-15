@@ -34,12 +34,10 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   final MobileScannerController scannerController = MobileScannerController();
   final TextEditingController controllerSerch = TextEditingController();
   final TextEditingController totalAllPrice = TextEditingController(text: '0');
-
   final List<TextEditingController> totalController = [];
   final List<TextEditingController> priceController = [];
   final List<TextEditingController> bounsController = [];
   final List<TextEditingController> quantityController = [];
-
   final List<BillDetailsModel> bills = [];
   List<MaterialModel> materialModel = [];
 

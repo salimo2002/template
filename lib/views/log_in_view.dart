@@ -20,11 +20,13 @@ class LogInView extends StatefulWidget {
 }
 
 class _LogInViewState extends State<LogInView> {
+  late final TextEditingController userName;
   late final TextEditingController companyName;
   late final TextEditingController activateKey;
   late final GlobalKey<FormState> globalKey;
   @override
   void initState() {
+    userName = TextEditingController();
     companyName = TextEditingController();
     activateKey = TextEditingController();
     globalKey = GlobalKey();
@@ -71,9 +73,24 @@ class _LogInViewState extends State<LogInView> {
                         }
                         return null;
                       },
+                      hintText: 'اسم المستخدم',
+                      controller: userName,
+                      focusNode: FocusNode(),
+                      suffixIcon: Icon(
+                        FontAwesomeIcons.userCheck,
+                        color: kBlueAccent,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    CustomTextField(
+                      validator: (p0) {
+                        if (p0 == null || p0 == '') {
+                          return 'الرجاء ادخال اسم المستخدم';
+                        }
+                        return null;
+                      },
                       hintText: 'اسم الشركة',
                       controller: companyName,
-                      textDirection: TextDirection.ltr,
                       focusNode: FocusNode(),
                       suffixIcon: Icon(
                         FontAwesomeIcons.house,
@@ -88,12 +105,11 @@ class _LogInViewState extends State<LogInView> {
                         }
                         return null;
                       },
-                      hintText: 'مفتاح التفعيل',
+                      hintText: 'كلمة المرور',
                       controller: activateKey,
-                      textDirection: TextDirection.ltr,
                       focusNode: FocusNode(),
                       suffixIcon: Icon(
-                        FontAwesomeIcons.key,
+                        FontAwesomeIcons.lock,
                         color: kBlueAccent,
                       ),
                     ),
@@ -126,6 +142,7 @@ class _LogInViewState extends State<LogInView> {
                                       serialKey: activateKey.text,
                                       imei: imei,
                                     );
+                                userNameVariable = userName.text;
                                 FocusScope.of(context).unfocus();
                               }
                             },
