@@ -7,12 +7,13 @@ class ImeiCubit extends Cubit<ImeiStatus> {
   List<String> devices = [];
   List<String> users = [];
   Map<String, String> result = {};
-  void deletDevice({required String imei, required int comId}) async {
+  void deletDevice({required String imei, required int comId,required userName}) async {
     emit(ImeiLoadingState());
     try {
       String message = await CompanyServices.deleteDevice(
         comId: comId,
         imei: imei,
+        userName: userName
       );
       emit(ImeiSuccessState(message, devices: devices, users: users));
     } catch (e) {

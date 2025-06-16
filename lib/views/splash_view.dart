@@ -27,7 +27,7 @@ class SplashViewState extends State<SplashView> {
   bool _materialsLoaded = false;
   bool _categoriesLoaded = false;
   bool _accountsLoaded = false;
-  bool _billsLoaded = false;
+  // bool _billsLoaded = false;
   bool _videoInitialized = false;
   bool _devicesLoaded = false;
 
@@ -52,11 +52,11 @@ class SplashViewState extends State<SplashView> {
       checkAndNavigate();
     });
 
-    context.read<BillCubit>().fetchBills().then((_) {
-      _billsLoaded = true;
-      log('✅ الفواتير تم تحميلها');
-      checkAndNavigate();
-    });
+    // context.read<BillCubit>().fetchBills().then((_) {
+    //   _billsLoaded = true;
+    //   log('✅ الفواتير تم تحميلها');
+    //   checkAndNavigate();
+    // });
 
     context
         .read<ImeiCubit>()
@@ -97,7 +97,7 @@ class SplashViewState extends State<SplashView> {
     if (_materialsLoaded &&
         _categoriesLoaded &&
         _accountsLoaded &&
-        _billsLoaded &&
+        // _billsLoaded &&
         _devicesLoaded &&
         _videoInitialized) {
       Navigator.pushReplacementNamed(context, HomeView.id);
