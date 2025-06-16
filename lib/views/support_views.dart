@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/models/account_model.dart';
+import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/widgets/Invoice%20review/filter_invoice_review.dart';
 import 'package:template/widgets/invoice%20details%20view/comments_text_field.dart';
 import 'package:template/widgets/invoice%20details%20view/text_field_date.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
@@ -25,7 +27,6 @@ class _SupportViewsState extends State<SupportViews> {
 
   final TextEditingController _nameAccountController = TextEditingController();
   final TextEditingController _nameAccountController2 = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
 
@@ -35,6 +36,15 @@ class _SupportViewsState extends State<SupportViews> {
   List<AccountModel> creditorSearchResults = [];
   bool isSearchingDebtor = false;
   bool isSearchingCreditor = false;
+
+  Color color3 = kWhite;
+  Color textColor3 = kBlueAccent;
+  TextEditingController date1Controler = TextEditingController();
+  FocusNode date1 = FocusNode();
+  FocusNode date2 = FocusNode();
+  bool isToDay = false;
+  bool canRead = false;
+
   @override
   void didChangeDependencies() {
     documentType = ModalRoute.of(context)!.settings.arguments as String;
@@ -49,83 +59,115 @@ class _SupportViewsState extends State<SupportViews> {
         child: Column(
           children: [
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ContainerFields(
-                        children: [
-                          TextFieldDate(
-                            canRead: false,
-                            date: _dateController,
-                            hoursOrYear: true,
-                            label: 'التاريخ',
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: MediaQuery.sizeOf(context).height*.15,),
+                    ContainerFields(
+                      children: [
+                        CustomTextField(
+                          onChanged:
+                              (query) => searchAccount(query, isDebtor: true),
+                          suffixIcon: const SizedBox(width: 40, height: 40),
+                          hintText: 'الحساب المدين',
+                          controller: _nameAccountController,
+                          focusNode: _focusNode0,
+                        ),
+                        if (isSearchingDebtor)
+                          Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: SearchResultsList(
+                              results: debtorSearchResults,
+                              onSelect: (account) {
+                                setState(() {
+                                  _nameAccountController.text =
+                                      account.accName;
+                                  isSearchingDebtor = false;
+                                });
+                              },
+                            ),
                           ),
-                          CommentsTextField(
-                            width: MediaQuery.sizeOf(context).width * 0.75,
-                            focusNode: _focusNode3,
-                            maxLines: 4,
-                            label: 'ملاحظة',
-                            controller: _noteController,
+                        CustomTextField(
+                          onChanged:
+                              (query) =>
+                                  searchAccount(query, isDebtor: false),
+                          suffixIcon: const SizedBox(width: 40, height: 40),
+                          hintText: 'حساب الدائن',
+                          controller: _nameAccountController2,
+                          focusNode: _focusNode2,
+                        ),
+                        if (isSearchingCreditor)
+                          Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: SearchResultsList(
+                              results: creditorSearchResults,
+                              onSelect: (account) {
+                                setState(() {
+                                  _nameAccountController2.text =
+                                      account.accName;
+                                  isSearchingCreditor = false;
+                                });
+                              },
+                            ),
                           ),
-                          const Divider(),
-                          CustomTextField(
-                            onChanged:
-                                (query) => searchAccount(query, isDebtor: true),
-                            suffixIcon: const SizedBox(width: 40, height: 40),
-                            hintText: 'الحساب المدين',
-                            controller: _nameAccountController,
-                            focusNode: _focusNode0,
-                          ),
-                          if (isSearchingDebtor)
-                            Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: SearchResultsList(
-                                results: debtorSearchResults,
-                                onSelect: (account) {
-                                  setState(() {
-                                    _nameAccountController.text =
-                                        account.accName;
-                                    isSearchingDebtor = false;
-                                  });
-                                },
+                        CustomTextField(
+                          keyType: TextInputType.numberWithOptions(),
+                          hintText: 'المبلغ',
+                          controller: _amountController,
+                          focusNode: _focusNode,
+                        ),
+                        CommentsTextField(
+                          width: MediaQuery.sizeOf(context).width * 0.75,
+                          focusNode: _focusNode3,
+                          maxLines: 4,
+                          label: 'ملاحظة',
+                          controller: _noteController,
+                        ),
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isToDay = !isToDay;
+                                  if (isToDay) {
+                                    color3 = kBlueAccent;
+                                    textColor3 = kWhite;
+                                    canRead = true;
+                                    date1Controler.text = '';
+                                  } else {
+                                    canRead = false;
+                                    color3 = kWhite;
+                                    textColor3 = kBlueAccent;
+                                  }
+                                });
+                              },
+                              child: ContainerFilter(
+                                height: 35,
+                                width: MediaQuery.sizeOf(context).width * .22,
+                                text: 'تاريخ اليوم',
+                                containerColor: color3,
+                                textColor: textColor3,
                               ),
                             ),
-                          CustomTextField(
-                            onChanged:
-                                (query) =>
-                                    searchAccount(query, isDebtor: false),
-                            suffixIcon: const SizedBox(width: 40, height: 40),
-                            hintText: 'حساب الدائن',
-                            controller: _nameAccountController2,
-                            focusNode: _focusNode2,
-                          ),
-                          if (isSearchingCreditor)
-                            Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: SearchResultsList(
-                                results: creditorSearchResults,
-                                onSelect: (account) {
-                                  setState(() {
-                                    _nameAccountController2.text =
-                                        account.accName;
-                                    isSearchingCreditor = false;
-                                  });
-                                },
+                            SizedBox(height: 15),
+              
+                            SizedBox(
+                              width: MediaQuery.sizeOf(context).width * 0.4,
+                              child: TextFieldDate(
+                                canRead: canRead,
+                                date: date1Controler,
+                                hoursOrYear: true,
+                                label: 'تاريخ مخصص',
                               ),
                             ),
-                          CustomTextField(
-                            keyType: TextInputType.numberWithOptions(),
-                            hintText: 'المبلغ',
-                            controller: _amountController,
-                            focusNode: _focusNode,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                            SizedBox(height: 15),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),

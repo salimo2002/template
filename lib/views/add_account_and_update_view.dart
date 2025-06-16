@@ -86,131 +86,130 @@ class _AddAccountAndUpdateViewState extends State<AddAccountAndUpdateView> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Column(
-                    children: [
-                      ContainerFields(
-                        children: [
-                          Row(
-                            children: [
-                              const SizedBox(width: 5),
-                              Expanded(
-                                child: SizedBox(
-                                  height: 34,
-                                  child: TextFormField(
-                                    readOnly: true,
-                                    textDirection: TextDirection.rtl,
-                                    decoration: InputDecoration(
-                                      isDense: true,
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                            vertical: 8,
-                                            horizontal: 12,
+                child: Column(
+                  children: [
+                    SizedBox(height: 20),
+                    ContainerFields(
+                      children: [
+                        Row(
+                          children: [
+                            const SizedBox(width: 5),
+                            Expanded(
+                              child: SizedBox(
+                                height: 34,
+                                child: TextFormField(
+                                  readOnly: true,
+                                  textDirection: TextDirection.rtl,
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 8,
+                                      horizontal: 12,
+                                    ),
+                                    hintTextDirection: TextDirection.rtl,
+                                    hintText:
+                                        isNew
+                                            ? existingAccount.accName
+                                            : parentName,
+                                    hintStyle: FontStyleApp.blackCustom18
+                                        .copyWith(
+                                          fontSize: getResponsiveText(
+                                            context,
+                                            12,
                                           ),
-                                      hintTextDirection: TextDirection.rtl,
-                                      hintText:
-                                          isNew
-                                              ? existingAccount.accName
-                                              : parentName,
-                                      hintStyle: FontStyleApp.blackCustom18
-                                          .copyWith(
-                                            fontSize: getResponsiveText(
-                                              context,
-                                              12,
-                                            ),
-                                          ),
-                                      fillColor: kWhite,
-                                      filled: true,
-                                      enabledBorder: borderStyle(),
-                                      border: borderStyle(),
-                                      focusedBorder: borderStyle(),
-                                      errorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.red,
                                         ),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                      errorStyle: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    fillColor: kWhite,
+                                    filled: true,
+                                    enabledBorder: borderStyle(),
+                                    border: borderStyle(),
+                                    focusedBorder: borderStyle(),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                    errorStyle: TextStyle(
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 20),
-                              Text(
-                                'الحساب الرئيسي',
-                                style: TextStyle(
-                                  fontSize: getResponsiveText(context, 12),
-                                ),
+                            ),
+                            const SizedBox(width: 20),
+                            Text(
+                              'الحساب الرئيسي',
+                              style: TextStyle(
+                                fontSize: getResponsiveText(context, 12),
                               ),
-                              const SizedBox(width: 10),
-                            ],
-                          ),
-                        ],
-                      ),
-                      ContainerFields(
-                        children: [
-                          TextFieldAndDetails(
-                            focusNode: FocusNode(),
-                            hintText: 'اسم الحساب',
-                            controller: nameAcc,
-                          ),
-                        ],
-                      ),
-                      ContainerFields(
-                        children: [
-                          TextFieldAndDetails(
-                            focusNode: FocusNode(),
-                            hintText: 'رقم الهاتف',
-                            controller: phonAcc,
-                          ),
-                        ],
-                      ),
-                      ContainerFields(
-                        children: [
-                          TextFieldAndDetails(
-                            focusNode: FocusNode(),
-                            hintText: 'رقم الموبايل',
-                            controller: mobileAcc,
-                          ),
-                        ],
-                      ),
-                      ContainerFields(
-                        children: [
-                          TextFieldAndDetails(
-                            focusNode: FocusNode(),
-                            hintText: 'العنوان',
-                            controller: addressAcc,
-                          ),
-                        ],
-                      ),
-                      ContainerFields(
-                        children: [
-                          TextFieldAndDetails(
-                            focusNode: FocusNode(),
-                            hintText: 'البريد الاكتروني',
-                            controller: emailAcc,
-                          ),
-                        ],
-                      ),
-                      ContainerFields(
-                        children: [
-                          TextFieldAndDetails(
-                            focusNode: FocusNode(),
-                            hintText: 'الرقم الضريبي',
-                            controller: taxAcc,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                    ],
-                  ),
+                            ),
+                            const SizedBox(width: 10),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    ContainerFields(
+                      children: [
+                        TextFieldAndDetails(
+                          focusNode: FocusNode(),
+                          hintText: 'اسم الحساب',
+                          controller: nameAcc,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    ContainerFields(
+                      children: [
+                        TextFieldAndDetails(
+                          focusNode: FocusNode(),
+                          hintText: 'رقم الهاتف',
+                          controller: phonAcc,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    ContainerFields(
+                      children: [
+                        TextFieldAndDetails(
+                          focusNode: FocusNode(),
+                          hintText: 'رقم الموبايل',
+                          controller: mobileAcc,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    ContainerFields(
+                      children: [
+                        TextFieldAndDetails(
+                          focusNode: FocusNode(),
+                          hintText: 'العنوان',
+                          controller: addressAcc,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    ContainerFields(
+                      children: [
+                        TextFieldAndDetails(
+                          focusNode: FocusNode(),
+                          hintText: 'البريد الاكتروني',
+                          controller: emailAcc,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    ContainerFields(
+                      children: [
+                        TextFieldAndDetails(
+                          focusNode: FocusNode(),
+                          hintText: 'الرقم الضريبي',
+                          controller: taxAcc,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                  ],
                 ),
               ),
             ),

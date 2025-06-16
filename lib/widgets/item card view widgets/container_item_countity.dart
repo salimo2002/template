@@ -180,11 +180,11 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TableFIelds(
-                lable1: 'الكمية المتوفرة',
+                lable1: 'سعر المستهلك',
                 value1: '250',
-                lable2: 'الكمية المباعة',
+                lable2: 'سعر الجملة',
                 value2: '250',
-                lable3: 'الكمية الكلية',
+                lable3: 'الكمية المتوفرة',
                 value3: '250',
                 lable4: 'الوحدة',
                 value4: 'كغ',

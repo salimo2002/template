@@ -17,7 +17,7 @@ class CustomButtonSave extends StatelessWidget {
         decoration: BoxDecoration(
           color: kBlueAccent,
           border: Border.all(color: kBlueAccent),
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(16),
         ),
         child: Center(
           child: Text(

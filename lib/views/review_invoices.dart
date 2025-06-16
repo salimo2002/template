@@ -192,23 +192,21 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                         SizedBox(height: 20),
                         ContainerFields(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 30,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  color: kBlueAccent,
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                child: Text(
-                                  'نمط الدفع',
-                                  style: FontStyleApp.white18.copyWith(
-                                    fontSize: getResponsiveText(context, 12),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 16),
+                                  child: Text(
+                                    ': نمط الدفع',
+                                    style: FontStyleApp.blackCustom18.copyWith(
+                                      fontStyle: FontStyle.italic,
+                                      decoration: TextDecoration.underline,
+                                      fontSize: getResponsiveText(context, 12),
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
 
                             Padding(
@@ -237,9 +235,8 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                                     color3 = kBlueAccent;
                                     textColor3 = kWhite;
                                     canRead = true;
-                                    date1Controler.text='';
-                                    date2Controler.text='';
-                                    
+                                    date1Controler.text = '';
+                                    date2Controler.text = '';
                                   } else {
                                     canRead = false;
                                     color3 = kWhite;
@@ -259,16 +256,15 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
 
                             SizedBox(
                               width: MediaQuery.sizeOf(context).width * 0.4,
-                              child: TextFieldDate(canRead: canRead,
+                              child: TextFieldDate(
+                                canRead: canRead,
                                 date: date1Controler,
                                 hoursOrYear: true,
                                 label: 'من تاريخ',
-                                
                               ),
                             ),
                             SizedBox(height: 15),
                             SizedBox(
-                              
                               width: MediaQuery.sizeOf(context).width * 0.4,
                               child: TextFieldDate(
                                 canRead: canRead,
@@ -314,19 +310,6 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
     );
   }
 
-  String formatDate(DateTime date) {
-    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
-  }
-
-  Future<void> selectDate(BuildContext context) async {
-    picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2025),
-      lastDate: DateTime(2026),
-    );
-  }
-
   void searchAccount(String query) {
     if (query.trim().isEmpty) {
       setState(() {
@@ -363,7 +346,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
           'billType': selectedBillType ?? '',
           'nameAcuont': accId,
           'dateTime':
-               '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}',
+              '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}',
           'isMonth': isToDay,
         },
       );
