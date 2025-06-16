@@ -10,11 +10,12 @@ class CompanyServices {
   static Future<String> deleteDevice({
     required int comId,
     required String imei,
+    required String userName,
   }) async {
     final url = Uri.parse(_deleteDeviceUrl);
     final response = await http.post(
       url,
-      body: {'com_id': comId.toString(), 'imei': imei},
+      body: {'com_id': comId.toString(), 'imei': imei, 'user_name': userName},
     );
     log(response.body);
     if (response.statusCode != 200) {

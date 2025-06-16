@@ -15,6 +15,7 @@ const kColorBorder = Color(0xfff6f6f8);
 const kBorderTextFieldColor = Color.fromARGB(255, 233, 228, 228);
 const kBackGroundColor = Color(0xfff6f6f8);
 const kSecondColor = Color(0xff4095cc);
+String mainUser = '';
 BoxShadow bosShadow() {
   return BoxShadow(
     offset: Offset(0, .5),

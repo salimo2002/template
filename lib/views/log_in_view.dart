@@ -23,12 +23,20 @@ class _LogInViewState extends State<LogInView> {
   late final TextEditingController userName;
   late final TextEditingController companyName;
   late final TextEditingController activateKey;
+  late final FocusNode userNameFocus;
+  late final FocusNode companyNameFocus;
+  late final FocusNode activateKeyFocus;
+
   late final GlobalKey<FormState> globalKey;
   @override
   void initState() {
     userName = TextEditingController();
     companyName = TextEditingController();
     activateKey = TextEditingController();
+    userNameFocus = FocusNode();
+    companyNameFocus = FocusNode();
+    activateKeyFocus = FocusNode();
+
     globalKey = GlobalKey();
     insertImei();
     super.initState();
@@ -36,8 +44,13 @@ class _LogInViewState extends State<LogInView> {
 
   @override
   void dispose() {
+    userName.dispose();
     companyName.dispose();
     activateKey.dispose();
+    userNameFocus.dispose();
+    companyNameFocus.dispose();
+    activateKeyFocus.dispose();
+
     super.dispose();
   }
 
@@ -75,7 +88,7 @@ class _LogInViewState extends State<LogInView> {
                       },
                       hintText: 'اسم المستخدم',
                       controller: userName,
-                      focusNode: FocusNode(),
+                      focusNode: userNameFocus,
                       suffixIcon: Icon(
                         FontAwesomeIcons.userCheck,
                         color: kBlueAccent,
@@ -91,7 +104,7 @@ class _LogInViewState extends State<LogInView> {
                       },
                       hintText: 'اسم الشركة',
                       controller: companyName,
-                      focusNode: FocusNode(),
+                      focusNode: companyNameFocus,
                       suffixIcon: Icon(
                         FontAwesomeIcons.house,
                         color: kBlueAccent,
@@ -107,7 +120,7 @@ class _LogInViewState extends State<LogInView> {
                       },
                       hintText: 'كلمة المرور',
                       controller: activateKey,
-                      focusNode: FocusNode(),
+                      focusNode: activateKeyFocus,
                       suffixIcon: Icon(
                         FontAwesomeIcons.lock,
                         color: kBlueAccent,
@@ -117,6 +130,7 @@ class _LogInViewState extends State<LogInView> {
                     BlocConsumer<CompanyCubit, CompanyStatus>(
                       listener: (context, state) {
                         if (state is CompanySuccesState) {
+                          mainUser = userName.text;
                           Navigator.pushReplacementNamed(
                             context,
                             SplashView.id,
@@ -141,8 +155,9 @@ class _LogInViewState extends State<LogInView> {
                                       companyName: companyName.text,
                                       serialKey: activateKey.text,
                                       imei: imei,
-                                      userName: userName.text
+                                      userName: userName.text,
                                     );
+
                                 FocusScope.of(context).unfocus();
                               }
                             },
