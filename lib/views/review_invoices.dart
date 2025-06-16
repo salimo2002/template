@@ -350,7 +350,6 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
   }
 
   void navigatorToInvoiceReview() {
-    debugPrint('--------------------------$selectedBillType');
     if (globalKey.currentState!.validate()) {
       Navigator.pushNamed(
         context,
@@ -372,7 +371,6 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
           'isMonth': isToDay,
         },
       );
-      debugPrint('--------------------------$selectedBillType');
     }
   }
 }
