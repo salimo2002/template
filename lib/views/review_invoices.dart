@@ -190,35 +190,38 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                           ],
                         ),
                         SizedBox(height: 20),
-                        ContainerFields(
+                        Stack(
+                          alignment: Alignment.topRight,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 16),
-                                  child: Text(
-                                    ': نمط الدفع',
-                                    style: FontStyleApp.blackCustom18.copyWith(
-                                      fontStyle: FontStyle.italic,
-                                      decoration: TextDecoration.underline,
-                                      fontSize: getResponsiveText(context, 12),
+                            Container(
+                              padding: const EdgeInsets.only(top: 11),
+                              child: ContainerFields(
+                                children: [
+                                  CustomContainer(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Directionality(
+                                      textDirection: TextDirection.rtl,
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(1),
+                                        child: RadioMenuButtons(),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
 
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: CustomContainer(
-                                borderRadius: BorderRadius.circular(15),
-                                child: Directionality(
-                                  textDirection: TextDirection.rtl,
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(1),
-                                    child: RadioMenuButtons(),
-                                  ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 25,
+                              ),
+                              child: Text(
+                                ': نمط الدفع',
+                                style: FontStyleApp.blackCustom18.copyWith(
+                                  backgroundColor: kWhite,
+                                  color: kBlueAccent,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: getResponsiveText(context, 12),
                                 ),
                               ),
                             ),
