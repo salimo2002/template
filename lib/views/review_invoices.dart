@@ -10,6 +10,7 @@ import 'package:template/views/invoice_review_view.dart';
 import 'package:template/widgets/Invoice%20review/filter_invoice_review.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/invoice%20details%20view/radio_menu_buttons.dart';
+import 'package:template/widgets/invoice%20details%20view/text_field_date.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
@@ -32,17 +33,16 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
   bool isSearching = false;
   late int accId;
   GlobalKey<FormState> globalKey = GlobalKey();
-  bool isMonth = false;
+  bool isToDay = false;
+  bool canRead = false;
   String? selectedBillType;
 
-  Color color1 = kWhite;
-  Color textColor1 = kBlueAccent;
-  Color color2 = kWhite;
-  Color textColor2 = kBlueAccent;
   Color color3 = kWhite;
   Color textColor3 = kBlueAccent;
-  Color color4 = kWhite;
-  Color textColor4 = kBlueAccent;
+  TextEditingController date1Controler = TextEditingController();
+  TextEditingController date2Controler = TextEditingController();
+  FocusNode date1 = FocusNode();
+  FocusNode date2 = FocusNode();
 
   final List<Map<String, String>> billTypes = [
     {'label': 'فواتير المشتريات', 'value': 'buy'},
@@ -189,6 +189,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                               ),
                           ],
                         ),
+                        SizedBox(height: 20),
                         ContainerFields(
                           children: [
                             Padding(
@@ -209,6 +210,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                                 ),
                               ),
                             ),
+
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CustomContainer(
@@ -224,34 +226,61 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                             ),
                           ],
                         ),
-                        FilterInvoiceReview(
-                          onTapCustom: () {
-                            setState(() {
-                              isMonth = false;
-                            });
-                            selectDate(context);
-                          },
-                          onTapMonth: () {
-                            setState(() {
-                              isMonth = true;
-                            });
-                            selectDate(context);
-                          },
-                          onTapDay: () {
-                            setState(() {
-                              picked = DateTime.now();
-                              isMonth = false;
-                            });
-                          },
-                          onTapAll: () {
-                            setState(() {
-                              picked = null;
-                              isMonth = false;
-                            });
-                          },
+                        SizedBox(height: 20),
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isToDay = !isToDay;
+                                  if (isToDay) {
+                                    color3 = kBlueAccent;
+                                    textColor3 = kWhite;
+                                    canRead = true;
+                                    date1Controler.text='';
+                                    date2Controler.text='';
+                                    
+                                  } else {
+                                    canRead = false;
+                                    color3 = kWhite;
+                                    textColor3 = kBlueAccent;
+                                  }
+                                });
+                              },
+                              child: ContainerFilter(
+                                height: 35,
+                                width: MediaQuery.sizeOf(context).width * .22,
+                                text: 'تاريخ اليوم',
+                                containerColor: color3,
+                                textColor: textColor3,
+                              ),
+                            ),
+                            SizedBox(height: 15),
+
+                            SizedBox(
+                              width: MediaQuery.sizeOf(context).width * 0.4,
+                              child: TextFieldDate(canRead: canRead,
+                                date: date1Controler,
+                                hoursOrYear: canRead,
+                                label: 'من تاريخ',
+                                
+                              ),
+                            ),
+                            SizedBox(height: 15),
+                            SizedBox(
+                              
+                              width: MediaQuery.sizeOf(context).width * 0.4,
+                              child: TextFieldDate(
+                                canRead: canRead,
+                                date: date2Controler,
+                                hoursOrYear: true,
+                                label: 'الى تاريخ',
+                              ),
+                            ),
+                          ],
                         ),
 
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 40),
 
                         Padding(
                           padding: const EdgeInsets.only(bottom: 30),
@@ -295,7 +324,6 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
       initialDate: DateTime.now(),
       firstDate: DateTime(2025),
       lastDate: DateTime(2026),
-      initialDatePickerMode: isMonth ? DatePickerMode.year : DatePickerMode.day,
     );
   }
 
@@ -338,10 +366,10 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
           'dateTime':
               picked == null
                   ? ''
-                  : isMonth
+                  : isToDay
                   ? '${picked!.year}-${picked!.month}'
                   : '${picked!.year}-${picked!.month}-${picked!.day}',
-          'isMonth': isMonth,
+          'isMonth': isToDay,
         },
       );
       debugPrint('--------------------------$selectedBillType');

@@ -58,11 +58,13 @@ class _SupportViewsState extends State<SupportViews> {
                       ContainerFields(
                         children: [
                           TextFieldDate(
+                            canRead: false,
                             date: _dateController,
                             hoursOrYear: true,
                             label: 'التاريخ',
                           ),
-                          CommentsTextField(width: MediaQuery.sizeOf(context).width * 0.75,
+                          CommentsTextField(
+                            width: MediaQuery.sizeOf(context).width * 0.75,
                             focusNode: _focusNode3,
                             maxLines: 4,
                             label: 'ملاحظة',

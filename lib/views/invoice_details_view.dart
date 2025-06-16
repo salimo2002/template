@@ -351,11 +351,13 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                   ContainerFields(
                     children: [
                       TextFieldDate(
+                        canRead: false,
                         date: date,
                         hoursOrYear: true,
                         label: 'التاريخ',
                       ),
                       TextFieldDate(
+                        canRead: false,
                         date: hour,
                         hoursOrYear: false,
                         label: 'الوقت',
