@@ -2,8 +2,9 @@ abstract class ImeiStatus {}
 
 class ImeiSuccessState extends ImeiStatus {
   final List<String> devices;
+  final List<String> users;
   final String? message;
-  ImeiSuccessState(this.message, {required this.devices});
+  ImeiSuccessState(this.message, {required this.devices,required this.users});
 }
 
 class ImeiFaliureState extends ImeiStatus {

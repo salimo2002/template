@@ -11,6 +11,7 @@ class CompanyCubit extends Cubit<CompanyStatus> {
     required String companyName,
     required String serialKey,
     required String imei,
+    required String userName,
   }) async {
     emit(CompanyLoadingState());
     try {
@@ -19,6 +20,7 @@ class CompanyCubit extends Cubit<CompanyStatus> {
             companyName: companyName,
             serialKey: serialKey,
             imei: imei,
+            userName: userName
           );
       message = companyDetails['message'];
       comp = CompanyModel.fromJson(companyDetails['data']);
