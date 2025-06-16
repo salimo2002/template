@@ -261,7 +261,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                               width: MediaQuery.sizeOf(context).width * 0.4,
                               child: TextFieldDate(canRead: canRead,
                                 date: date1Controler,
-                                hoursOrYear: canRead,
+                                hoursOrYear: true,
                                 label: 'من تاريخ',
                                 
                               ),

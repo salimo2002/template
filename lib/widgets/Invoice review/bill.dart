@@ -75,17 +75,6 @@ class Bill extends StatelessWidget {
           ],
         ),
         Divider(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              'المستودع الرئيسي',
-              style: FontStyleApp.blackCustom18.copyWith(
-                fontSize: getResponsiveText(context, 16),
-              ),
-            ),
-          ],
-        ),
         TableFieldsReview(
           lable1: 'المبلغ المتبقي',
           value1: reminingAmount,
