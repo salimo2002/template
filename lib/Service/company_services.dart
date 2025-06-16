@@ -34,11 +34,17 @@ class CompanyServices {
     required String companyName,
     required String serialKey,
     required String imei,
+    required String userName,
   }) async {
     final url = Uri.parse(_activateAndCheckUrl);
     final response = await http.post(
       url,
-      body: {'com_name': companyName, 'com_serial': serialKey, 'imei': imei},
+      body: {
+        'com_name': companyName,
+        'com_serial': serialKey,
+        'imei': imei,
+        'user_name': userName,
+      },
     );
     if (response.statusCode != 200) {
       throw Exception('فشل الاتصال بالخادم.');
@@ -51,7 +57,9 @@ class CompanyServices {
     }
   }
 
-  static Future<List<String>> getCompanyDevices({required int comId}) async {
+  static Future<Map<String, String>> getCompanyDevices({
+    required int comId,
+  }) async {
     final url = Uri.parse(_getDevicesUrl);
     final response = await http.post(url, body: {'com_id': comId.toString()});
     if (response.statusCode != 200) {
@@ -59,7 +67,10 @@ class CompanyServices {
     }
     final json = jsonDecode(response.body);
     if (json['status'] == 'success') {
-      return List<String>.from(json['devices']);
+      final Map<String, String> devices = Map<String, String>.from(
+        json['devices'],
+      );
+      return devices;
     } else {
       throw Exception('فشل في جلب الاجهزة');
     }

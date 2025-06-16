@@ -68,8 +68,8 @@ class DevicesActivatedView extends StatelessWidget {
                     itemCount: state.devices.length,
                     itemBuilder: (context, index) {
                       return MobileActivatedCard(
-                        comName: 'معرف الجهاز',
-                        imei: "${state.devices[index]} $index",
+                        userName: state.users[index],
+                        imei: state.devices[index],
                         onPressed: () {
                           if (state.devices[index] == imei) {
                             myImei = true;

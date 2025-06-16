@@ -5,6 +5,8 @@ import 'package:template/cubit/imei%20cubit/imei_status.dart';
 class ImeiCubit extends Cubit<ImeiStatus> {
   ImeiCubit() : super(ImeiInitState());
   List<String> devices = [];
+  List<String> users = [];
+  Map<String, String> result = {};
   void deletDevice({required String imei, required int comId}) async {
     emit(ImeiLoadingState());
     try {
@@ -12,7 +14,7 @@ class ImeiCubit extends Cubit<ImeiStatus> {
         comId: comId,
         imei: imei,
       );
-      emit(ImeiSuccessState(message, devices: devices));
+      emit(ImeiSuccessState(message, devices: devices, users: users));
     } catch (e) {
       emit(ImeiFaliureState(errorMessage: e.toString()));
     }
@@ -21,8 +23,10 @@ class ImeiCubit extends Cubit<ImeiStatus> {
   Future<void> getDevices({required int comId}) async {
     emit(ImeiLoadingState());
     try {
-      devices = await CompanyServices.getCompanyDevices(comId: comId);
-      emit(ImeiSuccessState('', devices: devices));
+      result = await CompanyServices.getCompanyDevices(comId: comId);
+      devices = result.keys.toList();
+      users = result.values.toList();
+      emit(ImeiSuccessState('', devices: devices, users: users));
     } catch (e) {
       emit(ImeiFaliureState(errorMessage: e.toString()));
     }

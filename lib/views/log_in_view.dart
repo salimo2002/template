@@ -141,8 +141,8 @@ class _LogInViewState extends State<LogInView> {
                                       companyName: companyName.text,
                                       serialKey: activateKey.text,
                                       imei: imei,
+                                      userName: userName.text
                                     );
-                                userNameVariable = userName.text;
                                 FocusScope.of(context).unfocus();
                               }
                             },

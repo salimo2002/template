@@ -6,10 +6,10 @@ import 'package:template/utils/responsive_text.dart';
 class MobileActivatedCard extends StatelessWidget {
   const MobileActivatedCard({
     super.key,
-    required this.comName,
+    required this.userName,
     required this.imei, required this.onPressed,
   });
-  final String comName;
+  final String userName;
   final String imei;
   final VoidCallback onPressed;
   @override
@@ -41,7 +41,7 @@ class MobileActivatedCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 30),
             child: Text(
-              comName,
+              userName,
               style: FontStyleApp.blueAccent18.copyWith(
                 fontSize: getResponsiveText(context, 18),
               ),
