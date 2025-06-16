@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
@@ -75,17 +74,6 @@ class Bill extends StatelessWidget {
           ],
         ),
         Divider(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              'المستودع الرئيسي',
-              style: FontStyleApp.blackCustom18.copyWith(
-                fontSize: getResponsiveText(context, 16),
-              ),
-            ),
-          ],
-        ),
         TableFieldsReview(
           lable1: 'المبلغ المتبقي',
           value1: reminingAmount,
@@ -94,7 +82,7 @@ class Bill extends StatelessWidget {
           lable3: 'مبلغ الفاتورة',
           value3: total,
         ),
-        SizedBox(height: 20),
+        note == '' ? SizedBox.shrink() : SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [

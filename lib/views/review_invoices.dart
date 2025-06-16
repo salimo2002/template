@@ -261,7 +261,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                               width: MediaQuery.sizeOf(context).width * 0.4,
                               child: TextFieldDate(canRead: canRead,
                                 date: date1Controler,
-                                hoursOrYear: canRead,
+                                hoursOrYear: true,
                                 label: 'من تاريخ',
                                 
                               ),
@@ -363,11 +363,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
           'billType': selectedBillType ?? '',
           'nameAcuont': accId,
           'dateTime':
-              picked == null
-                  ? ''
-                  : isToDay
-                  ? '${picked!.year}-${picked!.month}'
-                  : '${picked!.year}-${picked!.month}-${picked!.day}',
+               '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}',
           'isMonth': isToDay,
         },
       );
