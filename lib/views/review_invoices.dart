@@ -363,11 +363,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
           'billType': selectedBillType ?? '',
           'nameAcuont': accId,
           'dateTime':
-              picked == null
-                  ? ''
-                  : isToDay
-                  ? '${picked!.year}-${picked!.month}'
-                  : '${picked!.year}-${picked!.month}-${picked!.day}',
+               '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}',
           'isMonth': isToDay,
         },
       );
