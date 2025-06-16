@@ -7,12 +7,13 @@ class TextFieldDate extends StatefulWidget {
     super.key,
     required this.date,
     required this.hoursOrYear,
-    required this.label,
+    required this.label, required this.canRead,
   });
 
   final TextEditingController date;
   final bool hoursOrYear;
   final String label;
+  final bool  canRead;
 
   @override
   State<TextFieldDate> createState() => _TextFieldDateState();
@@ -22,10 +23,13 @@ class _TextFieldDateState extends State<TextFieldDate> {
   @override
   void initState() {
     super.initState();
+    if (widget. canRead==false) {
+      
     if (widget.date.text.isEmpty) {
       widget.date.text = widget.hoursOrYear
           ? formatDate(DateTime.now())
           : formatTime(TimeOfDay.now());
+    }
     }
   }
 
@@ -75,8 +79,8 @@ class _TextFieldDateState extends State<TextFieldDate> {
         textDirection: TextDirection.rtl,
         child: TextField(
           controller: widget.date,
-          readOnly: true,
-          onTap: () => widget.hoursOrYear ? selectDate(context) : _selectTime(context),
+          readOnly: widget. canRead,
+          onTap: () =>widget.canRead==true?null: widget.hoursOrYear ? selectDate(context) : _selectTime(context),
           textAlign: TextAlign.right, 
           decoration: InputDecoration(
             labelText: widget.label,
