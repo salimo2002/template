@@ -4,6 +4,7 @@ import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/models/account_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/invoice_review_view.dart';
@@ -89,6 +90,13 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                                     borderRadius: BorderRadius.circular(8),
                                     borderSide: BorderSide(
                                       color: kBlueAccent,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                      color: kRed,
                                       width: 1,
                                     ),
                                   ),
@@ -256,7 +264,6 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                               ),
                             ),
                             SizedBox(height: 15),
-
                             SizedBox(
                               width: MediaQuery.sizeOf(context).width * 0.4,
                               child: TextFieldDate(
@@ -280,7 +287,6 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                         ),
 
                         const SizedBox(height: 40),
-
                         Padding(
                           padding: const EdgeInsets.only(bottom: 30),
                           child: Row(
@@ -337,6 +343,38 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
 
   void navigatorToInvoiceReview() {
     if (globalKey.currentState!.validate()) {
+      if (date1Controler.text == '' && date2Controler.text == '') {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(customSnackBar(context, 'الرجاء اختيار تاريخ', kRed));
+        return;
+      }
+
+      if (date1Controler.text.isEmpty || date2Controler.text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          customSnackBar(context, 'الرجاء اختيار تاريخ صحيح', kRed),
+        );
+        return;
+      }
+      final fromDate = DateTime.tryParse(date1Controler.text);
+      final toDate = DateTime.tryParse(date2Controler.text);
+      if (fromDate == null || toDate == null) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(customSnackBar(context, 'تاريخ غير صالح', kRed));
+        return;
+      }
+      if (fromDate.isAfter(toDate)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          customSnackBar(context, 'التاريخ الأول أحدث من الثاني', kRed),
+        );
+        return;
+      }
+      if (date1Controler.text == date2Controler.text || isToDay) {
+        // Request Today
+      } else {
+        // Request Tow Date
+      }
       Navigator.pushNamed(
         context,
         InvoiceReviewView.id,

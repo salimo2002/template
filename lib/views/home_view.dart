@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:template/cubit/company%20cubit/company_cubit.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
@@ -45,7 +47,7 @@ class _HomeViewState extends State<HomeView> {
       drawer: CustomDrawer(),
       appBar: AppBar(
         title: Text(
-          'تداول',
+          context.read<CompanyCubit>().comp.comName,
           style: FontStyleApp.white18.copyWith(
             fontSize: getResponsiveText(context, 18),
           ),
