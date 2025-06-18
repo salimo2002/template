@@ -10,6 +10,10 @@ class SuccessStateDebit extends DebitStatus {
   final DebitModel debit;
   SuccessStateDebit({required this.debit});
 }
+class LoadedDebitsState extends DebitStatus {
+  final List<DebitModel> debits;
+  LoadedDebitsState({required this.debits});
+}
 
 class FaliureStateDebit extends DebitStatus {
   final String errorMessage;

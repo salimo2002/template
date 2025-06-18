@@ -20,30 +20,31 @@ class DebitModel {
     required this.curId,
     required this.debDate,
   });
-  factory DebitModel.fromJson(json) {
-    return DebitModel(
-      debId: json['deb_id'],
-      voucherNumber: json['voucher_number'],
-      accId: json['acc_id'],
-      accId2: json['acc_id2'],
-      debAmount: json['deb_amount'],
-      ty: json['ty'],
-      debNote: json['deb_note'],
-      curId: json['cur_id'],
-      debDate: json['deb_date'],
-    );
-  }
+
+factory DebitModel.fromJson(Map<String, dynamic> json) {
+  return DebitModel(
+    debId: int.tryParse(json['debId']?.toString() ?? '0') ?? 0,
+    voucherNumber: int.tryParse(json['voucherNumber']?.toString() ?? '0') ?? 0,
+    accId: int.tryParse(json['accId']?.toString() ?? '0') ?? 0,
+    accId2: int.tryParse(json['accId2']?.toString() ?? '0') ?? 0,
+    debAmount: double.tryParse(json['debAmount']?.toString() ?? '0.0') ?? 0.0,
+    ty: int.tryParse(json['ty']?.toString() ?? '0') ?? 0,
+    debNote: json['debNote']?.toString() ?? '',
+    curId: int.tryParse(json['curId']?.toString() ?? '0') ?? 0,
+    debDate: DateTime.parse(json['debDate']?.toString() ?? DateTime.now().toString()),
+  );
+}
   Map<String, dynamic> toMap() {
     return {
-      'deb_id': debId,
-      'voucher_number': voucherNumber,
-      'acc_id': accId,
-      'acc_id2': accId2,
-      'deb_amount': debAmount,
+      'debId': debId,
+      'voucherNumber': voucherNumber,
+      'accId': accId,
+      'accId2': accId2,
+      'debAmount': debAmount,
       'ty': ty,
-      'deb_note': debNote,
-      'cur_id': curId,
-      'deb_date': debDate,
+      'debNote': debNote,
+      'curId': curId,
+      'debDate': debDate.toIso8601String(),
     };
   }
 }
