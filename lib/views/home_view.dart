@@ -60,12 +60,12 @@ class _HomeViewState extends State<HomeView> {
           IconButton(
             onPressed: () async {
               try {
-                context.read<BillCubit>().fetchMovementBills(
-                  databaseName: 'itechsy_test',
-                  dateFrom: '2025-01-01',
-                  dateTo: '2025-06-18',
-                  matId: '1248',
-                );
+                // context.read<BillCubit>().fetchMovementBills(
+                //   databaseName: 'itechsy_test',
+                //   dateFrom: '2025-01-01',
+                //   dateTo: '2025-06-18',
+                //   matId: '1248',
+                // );
                 // List data = await BillServices.fetchMovementBills(
                 //   databaseName: 'itechsy_test',
                 //   dateFrom: '2025-01-01',
