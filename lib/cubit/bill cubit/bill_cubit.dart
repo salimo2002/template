@@ -13,7 +13,6 @@ class BillCubit extends Cubit<BillStatus> {
 
   List<BillModel> bill = [];
   List<BillDetailsModel> billDetails = [];
-  List result = [];
 
   Future<void> fetchMovementBills({
     required String databaseName,
@@ -21,10 +20,12 @@ class BillCubit extends Cubit<BillStatus> {
     required String dateTo,
     required String matId,
   }) async {
+    List result = [];
+    List<BillModel> bills = [];
+    List<BillDetailsModel> bDetails = [];
+
     emit(LoadingStateBill());
     try {
-      bill = [];
-      billDetails = [];
       result = await BillServices.fetchMovementBills(
         databaseName: databaseName,
         dateFrom: dateFrom,
@@ -33,16 +34,17 @@ class BillCubit extends Cubit<BillStatus> {
       );
 
       for (var element in result) {
-        bill.add(BillModel.fromJson(element));
+        bills.add(BillModel.fromJson(element));
         for (var element2 in element['details']) {
-          billDetails.add(BillDetailsModel.fromJson(element2));
+          bDetails.add(BillDetailsModel.fromJson(element2));
         }
       }
-      log(bill.toString());
+      log(bills[0].accId.toString());
       log('----------------------------------------');
-      log(billDetails.toString());
-      emit(SuccessStateBill(bill: bill));
+      log(bDetails[0].matId.toString());
+      emit(SuccessStateBill(bill: bills, bDeatails: bDetails));
     } catch (e) {
+      log(e.toString());
       emit(FaliureStateBill(errorMessage: e.toString()));
     }
   }
@@ -70,7 +72,7 @@ class BillCubit extends Cubit<BillStatus> {
         }
       }
 
-      emit(SuccessStateBill(bill: bill));
+      emit(SuccessStateBill(bill: bill, bDeatails: []));
     } catch (e) {
       emit(FaliureStateBill(errorMessage: e.toString()));
     }
@@ -103,7 +105,7 @@ class BillCubit extends Cubit<BillStatus> {
         }
       }
 
-      emit(SuccessStateBill(bill: bill));
+      emit(SuccessStateBill(bill: bill, bDeatails: []));
     } catch (e) {
       log('fetchFilteredBills Error: $e');
       emit(FaliureStateBill(errorMessage: e.toString()));
