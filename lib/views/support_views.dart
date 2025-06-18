@@ -267,7 +267,7 @@ class _SupportViewsState extends State<SupportViews> {
                                     ),
                           ),
                         );
-                        Navigator.pushNamedAndRemoveUntil(context, SupportViews.id, (route) => false,arguments: documentType);
+                        Navigator.pushNamed(context, SupportViews.id,arguments: documentType);
                         ScaffoldMessenger.of(context).showSnackBar(customSnackBar(context, 'تمت إضافة السند', kBlueAccent));
                       }
                     },
