@@ -278,6 +278,7 @@ class _NewMaterialViewState extends State<NewMaterialView> {
           materialImage: imageUpdate.value,
           parentId: parentId,
           materiaUnit2Baracode: baraCode2.text,
+          matBalance: 0
         ),
       );
     }

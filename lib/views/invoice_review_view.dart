@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -167,11 +165,6 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
         ],
       ),
     );
-  }
-
-  String decodeToUtf8(String brokenText) {
-    final latin1Bytes = latin1.encode(brokenText);
-    return utf8.decode(latin1Bytes);
   }
 
   void showMenuu(TapDownDetails details, int id, BillModel selectedBill) {
