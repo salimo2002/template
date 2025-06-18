@@ -7,7 +7,7 @@ class DeviceType {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Platform.isAndroid) {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      return '${androidInfo.id} ${androidInfo.brand} ${androidInfo.model} ${androidInfo.serialNumber}';
+      return '${androidInfo.id} ${androidInfo.brand} ${androidInfo.model}';
     } else if (Platform.isIOS) {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
       return iosInfo.identifierForVendor;
