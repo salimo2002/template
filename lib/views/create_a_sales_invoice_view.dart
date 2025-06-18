@@ -68,7 +68,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
       billType = billRoute['BillType'] as String;
       billModel =
           billRoute['bill'] != null ? billRoute['bill'] as BillModel : null;
-          curId=billRoute['cur_id'];
+      curId = billRoute['cur_id'];
 
       if (!isNew && billModel != null) {
         final billDetails = context.read<BillCubit>().billDetails.where(
@@ -317,7 +317,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
         'billType': billType,
         'isNew': isNew,
         'billModel': billModel,
-        'cur_id':curId
+        'cur_id': curId,
       },
     );
   }

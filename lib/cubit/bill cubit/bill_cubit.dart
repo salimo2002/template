@@ -76,7 +76,6 @@ class BillCubit extends Cubit<BillStatus> {
     }
   }
 
-  /// ✅ الدالة الجديدة: جلب الفواتير المفلترة مع تفاصيلها حسب التاريخ والحساب أو النوع
   Future<void> fetchFilteredBills({
     required String dateFrom,
     required String dateTo,
@@ -111,7 +110,6 @@ class BillCubit extends Cubit<BillStatus> {
     }
   }
 
-  /// حذف فاتورة
   Future<void> billDeletById({required int id}) async {
     emit(LoadingStateBill());
     try {
@@ -121,7 +119,6 @@ class BillCubit extends Cubit<BillStatus> {
     }
   }
 
-  /// إضافة فاتورة مع تفاصيلها
   Future<void> insertBill(
     BillModel bill,
     List<BillDetailsModel> billDetails,
@@ -129,6 +126,7 @@ class BillCubit extends Cubit<BillStatus> {
     try {
       emit(LoadingStateBill());
       await BillServices.addBillWithDetails(bill: bill, details: billDetails);
+      emit(SuccessStateBill(bill: []));
     } catch (e) {
       log(e.toString());
       emit(FaliureStateBill(errorMessage: e.toString()));

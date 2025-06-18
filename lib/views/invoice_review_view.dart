@@ -89,9 +89,6 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                         final matchesAccount =
                             (nameAcuont == null || nameAcuont == 0) ||
                             (bill.accId == nameAcuont);
-
-                        // تم حذف شرط التحقق من التاريخ تمامًا
-
                         return matchesKind && matchesPayType && matchesAccount;
                       }).toList();
 
