@@ -1,9 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
+import 'package:template/cubit/debit%20cubit/debit_cubit.dart';
 import 'package:template/models/account_model.dart';
+import 'package:template/models/debit_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/widgets/Invoice%20review/filter_invoice_review.dart';
 import 'package:template/widgets/invoice%20details%20view/comments_text_field.dart';
 import 'package:template/widgets/invoice%20details%20view/text_field_date.dart';
@@ -24,11 +29,13 @@ class _SupportViewsState extends State<SupportViews> {
   final FocusNode _focusNode = FocusNode();
   final FocusNode _focusNode2 = FocusNode();
   final FocusNode _focusNode3 = FocusNode();
+  final FocusNode _focusNode4 = FocusNode();
 
   final TextEditingController typeSupportController = TextEditingController();
   final TextEditingController _nameAccountController2 = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _curIdController = TextEditingController();
 
   late String documentType;
 
@@ -40,18 +47,17 @@ class _SupportViewsState extends State<SupportViews> {
   Color color3 = kWhite;
   Color textColor3 = kBlueAccent;
   TextEditingController date1Controler = TextEditingController();
-  FocusNode date1 = FocusNode();
-  FocusNode date2 = FocusNode();
   bool isToDay = false;
   bool canRead = false;
-  bool ss=true;
+  bool isReBuild = true;
+  late int accId;
   @override
   void didChangeDependencies() {
-    if (ss) {
+    if (isReBuild) {
       
-    documentType = ModalRoute.of(context)!.settings.arguments as String;
-    typeSupportController.text = 'سند $documentType';
-    ss=false;
+      documentType = ModalRoute.of(context)!.settings.arguments as String;
+      typeSupportController.text = 'سند $documentType';
+      isReBuild = false;
     }
     super.didChangeDependencies();
   }
@@ -103,7 +109,7 @@ class _SupportViewsState extends State<SupportViews> {
                           suffixIcon: const SizedBox(width: 40, height: 40),
                           hintText: 'الحساب المقابل',
                           controller: _nameAccountController2,
-                          focusNode: _focusNode2,
+                          focusNode: _focusNode,
                         ),
                         if (isSearchingCreditor)
                           Directionality(
@@ -114,6 +120,7 @@ class _SupportViewsState extends State<SupportViews> {
                                 setState(() {
                                   _nameAccountController2.text =
                                       account.accName;
+                                  accId = account.accID!;
                                   isSearchingCreditor = false;
                                 });
                               },
@@ -123,17 +130,47 @@ class _SupportViewsState extends State<SupportViews> {
                           keyType: TextInputType.numberWithOptions(),
                           hintText: 'المبلغ',
                           controller: _amountController,
-                          focusNode: _focusNode3,
+                          focusNode: _focusNode2,
                         ),
                         CustomTextField(
+                          suffixIcon: InkWell(
+                            onTapDown: (TapDownDetails details) {
+                              final RenderBox overlay =
+                                  Overlay.of(context).context.findRenderObject()
+                                      as RenderBox;
+                              showMenu(
+                                context: context,
+                                position: RelativeRect.fromRect(
+                                  details.globalPosition & const Size(60, 60),
+                                  Offset.zero & overlay.size,
+                                ),
+                                items: [
+                                  PopupMenuItem(
+                                    child: Text('ليرة سورية'),
+                                    onTap:
+                                        () =>
+                                            _curIdController.text =
+                                                'ليرة سورية',
+                                  ),
+                                  PopupMenuItem(
+                                    child: Text('دولار'),
+                                    onTap:
+                                        () => _curIdController.text = 'دولار',
+                                  ),
+                                ],
+                              );
+                            },
+                            child: Icon(Icons.arrow_drop_down, size: 33),
+                          ),
                           keyType: TextInputType.numberWithOptions(),
                           hintText: 'العملة',
-                          controller: _amountController,
-                          focusNode: _focusNode,
+                          controller: _curIdController,
+                          focusNode: _focusNode3,
+                          canRead: true,
                         ),
                         CommentsTextField(
                           width: MediaQuery.sizeOf(context).width * 0.75,
-                          focusNode: _focusNode3,
+                          focusNode: _focusNode4,
                           maxLines: 4,
                           label: 'ملاحظة',
                           controller: _noteController,
@@ -195,7 +232,46 @@ class _SupportViewsState extends State<SupportViews> {
                       Navigator.pop(context);
                     },
                   ),
-                  CustomButtonSave(label: 'حفظ', onTap: () {}),
+                  CustomButtonSave(
+                    label: 'حفظ',
+                    onTap: () {
+                      if (_curIdController.text == '' ||
+                          _amountController.text == '' ||
+                          _nameAccountController2.text == '') {
+                            print(date1Controler.text);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          customSnackBar(
+                            context,
+                            'اكمل تعبئة الحقول',
+                            Colors.red,
+                          ),
+                        );
+                      } else {
+                        context.read<DebitCubit>().insertDebit(
+                          DebitModel(
+                            debId: 0,
+                            voucherNumber: Random().nextInt(100000),
+                            accId: 1,
+                            accId2: accId,
+                            debAmount: double.parse(_amountController.text),
+                            ty: typeSupportController.text == 'سند قبض' ? 1 : 0,
+                            debNote: _noteController.text,
+                            curId: _curIdController.text == 'دولار' ? 1 : 0,
+                            debDate:
+                                color3 == kWhite
+                                    ? DateTime.parse(
+                                      date1Controler.text
+                                    )
+                                    : DateTime.parse(
+                                      '${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')}',
+                                    ),
+                          ),
+                        );
+                        Navigator.pushNamedAndRemoveUntil(context, SupportViews.id, (route) => false,arguments: documentType);
+                        ScaffoldMessenger.of(context).showSnackBar(customSnackBar(context, 'تمت إضافة السند', kBlueAccent));
+                      }
+                    },
+                  ),
                 ],
               ),
             ),
