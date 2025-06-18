@@ -2,14 +2,18 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_status.dart';
 import 'package:template/models/bill_details_model.dart';
+import 'package:template/models/bill_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
+import 'package:template/views/create_a_sales_invoice_view.dart';
 import 'package:template/views/home_view.dart';
+import 'package:template/widgets/Invoice%20review/bill.dart';
 import 'package:template/widgets/invoice%20details%20view/bill_details.dart';
 
 class MterialInvoiceView extends StatefulWidget {
@@ -21,31 +25,12 @@ class MterialInvoiceView extends StatefulWidget {
 }
 
 class _MterialInvoiceViewState extends State<MterialInvoiceView> {
-  List<BillDetailsModel> billDetailes = [];
-  List response = [];
-
-  String materialName = '';
-  @override
-  void didChangeDependencies() {
-    response = ModalRoute.of(context)!.settings.arguments as List;
-    final materialId = response[0];
-    materialName = response[1];
-    context.read<BillCubit>().billDetails.forEach((element) {
-              log(materialId.toString());
-
-      if (element.matId == materialId) {
-        billDetailes.add(element);
-      }
-    });
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(
         context: context,
-        title: 'كشف المادة',
+        title: 'حركة المادة',
         showIcons: false,
       ),
       body: Column(
@@ -57,24 +42,39 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
               if (state is SuccessStateBill) {
                 return Expanded(
                   child: ListView.builder(
-                    itemCount: billDetailes.length,
+                    itemCount: state.bill.length,
                     itemBuilder: (context, index) {
+                      final List<BillModel> bills = state.bill;
+                      final List<BillDetailsModel> bDeatails = state.bDeatails;
+                      String accountName = '';
+                      context.read<AccountsCubit>().accounts.forEach((element) {
+                        if (element.accID == bills[index].accId) {
+                          accountName = element.accName;
+                        }
+                      });
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: GestureDetector(
                           onTapDown: (details) {
-                            showMenuu(details, billDetailes[index].bilId!);
+                            showMenuu(
+                              details,
+                              bills[index].bilId!,
+                              bills[index],
+                            );
                           },
-                          child: BillDetails(
-                            coantaity:
-                                billDetailes[index].detQuantity.toString(),
-                            pricee:
-                                billDetailes[index].detSinglePrice.toString(),
-                            invoiceNumber: billDetailes[index].bilId.toString(),
-                            bounsy: billDetailes[index].detBouns.toString(),
-                            materialName: materialName,
-
-                            total: billDetailes[index].detPrice.toString(),
+                          child: Bill(
+                            paymentStyle:
+                                bills[index].payType == 0 ? 'نقدي' : 'آجل',
+                            invoiceNumber: bills[index].bilId.toString(),
+                            billDate:
+                                '${bills[index].bilDate!.year}-${bills[index].bilDate!.month}-${bills[index].bilDate!.day}',
+                            billTime:
+                                '${bills[index].bilDate!.hour.toString().padLeft(2, '0')}:${bills[index].bilDate!.minute.toString().padLeft(2, '0')}',
+                            nameAccuont: accountName,
+                            total: bills[index].bilTotal.toString(),
+                            amountPaid: bills[index].bilPayment.toString(),
+                            reminingAmount: bills[index].bilNet.toString(),
+                            note: bills[index].bilNote.toString(),
                           ),
                         ),
                       );
@@ -116,7 +116,7 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
     );
   }
 
-  void showMenuu(TapDownDetails details, int id) {
+  void showMenuu(TapDownDetails details, int id, BillModel selectedBill) {
     final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
     showMenu(
       menuPadding: EdgeInsets.zero,
@@ -126,9 +126,23 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
         Offset.zero & overlay.size,
       ),
       items: [
-        CheckedPopupMenuItem(child: Center(child: Text('تعديل')), onTap: () {}),
         CheckedPopupMenuItem(
-          child: Center(child: Text('حذف')),
+          child: const Center(child: Text('تعديل')),
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              CreateASalesInvoiceView.id,
+              arguments: {
+                'bill': selectedBill,
+                'isNew': false,
+                'BillType': '',
+                'cur_id': selectedBill.curId,
+              },
+            );
+          },
+        ),
+        CheckedPopupMenuItem(
+          child: const Center(child: Text('حذف')),
           onTap: () {
             context.read<BillCubit>().billDeletById(id: id);
           },
@@ -137,3 +151,25 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
     );
   }
 }
+
+//   void showMenuu(TapDownDetails details, int id) {
+//     final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+//     showMenu(
+//       menuPadding: EdgeInsets.zero,
+//       context: context,
+//       position: RelativeRect.fromRect(
+//         details.globalPosition & const Size(60, 60),
+//         Offset.zero & overlay.size,
+//       ),
+//       items: [
+//         CheckedPopupMenuItem(child: Center(child: Text('تعديل')), onTap: () {}),
+//         CheckedPopupMenuItem(
+//           child: Center(child: Text('حذف')),
+//           onTap: () {
+//             context.read<BillCubit>().billDeletById(id: id);
+//           },
+//         ),
+//       ],
+//     );
+//   }
+// }

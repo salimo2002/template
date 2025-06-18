@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
+import 'package:template/cubit/bill%20cubit/bill_status.dart';
 import 'package:template/cubit/material%20cubit/material_cubit.dart';
 import 'package:template/models/material_model.dart';
 import 'package:template/utils/constants.dart';
@@ -77,6 +81,7 @@ class _AccountStatementViewState extends State<MovementOfMatterView> {
                                 setState(() {
                                   materialController.text =
                                       material.materialName;
+                                  matId = material.materialId;
                                   isSearching = false;
                                 });
                               },
@@ -135,72 +140,87 @@ class _AccountStatementViewState extends State<MovementOfMatterView> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CustomButtonSave(
-                        label: 'إلغاء',
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      CustomButtonSave(
-                        label: 'التالي',
-                        onTap: () {
-                          // context.read<MaterialCubit>().materials.forEach((
-                          //   element,
-                          // ) {
-                          //   if (element.materialName == materialController.text) {
-                          //     matId = element.materialId;
-                          //   }
-                          // });
-                          if (globalKey.currentState!.validate()) {
-                            if (date1Controler.text.isEmpty ||
-                                date2Controler.text.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                customSnackBar(
-                                  context,
-                                  'الرجاء اختيار تاريخ صحيح',
-                                  kRed,
-                                ),
-                              );
-                              return;
-                            }
-                            final fromDate = DateTime.tryParse(
-                              date1Controler.text,
-                            );
-                            final toDate = DateTime.tryParse(
-                              date2Controler.text,
-                            );
-                            if (fromDate == null || toDate == null) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                customSnackBar(context, 'تاريخ غير صالح', kRed),
-                              );
-                              return;
-                            }
-                            if (fromDate.isAfter(toDate)) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                customSnackBar(
-                                  context,
-                                  'التاريخ الأول أحدث من الثاني',
-                                  kRed,
-                                ),
-                              );
-                              return;
-                            }
-                            
-                          }
-                          Navigator.pushNamed(
-                            context,
-                            MterialInvoiceView.id,
-                            arguments: [matId, materialController.text],
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                BlocConsumer<BillCubit, BillStatus>(
+                  listener: (context, state) {
+                    if (state is SuccessStateBill) {
+                      Navigator.pushNamed(context, MterialInvoiceView.id);
+                    } else if (state is FaliureStateBill) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        customSnackBar(context, state.errorMessage, kRed),
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is LoadingStateBill) {
+                      return CircularProgressIndicator();
+                    } else {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            CustomButtonSave(
+                              label: 'إلغاء',
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            CustomButtonSave(
+                              label: 'التالي',
+                              onTap: () {
+                                if (globalKey.currentState!.validate()) {
+                                  if (date1Controler.text.isEmpty ||
+                                      date2Controler.text.isEmpty) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      customSnackBar(
+                                        context,
+                                        'الرجاء اختيار تاريخ صحيح',
+                                        kRed,
+                                      ),
+                                    );
+                                    return;
+                                  }
+                                  final fromDate = DateTime.tryParse(
+                                    date1Controler.text,
+                                  );
+                                  final toDate = DateTime.tryParse(
+                                    date2Controler.text,
+                                  );
+                                  if (fromDate == null || toDate == null) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      customSnackBar(
+                                        context,
+                                        'تاريخ غير صالح',
+                                        kRed,
+                                      ),
+                                    );
+                                    return;
+                                  }
+                                  if (fromDate.isAfter(toDate)) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      customSnackBar(
+                                        context,
+                                        'التاريخ الأول أحدث من الثاني',
+                                        kRed,
+                                      ),
+                                    );
+                                    return;
+                                  }
+                                  context.read<BillCubit>().fetchMovementBills(
+                                    databaseName: 'itechsy_test',
+                                    ///TODO Replace DataBase Name
+                                    dateFrom: fromDate.toString(),
+                                    dateTo: toDate.toString(),
+                                    matId: matId.toString(),
+                                  );
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  },
                 ),
               ],
             ),
