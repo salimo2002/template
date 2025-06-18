@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -44,11 +46,14 @@ class _SupportViewsState extends State<SupportViews> {
   FocusNode date2 = FocusNode();
   bool isToDay = false;
   bool canRead = false;
-
+  bool ss=true;
   @override
   void didChangeDependencies() {
+    if (ss) {
+      
     documentType = ModalRoute.of(context)!.settings.arguments as String;
-    typeSupportController.text='سند $documentType';
+    typeSupportController.text = 'سند $documentType';
+    }
     super.didChangeDependencies();
   }
 
@@ -65,19 +70,21 @@ class _SupportViewsState extends State<SupportViews> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: MediaQuery.sizeOf(context).height*.15,),
+                    SizedBox(height: MediaQuery.sizeOf(context).height * .15),
                     ContainerFields(
                       children: [
                         CustomTextField(
-                          
-                          suffixIcon: InkWell(onTapDown: (details) =>
-                            showTypeSupport(details,typeSupportController)
-                           , child: Icon(Icons.arrow_drop_down,size: 40,)),
+                          suffixIcon: InkWell(
+                            onTapDown: (details) {
+                              showTypeSupport(details, typeSupportController);
+                              log(typeSupportController.text);
+                            },
+                            child: Icon(Icons.arrow_drop_down, size: 40),
+                          ),
                           hintText: 'نوع السند',
                           controller: typeSupportController,
                           focusNode: _focusNode0,
                           canRead: true,
-                          
                         ),
                         if (isSearchingDebtor)
                           Directionality(
@@ -86,8 +93,7 @@ class _SupportViewsState extends State<SupportViews> {
                               results: debtorSearchResults,
                               onSelect: (account) {
                                 setState(() {
-                                  typeSupportController.text =
-                                      account.accName;
+                                  typeSupportController.text = account.accName;
                                   isSearchingDebtor = false;
                                 });
                               },
@@ -95,8 +101,7 @@ class _SupportViewsState extends State<SupportViews> {
                           ),
                         CustomTextField(
                           onChanged:
-                              (query) =>
-                                  searchAccount(query, isDebtor: false),
+                              (query) => searchAccount(query, isDebtor: false),
                           suffixIcon: const SizedBox(width: 40, height: 40),
                           hintText: 'الحساب المقابل',
                           controller: _nameAccountController2,
@@ -120,9 +125,9 @@ class _SupportViewsState extends State<SupportViews> {
                           keyType: TextInputType.numberWithOptions(),
                           hintText: 'المبلغ',
                           controller: _amountController,
-                          focusNode: _focusNode,
+                          focusNode: _focusNode3,
                         ),
-                         CustomTextField(
+                        CustomTextField(
                           keyType: TextInputType.numberWithOptions(),
                           hintText: 'العملة',
                           controller: _amountController,
@@ -162,7 +167,7 @@ class _SupportViewsState extends State<SupportViews> {
                               ),
                             ),
                             SizedBox(height: 15),
-              
+
                             SizedBox(
                               width: MediaQuery.sizeOf(context).width * 0.4,
                               child: TextFieldDate(
@@ -201,8 +206,11 @@ class _SupportViewsState extends State<SupportViews> {
       ),
     );
   }
-  
- void showTypeSupport(TapDownDetails details, TextEditingController controller) {
+
+  void showTypeSupport(
+    TapDownDetails details,
+    TextEditingController controller,
+  ) {
     final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
     showMenu(
       menuPadding: EdgeInsets.zero,
@@ -213,7 +221,7 @@ class _SupportViewsState extends State<SupportViews> {
       ),
       items: [
         CheckedPopupMenuItem(
-          child: Center(child: Text('سند قبض')),
+          child: InkWell(child: Center(child: Text('سند قبض'))),
           onTap: () {
             controller.text = 'سند قبض';
           },
@@ -302,7 +310,5 @@ class SearchResultsList extends StatelessWidget {
         ),
       ),
     );
-  } 
+  }
 }
-
-
