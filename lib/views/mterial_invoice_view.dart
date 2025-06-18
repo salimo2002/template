@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,8 +13,6 @@ import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/create_a_sales_invoice_view.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/widgets/Invoice%20review/bill.dart';
-import 'package:template/widgets/invoice%20details%20view/bill_details.dart';
-
 class MterialInvoiceView extends StatefulWidget {
   const MterialInvoiceView({super.key});
   static String id = 'MterialInvoiceView';
