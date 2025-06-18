@@ -156,7 +156,7 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
               Flexible(
                 flex: 3,
                 child: Text(
-                  decodeToUtf8(widget.material.materialName),
+                  widget.material.materialName,
                   style: FontStyleApp.black18.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: getResponsiveText(context, 14),
@@ -189,8 +189,8 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
                 lable4: 'الوحدة',
                 value4:
                     widget.material.materialUnitDefault == 0
-                        ? decodeToUtf8(widget.material.materialUnit)
-                        : decodeToUtf8(widget.material.materialUnit2),
+                        ? widget.material.materialUnit
+                        : widget.material.materialUnit2,
               ),
             ),
           ),
