@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -53,6 +51,7 @@ class _SupportViewsState extends State<SupportViews> {
       
     documentType = ModalRoute.of(context)!.settings.arguments as String;
     typeSupportController.text = 'سند $documentType';
+    ss=false;
     }
     super.didChangeDependencies();
   }
@@ -77,7 +76,6 @@ class _SupportViewsState extends State<SupportViews> {
                           suffixIcon: InkWell(
                             onTapDown: (details) {
                               showTypeSupport(details, typeSupportController);
-                              log(typeSupportController.text);
                             },
                             child: Icon(Icons.arrow_drop_down, size: 40),
                           ),
