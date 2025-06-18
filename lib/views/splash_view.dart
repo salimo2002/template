@@ -47,11 +47,6 @@ class SplashViewState extends State<SplashView> {
       checkAndNavigate();
     });
 
-    context.read<DebitCubit>().fetchDebits().then((_) {
-      log('السندات تم تحميلها');
-      checkAndNavigate();
-    });
-
     context.read<CategoryCubit>().fetchCategory().then((_) {
       _categoriesLoaded = true;
       log('✅ التصنيفات تم تحميلها');
@@ -109,7 +104,7 @@ class SplashViewState extends State<SplashView> {
     if (_materialsLoaded &&
         _categoriesLoaded &&
         _accountsLoaded &&
-        supoortLoaded&&
+        supoortLoaded &&
         // _billsLoaded &&
         _devicesLoaded &&
         _videoInitialized) {
