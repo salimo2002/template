@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
@@ -156,7 +158,7 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
               Flexible(
                 flex: 3,
                 child: Text(
-                  widget.material.materialName,
+                  decodeToUtf8(widget.material.materialName),
                   style: FontStyleApp.black18.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: getResponsiveText(context, 14),
@@ -181,11 +183,11 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TableFIelds(
                 lable1: 'سعر المستهلك',
-                value1: '250',
+                value1: widget.material.materialPrice3.toString(),
                 lable2: 'سعر الجملة',
-                value2: '250',
+                value2: widget.material.materialPrice1.toString(),
                 lable3: 'الكمية المتوفرة',
-                value3: '250',
+                value3: widget.material.matBalance.toString(),
                 lable4: 'الوحدة',
                 value4: 'كغ',
               ),
@@ -195,5 +197,10 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
         ],
       ),
     );
+  }
+
+  String decodeToUtf8(String brokenText) {
+    final latin1Bytes = latin1.encode(brokenText);
+    return utf8.decode(latin1Bytes);
   }
 }

@@ -14,6 +14,7 @@ class MaterialModel {
   final int materialUnitDefault;
   final String materialImage;
   final int parentId;
+  final double matBalance;
 
   MaterialModel({
     required this.materialId,
@@ -31,27 +32,30 @@ class MaterialModel {
     required this.materialImage,
     required this.parentId,
     required this.materiaUnit2Baracode,
+    required this.matBalance,
   });
 
   factory MaterialModel.fromJson(Map<String, dynamic> json) {
     return MaterialModel(
-      materialId: int.parse(json['mat_id']),
-      materialNumber: json['mat_number'],
+      materialId: int.parse(json['material.mat_id'] ?? json['mat_id']),
+      materialNumber: json['material.mat_number'] ?? json['mat_number'],
       materialName: json['mat_name'],
       materialCode: json['mat_code'] ?? '',
       materialPrice1: double.parse(json['mat_price1'] ?? '0.0'),
       materialPrice3: double.parse(json['mat_price3'] ?? '0.0'),
-      materialUnit: json['mat_unit'],
+      materialUnit: json['material.mat_unit'] ?? json['mat_unit'],
       materialUnit2: json['mat_unit2'],
-      materialUnit2Number: double.parse(json['mat_unit2_num']),
+      materialUnit2Number: double.parse(json['material.mat_unit2_num'] ?? json['mat_unit2_num']),
       materialUnit2Price3: double.parse(json['mat_unit2_price3'] ?? '0.0'),
       materialKind: int.parse(json['mat_kind']),
       materialUnitDefault: int.parse(json['mat_unit_default']),
       materialImage: json['mat_image'] ?? '',
       parentId: int.parse(json['parent_id']),
       materiaUnit2Baracode: json['mat_unit2_code'] ?? '',
+      matBalance: double.parse(json['mat_balance']?.toString() ?? '0.0'),
     );
   }
+
   Map<String, String> toMap() {
     return {
       'database_name': 'itechsy_test',
@@ -65,7 +69,7 @@ class MaterialModel {
       'MAT_UNIT2': materialUnit2,
       'MAT_UNIT2_NUM': materialUnit2Number.toString(),
       'MAT_UNIT2_PRICE3': materialUnit2Price3.toString(),
-      'MAT_KIND': (0).toString(),
+      'MAT_KIND': materialKind.toString(),
       'mat_unit_default': materialUnitDefault.toString(),
       'mat_image': materialImage,
       'PARENT_ID': parentId.toString(),
