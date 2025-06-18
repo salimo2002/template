@@ -16,8 +16,37 @@ class BillServices {
   static final String _urlUpdateBill = '$_baseUrl/bill_update.php';
   static final String _urlFetchBillsWithDetailsFiltered =
       '$_baseUrl/billllllll.php';
-  //bille_get_all.php
-  /// جلب كل الفواتير مع تفاصيلها
+  static final String _urlMovmentBil = '$_baseUrl/movement_bil.php';
+  static Future<List<dynamic>> fetchMovementBills({
+    required String databaseName,
+    required String dateFrom,
+    required String dateTo,
+    required String matId,
+  }) async {
+    final url = Uri.parse(_urlMovmentBil);
+
+    final response = await http.post(
+      url,
+      body: {
+        'database_name': databaseName,
+        'date_from': dateFrom,
+        'date_to': dateTo,
+        'mat_id': matId,
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('فشل في الاتصال بالسيرفر');
+    }
+
+    try {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data;
+    } catch (e) {
+      throw Exception('فشل في تحليل البيانات: $e');
+    }
+  }
+
   static Future<List> fetchBillss() async {
     final url = Uri.parse(_urlFetchBills);
     final response = await http.post(

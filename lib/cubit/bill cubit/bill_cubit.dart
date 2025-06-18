@@ -13,6 +13,40 @@ class BillCubit extends Cubit<BillStatus> {
 
   List<BillModel> bill = [];
   List<BillDetailsModel> billDetails = [];
+  List result = [];
+
+  Future<void> fetchMovementBills({
+    required String databaseName,
+    required String dateFrom,
+    required String dateTo,
+    required String matId,
+  }) async {
+    emit(LoadingStateBill());
+    try {
+      bill = [];
+      billDetails = [];
+      result = await BillServices.fetchMovementBills(
+        databaseName: databaseName,
+        dateFrom: dateFrom,
+        dateTo: dateTo,
+        matId: matId,
+      );
+
+      for (var element in result) {
+        bill.add(BillModel.fromJson(element));
+        for (var element2 in element['details']) {
+          billDetails.add(BillDetailsModel.fromJson(element2));
+        }
+      }
+      log(bill.toString());
+      log('----------------------------------------');
+      log(billDetails.toString());
+      emit(SuccessStateBill(bill: bill));
+    } catch (e) {
+      emit(FaliureStateBill(errorMessage: e.toString()));
+    }
+  }
+
   Future<void> fetchBills({
     bool isRefresh = false,
     bool includeDetails = true,
@@ -82,7 +116,6 @@ class BillCubit extends Cubit<BillStatus> {
     emit(LoadingStateBill());
     try {
       await BillServices.deleteBill(id);
-      fetchBills(isRefresh: true);
     } catch (e) {
       emit(FaliureStateBill(errorMessage: e.toString()));
     }
@@ -96,7 +129,6 @@ class BillCubit extends Cubit<BillStatus> {
     try {
       emit(LoadingStateBill());
       await BillServices.addBillWithDetails(bill: bill, details: billDetails);
-      fetchBills(isRefresh: true);
     } catch (e) {
       log(e.toString());
       emit(FaliureStateBill(errorMessage: e.toString()));
@@ -115,7 +147,6 @@ class BillCubit extends Cubit<BillStatus> {
         details: billDetails,
       );
       if (result['success'] == true) {
-        await fetchBills(isRefresh: true);
       } else {
         emit(
           FaliureStateBill(
