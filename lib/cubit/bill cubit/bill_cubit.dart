@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/Service/bill_service.dart';
 import 'package:template/cubit/bill%20cubit/bill_status.dart';
@@ -8,10 +7,46 @@ import 'package:template/models/bill_model.dart';
 
 class BillCubit extends Cubit<BillStatus> {
   BillCubit() : super(InitStateBill());
+
   List<dynamic> resultBill = [];
   List<dynamic> resultBillDetails = [];
+
   List<BillModel> bill = [];
   List<BillDetailsModel> billDetails = [];
+  List result = [];
+
+  Future<void> fetchMovementBills({
+    required String databaseName,
+    required String dateFrom,
+    required String dateTo,
+    required String matId,
+  }) async {
+    emit(LoadingStateBill());
+    try {
+      bill = [];
+      billDetails = [];
+      result = await BillServices.fetchMovementBills(
+        databaseName: databaseName,
+        dateFrom: dateFrom,
+        dateTo: dateTo,
+        matId: matId,
+      );
+
+      for (var element in result) {
+        bill.add(BillModel.fromJson(element));
+        for (var element2 in element['details']) {
+          billDetails.add(BillDetailsModel.fromJson(element2));
+        }
+      }
+      log(bill.toString());
+      log('----------------------------------------');
+      log(billDetails.toString());
+      emit(SuccessStateBill(bill: bill));
+    } catch (e) {
+      emit(FaliureStateBill(errorMessage: e.toString()));
+    }
+  }
+
   Future<void> fetchBills({
     bool isRefresh = false,
     bool includeDetails = true,
@@ -34,23 +69,59 @@ class BillCubit extends Cubit<BillStatus> {
           billDetails.add(BillDetailsModel.fromJson(element));
         }
       }
-      log('الفواتير كويسة');
+
       emit(SuccessStateBill(bill: bill));
     } catch (e) {
       emit(FaliureStateBill(errorMessage: e.toString()));
     }
   }
 
+  /// ✅ الدالة الجديدة: جلب الفواتير المفلترة مع تفاصيلها حسب التاريخ والحساب أو النوع
+  Future<void> fetchFilteredBills({
+    required String dateFrom,
+    required String dateTo,
+    int? accId,
+    String? bilKind,
+  }) async {
+    emit(LoadingStateBill());
+    try {
+      bill = [];
+      billDetails = [];
+      final result = await BillServices.fetchBillsWithDetailsFiltered(
+        dateFrom: dateFrom,
+        dateTo: dateTo,
+        accId: accId,
+        bilKind: bilKind,
+      );
+
+      for (var item in result) {
+        final billModel = BillModel.fromJson(item);
+        bill.add(billModel);
+
+        final detailsList = item['details'] as List<dynamic>;
+        for (var det in detailsList) {
+          billDetails.add(BillDetailsModel.fromJson(det));
+        }
+      }
+
+      emit(SuccessStateBill(bill: bill));
+    } catch (e) {
+      log('fetchFilteredBills Error: $e');
+      emit(FaliureStateBill(errorMessage: e.toString()));
+    }
+  }
+
+  /// حذف فاتورة
   Future<void> billDeletById({required int id}) async {
     emit(LoadingStateBill());
     try {
       await BillServices.deleteBill(id);
-      fetchBills(isRefresh: true);
     } catch (e) {
       emit(FaliureStateBill(errorMessage: e.toString()));
     }
   }
 
+  /// إضافة فاتورة مع تفاصيلها
   Future<void> insertBill(
     BillModel bill,
     List<BillDetailsModel> billDetails,
@@ -58,13 +129,13 @@ class BillCubit extends Cubit<BillStatus> {
     try {
       emit(LoadingStateBill());
       await BillServices.addBillWithDetails(bill: bill, details: billDetails);
-      fetchBills(isRefresh: true);
     } catch (e) {
       log(e.toString());
       emit(FaliureStateBill(errorMessage: e.toString()));
     }
   }
 
+  /// تعديل فاتورة مع تفاصيلها
   Future<void> updateBill(
     BillModel bill,
     List<BillDetailsModel> billDetails,
@@ -76,7 +147,6 @@ class BillCubit extends Cubit<BillStatus> {
         details: billDetails,
       );
       if (result['success'] == true) {
-        await fetchBills(isRefresh: true);
       } else {
         emit(
           FaliureStateBill(

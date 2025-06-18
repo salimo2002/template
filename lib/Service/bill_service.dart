@@ -14,8 +14,39 @@ class BillServices {
 
   static final String _urlDeleteBill = '$_baseUrl/bill_delet.php';
   static final String _urlUpdateBill = '$_baseUrl/bill_update.php';
-  //bille_get_all.php
-  /// جلب كل الفواتير مع تفاصيلها
+  static final String _urlFetchBillsWithDetailsFiltered =
+      '$_baseUrl/billllllll.php';
+  static final String _urlMovmentBil = '$_baseUrl/movement_bil.php';
+  static Future<List<dynamic>> fetchMovementBills({
+    required String databaseName,
+    required String dateFrom,
+    required String dateTo,
+    required String matId,
+  }) async {
+    final url = Uri.parse(_urlMovmentBil);
+
+    final response = await http.post(
+      url,
+      body: {
+        'database_name': databaseName,
+        'date_from': dateFrom,
+        'date_to': dateTo,
+        'mat_id': matId,
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('فشل في الاتصال بالسيرفر');
+    }
+
+    try {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data;
+    } catch (e) {
+      throw Exception('فشل في تحليل البيانات: $e');
+    }
+  }
+
   static Future<List> fetchBillss() async {
     final url = Uri.parse(_urlFetchBills);
     final response = await http.post(
@@ -130,6 +161,42 @@ class BillServices {
     } catch (e) {
       log(e.toString());
       return {'success': false, 'error': 'Exception', 'message': e.toString()};
+    }
+  }
+
+  /// جلب الفواتير مع تفاصيلها بين تاريخين مع فلترة حسب acc_id أو bil_kind
+  static Future<List<Map<String, dynamic>>> fetchBillsWithDetailsFiltered({
+    required String dateFrom,
+    required String dateTo,
+    int? accId,
+    String? bilKind,
+  }) async {
+    final url = Uri.parse(_urlFetchBillsWithDetailsFiltered);
+    final Map<String, String> body = {
+      'database_name': 'itechsy_test',
+      'date_from': dateFrom,
+      'date_to': dateTo,
+    };
+
+    if (accId != null) {
+      body['acc_id'] = accId.toString();
+    } else if (bilKind != null) {
+      body['bil_kind'] = bilKind;
+    }
+
+    final response = await http.post(url, body: body);
+
+    if (response.statusCode != 200) {
+      throw Exception('فشل في الاتصال بالسيرفر');
+    }
+
+    try {
+      final List<dynamic> data = jsonDecode(response.body);
+      log(data.toString());
+      return data.cast<Map<String, dynamic>>();
+    } catch (e) {
+      log("خطأ في التحويل: $e");
+      throw Exception('فشل في تحليل البيانات: $e');
     }
   }
 }

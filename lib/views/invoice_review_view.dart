@@ -1,9 +1,9 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/bill%20cubit/bill_status.dart';
+import 'package:template/models/account_model.dart';
 import 'package:template/models/bill_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
@@ -23,28 +23,39 @@ class InvoiceReviewView extends StatefulWidget {
 }
 
 class _InvoiceReviewViewState extends State<InvoiceReviewView> {
-  late int nameAcuont;
-  late String billType;
-  late Map mapModalRoute;
-  late String date;
-  late bool isMonth;
+  int? nameAcuont;
+  String? billType;
+  Map? mapModalRoute;
+  String? date;
+  bool isMonth = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    mapModalRoute = ModalRoute.of(context)!.settings.arguments as Map;
-    nameAcuont = mapModalRoute['nameAcuont'] ?? 0;
-    billType = mapModalRoute['billType'] ?? '';
-    date = mapModalRoute['dateTime'] ?? '';
-    isMonth = mapModalRoute['isMonth'];
+
+    mapModalRoute = ModalRoute.of(context)!.settings.arguments as Map?;
+
+    nameAcuont = mapModalRoute?['nameAcuont'];
+    billType = mapModalRoute?['billType'];
+    date = mapModalRoute?['dateTime'];
+    isMonth = mapModalRoute?['isMonth'] ?? false;
+  }
+
+  // دالة للبحث عن حساب داخل قائمة الحسابات بدون استخدام مكتبة خارجية
+  AccountModel? findAccount(List<AccountModel> accounts, int? accId) {
+    if (accId == null) return null;
+    for (var acc in accounts) {
+      if (acc.accID == accId) return acc;
+    }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    log(billType);
     return Scaffold(
       appBar: customAppBar(
         context: context,
-        title: mapModalRoute['title'] ?? 'استعراض الفواتير',
+        title: mapModalRoute?['title'] ?? 'استعراض الفواتير',
         showIcons: false,
       ),
       body: Column(
@@ -55,25 +66,33 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
             child: BlocBuilder<BillCubit, BillStatus>(
               builder: (context, state) {
                 if (state is SuccessStateBill) {
+                  final bills = context.read<BillCubit>().bill;
+
+                  if (billType == null) {
+                    return Center(
+                      child: Text(
+                        'معطيات غير مكتملة لعرض الفواتير',
+                        style: FontStyleApp.black18.copyWith(
+                          fontSize: getResponsiveText(context, 18),
+                        ),
+                      ),
+                    );
+                  }
+
                   List<BillModel> filteredBills =
-                      context.read<BillCubit>().bill.where((bill) {
-                        if (isMonth) {
-                          return bill.bilKind == billType &&
-                              RadioMenuButtons.payType == bill.payType &&
-                              bill.accId == nameAcuont &&
-                              '${bill.bilDate!.year}-${bill.bilDate!.month}' ==
-                                  date;
-                        } else if (date == '') {
-                          return bill.bilKind == billType &&
-                              RadioMenuButtons.payType == bill.payType &&
-                              bill.accId == nameAcuont;
-                        } else {
-                          return bill.bilKind == billType &&
-                              RadioMenuButtons.payType == bill.payType &&
-                              bill.accId == nameAcuont &&
-                              '${bill.bilDate!.year}-${bill.bilDate!.month}-${bill.bilDate!.day}' ==
-                                  date;
-                        }
+                      bills.where((bill) {
+                        if (bill.bilDate == null) return false;
+
+                        final matchesKind = bill.bilKind == billType;
+                        final matchesPayType =
+                            RadioMenuButtons.payType == bill.payType;
+                        final matchesAccount =
+                            (nameAcuont == null || nameAcuont == 0) ||
+                            (bill.accId == nameAcuont);
+
+                        // تم حذف شرط التحقق من التاريخ تمامًا
+
+                        return matchesKind && matchesPayType && matchesAccount;
                       }).toList();
 
                   if (filteredBills.isEmpty) {
@@ -94,7 +113,14 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                       final billAmount =
                           (currentBill.bilNet ?? 0) -
                           (currentBill.bilPayment ?? 0);
-                      log(filteredBills[index].curId.toString());
+
+                      // البحث عن الحساب المرتبط بالفاتورة
+                      final account = findAccount(
+                        context.read<AccountsCubit>().accounts,
+                        currentBill.accId,
+                      );
+                      final accountName = account?.accName ?? 'غير معروف';
+
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: GestureDetector(
@@ -108,15 +134,8 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                             billDate:
                                 '${currentBill.bilDate!.year}-${currentBill.bilDate!.month}-${currentBill.bilDate!.day}',
                             billTime:
-                                '${currentBill.bilDate!.hour}:${currentBill.bilDate!.minute}',
-                            nameAccuont:
-                                context
-                                    .read<AccountsCubit>()
-                                    .accounts
-                                    .firstWhere(
-                                      (acc) => acc.accID == currentBill.accId,
-                                    )
-                                    .accName,
+                                '${currentBill.bilDate!.hour.toString().padLeft(2, '0')}:${currentBill.bilDate!.minute.toString().padLeft(2, '0')}',
+                            nameAccuont: accountName,
                             total: currentBill.bilTotal.toString(),
                             amountPaid: currentBill.bilPayment.toString(),
                             reminingAmount: billAmount.toString(),
