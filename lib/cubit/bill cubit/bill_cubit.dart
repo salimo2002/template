@@ -12,6 +12,39 @@ class BillCubit extends Cubit<BillStatus> {
   List<dynamic> resultBillDetails = [];
   List<BillModel> bill = [];
   List<BillDetailsModel> billDetails = [];
+  List result = [];
+  Future<void> fetchMovementBills({
+    required String databaseName,
+    required String dateFrom,
+    required String dateTo,
+    required String matId,
+  }) async {
+    emit(LoadingStateBill());
+    try {
+      bill = [];
+      billDetails = [];
+      result = await BillServices.fetchMovementBills(
+        databaseName: databaseName,
+        dateFrom: dateFrom,
+        dateTo: dateTo,
+        matId: matId,
+      );
+
+      for (var element in result) {
+        bill.add(BillModel.fromJson(element));
+        for (var element2 in element['details']) {
+          billDetails.add(BillDetailsModel.fromJson(element2));
+        }
+      }
+      log(bill.toString());
+      log('----------------------------------------');
+      log(billDetails.toString());
+      emit(SuccessStateBill(bill: bill));
+    } catch (e) {
+      emit(FaliureStateBill(errorMessage: e.toString()));
+    }
+  }
+
   Future<void> fetchBills({
     bool isRefresh = false,
     bool includeDetails = true,
