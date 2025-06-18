@@ -25,7 +25,7 @@ class _SupportViewsState extends State<SupportViews> {
   final FocusNode _focusNode2 = FocusNode();
   final FocusNode _focusNode3 = FocusNode();
 
-  final TextEditingController _nameAccountController = TextEditingController();
+  final TextEditingController typeSupportController = TextEditingController();
   final TextEditingController _nameAccountController2 = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
@@ -48,13 +48,14 @@ class _SupportViewsState extends State<SupportViews> {
   @override
   void didChangeDependencies() {
     documentType = ModalRoute.of(context)!.settings.arguments as String;
+    typeSupportController.text='سند $documentType';
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context: context, title: 'سند', showIcons: false),
+      appBar: customAppBar(context: context, title: 'سند ', showIcons: false),
       body: SafeArea(
         child: Column(
           children: [
@@ -68,12 +69,15 @@ class _SupportViewsState extends State<SupportViews> {
                     ContainerFields(
                       children: [
                         CustomTextField(
-                          onChanged:
-                              (query) => searchAccount(query, isDebtor: true),
-                          suffixIcon: const SizedBox(width: 40, height: 40),
-                          hintText: 'الحساب المدين',
-                          controller: _nameAccountController,
+                          
+                          suffixIcon: InkWell(onTapDown: (details) =>
+                            showTypeSupport(details,typeSupportController)
+                           , child: Icon(Icons.arrow_drop_down,size: 40,)),
+                          hintText: 'نوع السند',
+                          controller: typeSupportController,
                           focusNode: _focusNode0,
+                          canRead: true,
+                          
                         ),
                         if (isSearchingDebtor)
                           Directionality(
@@ -82,7 +86,7 @@ class _SupportViewsState extends State<SupportViews> {
                               results: debtorSearchResults,
                               onSelect: (account) {
                                 setState(() {
-                                  _nameAccountController.text =
+                                  typeSupportController.text =
                                       account.accName;
                                   isSearchingDebtor = false;
                                 });
@@ -94,7 +98,7 @@ class _SupportViewsState extends State<SupportViews> {
                               (query) =>
                                   searchAccount(query, isDebtor: false),
                           suffixIcon: const SizedBox(width: 40, height: 40),
-                          hintText: 'حساب الدائن',
+                          hintText: 'الحساب المقابل',
                           controller: _nameAccountController2,
                           focusNode: _focusNode2,
                         ),
@@ -115,6 +119,12 @@ class _SupportViewsState extends State<SupportViews> {
                         CustomTextField(
                           keyType: TextInputType.numberWithOptions(),
                           hintText: 'المبلغ',
+                          controller: _amountController,
+                          focusNode: _focusNode,
+                        ),
+                         CustomTextField(
+                          keyType: TextInputType.numberWithOptions(),
+                          hintText: 'العملة',
                           controller: _amountController,
                           focusNode: _focusNode,
                         ),
@@ -189,6 +199,32 @@ class _SupportViewsState extends State<SupportViews> {
           ],
         ),
       ),
+    );
+  }
+  
+ void showTypeSupport(TapDownDetails details, TextEditingController controller) {
+    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    showMenu(
+      menuPadding: EdgeInsets.zero,
+      context: context,
+      position: RelativeRect.fromRect(
+        details.globalPosition & const Size(60, 60),
+        Offset.zero & overlay.size,
+      ),
+      items: [
+        CheckedPopupMenuItem(
+          child: Center(child: Text('سند قبض')),
+          onTap: () {
+            controller.text = 'سند قبض';
+          },
+        ),
+        CheckedPopupMenuItem(
+          child: Center(child: Text('سند دفع')),
+          onTap: () {
+            controller.text = 'سند دفع';
+          },
+        ),
+      ],
     );
   }
 
@@ -266,5 +302,7 @@ class SearchResultsList extends StatelessWidget {
         ),
       ),
     );
-  }
+  } 
 }
+
+
