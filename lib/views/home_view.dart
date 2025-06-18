@@ -8,7 +8,6 @@ import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/home%20view%20widgets/accounts.dart';
 import 'package:template/widgets/home%20view%20widgets/create_financial_documents.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_drawer.dart';
-import 'package:template/widgets/home%20view%20widgets/debts_and_supplies.dart';
 import 'package:template/widgets/home%20view%20widgets/financial_reports.dart';
 import 'package:template/widgets/home%20view%20widgets/product_catalog.dart';
 
@@ -114,7 +113,7 @@ class _HomeViewState extends State<HomeView> {
                               BlendMode.srcIn,
                             ),
                           ),
-                          label: "تقارير",
+                          label: "المواد",
                         ),
                         BottomNavigationBarItem(
                           icon: SvgPicture.asset(
@@ -126,7 +125,7 @@ class _HomeViewState extends State<HomeView> {
                               BlendMode.srcIn,
                             ),
                           ),
-                          label: "الحسابات والمواد",
+                          label: "الحسابات",
                         ),
                         BottomNavigationBarItem(
                           icon: SvgPicture.asset(
@@ -179,28 +178,9 @@ class _AccountsAndMaterialsTabState extends State<AccountsAndMaterialsTab>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 8),
-        TabBar(
-          dividerColor: Colors.transparent,
-          controller: _tabController,
-          labelColor: kBlueAccent,
-          unselectedLabelColor: kBlack,
-          indicator: const UnderlineTabIndicator(
-            borderSide: BorderSide(width: 2.5, color: kBlueAccent),
-            insets: EdgeInsets.symmetric(horizontal: 1),
-          ),
-          tabs: const [Tab(text: 'المواد'), Tab(text: 'الحسابات')],
-        ),
-        SizedBox(height: 10),
-        Expanded(
-          child: TabBarView(
-            controller: _tabController,
-            children: const [DebtsAndSupplies(), Accounts()],
-          ),
-        ),
-      ],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [SizedBox(height: 10), Accounts()],
     );
   }
 }

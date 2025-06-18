@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:template/views/account_statement_view.dart';
-import 'package:template/views/fund_journal_view.dart';
-import 'package:template/views/support_views.dart';
+import 'package:template/views/material_card_view.dart';
+import 'package:template/views/material_classifications_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_button_.dart';
 
 class FinancialReports extends StatelessWidget {
@@ -15,78 +14,29 @@ class FinancialReports extends StatelessWidget {
         spacing: 20,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          FittedBox(
-            child: Row(
-              spacing: 50,
-              children: [
-                CustomButton(
-                  text: 'كشف حساب',
-                  icon: 'assets/img/home cards/carbon_product.svg',
-                  onTap: () {
-                    Navigator.pushNamed(context, AccountStatementView.id);
-                  },
-                ),
-                CustomButton(
-                  text: 'جرد مستودعات',
-                  icon: 'assets/img/home cards/hugeicons_money-bag-01.svg',
-                  onTap: () {},
-                ),
-                CustomButton(
-                  text: 'مبيعات',
-                  icon: 'assets/img/home cards/vaadin_money-exchange.svg',
-                  onTap: () {},
-                ),
-              ],
-            ),
-          ),
-          FittedBox(
-            child: Row(
-              spacing: 50,
-              mainAxisAlignment: MainAxisAlignment.end,
-
-              children: [
-                CustomButton(
-                  text: 'يومية الصندوق',
-                  icon:
-                      'assets/img/home cards/hugeicons_money-receive-circle.svg',
-                  onTap: () {
-                    Navigator.pushNamed(context, FundJournalView.id);
-                  },
-                ),
-                CustomButton(
-                  text: 'ارصدة',
-                  icon: 'assets/img/Home/comment-dollar-svgrepo-com.svg',
-                  onTap: () {},
-                ),
-                CustomButton(
-                  text: 'سند قبض',
-                  icon: 'assets/img/Home/document-plus-svgrepo-com.svg',
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      SupportViews.id,
-                      arguments: 'catch',
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
+          
           Row(
             spacing: 50,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              CustomButton(
-                text: 'سند دفع',
-                icon: 'assets/img/Home/document-minus-svgrepo-com.svg',
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    SupportViews.id,
-                    arguments: 'push',
-                  );
-                },
-              ),
+               CustomButton(
+                  text: 'دليل المواد',
+                  icon: 'assets/img/Home/guide-svgrepo-com.svg',
+                  onTap: () {
+                    Navigator.pushNamed(context, MaterialCardView.id);
+                  },
+                ),
+                CustomButton(
+                  text: 'تصنيفات',
+                  icon:
+                      'assets/img/Home/tags-category-categories-labels-svgrepo-com.svg',
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      MaterialClassificationsView.id,
+                    );
+                  },
+                ),
             ],
           ),
         ],
