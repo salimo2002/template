@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
@@ -189,7 +187,10 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
                 lable3: 'الكمية المتوفرة',
                 value3: widget.material.matBalance.toString(),
                 lable4: 'الوحدة',
-                value4: 'كغ',
+                value4:
+                    widget.material.materialUnitDefault == 0
+                        ? decodeToUtf8(widget.material.materialUnit)
+                        : decodeToUtf8(widget.material.materialUnit2),
               ),
             ),
           ),
@@ -197,10 +198,5 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
         ],
       ),
     );
-  }
-
-  String decodeToUtf8(String brokenText) {
-    final latin1Bytes = latin1.encode(brokenText);
-    return utf8.decode(latin1Bytes);
   }
 }
