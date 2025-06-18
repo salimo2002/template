@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
+import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/models/account_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
@@ -341,56 +342,77 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
     });
   }
 
-  void navigatorToInvoiceReview() {
+  void navigatorToInvoiceReview() async {
     if (globalKey.currentState!.validate()) {
-      if (date1Controler.text == '' && date2Controler.text == '') {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(customSnackBar(context, 'الرجاء اختيار تاريخ', kRed));
-        return;
-      }
+      final date1 = date1Controler.text.trim();
+      final date2 = date2Controler.text.trim();
 
-      if (date1Controler.text.isEmpty || date2Controler.text.isEmpty) {
+      if (date1.isEmpty || date2.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          customSnackBar(context, 'الرجاء اختيار تاريخ صحيح', kRed),
+          customSnackBar(context, 'الرجاء اختيار التاريخين معًا', kRed),
         );
         return;
       }
-      final fromDate = DateTime.tryParse(date1Controler.text);
-      final toDate = DateTime.tryParse(date2Controler.text);
+
+      final fromDate = DateTime.tryParse(date1);
+      final toDate = DateTime.tryParse(date2);
+
       if (fromDate == null || toDate == null) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(customSnackBar(context, 'تاريخ غير صالح', kRed));
         return;
       }
+
       if (fromDate.isAfter(toDate)) {
         ScaffoldMessenger.of(context).showSnackBar(
           customSnackBar(context, 'التاريخ الأول أحدث من الثاني', kRed),
         );
         return;
       }
-      if (date1Controler.text == date2Controler.text || isToDay) {
-        // Request Today
-      } else {
-        // Request Tow Date
-      }
-      Navigator.pushNamed(
-        context,
-        InvoiceReviewView.id,
-        arguments: {
-          'title':
-              billTypes.firstWhere(
-                (element) => element['value'] == selectedBillType,
-              )['label'] ??
-              '',
-          'billType': selectedBillType ?? '',
-          'nameAcuont': accId,
-          'dateTime':
-              '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}',
-          'isMonth': isToDay,
-        },
+
+      final isSingleDay = date1 == date2 || isToDay;
+
+      final billCubit = context.read<BillCubit>();
+
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(child: CircularProgressIndicator()),
       );
+
+      try {
+        await billCubit.fetchFilteredBills(
+          dateFrom: date1,
+          dateTo: date2,
+          accId: accountController.text.isNotEmpty ? accId : null,
+          bilKind: selectedBillType, // ✅ مهم
+        );
+
+        Navigator.pop(context); // إغلاق التحميل
+
+        Navigator.pushNamed(
+          context,
+          InvoiceReviewView.id,
+          arguments: {
+            'title':
+                billTypes.firstWhere(
+                  (element) => element['value'] == selectedBillType,
+                  orElse: () => {'label': ''},
+                )['label'] ??
+                '',
+            'billType': selectedBillType ?? '',
+            'nameAcuont': accountController.text.isNotEmpty ? accId : null,
+            'dateTime': DateTime.now().toIso8601String(),
+            'isMonth': isSingleDay,
+          },
+        );
+      } catch (e) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(customSnackBar(context, 'فشل تحميل الفواتير: $e', kRed));
+      }
     }
   }
 }
