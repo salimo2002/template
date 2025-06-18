@@ -17,11 +17,9 @@ class SettingView extends StatefulWidget {
 class _SettingViewState extends State<SettingView> {
   TextEditingController priceSellInvoice = TextEditingController();
   TextEditingController priceUndosellInvoice = TextEditingController();
-
   TextEditingController priceBuyInvoice = TextEditingController();
   TextEditingController priceUndobuyInvoice = TextEditingController();
   TextEditingController mainBoxController = TextEditingController();
-
   FocusNode sellInvoice = FocusNode();
   FocusNode undoSellInvoice = FocusNode();
   FocusNode buyInvoice = FocusNode();
@@ -79,7 +77,6 @@ class _SettingViewState extends State<SettingView> {
                   ),
                   CustomTextField(
                     canRead: true,
-          
                     suffixIcon: InkWell(
                       onTapDown:
                           (details) => showPrice(details, priceUndobuyInvoice),

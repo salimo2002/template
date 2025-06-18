@@ -39,7 +39,7 @@ class _AccountsState extends State<Accounts> {
                   Navigator.pushNamed(
                     context,
                     SupportViews.id,
-                    arguments: 'push',
+                    arguments: 'دفع',
                   );
                 },
               ),
@@ -79,7 +79,7 @@ class _AccountsState extends State<Accounts> {
                     Navigator.pushNamed(
                       context,
                       SupportViews.id,
-                      arguments: 'catch',
+                      arguments: 'قبض',
                     );
                   },
                 ),

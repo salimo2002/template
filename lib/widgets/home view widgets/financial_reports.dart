@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:template/views/material_card_view.dart';
 import 'package:template/views/material_classifications_view.dart';
+import 'package:template/views/movement_of_matter_view.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_button_.dart';
 
 class FinancialReports extends StatelessWidget {
@@ -34,6 +35,17 @@ class FinancialReports extends StatelessWidget {
                     Navigator.pushNamed(
                       context,
                       MaterialClassificationsView.id,
+                    );
+                  },
+                ),
+                CustomButton(
+                  text: 'حركة مادة',
+                  icon:
+                      'assets/img/Home/tags-category-categories-labels-svgrepo-com.svg',
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      MovementOfMatterView.id,
                     );
                   },
                 ),

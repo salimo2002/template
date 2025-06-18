@@ -7,16 +7,12 @@ class DeviceType {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Platform.isAndroid) {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      // IMEI قد لا تتوفر مباشرة بسبب صلاحيات Android 10+
-      // بديل: جلب androidId (مُعرف فريد للجهاز)
-      return androidInfo.id;
+      return '${androidInfo.id} ${androidInfo.brand} ${androidInfo.model}';
     } else if (Platform.isIOS) {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      // iOS لا تسمح بالوصول لـ IMEI
-      return iosInfo.identifierForVendor; // معرف فريد بديل
+      return iosInfo.identifierForVendor;
     } else {
       return 'sasassa';
     }
-    // return null;
   }
 }

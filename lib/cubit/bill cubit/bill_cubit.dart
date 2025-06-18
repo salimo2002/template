@@ -13,8 +13,6 @@ class BillCubit extends Cubit<BillStatus> {
 
   List<BillModel> bill = [];
   List<BillDetailsModel> billDetails = [];
-
-  /// الدالة القديمة: تجلب كل الفواتير (مع أو بدون تفاصيل)
   Future<void> fetchBills({
     bool isRefresh = false,
     bool includeDetails = true,

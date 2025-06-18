@@ -14,8 +14,8 @@ class BillServices {
 
   static final String _urlDeleteBill = '$_baseUrl/bill_delet.php';
   static final String _urlUpdateBill = '$_baseUrl/bill_update.php';
-  static final String _urlFetchBillsWithDetailsFiltered =
-      '$_baseUrl/billllllll.php';
+  //bille_get_all.php
+  /// جلب كل الفواتير مع تفاصيلها
   static Future<List> fetchBillss() async {
     final url = Uri.parse(_urlFetchBills);
     final response = await http.post(
