@@ -90,18 +90,19 @@ class Bill extends StatelessWidget {
           lable3: 'مبلغ الفاتورة',
           value3: total,
         ),
-        note == '' ? SizedBox.shrink() : SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              decodeToUtf8(note),
-              style: FontStyleApp.blackCustom18.copyWith(
-                fontSize: getResponsiveText(context, 16),
-              ),
+        note == ''
+            ? SizedBox.shrink()
+            : Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  decodeToUtf8(note),
+                  style: FontStyleApp.blackCustom18.copyWith(
+                    fontSize: getResponsiveText(context, 16),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
       ],
     );
   }
