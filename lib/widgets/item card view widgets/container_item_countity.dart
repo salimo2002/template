@@ -116,33 +116,36 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
     );
   }
 
+  @override
   Widget buildItemCardContent(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       width: double.infinity,
-      height: MediaQuery.sizeOf(context).height * .2,
       decoration: BoxDecoration(
         boxShadow: [bosShadow()],
         color: kWhite,
         borderRadius: BorderRadius.circular(7),
         border: Border.all(width: .2, color: Colors.black),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          SizedBox(height: 14),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SizedBox(width: 10),
-              FittedBox(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-                  decoration: BoxDecoration(
-                    color: kSecondColor,
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                  child: FittedBox(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const SizedBox(width: 10),
+                FittedBox(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 5,
+                      vertical: 3,
+                    ),
+                    decoration: BoxDecoration(
+                      color: kSecondColor,
+                      borderRadius: BorderRadius.circular(18),
+                    ),
                     child: Text(
                       categoryName,
                       style: FontStyleApp.white18.copyWith(
@@ -151,33 +154,31 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
                     ),
                   ),
                 ),
-              ),
-              Spacer(),
-              Flexible(
-                flex: 3,
-                child: Text(
-                  widget.material.materialName,
-                  style: FontStyleApp.black18.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: getResponsiveText(context, 14),
+                const Spacer(),
+                Flexible(
+                  flex: 1,
+                  child: Text(
+                    widget.material.materialName,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: FontStyleApp.black18.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: getResponsiveText(context, 14),
+                    ),
                   ),
                 ),
-              ),
-              FittedBox(
-                child: Text(
+                Text(
                   ' -${widget.index.toString()}',
                   style: FontStyleApp.black18.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: getResponsiveText(context, 14),
                   ),
                 ),
-              ),
-              SizedBox(width: 10),
-            ],
-          ),
-          SizedBox(height: 10),
-          Expanded(
-            child: Padding(
+                const SizedBox(width: 10),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TableFIelds(
                 lable1: 'سعر المستهلك',
@@ -193,9 +194,8 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
                         : widget.material.materialUnit2,
               ),
             ),
-          ),
-          SizedBox(height: 10),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -13,7 +13,6 @@ class CustomDrawer extends StatelessWidget {
       child: Column(
         children: [
           DrawerHeader(
-            
             child: Image.asset('assets/img/Login/pictureBox3.Image.png'),
           ),
           InkWell(
