@@ -61,7 +61,8 @@ class BillModel {
       'bil_net': bilNet.toString(),
       'pay_type': payType.toString(),
       'BIL_DATE':
-          bilDate?.toIso8601String() ?? DateTime.now().toIso8601String(),
+          '${bilDate!.year}-${bilDate!.month.toString().padLeft(2, '0')}-${bilDate!.day.toString().padLeft(2, '0')} '
+          '${bilDate!.hour.toString().padLeft(2, '0')}:${bilDate!.minute.toString().padLeft(2, '0')}:00',
       'BIL_NOTE': bilNote ?? '',
       'CUR_ID': curId?.toString() ?? '1',
     };

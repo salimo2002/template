@@ -341,76 +341,82 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
       isSearching = results.isNotEmpty;
     });
   }
-void navigatorToInvoiceReview() async {
-  if (globalKey.currentState!.validate()) {
-    final date1 = date1Controler.text.trim();
-    final date2 = date2Controler.text.trim();
 
-    if (date1.isEmpty || date2.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        customSnackBar(context, 'الرجاء اختيار التاريخين معًا', kRed),
-      );
-      return;
-    }
+  void navigatorToInvoiceReview() async {
+    if (globalKey.currentState!.validate()) {
+      final date1 = date1Controler.text.trim();
+      final date2 = date2Controler.text.trim();
 
-    final fromDate = DateTime.tryParse(date1);
-    final toDate = DateTime.tryParse(date2);
+      if (date1.isEmpty || date2.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          customSnackBar(context, 'الرجاء اختيار التاريخين معًا', kRed),
+        );
+        return;
+      }
 
-    if (fromDate == null || toDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        customSnackBar(context, 'تاريخ غير صالح', kRed),
-      );
-      return;
-    }
+      final fromDate = DateTime.tryParse(date1);
+      final toDate = DateTime.tryParse(date2);
 
-    if (fromDate.isAfter(toDate)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        customSnackBar(context, 'التاريخ الأول أحدث من الثاني', kRed),
-      );
-      return;
-    }
+      if (fromDate == null || toDate == null) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(customSnackBar(context, 'تاريخ غير صالح', kRed));
+        return;
+      }
 
-    final isSingleDay = date1 == date2 || isToDay;
+      if (fromDate.isAfter(toDate)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          customSnackBar(context, 'التاريخ الأول أحدث من الثاني', kRed),
+        );
+        return;
+      }
 
-    final billCubit = context.read<BillCubit>();
+      final isSingleDay = date1 == date2 || isToDay;
 
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => const Center(child: CircularProgressIndicator()),
-    );
+      // ✅ نضيف الوقت للبحث في اليوم الكامل
+      final fromDateFormatted = '$date1 00:00:00';
+      final toDateFormatted = '$date2 23:59:59';
 
-    try {
-      await billCubit.fetchFilteredBills(
-        dateFrom: date1,
-        dateTo: date2,
-        accId: accountController.text.isNotEmpty ? accId : null,
-        bilKind: selectedBillType, // ✅ مهم
+      final billCubit = context.read<BillCubit>();
+
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(child: CircularProgressIndicator()),
       );
 
-      Navigator.pop(context); // إغلاق التحميل
+      try {
+        await billCubit.fetchFilteredBills(
+          dateFrom: fromDateFormatted,
+          dateTo: toDateFormatted,
+          accId: accountController.text.isNotEmpty ? accId : null,
+          bilKind: selectedBillType,
+        );
 
-      Navigator.pushNamed(
-        context,
-        InvoiceReviewView.id,
-        arguments: {
-          'title': billTypes.firstWhere(
-            (element) => element['value'] == selectedBillType,
-            orElse: () => {'label': ''},
-          )['label'] ?? '',
-          'billType': selectedBillType ?? '',
-          'nameAcuont': accountController.text.isNotEmpty ? accId : null,
-          'dateTime': DateTime.now().toIso8601String(),
-          'isMonth': isSingleDay,
-        },
-      );
-    } catch (e) {
-      Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        customSnackBar(context, 'فشل تحميل الفواتير: $e', kRed),
-      );
+        Navigator.pop(context); // لإغلاق Dialog التحميل
+
+        Navigator.pushNamed(
+          context,
+          InvoiceReviewView.id,
+          arguments: {
+            'title':
+                billTypes.firstWhere(
+                  (element) => element['value'] == selectedBillType,
+                  orElse: () => {'label': ''},
+                )['label'] ??
+                '',
+            'billType': selectedBillType ?? '',
+            'nameAcuont': accountController.text.isNotEmpty ? accId : null,
+            'dateTime': DateTime.now().toIso8601String(),
+            'isMonth': isSingleDay,
+          },
+        );
+      } catch (e) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(customSnackBar(context, 'فشل تحميل الفواتير: $e', kRed));
+      }
     }
   }
-}
-
 }
