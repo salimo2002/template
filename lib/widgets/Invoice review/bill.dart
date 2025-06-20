@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/widgets/Invoice%20review/table_fields_review.dart';
@@ -94,7 +95,7 @@ class Bill extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              note,
+              decodeToUtf8(note),
               style: FontStyleApp.blackCustom18.copyWith(
                 fontSize: getResponsiveText(context, 16),
               ),
