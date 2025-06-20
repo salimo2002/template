@@ -31,7 +31,7 @@ class _FundJournalViewState extends State<FundJournalView> {
     for (var element in debits) {
       if (element.debDate ==
           DateTime.parse(
-            '${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}-18 00:00:00.000',
+            '${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')} 00:00:00.000',
           )) {
         log(element.debDate.toString());
 
