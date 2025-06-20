@@ -71,14 +71,12 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
       billType = billRoute['BillType'] as String;
       billModel =
           billRoute['bill'] != null ? billRoute['bill'] as BillModel : null;
-
       curId = billRoute['cur_id'];
-
       if (!isNew && billModel != null) {
         var billDetails = context.read<BillCubit>().billDetails.where(
           (detail) => detail.bilId == billModel!.bilId,
         );
-        if (bDetails != []) {
+        if (bDetails.isNotEmpty) {
           billDetails = bDetails.where(
             (element) => element.bilId == billModel!.bilId,
           );
