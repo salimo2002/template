@@ -116,6 +116,7 @@ class BillCubit extends Cubit<BillStatus> {
     emit(LoadingStateBill());
     try {
       await BillServices.deleteBill(id);
+      emit(SuccessStateBill(bill: [], bDeatails: []));
     } catch (e) {
       emit(FaliureStateBill(errorMessage: e.toString()));
     }
