@@ -51,6 +51,7 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
     {'label': 'فواتير المبيعات', 'value': 'sell'},
     {'label': 'فواتير مردود المشتريات', 'value': 'undo_buy'},
     {'label': 'فواتير مردود المبيعات', 'value': 'undo_sell'},
+    {'label': 'فواتير  طلبات', 'value': 'order'},
   ];
   @override
   Widget build(BuildContext context) {
