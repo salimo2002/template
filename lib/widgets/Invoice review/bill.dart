@@ -16,6 +16,7 @@ class Bill extends StatelessWidget {
     required this.amountPaid,
     required this.reminingAmount,
     required this.note,
+    this.billType,
   });
   final String paymentStyle;
   final String invoiceNumber;
@@ -25,7 +26,7 @@ class Bill extends StatelessWidget {
   final String nameAccuont;
   final String total;
   final String amountPaid;
-
+  final String? billType;
   final String reminingAmount;
 
   final String note;
@@ -44,6 +45,12 @@ class Bill extends StatelessWidget {
             ),
             Text(
               '$invoiceNumber : رقم الفاتورة',
+              style: FontStyleApp.blueAccent18.copyWith(
+                fontSize: getResponsiveText(context, 14),
+              ),
+            ),
+            Text(
+              billType ?? '',
               style: FontStyleApp.blueAccent18.copyWith(
                 fontSize: getResponsiveText(context, 14),
               ),

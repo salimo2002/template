@@ -40,7 +40,7 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
   final List<TextEditingController> quantityController = [];
   final List<BillDetailsModel> bills = [];
   List<MaterialModel> materialModel = [];
-
+  List<BillDetailsModel> bDetails = [];
   final FocusNode searchFocusNode = FocusNode();
   final AudioPlayer _audioPlayer = AudioPlayer();
 
@@ -64,16 +64,23 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
     super.didChangeDependencies();
     if (isRebuild) {
       billRoute = ModalRoute.of(context)!.settings.arguments as Map;
+      bDetails = billRoute['bDetalis'] as List<BillDetailsModel>;
       isNew = billRoute['isNew'] as bool;
       billType = billRoute['BillType'] as String;
       billModel =
           billRoute['bill'] != null ? billRoute['bill'] as BillModel : null;
+
       curId = billRoute['cur_id'];
 
       if (!isNew && billModel != null) {
-        final billDetails = context.read<BillCubit>().billDetails.where(
+        var billDetails = context.read<BillCubit>().billDetails.where(
           (detail) => detail.bilId == billModel!.bilId,
         );
+        if (bDetails != []) {
+          billDetails = bDetails.where(
+            (element) => element.bilId == billModel!.bilId,
+          );
+        }
         materialModel.clear();
         quantityController.clear();
         priceController.clear();

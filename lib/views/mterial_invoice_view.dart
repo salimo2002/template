@@ -13,6 +13,7 @@ import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/create_a_sales_invoice_view.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/widgets/Invoice%20review/bill.dart';
+
 class MterialInvoiceView extends StatefulWidget {
   const MterialInvoiceView({super.key});
   static String id = 'MterialInvoiceView';
@@ -57,9 +58,22 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
                               details,
                               bills[index].bilId!,
                               bills[index],
+                              bDeatails,
                             );
                           },
                           child: Bill(
+                            billType:
+                                bills[index].bilKind == 'sell'
+                                    ? 'مشتريات'
+                                    : bills[index].bilKind == 'buy'
+                                    ? 'مبيعات'
+                                    : bills[index].bilKind == 'undo_buy'
+                                    ? 'مردود مشتريات'
+                                    : bills[index].bilKind == 'undo_sell'
+                                    ? 'مردود مبيعات'
+                                    : bills[index].bilKind == 'order'
+                                    ? 'طلب'
+                                    : '',
                             paymentStyle:
                                 bills[index].payType == 0 ? 'نقدي' : 'آجل',
                             invoiceNumber: bills[index].bilId.toString(),
@@ -113,7 +127,12 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
     );
   }
 
-  void showMenuu(TapDownDetails details, int id, BillModel selectedBill) {
+  void showMenuu(
+    TapDownDetails details,
+    int id,
+    BillModel selectedBill,
+    List<BillDetailsModel> bDetails,
+  ) {
     final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
     showMenu(
       menuPadding: EdgeInsets.zero,
@@ -132,8 +151,9 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
               arguments: {
                 'bill': selectedBill,
                 'isNew': false,
-                'BillType': '',
+                'BillType': selectedBill.bilKind,
                 'cur_id': selectedBill.curId,
+                'bDetalis': bDetails,
               },
             );
           },

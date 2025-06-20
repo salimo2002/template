@@ -135,7 +135,7 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                             total: currentBill.bilTotal.toString(),
                             amountPaid: currentBill.bilPayment.toString(),
                             reminingAmount: billAmount.toString(),
-                            note: decodeToUtf8(currentBill.bilNote ?? ''),
+                            note: currentBill.bilNote ?? '',
                           ),
                         ),
                       );

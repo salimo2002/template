@@ -76,20 +76,20 @@ class _NewItemViewState extends State<EditProdictView> {
       argumentsMaterial =
           ModalRoute.of(context)!.settings.arguments as MaterialModel;
       matUnitDef = argumentsMaterial.materialUnitDefault;
-      materialName.text = decodeToUtf8(argumentsMaterial.materialName);
+      materialName.text = argumentsMaterial.materialName;
       baraCode1.text = argumentsMaterial.materialCode;
       baraCode2.text = argumentsMaterial.materiaUnit2Baracode;
-      unit1.text = decodeToUtf8(argumentsMaterial.materialUnit);
-      unit2.text = decodeToUtf8(argumentsMaterial.materialUnit2);
+      unit1.text = argumentsMaterial.materialUnit;
+      unit2.text = argumentsMaterial.materialUnit2;
       purchasePrice.text = argumentsMaterial.materialPrice1.toString();
       price1.text = argumentsMaterial.materialPrice3.toString();
       price2.text = argumentsMaterial.materialUnit2Price3.toString();
-      unit2Num.text = decodeToUtf8(argumentsMaterial.materialUnit.toString());
+      unit2Num.text = argumentsMaterial.materialUnit.toString();
       convertOperatorTextField.text =
           argumentsMaterial.materialUnit2Number.toString();
       matUnitDef == 1
-          ? unitDefault.text = decodeToUtf8(unit1.text)
-          : unitDefault.text = decodeToUtf8(unit2.text);
+          ? unitDefault.text = unit1.text
+          : unitDefault.text = unit2.text;
       context.read<CategoryCubit>().categories.forEach((element) {
         if (argumentsMaterial.parentId == element.matId) {
           parentId = argumentsMaterial.parentId;
