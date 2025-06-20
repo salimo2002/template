@@ -90,20 +90,24 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
     discount.text = '0';
     amountRecived.text = '0';
 
     final Map<String, dynamic> billList =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
     if (billList['cur_id'] == 1) {
       currencyControler.text = 'ليرة سورية';
     } else {
       currencyControler.text = 'دولار';
     }
+
     bills = billList['bill'];
     countInvois.text = billList['total'];
     billType = billList['billType'];
     isNew = billList['isNew'];
+
     if (!isNew) {
       billData = billList['billModel'];
     }
@@ -128,9 +132,19 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
       totalInvois.text = billData.bilTotal.toString();
       remainingAmound.text = billData.bilNet.toString();
       date.text = billData.bilDate.toString().split(' ')[0];
-      hour.text = billData.bilDate.toString().split(' ')[1].substring(0, 5);
+
+      // هذا الجزء يضبط الوقت بالتنسيق 12 ساعة
+      DateTime time = billData.bilDate!;
+      hour.text = formatTimeTo12Hour(time);
+
       note.text = billData.bilNote ?? '';
+    } else {
+   
+      final now = DateTime.now();
+      date.text = now.toString().split(' ')[0];
+      hour.text = formatTimeTo12Hour(now);
     }
+
     calculateTotals();
   }
 
@@ -506,37 +520,6 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
           return;
         }
 
-        String timeString = hour.text.trim().toUpperCase();
-        final amPmRegex = RegExp(r'(\d{1,2}):(\d{2})\s*(AM|PM)');
-        int hourNum = 0;
-        int minuteNum = 0;
-
-        if (amPmRegex.hasMatch(timeString)) {
-          final match = amPmRegex.firstMatch(timeString)!;
-          hourNum = int.parse(match.group(1)!);
-          minuteNum = int.parse(match.group(2)!);
-          String amPm = match.group(3)!;
-
-          if (amPm == "PM" && hourNum != 12) {
-            hourNum += 12;
-          } else if (amPm == "AM" && hourNum == 12) {
-            hourNum = 0;
-          }
-        } else {
-          final parts = timeString.split(':');
-          hourNum = int.parse(parts[0]);
-          minuteNum = int.parse(parts[1]);
-        }
-        final dateParts = date.text.split('-');
-        if (dateParts.length != 3) {
-          throw FormatException('تنسيق التاريخ غير صحيح');
-        }
-        int year = int.parse(dateParts[0]);
-        int month = int.parse(dateParts[1]);
-        int day = int.parse(dateParts[2]);
-
-        DateTime billDate = DateTime(year, month, day, hourNum, minuteNum);
-
         final BillModel bill = BillModel(
           payType: RadioMenuButtons.payType,
           bilId: isNew ? 0 : billData.bilId,
@@ -548,7 +531,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
           bilKind: billType,
           bilPayment: double.tryParse(amountRecived.text) ?? 0,
           bilNet: double.tryParse(remainingAmound.text) ?? 0,
-          bilDate: billDate,
+          bilDate: parseTimeAndDate(),
           bilNote: note.text,
           curId: currencyControler.text == 'دولار' ? 1 : 0,
         );
@@ -564,5 +547,80 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
         );
       }
     }
+  }
+
+  DateTime parseTimeAndDate() {
+    String timeString = hour.text.trim().toUpperCase();
+    int hourNum = 0;
+    int minuteNum = 0;
+
+    final amPmRegex = RegExp(r'^(\d{1,2}):(\d{2})\s*(AM|PM)?$');
+
+    if (amPmRegex.hasMatch(timeString)) {
+      final match = amPmRegex.firstMatch(timeString)!;
+      hourNum = int.parse(match.group(1)!);
+      minuteNum = int.parse(match.group(2)!);
+      String? amPm = match.group(3);
+
+      if (hourNum < 1 || hourNum > 12) {
+        throw FormatException('الساعة يجب أن تكون بين 1 و 12 في نظام 12 ساعة');
+      }
+      if (minuteNum < 0 || minuteNum > 59) {
+        throw FormatException('الدقائق يجب أن تكون بين 0 و 59');
+      }
+
+      if (amPm != null) {
+        if (amPm == "PM" && hourNum != 12) {
+          hourNum += 12;
+        } else if (amPm == "AM" && hourNum == 12) {
+          hourNum = 0;
+        }
+      } else {
+        if (hourNum > 23) {
+          throw FormatException(
+            'الساعة يجب أن تكون بين 0 و 23 في نظام 24 ساعة',
+          );
+        }
+      }
+    } else {
+      final parts = timeString.split(':');
+      if (parts.length != 2) {
+        throw FormatException('تنسيق الوقت غير صحيح، يجب أن يكون بالشكل HH:mm');
+      }
+      hourNum = int.parse(parts[0]);
+      minuteNum = int.parse(parts[1]);
+
+      if (hourNum < 0 || hourNum > 23) {
+        throw FormatException('الساعة يجب أن تكون بين 0 و 23');
+      }
+      if (minuteNum < 0 || minuteNum > 59) {
+        throw FormatException('الدقائق يجب أن تكون بين 0 و 59');
+      }
+    }
+
+    final dateParts = date.text.split('-');
+    if (dateParts.length != 3) {
+      throw FormatException(
+        'تنسيق التاريخ غير صحيح، يجب أن يكون بالشكل yyyy-MM-dd',
+      );
+    }
+    int year = int.parse(dateParts[0]);
+    int month = int.parse(dateParts[1]);
+    int day = int.parse(dateParts[2]);
+
+    return DateTime(year, month, day, hourNum, minuteNum);
+  }
+
+  String formatTimeTo12Hour(DateTime time) {
+    int hour = time.hour;
+    int minute = time.minute;
+    String amPm = hour >= 12 ? 'PM' : 'AM';
+
+    int hour12 = hour % 12;
+    if (hour12 == 0) hour12 = 12;
+
+    String minuteStr = minute.toString().padLeft(2, '0');
+
+    return '$hour12:$minuteStr $amPm';
   }
 }

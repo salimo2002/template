@@ -246,8 +246,30 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
       itemCount: materialModel.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemBuilder:
-          (context, index) => InvoiceItemCard(
+      itemBuilder: (context, index) {
+        return Dismissible(
+          key: Key(materialModel[index].materialId.toString()),
+          direction: DismissDirection.endToStart, // السحب لليمين
+          background: Container(
+            color: Colors.red,
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: const Icon(Icons.delete, color: Colors.white),
+          ),
+          onDismissed: (direction) {
+            setState(() {
+              materialModel.removeAt(index);
+              quantityController.removeAt(index);
+              priceController.removeAt(index);
+              totalController.removeAt(index);
+              bounsController.removeAt(index);
+              updateTotalAll();
+            });
+            ScaffoldMessenger.of(context).showSnackBar(
+              customSnackBar(context, 'تم حذف المادة بنجاح', kRed),
+            );
+          },
+          child: InvoiceItemCard(
             unit2: materialModel[index].materialUnit2,
             bounsContoler: bounsController[index],
             isNumericOnly: true,
@@ -259,6 +281,8 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
             priceController: priceController[index],
             quantityController: quantityController[index],
           ),
+        );
+      },
     );
   }
 

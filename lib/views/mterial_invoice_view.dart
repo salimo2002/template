@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,7 +44,6 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
                     itemBuilder: (context, index) {
                       final List<BillModel> bills = state.bill;
                       final List<BillDetailsModel> bDeatails = state.bDeatails;
-                      log(bDeatails.length.toString());
                       String accountName = '';
                       context.read<AccountsCubit>().accounts.forEach((element) {
                         if (element.accID == bills[index].accId) {

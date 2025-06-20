@@ -41,7 +41,6 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
     isMonth = mapModalRoute?['isMonth'] ?? false;
   }
 
-  // دالة للبحث عن حساب داخل قائمة الحسابات بدون استخدام مكتبة خارجية
   AccountModel? findAccount(List<AccountModel> accounts, int? accId) {
     if (accId == null) return null;
     for (var acc in accounts) {
