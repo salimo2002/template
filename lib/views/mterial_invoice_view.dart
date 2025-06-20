@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -62,6 +61,8 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
                             );
                           },
                           child: Bill(
+                            onPressedDel: () {},
+                            onPressedUP: () {},
                             billType:
                                 bills[index].bilKind == 'sell'
                                     ? 'مشتريات'

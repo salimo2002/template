@@ -18,6 +18,8 @@ class Bill extends StatelessWidget {
     required this.reminingAmount,
     required this.note,
     this.billType,
+    required this.onPressedDel,
+    required this.onPressedUP,
   });
 
   final String paymentStyle;
@@ -30,6 +32,8 @@ class Bill extends StatelessWidget {
   final String? billType;
   final String reminingAmount;
   final String note;
+  final void Function()? onPressedDel;
+  final void Function()? onPressedUP;
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +136,19 @@ class Bill extends StatelessWidget {
               ),
             ],
           ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              onPressed: onPressedDel,
+              icon: Icon(Icons.delete, color: kBlueAccent),
+            ),
+            IconButton(
+              onPressed: onPressedUP,
+              icon: Icon(Icons.update, color: kBlueAccent),
+            ),
+          ],
+        ),
       ],
     );
   }

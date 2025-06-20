@@ -110,7 +110,6 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                           (currentBill.bilNet ?? 0) -
                           (currentBill.bilPayment ?? 0);
 
-                      // البحث عن الحساب المرتبط بالفاتورة
                       final account = findAccount(
                         context.read<AccountsCubit>().accounts,
                         currentBill.accId,
@@ -119,24 +118,36 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: GestureDetector(
-                          onTapDown: (details) {
-                            showMenuu(details, currentBill.bilId!, currentBill);
+                        child: Bill(
+                          onPressedUP: () {
+                            Navigator.pushNamed(
+                              context,
+                              CreateASalesInvoiceView.id,
+                              arguments: {
+                                'bill': currentBill,
+                                'isNew': false,
+                                'BillType': '',
+                                'cur_id': currentBill.curId,
+                              },
+                            );
                           },
-                          child: Bill(
-                            paymentStyle:
-                                currentBill.payType == 0 ? 'نقدي' : 'آجل',
-                            invoiceNumber: currentBill.bilId.toString(),
-                            billDate:
-                                '${currentBill.bilDate!.year}-${currentBill.bilDate!.month}-${currentBill.bilDate!.day}',
-                            billTime:
-                                '${currentBill.bilDate!.hour.toString().padLeft(2, '0')}:${currentBill.bilDate!.minute.toString().padLeft(2, '0')}',
-                            nameAccuont: accountName,
-                            total: currentBill.bilTotal.toString(),
-                            amountPaid: currentBill.bilPayment.toString(),
-                            reminingAmount: billAmount.toString(),
-                            note: currentBill.bilNote ?? '',
-                          ),
+                          onPressedDel: () {
+                            context.read<BillCubit>().billDeletById(
+                              id: currentBill.bilId!,
+                            );
+                          },
+                          paymentStyle:
+                              currentBill.payType == 0 ? 'نقدي' : 'آجل',
+                          invoiceNumber: currentBill.bilId.toString(),
+                          billDate:
+                              '${currentBill.bilDate!.year}-${currentBill.bilDate!.month}-${currentBill.bilDate!.day}',
+                          billTime:
+                              '${currentBill.bilDate!.hour.toString().padLeft(2, '0')}:${currentBill.bilDate!.minute.toString().padLeft(2, '0')}',
+                          nameAccuont: accountName,
+                          total: currentBill.bilTotal.toString(),
+                          amountPaid: currentBill.bilPayment.toString(),
+                          reminingAmount: billAmount.toString(),
+                          note: currentBill.bilNote ?? '',
                         ),
                       );
                     },
