@@ -116,7 +116,6 @@ class _ContainerItemCountityState extends State<ContainerItemCountity> {
     );
   }
 
-  @override
   Widget buildItemCardContent(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
