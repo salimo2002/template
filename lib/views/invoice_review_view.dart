@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -7,6 +9,7 @@ import 'package:template/models/account_model.dart';
 import 'package:template/models/bill_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/create_a_sales_invoice_view.dart';
@@ -62,7 +65,22 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
         children: [
           const SizedBox(height: 10),
           Expanded(
-            child: BlocBuilder<BillCubit, BillStatus>(
+            child: BlocConsumer<BillCubit, BillStatus>(
+              listener: (context, state) {
+                if (state is SuccessStateBill) {
+                  log('message');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    customSnackBar(context, 'تم الحذف الفاتورة', kBlueAccent),
+                  );
+                  Navigator.of(context).pop();
+                }
+                if (state is FaliureStateBill) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    customSnackBar(context, 'حدث مشكلة اثناء الحذف', kRed),
+                  );
+                }
+              },
+
               builder: (context, state) {
                 if (state is SuccessStateBill) {
                   final bills = context.read<BillCubit>().bill;
@@ -110,7 +128,6 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
                           (currentBill.bilNet ?? 0) -
                           (currentBill.bilPayment ?? 0);
 
-                      // البحث عن الحساب المرتبط بالفاتورة
                       final account = findAccount(
                         context.read<AccountsCubit>().accounts,
                         currentBill.accId,
@@ -119,24 +136,64 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: GestureDetector(
-                          onTapDown: (details) {
-                            showMenuu(details, currentBill.bilId!, currentBill);
+                        child: Bill(
+                          onPressedUP: () {
+                            Navigator.pushNamed(
+                              context,
+                              CreateASalesInvoiceView.id,
+                              arguments: {
+                                'bill': currentBill,
+                                'isNew': false,
+                                'BillType': '',
+                                'cur_id': currentBill.curId,
+                              },
+                            );
                           },
-                          child: Bill(
-                            paymentStyle:
-                                currentBill.payType == 0 ? 'نقدي' : 'آجل',
-                            invoiceNumber: currentBill.bilId.toString(),
-                            billDate:
-                                '${currentBill.bilDate!.year}-${currentBill.bilDate!.month}-${currentBill.bilDate!.day}',
-                            billTime:
-                                '${currentBill.bilDate!.hour.toString().padLeft(2, '0')}:${currentBill.bilDate!.minute.toString().padLeft(2, '0')}',
-                            nameAccuont: accountName,
-                            total: currentBill.bilTotal.toString(),
-                            amountPaid: currentBill.bilPayment.toString(),
-                            reminingAmount: billAmount.toString(),
-                            note: currentBill.bilNote ?? '',
-                          ),
+                          onPressedDel: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('تأكيد الحذف'),
+                                  content: const Text(
+                                    'هل أنت متأكد أنك تريد حذف هذه الفاتورة؟',
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed:
+                                          () => Navigator.of(context).pop(),
+                                      child: const Text('إلغاء'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        context.read<BillCubit>().billDeletById(
+                                          id: currentBill.bilId!,
+                                        );
+                                      },
+                                      child: const Text(
+                                        'حذف',
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+
+                          paymentStyle:
+                              currentBill.payType == 0 ? 'نقدي' : 'آجل',
+                          invoiceNumber: currentBill.bilId.toString(),
+                          billDate:
+                              '${currentBill.bilDate!.year}-${currentBill.bilDate!.month}-${currentBill.bilDate!.day}',
+                          billTime:
+                              '${currentBill.bilDate!.hour.toString().padLeft(2, '0')}:${currentBill.bilDate!.minute.toString().padLeft(2, '0')}',
+                          nameAccuont: accountName,
+                          total: currentBill.bilTotal.toString(),
+                          amountPaid: currentBill.bilPayment.toString(),
+                          reminingAmount: billAmount.toString(),
+                          note: currentBill.bilNote ?? '',
                         ),
                       );
                     },
@@ -179,43 +236,6 @@ class _InvoiceReviewViewState extends State<InvoiceReviewView> {
           ),
         ],
       ),
-    );
-  }
-
-  void showMenuu(TapDownDetails details, int id, BillModel selectedBill) {
-    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-    showMenu(
-      menuPadding: EdgeInsets.zero,
-      context: context,
-      position: RelativeRect.fromRect(
-        details.globalPosition & const Size(60, 60),
-        Offset.zero & overlay.size,
-      ),
-      items: [
-        CheckedPopupMenuItem(
-          child: const Center(child: Text('تعديل')),
-          onTap: () {
-            Future.delayed(Duration.zero, () {
-              Navigator.pushNamed(
-                context,
-                CreateASalesInvoiceView.id,
-                arguments: {
-                  'bill': selectedBill,
-                  'isNew': false,
-                  'BillType': '',
-                  'cur_id': selectedBill.curId,
-                },
-              );
-            });
-          },
-        ),
-        CheckedPopupMenuItem(
-          child: const Center(child: Text('حذف')),
-          onTap: () {
-            context.read<BillCubit>().billDeletById(id: id);
-          },
-        ),
-      ],
     );
   }
 }

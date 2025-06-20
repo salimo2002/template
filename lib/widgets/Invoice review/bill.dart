@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
@@ -18,6 +19,8 @@ class Bill extends StatelessWidget {
     required this.reminingAmount,
     required this.note,
     this.billType,
+    required this.onPressedDel,
+    required this.onPressedUP,
   });
 
   final String paymentStyle;
@@ -30,6 +33,8 @@ class Bill extends StatelessWidget {
   final String? billType;
   final String reminingAmount;
   final String note;
+  final void Function()? onPressedDel;
+  final void Function()? onPressedUP;
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +137,19 @@ class Bill extends StatelessWidget {
               ),
             ],
           ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              onPressed: onPressedDel,
+              icon: Icon(Icons.delete, color: kBlueAccent),
+            ),
+            IconButton(
+              onPressed: onPressedUP,
+              icon: Icon(FontAwesomeIcons.edit, color: kBlueAccent),
+            ),
+          ],
+        ),
       ],
     );
   }
