@@ -45,7 +45,7 @@ class MaterialModel {
       materialPrice3: double.parse(json['mat_price3'] ?? '0.0'),
       materialUnit: json['material.mat_unit'] ?? json['mat_unit'],
       materialUnit2: json['mat_unit2'],
-      materialUnit2Number: double.parse(json['material.mat_unit2_num'] ?? json['mat_unit2_num']),
+      materialUnit2Number: double.parse(json['material.mat_unit2_num'] ?? json['mat_unit2_num']??'0.0'),
       materialUnit2Price3: double.parse(json['mat_unit2_price3'] ?? '0.0'),
       materialKind: int.parse(json['mat_kind']),
       materialUnitDefault: int.parse(json['mat_unit_default']),
