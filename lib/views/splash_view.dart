@@ -30,7 +30,7 @@ class SplashViewState extends State<SplashView> {
   // bool _billsLoaded = false;
   bool _videoInitialized = false;
   bool _devicesLoaded = false;
-  // bool supoortLoaded = false;
+  bool supoortLoaded = false;
 
   @override
   void initState() {
@@ -40,12 +40,12 @@ class SplashViewState extends State<SplashView> {
       log('✅ المواد تم تحميلها');
       checkAndNavigate();
     });
-    // context.read<DebitCubit>().fetchDebits().then((_) {
-    //   supoortLoaded = true;
-    //   log('✅ السندات تم تحميلها');
+    context.read<DebitCubit>().fetchDebits().then((_) {
+      supoortLoaded = true;
+      log('✅ السندات تم تحميلها');
 
-    //   checkAndNavigate();
-    // });
+      checkAndNavigate();
+    });
 
     context.read<CategoryCubit>().fetchCategory().then((_) {
       _categoriesLoaded = true;
@@ -104,7 +104,7 @@ class SplashViewState extends State<SplashView> {
     if (_materialsLoaded &&
         _categoriesLoaded &&
         _accountsLoaded &&
-        // supoortLoaded &&
+        supoortLoaded &&
         // _billsLoaded &&
         _devicesLoaded &&
         _videoInitialized) {
