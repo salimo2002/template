@@ -146,7 +146,11 @@ class _AccountStatementViewState extends State<MovementOfMatterView> {
                       Navigator.pushNamed(context, MterialInvoiceView.id);
                     } else if (state is FaliureStateBill) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        customSnackBar(context, state.errorMessage, kRed),
+                        customSnackBar(
+                          context,
+                          'لايوجد فواتير في هذا التاريخ',
+                          kRed,
+                        ),
                       );
                     }
                   },
@@ -169,38 +173,60 @@ class _AccountStatementViewState extends State<MovementOfMatterView> {
                               label: 'التالي',
                               onTap: () {
                                 if (globalKey.currentState!.validate()) {
+                                  if (isToDay) {
+                                    final today = DateTime.now();
+                                    final formattedToday = DateTime(
+                                      today.year,
+                                      today.month,
+                                      today.day,
+                                    );
+                                    context
+                                        .read<BillCubit>()
+                                        .fetchMovementBills(
+                                          databaseName: 'itechsy_test',
+                                          dateFrom:
+                                              formattedToday.toIso8601String(),
+                                          dateTo:
+                                              formattedToday.toIso8601String(),
+                                          matId: matId.toString(),
+                                        );
+                                    return;
+                                  }
                                   if (date1Controler.text.isEmpty ||
                                       date2Controler.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       customSnackBar(
                                         context,
-                                        'الرجاء اختيار تاريخ صحيح',
+                                        'يرجى إدخال كل من "من تاريخ" و "إلى تاريخ"',
                                         kRed,
                                       ),
                                     );
                                     return;
                                   }
+
                                   final fromDate = DateTime.tryParse(
                                     date1Controler.text,
                                   );
                                   final toDate = DateTime.tryParse(
                                     date2Controler.text,
                                   );
+
                                   if (fromDate == null || toDate == null) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       customSnackBar(
                                         context,
-                                        'تاريخ غير صالح',
+                                        'صيغة التاريخ غير صحيحة',
                                         kRed,
                                       ),
                                     );
                                     return;
                                   }
+
                                   if (fromDate.isAfter(toDate)) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       customSnackBar(
                                         context,
-                                        'التاريخ الأول أحدث من الثاني',
+                                        'تاريخ البداية يجب أن يكون قبل أو يساوي تاريخ النهاية',
                                         kRed,
                                       ),
                                     );
@@ -208,9 +234,8 @@ class _AccountStatementViewState extends State<MovementOfMatterView> {
                                   }
                                   context.read<BillCubit>().fetchMovementBills(
                                     databaseName: 'itechsy_test',
-                                    ///TODO Replace DataBase Name
-                                    dateFrom: fromDate.toString(),
-                                    dateTo: toDate.toString(),
+                                    dateFrom: fromDate.toIso8601String(),
+                                    dateTo: toDate.toIso8601String(),
                                     matId: matId.toString(),
                                   );
                                 }

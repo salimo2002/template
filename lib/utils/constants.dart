@@ -31,7 +31,7 @@ late String imei;
 void insertImei() async {
   imei = (await DeviceType.getDeviceImei())!;
 }
-String decodeToUtf8(String brokenText) {
-    final latin1Bytes = latin1.encode(brokenText);
-    return utf8.decode(latin1Bytes);
-  }
+// String decodeToUtf8(String brokenText) {
+//     final latin1Bytes = latin1.encode(brokenText);
+//     return utf8.decode(latin1Bytes);
+//   }
