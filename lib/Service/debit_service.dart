@@ -10,26 +10,15 @@ class DebitService {
 static Future<void> addDebit({required DebitModel debit}) async {
   final url = Uri.parse(_urlAddDebit);
   
-  // طباعة القيم هنا
-  print('voucherNumber: ${debit.voucherNumber}');
-  print('accId: ${debit.accId}');
-  print('accId2: ${debit.accId2}');
-  print('debAmount: ${debit.debAmount}');
-  print('ty: ${debit.ty}');
-  print('debNote: ${debit.debNote}');
-  print('curId: ${debit.curId}');
-  print('debDate: ${debit.debDate}');
-  
+ 
   final body = {
     ...debit.toMap().map((key, value) => MapEntry(key, value.toString())),
   };
 
-  print('إرسال بيانات الإضافة: $body');
 
   try {
     final response = await http.post(url, body: body);
 
-    print('رد السيرفر: ${response.statusCode} - ${response.body}');
 
     if (response.statusCode != 200) {
       throw Exception(
@@ -44,7 +33,6 @@ static Future<void> addDebit({required DebitModel debit}) async {
     }
 
     if (json['deb_id'] != null) {
-      print('تمت الإضافة بنجاح، معرف السند: ${json['deb_id']}');
     }
   } catch (e) {
     throw Exception("فشل العملية: $e");

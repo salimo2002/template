@@ -30,6 +30,7 @@ class CreateFinancialDocuments extends StatelessWidget {
                         'BillType': BillType.undoBuy,
                         'bill': null,
                         'isNew': true,
+                        'bDetalis': null,
                       },
                     );
                   },
@@ -46,6 +47,7 @@ class CreateFinancialDocuments extends StatelessWidget {
                         'BillType': BillType.sales,
                         'bill': null,
                         'isNew': true,
+                        'bDetalis': null,
                       },
                     );
                   },
@@ -61,6 +63,7 @@ class CreateFinancialDocuments extends StatelessWidget {
                         'BillType': BillType.buy,
                         'bill': null,
                         'isNew': true,
+                        'bDetalis': null,
                       },
                     );
                   },
@@ -83,6 +86,7 @@ class CreateFinancialDocuments extends StatelessWidget {
                       'BillType': BillType.order,
                       'bill': null,
                       'isNew': true,
+                      'bDetalis': null,
                     },
                   );
                 },
@@ -98,6 +102,7 @@ class CreateFinancialDocuments extends StatelessWidget {
                       'BillType': BillType.undoSell,
                       'bill': null,
                       'isNew': true,
+                      'bDetalis': null,
                     },
                   );
                 },
