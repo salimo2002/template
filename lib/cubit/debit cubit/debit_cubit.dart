@@ -14,6 +14,8 @@ class DebitCubit extends Cubit<DebitStatus> {
     try {
       emit(LoadingStateDebit());
       await DebitService.addDebit(debit: debit);
+            log('تمت اضافة السند');
+
       debits.add(debit);
       emit(SuccessStateDebit(debit: debit));
     } catch (e) {

@@ -21,30 +21,31 @@ class DebitModel {
     required this.debDate,
   });
 
-factory DebitModel.fromJson(Map<String, dynamic> json) {
-  return DebitModel(
-    debId: int.tryParse(json['debId']?.toString() ?? '0') ?? 0,
-    voucherNumber: int.tryParse(json['voucherNumber']?.toString() ?? '0') ?? 0,
-    accId: int.tryParse(json['accId']?.toString() ?? '0') ?? 0,
-    accId2: int.tryParse(json['accId2']?.toString() ?? '0') ?? 0,
-    debAmount: double.tryParse(json['debAmount']?.toString() ?? '0.0') ?? 0.0,
-    ty: int.tryParse(json['ty']?.toString() ?? '0') ?? 0,
-    debNote: json['debNote']?.toString() ?? '',
-    curId: int.tryParse(json['curId']?.toString() ?? '0') ?? 0,
-    debDate: DateTime.parse(json['debDate']?.toString() ?? DateTime.now().toString()),
-  );
-}
+  factory DebitModel.fromJson(Map<String, dynamic> json) {
+    return DebitModel(
+      debId: int.tryParse(json['deb_id']?.toString() ?? '0') ?? 0,
+      voucherNumber: int.tryParse(json['voucher_number']?.toString() ?? '0') ?? 0,
+      accId: int.tryParse(json['acc_id']?.toString() ?? '0') ?? 0,
+      accId2: int.tryParse(json['acc_id2']?.toString() ?? '0') ?? 0,
+      debAmount: double.tryParse(json['deb_amount']?.toString() ?? '0.0') ?? 0.0,
+      ty: int.tryParse(json['ty']?.toString() ?? '0') ?? 0,
+      debNote: json['deb_note']?.toString() ?? '',
+      curId: int.tryParse(json['cur_id']?.toString() ?? '0') ?? 0,
+      debDate: DateTime.parse(json['deb_date']?.toString() ?? DateTime.now().toString()),
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
-      'debId': debId,
-      'voucherNumber': voucherNumber,
-      'accId': accId,
-      'accId2': accId2,
-      'debAmount': debAmount,
+      //'debId': debId,  // لا ترسله عند الإضافة لأنه تلقائي في DB
+      'voucher_number': voucherNumber,
+      'acc_id': accId,
+      'acc_id2': accId2,
+      'deb_amount': debAmount,
       'ty': ty,
-      'debNote': debNote,
-      'curId': curId,
-      'debDate': debDate.toIso8601String(),
+      'deb_note': debNote,
+      'cur_id': curId,
+      'deb_date': debDate.toIso8601String().split('T')[0],  // "YYYY-MM-DD"
     };
   }
 }
