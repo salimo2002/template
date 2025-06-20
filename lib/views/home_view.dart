@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/company%20cubit/company_cubit.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
@@ -56,28 +53,7 @@ class _HomeViewState extends State<HomeView> {
         ),
         backgroundColor: kBlueAccent,
         actions: [
-          IconButton(
-            onPressed: () async {
-              try {
-                context.read<BillCubit>().fetchMovementBills(
-                  databaseName: 'itechsy_test',
-                  dateFrom: '2025-01-01',
-                  dateTo: '2025-06-18',
-                  matId: '1248',
-                );
-                // List data = await BillServices.fetchMovementBills(
-                //   databaseName: 'itechsy_test',
-                //   dateFrom: '2025-01-01',
-                //   dateTo: '2025-06-18',
-                //   matId: '1248',
-                // );
-                // log(data.toString());
-              } catch (e) {
-                log('حدث خطأ: $e');
-              }
-            },
-            icon: Icon(Icons.more_vert_outlined),
-          ),
+          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_outlined)),
         ],
       ),
       body: Stack(
