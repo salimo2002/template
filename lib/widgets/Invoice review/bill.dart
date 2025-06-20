@@ -98,7 +98,7 @@ class Bill extends StatelessWidget {
                 Text(
                   decodeToUtf8(note),
                   style: FontStyleApp.blackCustom18.copyWith(
-                    fontSize: getResponsiveText(context, 16),
+                    fontSize: getResponsiveText(context, 14),
                   ),
                 ),
               ],
