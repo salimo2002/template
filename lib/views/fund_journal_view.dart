@@ -171,7 +171,7 @@ class _FundJournalViewState extends State<FundJournalView> {
                                         : 'ليرة سورية',
                               ),
                               RowInFundJournalView(
-                                lable: ':البيان',
+                              lable: ':البيان',
                                 value: debitss[index].debNote,
                               ),
                             ],
