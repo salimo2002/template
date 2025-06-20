@@ -12,7 +12,9 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: [
-          DrawerHeader(child: Text('image logo')),
+          DrawerHeader(
+            child: Image.asset('assets/img/Login/pictureBox3.Image.png'),
+          ),
           InkWell(
             onTap: () => Navigator.pushNamed(context, SettingView.id),
             child: ListTile(
