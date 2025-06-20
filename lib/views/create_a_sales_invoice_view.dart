@@ -64,7 +64,9 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
     super.didChangeDependencies();
     if (isRebuild) {
       billRoute = ModalRoute.of(context)!.settings.arguments as Map;
-      bDetails = billRoute['bDetalis'] as List<BillDetailsModel>;
+      billRoute['bDetalis'] == null
+          ? []
+          : bDetails = billRoute['bDetalis'] as List<BillDetailsModel>;
       isNew = billRoute['isNew'] as bool;
       billType = billRoute['BillType'] as String;
       billModel =
