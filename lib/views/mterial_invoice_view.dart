@@ -51,49 +51,43 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
                       });
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Bill(
-                          onPressedDel: () {
-                            context.read<BillCubit>().billDeletById(
-                              id: bills[index].bilId!,
+                        child: GestureDetector(
+                          onTapDown: (details) {
+                            showMenuu(
+                              details,
+                              bills[index].bilId!,
+                              bills[index],
+                              bDeatails,
                             );
                           },
-                          onPressedUP: () {
-                            Navigator.pushNamed(
-                              context,
-                              CreateASalesInvoiceView.id,
-                              arguments: {
-                                'bill': bills[index],
-                                'isNew': false,
-                                'BillType': bills[index].bilKind,
-                                'cur_id': bills[index].curId,
-                                'bDetalis': bDeatails,
-                              },
-                            );
-                          },
-                          billType:
-                              bills[index].bilKind == 'sell'
-                                  ? 'مشتريات'
-                                  : bills[index].bilKind == 'buy'
-                                  ? 'مبيعات'
-                                  : bills[index].bilKind == 'undo_buy'
-                                  ? 'مردود مشتريات'
-                                  : bills[index].bilKind == 'undo_sell'
-                                  ? 'مردود مبيعات'
-                                  : bills[index].bilKind == 'order'
-                                  ? 'طلب'
-                                  : '',
-                          paymentStyle:
-                              bills[index].payType == 0 ? 'نقدي' : 'آجل',
-                          invoiceNumber: bills[index].bilId.toString(),
-                          billDate:
-                              '${bills[index].bilDate!.year}-${bills[index].bilDate!.month}-${bills[index].bilDate!.day}',
-                          billTime:
-                              '${bills[index].bilDate!.hour.toString().padLeft(2, '0')}:${bills[index].bilDate!.minute.toString().padLeft(2, '0')}',
-                          nameAccuont: accountName,
-                          total: bills[index].bilTotal.toString(),
-                          amountPaid: bills[index].bilPayment.toString(),
-                          reminingAmount: bills[index].bilNet.toString(),
-                          note: bills[index].bilNote.toString(),
+                          child: Bill(
+                            onPressedDel: () {},
+                            onPressedUP: () {},
+                            billType:
+                                bills[index].bilKind == 'sell'
+                                    ? 'مشتريات'
+                                    : bills[index].bilKind == 'buy'
+                                    ? 'مبيعات'
+                                    : bills[index].bilKind == 'undo_buy'
+                                    ? 'مردود مشتريات'
+                                    : bills[index].bilKind == 'undo_sell'
+                                    ? 'مردود مبيعات'
+                                    : bills[index].bilKind == 'order'
+                                    ? 'طلب'
+                                    : '',
+                            paymentStyle:
+                                bills[index].payType == 0 ? 'نقدي' : 'آجل',
+                            invoiceNumber: bills[index].bilId.toString(),
+                            billDate:
+                                '${bills[index].bilDate!.year}-${bills[index].bilDate!.month}-${bills[index].bilDate!.day}',
+                            billTime:
+                                '${bills[index].bilDate!.hour.toString().padLeft(2, '0')}:${bills[index].bilDate!.minute.toString().padLeft(2, '0')}',
+                            nameAccuont: accountName,
+                            total: bills[index].bilTotal.toString(),
+                            amountPaid: bills[index].bilPayment.toString(),
+                            reminingAmount: bills[index].bilNet.toString(),
+                            note: bills[index].bilNote.toString(),
+                          ),
                         ),
                       );
                     },
