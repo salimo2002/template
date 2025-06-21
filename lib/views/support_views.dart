@@ -37,12 +37,14 @@ class _SupportViewsState extends State<SupportViews> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _curIdController = TextEditingController();
 
-  late String documentType;
+  late DebitModel debit;
+  late String debitType;
 
   List<AccountModel> debtorSearchResults = [];
   List<AccountModel> creditorSearchResults = [];
   bool isSearchingDebtor = false;
   bool isSearchingCreditor = false;
+  late Map mapDebit;
 
   Color color3 = kWhite;
   Color textColor3 = kBlueAccent;
@@ -51,12 +53,31 @@ class _SupportViewsState extends State<SupportViews> {
   bool canRead = false;
   bool isReBuild = true;
   late int accId;
+  late bool isUpdate;
   @override
   void didChangeDependencies() {
     if (isReBuild) {
-      
-      documentType = ModalRoute.of(context)!.settings.arguments as String;
-      typeSupportController.text = 'سند $documentType';
+      mapDebit = ModalRoute.of(context)!.settings.arguments as Map;
+
+      debit = mapDebit['debit'] as DebitModel;
+      debitType = debit.ty == 0 ? 'دفع' : 'قبض';
+      isUpdate = mapDebit['isUpdat'];
+      if (isUpdate) {
+        
+        typeSupportController.text = debit.ty == 0 ? 'دفع' : 'قبض';
+        context.read<AccountsCubit>().accounts.forEach((element) {
+          if (element.accID == debit.accId2) {
+            _nameAccountController2.text = element.accName;
+            accId = element.accID!;
+          }
+        });
+        _amountController.text = debit.debAmount.toString();
+        _curIdController.text = debit.curId == 0 ? 'ليرة سورية' : 'دولار';
+        _noteController.text = debit.debNote;
+        date1Controler.text =
+            '${debit.debDate.year}-${debit.debDate.month}-${debit.debDate.day}';
+      }
+      typeSupportController.text = 'سند $debitType';
       isReBuild = false;
     }
     super.didChangeDependencies();
@@ -238,7 +259,7 @@ class _SupportViewsState extends State<SupportViews> {
                       if (_curIdController.text == '' ||
                           _amountController.text == '' ||
                           _nameAccountController2.text == '') {
-                            print(date1Controler.text);
+                        print(date1Controler.text);
                         ScaffoldMessenger.of(context).showSnackBar(
                           customSnackBar(
                             context,
@@ -247,28 +268,90 @@ class _SupportViewsState extends State<SupportViews> {
                           ),
                         );
                       } else {
-                        context.read<DebitCubit>().insertDebit(
-                          DebitModel(
-                            debId: 0,
-                            voucherNumber: Random().nextInt(100000),
-                            accId: 1,
-                            accId2: accId,
-                            debAmount: double.parse(_amountController.text),
-                            ty: typeSupportController.text == 'سند قبض' ? 1 : 0,
-                            debNote: _noteController.text,
-                            curId: _curIdController.text == 'دولار' ? 1 : 0,
-                            debDate:
-                                color3 == kWhite
-                                    ? DateTime.parse(
-                                      date1Controler.text
-                                    )
-                                    : DateTime.parse(
-                                      '${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')}',
-                                    ),
-                          ),
-                        );
-                        Navigator.pushNamed(context, SupportViews.id,arguments: documentType);
-                        ScaffoldMessenger.of(context).showSnackBar(customSnackBar(context, 'تمت إضافة السند', kBlueAccent));
+                        if (isUpdate) {
+                          context.read<DebitCubit>().updateDebit(
+                            DebitModel(
+                              debId: debit.debId,
+                              voucherNumber: debit.voucherNumber,
+                              accId: 1,
+                              accId2: accId,
+                              debAmount: double.parse(_amountController.text),
+                              ty:
+                                  typeSupportController.text == 'سند قبض'
+                                      ? 1
+                                      : 0,
+                              debNote: _noteController.text,
+                              curId: _curIdController.text == 'دولار' ? 1 : 0,
+                              debDate:
+                                  color3 == kWhite
+                                      ? DateTime.parse(
+                                        fixDateFormat(date1Controler.text),
+                                      )
+                                      : DateTime.parse(
+                                        '${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')}',
+                                      ),
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            customSnackBar(
+                              context,
+                              'تمت تعديل السند السند',
+                              kBlueAccent,
+                            ),
+                          );
+                          Navigator.pushNamed(
+                            context,
+                            SupportViews.id,
+                            arguments: {
+                              'debit': DebitModel(
+                                debId:0,
+                                voucherNumber:Random().nextInt(100000),
+                                accId: 1,
+                                accId2: 0,
+                                debAmount: 0,
+                                ty: 0,
+                                debNote: '',
+                                curId: 0,
+                                debDate: DateTime.now(),
+                              ),
+                              'isUpdat': true,
+                            },
+                          );
+                        } else {
+                          context.read<DebitCubit>().insertDebit(
+                            DebitModel(
+                              debId: 0,
+                              voucherNumber: Random().nextInt(100000),
+                              accId: 1,
+                              accId2: accId,
+                              debAmount: double.parse(_amountController.text),
+                              ty:
+                                  typeSupportController.text == 'سند قبض'
+                                      ? 1
+                                      : 0,
+                              debNote: _noteController.text,
+                              curId: _curIdController.text == 'دولار' ? 1 : 0,
+                              debDate:
+                                  color3 == kWhite
+                                      ? DateTime.parse(date1Controler.text)
+                                      : DateTime.parse(
+                                        '${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')}',
+                                      ),
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            customSnackBar(
+                              context,
+                              'تمت إضافة السند',
+                              kBlueAccent,
+                            ),
+                          );
+                          Navigator.pushNamed(
+                            context,
+                            SupportViews.id,
+                            arguments: {'debit': debit, 'isUpdat': false},
+                          );
+                        }
                       }
                     },
                   ),
@@ -279,6 +362,17 @@ class _SupportViewsState extends State<SupportViews> {
         ),
       ),
     );
+  }
+
+  String fixDateFormat(String date) {
+    final parts = date.split('-');
+    if (parts.length == 3) {
+      final year = parts[0];
+      final month = parts[1].padLeft(2, '0');
+      final day = parts[2].padLeft(2, '0');
+      return '$year-$month-$day';
+    }
+    return date; // fallback in case of invalid input
   }
 
   void showTypeSupport(
