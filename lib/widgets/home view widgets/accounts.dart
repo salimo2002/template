@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:template/models/debit_model.dart';
 import 'package:template/views/account_statement_view.dart';
 import 'package:template/views/fund_journal_view.dart';
 import 'package:template/views/support_views.dart';
@@ -39,7 +42,20 @@ class _AccountsState extends State<Accounts> {
                   Navigator.pushNamed(
                     context,
                     SupportViews.id,
-                    arguments: 'دفع',
+                   arguments: {
+                              'debit': DebitModel(
+                                debId:0,
+                                voucherNumber:Random().nextInt(100000),
+                                accId: 1,
+                                accId2: 0,
+                                debAmount: 0,
+                                ty: 0,
+                                debNote: '',
+                                curId: 0,
+                                debDate: DateTime.now(),
+                              ),
+                              'isUpdat': false,
+                            },
                   );
                 },
               ),
@@ -79,7 +95,20 @@ class _AccountsState extends State<Accounts> {
                     Navigator.pushNamed(
                       context,
                       SupportViews.id,
-                      arguments: 'قبض',
+                      arguments: {
+                              'debit': DebitModel(
+                                debId:0,
+                                voucherNumber:Random().nextInt(100000),
+                                accId: 1,
+                                accId2: 0,
+                                debAmount: 0,
+                                ty: 1,
+                                debNote: '',
+                                curId: 0,
+                                debDate: DateTime.now(),
+                              ),
+                              'isUpdat': false,
+                            },
                     );
                   },
                 ),

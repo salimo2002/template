@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/cubit/debit%20cubit/debit_cubit.dart';
 import 'package:template/cubit/debit%20cubit/debit_status.dart';
@@ -8,6 +9,7 @@ import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
+import 'package:template/views/support_views.dart';
 import 'package:template/widgets/invoice%20details%20view/text_field_date.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
@@ -171,8 +173,39 @@ class _FundJournalViewState extends State<FundJournalView> {
                                         : 'ليرة سورية',
                               ),
                               RowInFundJournalView(
-                              lable: ':البيان',
+                                lable: ':البيان',
                                 value: debitss[index].debNote,
+                              ),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      context.read<DebitCubit>().deleteDebit(
+                                        debitss[index].debId,
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: kBlueAccent,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        SupportViews.id,
+                                        arguments: {
+                                          'debit': debitss[index],
+                                          'isUpdat': true,
+                                        },
+                                      );
+                                    },
+                                    icon: Icon(
+                                      FontAwesomeIcons.edit,
+                                      color: kBlueAccent,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
