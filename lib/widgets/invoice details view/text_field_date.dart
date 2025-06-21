@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
+import 'package:template/utils/responsive_text.dart';
 
 class TextFieldDate extends StatefulWidget {
   const TextFieldDate({
@@ -83,6 +84,7 @@ class _TextFieldDateState extends State<TextFieldDate> {
           readOnly: widget. canRead,
           onTap: () =>widget.canRead==true?null: widget.hoursOrYear ? selectDate(context) : _selectTime(context),
           textAlign: TextAlign.right, 
+          style: FontStyleApp.blackCustom18.copyWith(fontSize: getResponsiveText(context, 14)),
           decoration: InputDecoration(
             labelText: widget.label,
             labelStyle: FontStyleApp.blueAccent18.copyWith(fontSize: 14),

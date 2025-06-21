@@ -14,7 +14,7 @@ class DebitCubit extends Cubit<DebitStatus> {
     try {
       emit(LoadingStateDebit());
       await DebitService.addDebit(debit: debit);
-            log('تمت اضافة السند');
+      log('تمت اضافة السند');
 
       debits.add(debit);
       emit(SuccessStateDebit(debit: debit));
@@ -22,21 +22,28 @@ class DebitCubit extends Cubit<DebitStatus> {
       emit(FaliureStateDebit(errorMessage: e.toString()));
     }
   }
-Future<void> fetchDebits() async {
-  try {
-    emit(LoadingStateDebit());
-    
-    final fetchedDebits = await DebitService.fetchDebits();
-    
- 
+
+  Future<void> fetchDebits({String? dateFrom, String? dateTo}) async {
+    try {
+      emit(LoadingStateDebit());
+
+      final fetchedDebits = await DebitService.fetchDebits(
+        dateFrom: dateFrom,
+        dateTo: dateTo,
+      );
+
       debits = fetchedDebits;
-       for (var i = 0; i < debits.length; i++) {
-         log(debits[i].debAmount.toString());
-       }
+
+      for (var debit in debits) {
+        log(debit.debAmount.toString());
+      }
+
       emit(LoadedDebitsState(debits: debits));
-  } catch (e, stackTrace) {
-    log("حدث خطأ أثناء جلب البيانات", error: e, stackTrace: stackTrace);
-    emit(FaliureStateDebit(errorMessage: "فشل في جلب السندات: ${e.toString()}"));
+    } catch (e, stackTrace) {
+      log("حدث خطأ أثناء جلب البيانات", error: e, stackTrace: stackTrace);
+      emit(
+        FaliureStateDebit(errorMessage: "فشل في جلب السندات: ${e.toString()}"),
+      );
+    }
   }
-}
 }

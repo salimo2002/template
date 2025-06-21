@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/cubit/category%20cubit/category_cubit.dart';
 import 'package:template/cubit/company%20cubit/company_cubit.dart';
-import 'package:template/cubit/debit%20cubit/debit_cubit.dart';
 import 'package:template/cubit/imei%20cubit/imei_cubit.dart';
 import 'package:template/cubit/material%20cubit/material_cubit.dart';
 import 'package:template/views/home_view.dart';
@@ -30,7 +29,6 @@ class SplashViewState extends State<SplashView> {
   // bool _billsLoaded = false;
   bool _videoInitialized = false;
   bool _devicesLoaded = false;
-  // bool supoortLoaded = false;
 
   @override
   void initState() {
@@ -40,12 +38,7 @@ class SplashViewState extends State<SplashView> {
       log('✅ المواد تم تحميلها');
       checkAndNavigate();
     });
-    // context.read<DebitCubit>().fetchDebits().then((_) {
-    //   supoortLoaded = true;
-    //   log('✅ السندات تم تحميلها');
 
-    //   checkAndNavigate();
-    // });
 
     context.read<CategoryCubit>().fetchCategory().then((_) {
       _categoriesLoaded = true;
@@ -104,7 +97,6 @@ class SplashViewState extends State<SplashView> {
     if (_materialsLoaded &&
         _categoriesLoaded &&
         _accountsLoaded &&
-        // supoortLoaded &&
         // _billsLoaded &&
         _devicesLoaded &&
         _videoInitialized) {
