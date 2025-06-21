@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -7,11 +9,13 @@ import 'package:template/models/bill_details_model.dart';
 import 'package:template/models/bill_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/create_a_sales_invoice_view.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/widgets/Invoice%20review/bill.dart';
+import 'package:template/widgets/items%20classifications%20view%20widgets/custom_alert_dialog.dart';
 
 class MterialInvoiceView extends StatefulWidget {
   const MterialInvoiceView({super.key});
@@ -34,7 +38,24 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: 10),
-          BlocBuilder<BillCubit, BillStatus>(
+          BlocConsumer<BillCubit, BillStatus>(
+            listener: (context, state) {
+              if (state is SuccessStateBill) {
+                log('message1');
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  customSnackBar(context, 'تم الحذف الفاتورة', kBlueAccent),
+                );
+                Navigator.of(context).pop();
+              }
+              if (state is FaliureStateBill) {
+                log('message2');
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  customSnackBar(context, 'حدث مشكلة اثناء الحذف', kRed),
+                );
+              }
+            },
             builder: (context, state) {
               if (state is SuccessStateBill) {
                 return Expanded(
@@ -53,8 +74,35 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: Bill(
                           onPressedDel: () {
-                            context.read<BillCubit>().billDeletById(
-                              id: bills[index].bilId!,
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('تأكيد الحذف'),
+                                  content: const Text(
+                                    'هل أنت متأكد أنك تريد حذف هذه الفاتورة؟',
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed:
+                                          () => Navigator.of(context).pop(),
+                                      child: const Text('إلغاء'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        context.read<BillCubit>().billDeletById(
+                                          id: bills[index].bilId!,
+                                        );
+                                      },
+                                      child: const Text(
+                                        'حذف',
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
                             );
                           },
                           onPressedUP: () {
