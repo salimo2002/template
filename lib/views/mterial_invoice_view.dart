@@ -65,9 +65,9 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
                             onPressedUP: () {},
                             billType:
                                 bills[index].bilKind == 'sell'
-                                    ? 'مشتريات'
-                                    : bills[index].bilKind == 'buy'
                                     ? 'مبيعات'
+                                    : bills[index].bilKind == 'buy'
+                                    ? 'مشتريات'
                                     : bills[index].bilKind == 'undo_buy'
                                     ? 'مردود مشتريات'
                                     : bills[index].bilKind == 'undo_sell'
