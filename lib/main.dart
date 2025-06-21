@@ -8,6 +8,7 @@ import 'package:template/cubit/company%20cubit/company_cubit.dart';
 import 'package:template/cubit/debit%20cubit/debit_cubit.dart';
 import 'package:template/cubit/imei%20cubit/imei_cubit.dart';
 import 'package:template/cubit/material%20cubit/material_cubit.dart';
+import 'package:template/cubit/setting%20cubit/setting_cubit.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/views/account_statement_view.dart';
 import 'package:template/views/add_account_and_update_view.dart';
@@ -56,6 +57,7 @@ class Template extends StatelessWidget {
         BlocProvider<AccountsCubit>(create: (context) => AccountsCubit()),
         BlocProvider<BillCubit>(create: (context) => BillCubit()),
         BlocProvider<DebitCubit>(create: (context) => DebitCubit()),
+        BlocProvider<SettingCubit>(create: (context) => SettingCubit()),
       ],
 
       child: MaterialApp(
@@ -94,8 +96,8 @@ class Template extends StatelessWidget {
               (context) => DetailedAccountStatementView(),
           FundJournalView.id: (context) => FundJournalView(),
           DevicesActivatedView.id: (context) => DevicesActivatedView(),
-          MovementOfMatterView.id:(context)=>MovementOfMatterView(),
-          MterialInvoiceView.id:(context)=>MterialInvoiceView()
+          MovementOfMatterView.id: (context) => MovementOfMatterView(),
+          MterialInvoiceView.id: (context) => MterialInvoiceView(),
         },
         initialRoute: LogInView.id,
       ),

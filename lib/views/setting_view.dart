@@ -7,6 +7,8 @@ import 'package:template/models/account_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/custom_snack_bar.dart';
+import 'package:template/views/home_view.dart';
+import 'package:template/views/splash_view.dart';
 import 'package:template/widgets/log%20in%20view/main_button.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
@@ -31,7 +33,43 @@ class _SettingViewState extends State<SettingView> {
   FocusNode undoBuyInvoice = FocusNode();
   FocusNode mainBox = FocusNode();
   List<AccountModel> searchResults = [];
+  int accId = 1;
   bool isSearching = false;
+  bool isRe = true;
+  @override
+  void didChangeDependencies() {
+    if (isRe) {
+      context.read<SettingCubit>().settingModel.sellPrice == 0
+          ? priceSellInvoice.text = 'سعر الجملة'
+          : context.read<SettingCubit>().settingModel.sellPrice == 1
+          ? priceSellInvoice.text = 'سعر المستهلك'
+          : priceSellInvoice.text = '';
+      context.read<SettingCubit>().settingModel.buyPrice == 0
+          ? priceBuyInvoice.text = 'سعر الجملة'
+          : context.read<SettingCubit>().settingModel.buyPrice == 1
+          ? priceBuyInvoice.text = 'سعر المستهلك'
+          : priceBuyInvoice.text = '';
+      context.read<SettingCubit>().settingModel.undiBuyPrice == 0
+          ? priceUndobuyInvoice.text = 'سعر الجملة'
+          : context.read<SettingCubit>().settingModel.undiBuyPrice == 1
+          ? priceUndobuyInvoice.text = 'سعر المستهلك'
+          : priceUndobuyInvoice.text = '';
+      context.read<SettingCubit>().settingModel.undoSellPrice == 0
+          ? priceUndosellInvoice.text = 'سعر الجملة'
+          : context.read<SettingCubit>().settingModel.undoSellPrice == 1
+          ? priceUndosellInvoice.text = 'سعر المستهلك'
+          : priceUndosellInvoice.text = '';
+      context.read<AccountsCubit>().accounts.forEach((element) {
+        if (element.accID ==
+            context.read<SettingCubit>().settingModel.mainAccount) {
+          mainBoxController.text = element.accName;
+        }
+      });
+      isRe = false;
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,12 +167,14 @@ class _SettingViewState extends State<SettingView> {
                         itemCount: searchResults.length,
                         itemBuilder: (context, index) {
                           final account = searchResults[index];
+
                           return ListTile(
                             title: Text(account.accName),
                             subtitle: Text(account.accKind.toString()),
                             onTap: () {
                               setState(() {
                                 mainBoxController.text = account.accName;
+                                accId = account.accID!;
                                 isSearching = false;
                               });
                             },
@@ -151,7 +191,7 @@ class _SettingViewState extends State<SettingView> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       customSnackBar(context, 'تم تحديث البيانات', kBlueAccent),
                     );
-                    Navigator.pop(context);
+                    Navigator.pushReplacementNamed(context, SplashView.id);
                   }
                   if (state is FaliureSettingState) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -163,12 +203,19 @@ class _SettingViewState extends State<SettingView> {
                   return MainButton(
                     onTap: () {
                       context.read<SettingCubit>().updateSetting(
-                        databaseName: 'databaseName',
-                        buyPrice: priceBuyInvoice.text,
-                        sellPrice: priceSellInvoice.text,
-                        undoBuyPrice: priceUndobuyInvoice.text,
-                        undoSellPrice: priceUndosellInvoice.text,
-                        mainAccount: mainBoxController.text,
+                        buyPrice:
+                            priceBuyInvoice.text == 'سعر الجملة' ? '0' : '1',
+                        sellPrice:
+                            priceSellInvoice.text == 'سعر الجملة' ? '0' : '1',
+                        undoBuyPrice:
+                            priceUndobuyInvoice.text == 'سعر الجملة'
+                                ? '0'
+                                : '1',
+                        undoSellPrice:
+                            priceUndosellInvoice.text == 'سعر الجملة'
+                                ? '0'
+                                : '1',
+                        mainAccount: accId.toString() ?? mainBoxController.text,
                       );
                     },
                     color: kBlueAccent,

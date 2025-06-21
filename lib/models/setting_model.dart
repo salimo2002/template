@@ -14,11 +14,11 @@ class SettingModel {
   });
   factory SettingModel.fromJson(json) {
     return SettingModel(
-      buyPrice: json['BUY_PRICE'],
-      sellPrice: json['SELL_PRICE'],
-      undoSellPrice: json['UNDO_SELL_PRICE'],
-      undiBuyPrice: json['UNDO_BUY_PRICE'],
-      mainAccount: json['MAIN_ACCOUNT'],
+      buyPrice: int.parse(json['BUY_PRICE']),
+      sellPrice: int.parse(json['SELL_PRICE']),
+      undoSellPrice: int.parse(json['UNDO_SELL_PRICE']),
+      undiBuyPrice: int.parse(json['UNDO_BUY_PRICE']),
+      mainAccount: int.parse(json['MAIN_ACCOUNT']),
     );
   }
   Map<String, dynamic> tomap() {

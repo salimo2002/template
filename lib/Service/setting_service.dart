@@ -5,14 +5,12 @@ class SettingService {
   static const String _baseUrl = 'https://www.itech-sy.com/api';
   static final String _urlFetchSetting = '$_baseUrl/fetch_setting.php';
 
-  static Future<Map<String, dynamic>> fetchSettings({
-    required String databaseName,
-  }) async {
+  static Future<Map<String, dynamic>> fetchSettings() async {
     final url = Uri.parse(_urlFetchSetting);
 
     final response = await http.post(
       url,
-      body: {'database_name': databaseName},
+      body: {'database_name': 'itechsy_test'},
     );
 
     if (response.statusCode != 200) {
@@ -42,7 +40,7 @@ class SettingService {
     final response = await http.post(
       url,
       body: {
-        'database_name': databaseName,
+        'database_name': 'itechsy_test',
         'BUY_PRICE': buyPrice,
         'SELL_PRICE': sellPrice,
         'UNDO_BUY_PRICE': undoBuyPrice,

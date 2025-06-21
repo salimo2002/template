@@ -7,6 +7,7 @@ import 'package:template/cubit/category%20cubit/category_cubit.dart';
 import 'package:template/cubit/company%20cubit/company_cubit.dart';
 import 'package:template/cubit/imei%20cubit/imei_cubit.dart';
 import 'package:template/cubit/material%20cubit/material_cubit.dart';
+import 'package:template/cubit/setting%20cubit/setting_cubit.dart';
 import 'package:template/views/home_view.dart';
 import 'package:video_player/video_player.dart';
 
@@ -38,8 +39,13 @@ class SplashViewState extends State<SplashView> {
       log('✅ المواد تم تحميلها');
       checkAndNavigate();
     });
-
-
+    context.read<SettingCubit>().updateSetting(
+      buyPrice: '0',
+      sellPrice: '0',
+      undoBuyPrice: '0',
+      undoSellPrice: '0',
+      mainAccount: '1',
+    );
     context.read<CategoryCubit>().fetchCategory().then((_) {
       _categoriesLoaded = true;
       log('✅ التصنيفات تم تحميلها');
@@ -51,6 +57,8 @@ class SplashViewState extends State<SplashView> {
       log('✅ الحسابات تم تحميلها');
       checkAndNavigate();
     });
+        context.read<SettingCubit>().fetchSetting();
+
 
     // context.read<BillCubit>().fetchBills().then((_) {
     //   _billsLoaded = true;
