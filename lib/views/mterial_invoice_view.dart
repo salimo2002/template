@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -7,11 +9,13 @@ import 'package:template/models/bill_details_model.dart';
 import 'package:template/models/bill_model.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/create_a_sales_invoice_view.dart';
 import 'package:template/views/home_view.dart';
 import 'package:template/widgets/Invoice%20review/bill.dart';
+import 'package:template/widgets/items%20classifications%20view%20widgets/custom_alert_dialog.dart';
 
 class MterialInvoiceView extends StatefulWidget {
   const MterialInvoiceView({super.key});
@@ -34,7 +38,24 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: 10),
-          BlocBuilder<BillCubit, BillStatus>(
+          BlocConsumer<BillCubit, BillStatus>(
+            listener: (context, state) {
+              if (state is SuccessStateBill) {
+                log('message1');
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  customSnackBar(context, 'تم الحذف الفاتورة', kBlueAccent),
+                );
+                Navigator.of(context).pop();
+              }
+              if (state is FaliureStateBill) {
+                log('message2');
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  customSnackBar(context, 'حدث مشكلة اثناء الحذف', kRed),
+                );
+              }
+            },
             builder: (context, state) {
               if (state is SuccessStateBill) {
                 return Expanded(
@@ -51,43 +72,76 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
                       });
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: GestureDetector(
-                          onTapDown: (details) {
-                            showMenuu(
-                              details,
-                              bills[index].bilId!,
-                              bills[index],
-                              bDeatails,
+                        child: Bill(
+                          onPressedDel: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('تأكيد الحذف'),
+                                  content: const Text(
+                                    'هل أنت متأكد أنك تريد حذف هذه الفاتورة؟',
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed:
+                                          () => Navigator.of(context).pop(),
+                                      child: const Text('إلغاء'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        context.read<BillCubit>().billDeletById(
+                                          id: bills[index].bilId!,
+                                        );
+                                      },
+                                      child: const Text(
+                                        'حذف',
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
                             );
                           },
-                          child: Bill(
-                            onPressedDel: () {},
-                            onPressedUP: () {},
-                            billType:
-                                bills[index].bilKind == 'sell'
-                                    ? 'مشتريات'
-                                    : bills[index].bilKind == 'buy'
-                                    ? 'مبيعات'
-                                    : bills[index].bilKind == 'undo_buy'
-                                    ? 'مردود مشتريات'
-                                    : bills[index].bilKind == 'undo_sell'
-                                    ? 'مردود مبيعات'
-                                    : bills[index].bilKind == 'order'
-                                    ? 'طلب'
-                                    : '',
-                            paymentStyle:
-                                bills[index].payType == 0 ? 'نقدي' : 'آجل',
-                            invoiceNumber: bills[index].bilId.toString(),
-                            billDate:
-                                '${bills[index].bilDate!.year}-${bills[index].bilDate!.month}-${bills[index].bilDate!.day}',
-                            billTime:
-                                '${bills[index].bilDate!.hour.toString().padLeft(2, '0')}:${bills[index].bilDate!.minute.toString().padLeft(2, '0')}',
-                            nameAccuont: accountName,
-                            total: bills[index].bilTotal.toString(),
-                            amountPaid: bills[index].bilPayment.toString(),
-                            reminingAmount: bills[index].bilNet.toString(),
-                            note: bills[index].bilNote.toString(),
-                          ),
+                          onPressedUP: () {
+                            Navigator.pushNamed(
+                              context,
+                              CreateASalesInvoiceView.id,
+                              arguments: {
+                                'bill': bills[index],
+                                'isNew': false,
+                                'BillType': bills[index].bilKind,
+                                'cur_id': bills[index].curId,
+                                'bDetalis': bDeatails,
+                              },
+                            );
+                          },
+                          billType:
+                              bills[index].bilKind == 'sell'
+                                  ? 'مبيعات'
+                                  : bills[index].bilKind == 'buy'
+                                  ? 'مشتريات'
+                                  : bills[index].bilKind == 'undo_buy'
+                                  ? 'مردود مشتريات'
+                                  : bills[index].bilKind == 'undo_sell'
+                                  ? 'مردود مبيعات'
+                                  : bills[index].bilKind == 'order'
+                                  ? 'طلب'
+                                  : '',
+                          paymentStyle:
+                              bills[index].payType == 0 ? 'نقدي' : 'آجل',
+                          invoiceNumber: bills[index].bilId.toString(),
+                          billDate:
+                              '${bills[index].bilDate!.year}-${bills[index].bilDate!.month}-${bills[index].bilDate!.day}',
+                          billTime:
+                              '${bills[index].bilDate!.hour.toString().padLeft(2, '0')}:${bills[index].bilDate!.minute.toString().padLeft(2, '0')}',
+                          nameAccuont: accountName,
+                          total: bills[index].bilTotal.toString(),
+                          amountPaid: bills[index].bilPayment.toString(),
+                          reminingAmount: bills[index].bilNet.toString(),
+                          note: bills[index].bilNote.toString(),
                         ),
                       );
                     },
@@ -127,67 +181,4 @@ class _MterialInvoiceViewState extends State<MterialInvoiceView> {
       ),
     );
   }
-
-  void showMenuu(
-    TapDownDetails details,
-    int id,
-    BillModel selectedBill,
-    List<BillDetailsModel> bDetails,
-  ) {
-    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-    showMenu(
-      menuPadding: EdgeInsets.zero,
-      context: context,
-      position: RelativeRect.fromRect(
-        details.globalPosition & const Size(60, 60),
-        Offset.zero & overlay.size,
-      ),
-      items: [
-        CheckedPopupMenuItem(
-          child: const Center(child: Text('تعديل')),
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              CreateASalesInvoiceView.id,
-              arguments: {
-                'bill': selectedBill,
-                'isNew': false,
-                'BillType': selectedBill.bilKind,
-                'cur_id': selectedBill.curId,
-                'bDetalis': bDetails,
-              },
-            );
-          },
-        ),
-        CheckedPopupMenuItem(
-          child: const Center(child: Text('حذف')),
-          onTap: () {
-            context.read<BillCubit>().billDeletById(id: id);
-          },
-        ),
-      ],
-    );
-  }
 }
-
-//   void showMenuu(TapDownDetails details, int id) {
-//     final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-//     showMenu(
-//       menuPadding: EdgeInsets.zero,
-//       context: context,
-//       position: RelativeRect.fromRect(
-//         details.globalPosition & const Size(60, 60),
-//         Offset.zero & overlay.size,
-//       ),
-//       items: [
-//         CheckedPopupMenuItem(child: Center(child: Text('تعديل')), onTap: () {}),
-//         CheckedPopupMenuItem(
-//           child: Center(child: Text('حذف')),
-//           onTap: () {
-//             context.read<BillCubit>().billDeletById(id: id);
-//           },
-//         ),
-//       ],
-//     );
-//   }
-// }

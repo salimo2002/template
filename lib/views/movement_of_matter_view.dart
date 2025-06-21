@@ -8,7 +8,6 @@ import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/views/mterial_Invoice_view.dart';
-import 'package:template/widgets/Invoice%20review/filter_invoice_review.dart';
 import 'package:template/widgets/invoice%20details%20view/text_field_date.dart';
 import 'package:template/widgets/items%20classifications%20view%20widgets/custom_button_save.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
@@ -17,27 +16,24 @@ import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.d
 class MovementOfMatterView extends StatefulWidget {
   const MovementOfMatterView({super.key});
   static String id = 'MovementOfMatterView';
+
   @override
-  State<MovementOfMatterView> createState() => _AccountStatementViewState();
+  State<MovementOfMatterView> createState() => _MovementOfMatterViewState();
 }
 
-class _AccountStatementViewState extends State<MovementOfMatterView> {
+class _MovementOfMatterViewState extends State<MovementOfMatterView> {
   List<MaterialModel> searchResults = [];
   bool isSearching = false;
   final FocusNode _focusNode = FocusNode();
   late int matId;
 
-  Color color3 = kWhite;
-  Color textColor3 = kBlueAccent;
   TextEditingController date1Controler = TextEditingController();
   TextEditingController date2Controler = TextEditingController();
   GlobalKey<FormState> globalKey = GlobalKey();
-  FocusNode date1 = FocusNode();
-  FocusNode date2 = FocusNode();
-  bool isToDay = false;
   bool canRead = false;
 
   final TextEditingController materialController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,32 +83,6 @@ class _AccountStatementViewState extends State<MovementOfMatterView> {
                           ),
                         Column(
                           children: [
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isToDay = !isToDay;
-                                  if (isToDay) {
-                                    color3 = kBlueAccent;
-                                    textColor3 = kWhite;
-                                    canRead = true;
-                                    date1Controler.text = '';
-                                    date2Controler.text = '';
-                                  } else {
-                                    canRead = false;
-                                    color3 = kWhite;
-                                    textColor3 = kBlueAccent;
-                                  }
-                                });
-                              },
-                              child: ContainerFilter(
-                                height: 35,
-                                width: MediaQuery.sizeOf(context).width * .22,
-                                text: 'تاريخ اليوم',
-                                containerColor: color3,
-                                textColor: textColor3,
-                              ),
-                            ),
-                            SizedBox(height: 15),
                             SizedBox(
                               width: MediaQuery.sizeOf(context).width * 0.4,
                               child: TextFieldDate(
@@ -154,7 +124,7 @@ class _AccountStatementViewState extends State<MovementOfMatterView> {
                   },
                   builder: (context, state) {
                     if (state is LoadingStateBill) {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     } else {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 30),
@@ -171,25 +141,6 @@ class _AccountStatementViewState extends State<MovementOfMatterView> {
                               label: 'التالي',
                               onTap: () {
                                 if (globalKey.currentState!.validate()) {
-                                  if (isToDay) {
-                                    final today = DateTime.now();
-                                    final formattedToday = DateTime(
-                                      today.year,
-                                      today.month,
-                                      today.day,
-                                    );
-                                    context
-                                        .read<BillCubit>()
-                                        .fetchMovementBills(
-                                          databaseName: 'itechsy_test',
-                                          dateFrom:
-                                              formattedToday.toIso8601String(),
-                                          dateTo:
-                                              formattedToday.toIso8601String(),
-                                          matId: matId.toString(),
-                                        );
-                                    return;
-                                  }
                                   if (date1Controler.text.isEmpty ||
                                       date2Controler.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -230,12 +181,61 @@ class _AccountStatementViewState extends State<MovementOfMatterView> {
                                     );
                                     return;
                                   }
-                                  context.read<BillCubit>().fetchMovementBills(
-                                    databaseName: 'itechsy_test',
-                                    dateFrom: fromDate.toIso8601String(),
-                                    dateTo: toDate.toIso8601String(),
-                                    matId: matId.toString(),
+
+                                  final now = DateTime.now();
+                                  final today = DateTime(
+                                    now.year,
+                                    now.month,
+                                    now.day,
                                   );
+
+                                  bool isFromToday =
+                                      fromDate.year == today.year &&
+                                      fromDate.month == today.month &&
+                                      fromDate.day == today.day;
+
+                                  bool isToToday =
+                                      toDate.year == today.year &&
+                                      toDate.month == today.month &&
+                                      toDate.day == today.day;
+
+                                  if (isFromToday && isToToday) {
+                                    context
+                                        .read<BillCubit>()
+                                        .fetchMovementBills(
+                                          databaseName: 'itechsy_test',
+                                          dateFrom: today.toIso8601String(),
+                                          dateTo:
+                                              DateTime(
+                                                today.year,
+                                                today.month,
+                                                today.day,
+                                                23,
+                                                59,
+                                                59,
+                                                999,
+                                              ).toIso8601String(),
+                                          matId: matId.toString(),
+                                        );
+                                  } else {
+                                    context
+                                        .read<BillCubit>()
+                                        .fetchMovementBills(
+                                          databaseName: 'itechsy_test',
+                                          dateFrom: fromDate.toIso8601String(),
+                                          dateTo:
+                                              DateTime(
+                                                toDate.year,
+                                                toDate.month,
+                                                toDate.day,
+                                                23,
+                                                59,
+                                                59,
+                                                999,
+                                              ).toIso8601String(),
+                                          matId: matId.toString(),
+                                        );
+                                  }
                                 }
                               },
                             ),

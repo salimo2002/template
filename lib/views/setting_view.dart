@@ -153,6 +153,11 @@ class _SettingViewState extends State<SettingView> {
                     );
                     Navigator.pop(context);
                   }
+                  if (state is FaliureSettingState) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      customSnackBar(context, 'حدث خطأ ما لم يتم الحذف', kRed),
+                    );
+                  }
                 },
                 builder: (context, state) {
                   return MainButton(

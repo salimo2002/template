@@ -9,7 +9,6 @@ import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
 import 'package:template/views/invoice_review_view.dart';
-import 'package:template/widgets/Invoice%20review/filter_invoice_review.dart';
 import 'package:template/widgets/home%20view%20widgets/custom_container.dart';
 import 'package:template/widgets/invoice%20details%20view/radio_menu_buttons.dart';
 import 'package:template/widgets/invoice%20details%20view/text_field_date.dart';
@@ -240,31 +239,6 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                         SizedBox(height: 20),
                         Column(
                           children: [
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isToDay = !isToDay;
-                                  if (isToDay) {
-                                    color3 = kBlueAccent;
-                                    textColor3 = kWhite;
-                                    canRead = true;
-                                    date1Controler.text = '';
-                                    date2Controler.text = '';
-                                  } else {
-                                    canRead = false;
-                                    color3 = kWhite;
-                                    textColor3 = kBlueAccent;
-                                  }
-                                });
-                              },
-                              child: ContainerFilter(
-                                height: 35,
-                                width: MediaQuery.sizeOf(context).width * .22,
-                                text: 'تاريخ اليوم',
-                                containerColor: color3,
-                                textColor: textColor3,
-                              ),
-                            ),
                             SizedBox(height: 15),
                             SizedBox(
                               width: MediaQuery.sizeOf(context).width * 0.4,
@@ -287,30 +261,28 @@ class _ReviewInvoicesState extends State<ReviewInvoices> {
                             ),
                           ],
                         ),
-
-                        const SizedBox(height: 40),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 30),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomButtonSave(
-                                label: 'إلغاء',
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                              CustomButtonSave(
-                                label: 'موافق',
-                                onTap: () {
-                                  navigatorToInvoiceReview();
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CustomButtonSave(
+                        label: 'إلغاء',
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      CustomButtonSave(
+                        label: 'موافق',
+                        onTap: () {
+                          navigatorToInvoiceReview();
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ],
