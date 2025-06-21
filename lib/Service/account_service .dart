@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:template/cubit/company%20cubit/company_cubit.dart';
 import 'package:template/models/account_model.dart';
 
 class AccountService {
@@ -19,7 +20,7 @@ class AccountService {
     final url = Uri.parse(_urlFetchAccounts);
     final response = await http.post(
       url,
-      body: {'database_name': 'itechsy_test', 'source': 'account'},
+      body: {'database_name': CompanyCubit.comp.dataBase, 'source': 'account'},
     );
     try {
       List<dynamic> data = jsonDecode(response.body);
@@ -87,7 +88,7 @@ class AccountService {
       final response = await http
           .post(
             url,
-            body: {'database_name': 'itechsy_test', 'ACC_ID': accId.toString()},
+            body: {'database_name': CompanyCubit.comp.dataBase, 'ACC_ID': accId.toString()},
           )
           .timeout(const Duration(seconds: 30));
 

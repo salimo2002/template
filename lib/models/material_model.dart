@@ -1,3 +1,5 @@
+import 'package:template/cubit/company%20cubit/company_cubit.dart';
+
 class MaterialModel {
   final int materialId;
   final String materialNumber;
@@ -58,7 +60,7 @@ class MaterialModel {
 
   Map<String, String> toMap() {
     return {
-      'database_name': 'itechsy_test',
+      'database_name': CompanyCubit.comp.dataBase,
       'MAT_ID': materialId.toString(),
       'MAT_NUMBER': materialNumber,
       'MAT_NAME': materialName,

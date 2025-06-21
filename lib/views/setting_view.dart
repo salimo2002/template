@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
@@ -8,7 +10,6 @@ import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
 import 'package:template/utils/custom_snack_bar.dart';
 import 'package:template/views/home_view.dart';
-import 'package:template/views/splash_view.dart';
 import 'package:template/widgets/log%20in%20view/main_button.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
@@ -39,6 +40,7 @@ class _SettingViewState extends State<SettingView> {
   @override
   void didChangeDependencies() {
     if (isRe) {
+      log('message');
       context.read<SettingCubit>().settingModel.sellPrice == 0
           ? priceSellInvoice.text = 'سعر الجملة'
           : context.read<SettingCubit>().settingModel.sellPrice == 1
@@ -191,7 +193,7 @@ class _SettingViewState extends State<SettingView> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       customSnackBar(context, 'تم تحديث البيانات', kBlueAccent),
                     );
-                    Navigator.pushReplacementNamed(context, SplashView.id);
+                    Navigator.pushReplacementNamed(context, HomeView.id);
                   }
                   if (state is FaliureSettingState) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -200,27 +202,31 @@ class _SettingViewState extends State<SettingView> {
                   }
                 },
                 builder: (context, state) {
-                  return MainButton(
-                    onTap: () {
-                      context.read<SettingCubit>().updateSetting(
-                        buyPrice:
-                            priceBuyInvoice.text == 'سعر الجملة' ? '0' : '1',
-                        sellPrice:
-                            priceSellInvoice.text == 'سعر الجملة' ? '0' : '1',
-                        undoBuyPrice:
-                            priceUndobuyInvoice.text == 'سعر الجملة'
-                                ? '0'
-                                : '1',
-                        undoSellPrice:
-                            priceUndosellInvoice.text == 'سعر الجملة'
-                                ? '0'
-                                : '1',
-                        mainAccount: accId.toString() ?? mainBoxController.text,
-                      );
-                    },
-                    color: kBlueAccent,
-                    label: 'حفظ',
-                  );
+                  if (state is LoadingtSettingState) {
+                    return CircularProgressIndicator();
+                  } else {
+                    return MainButton(
+                      onTap: () {
+                        context.read<SettingCubit>().updateSetting(
+                          buyPrice:
+                              priceBuyInvoice.text == 'سعر الجملة' ? '0' : '1',
+                          sellPrice:
+                              priceSellInvoice.text == 'سعر الجملة' ? '0' : '1',
+                          undoBuyPrice:
+                              priceUndobuyInvoice.text == 'سعر الجملة'
+                                  ? '0'
+                                  : '1',
+                          undoSellPrice:
+                              priceUndosellInvoice.text == 'سعر الجملة'
+                                  ? '0'
+                                  : '1',
+                          mainAccount: accId.toString(),
+                        );
+                      },
+                      color: kBlueAccent,
+                      label: 'حفظ',
+                    );
+                  }
                 },
               ),
             ],

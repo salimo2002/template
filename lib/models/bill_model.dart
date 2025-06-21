@@ -1,3 +1,5 @@
+import 'package:template/cubit/company%20cubit/company_cubit.dart';
+
 class BillModel {
   final int? bilId;
   final int? accId;
@@ -49,7 +51,7 @@ class BillModel {
 
   Map<String, String> toMap() {
     return {
-      'database_name': 'itechsy_test',
+      'database_name': CompanyCubit.comp.dataBase,
       'bil_id': bilId.toString(),
       'acc_id': accId.toString(),
       'bil_number': bilNumber!,

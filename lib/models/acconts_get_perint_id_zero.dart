@@ -1,3 +1,5 @@
+import 'package:template/cubit/company%20cubit/company_cubit.dart';
+
 class ParentAccountsModel {
   final String idPierint;
   final String namePierint;
@@ -11,7 +13,7 @@ class ParentAccountsModel {
 
   Map<String, String> toMap() {
     return {
-      'database_name': 'itechsy_test',
+      'database_name': CompanyCubit.comp.dataBase,
       'ACC_ID': idPierint.toString(),
       'ACC_NAME': namePierint,
       //اضافة بيرنت ايدي في قاعدة البيانات و ااضافة ملف الانسيرت وبعت له 0

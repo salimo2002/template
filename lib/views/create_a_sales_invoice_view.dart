@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +7,7 @@ import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:template/cubit/bill%20cubit/bill_cubit.dart';
 import 'package:template/cubit/material%20cubit/material_cubit.dart';
+import 'package:template/cubit/setting%20cubit/setting_cubit.dart';
 import 'package:template/models/bill_details_model.dart';
 import 'package:template/models/bill_model.dart';
 import 'package:template/models/material_model.dart';
@@ -88,16 +91,18 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
         bounsController.clear();
 
         for (var detail in billDetails) {
-          final material = context.read<MaterialCubit>().materials.firstWhere(
-            (m) => m.materialId == detail.matId,
-          );
+          final material = context.read<MaterialCubit>().materials.firstWhere((
+            m,
+          ) {
+            return m.materialId == detail.matId;
+          });
           materialModel.add(material);
 
           final quantityCtrl = TextEditingController(
             text: detail.detQuantity.toString(),
           );
           final priceCtrl = TextEditingController(
-            text: detail.detSinglePrice.toString(),
+            text: detail.detPrice.toString(),
           );
           final totalCtrl = TextEditingController();
           final bounsCtrl = TextEditingController(
@@ -147,6 +152,9 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
     }
     super.dispose();
   }
+
+  double price1 = 0;
+  double? price2 = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -390,9 +398,32 @@ class _CreateASalesInvoiceViewState extends State<CreateASalesInvoiceView> {
       controllerSerch.clear();
       searchResults.clear();
       isSearching = false;
+      for (var element in context.read<MaterialCubit>().materials) {
+        if (element.materialId == material.materialId) {
+          price1 = element.materialPrice1;
+          price2 = element.materialPrice3;
+          log(price1.toString());
+          log(price2.toString());
+        }
+      }
 
       final priceCtrl = TextEditingController(
-        text: material.materialPrice3.toString(),
+        text:
+            billType == 'sell'
+                ? context.read<SettingCubit>().settingModel.sellPrice == 0
+                    ? price1.toString()
+                    : price2.toString()
+                : billType == 'buy'
+                ? context.read<SettingCubit>().settingModel.buyPrice == 0
+                    ? price1.toString()
+                    : price2.toString()
+                : billType == 'undoBuy'
+                ? context.read<SettingCubit>().settingModel.undiBuyPrice == 0
+                    ? price1.toString()
+                    : price2.toString()
+                : context.read<SettingCubit>().settingModel.undoSellPrice == 0
+                ? price1.toString()
+                : price2.toString(),
       );
       final quantityCtrl = TextEditingController(text: '1');
       final totalCtrl = TextEditingController();

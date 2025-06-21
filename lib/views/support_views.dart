@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
 import 'package:template/cubit/debit%20cubit/debit_cubit.dart';
+import 'package:template/cubit/setting%20cubit/setting_cubit.dart';
 import 'package:template/models/account_model.dart';
 import 'package:template/models/debit_model.dart';
 import 'package:template/utils/constants.dart';
@@ -63,7 +64,6 @@ class _SupportViewsState extends State<SupportViews> {
       debitType = debit.ty == 0 ? 'دفع' : 'قبض';
       isUpdate = mapDebit['isUpdat'];
       if (isUpdate) {
-        
         typeSupportController.text = debit.ty == 0 ? 'دفع' : 'قبض';
         context.read<AccountsCubit>().accounts.forEach((element) {
           if (element.accID == debit.accId2) {
@@ -273,7 +273,11 @@ class _SupportViewsState extends State<SupportViews> {
                             DebitModel(
                               debId: debit.debId,
                               voucherNumber: debit.voucherNumber,
-                              accId: 1,
+                              accId:
+                                  context
+                                      .read<SettingCubit>()
+                                      .settingModel
+                                      .mainAccount,
                               accId2: accId,
                               debAmount: double.parse(_amountController.text),
                               ty:
@@ -304,9 +308,14 @@ class _SupportViewsState extends State<SupportViews> {
                             SupportViews.id,
                             arguments: {
                               'debit': DebitModel(
-                                debId:0,
-                                voucherNumber:Random().nextInt(100000),
-                                accId: 1,
+                                debId: 0,
+                                voucherNumber: Random().nextInt(100000),
+                                accId:
+                                    context
+                                        .read<SettingCubit>()
+                                        .settingModel
+                                        .mainAccount,
+
                                 accId2: 0,
                                 debAmount: 0,
                                 ty: 0,
@@ -322,7 +331,12 @@ class _SupportViewsState extends State<SupportViews> {
                             DebitModel(
                               debId: 0,
                               voucherNumber: Random().nextInt(100000),
-                              accId: 1,
+                              accId:
+                                  context
+                                      .read<SettingCubit>()
+                                      .settingModel
+                                      .mainAccount,
+
                               accId2: accId,
                               debAmount: double.parse(_amountController.text),
                               ty:

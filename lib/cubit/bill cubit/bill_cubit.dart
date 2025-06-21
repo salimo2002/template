@@ -27,7 +27,6 @@ class BillCubit extends Cubit<BillStatus> {
     emit(LoadingStateBill());
     try {
       result = await BillServices.fetchMovementBills(
-        databaseName: databaseName,
         dateFrom: dateFrom,
         dateTo: dateTo,
         matId: matId,

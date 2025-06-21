@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import 'package:template/cubit/company%20cubit/company_cubit.dart';
 import '../models/bill_model.dart';
 import '../models/bill_details_model.dart';
 
@@ -18,7 +19,6 @@ class BillServices {
       '$_baseUrl/billllllll.php';
   static final String _urlMovmentBil = '$_baseUrl/movement_bil.php';
   static Future<List<dynamic>> fetchMovementBills({
-    required String databaseName,
     required String dateFrom,
     required String dateTo,
     required String matId,
@@ -28,7 +28,7 @@ class BillServices {
     final response = await http.post(
       url,
       body: {
-        'database_name': databaseName,
+        'database_name': CompanyCubit.comp.dataBase,
         'date_from': dateFrom,
         'date_to': dateTo,
         'mat_id': matId,
@@ -51,7 +51,7 @@ class BillServices {
     final url = Uri.parse(_urlFetchBills);
     final response = await http.post(
       url,
-      body: {'database_name': 'itechsy_test'},
+      body: {'database_name': CompanyCubit.comp.dataBase},
     );
 
     if (response.statusCode != 200) {
@@ -70,7 +70,7 @@ class BillServices {
     final url = Uri.parse(_urlFetchBillDetails);
     final response = await http.post(
       url,
-      body: {'database_name': 'itechsy_test'},
+      body: {'database_name': CompanyCubit.comp.dataBase},
     );
 
     if (response.statusCode != 200) {
@@ -96,7 +96,7 @@ class BillServices {
     final body = {
       ...bill.toMap(),
       'details': jsonEncode(details.map((e) => e.toMap()).toList()),
-      'database_name': 'itechsy_test',
+      'database_name': CompanyCubit.comp.dataBase,
     };
 
     final response = await http.post(url, body: body);
@@ -121,7 +121,7 @@ class BillServices {
     final url = Uri.parse(_urlDeleteBill);
     final response = await http.post(
       url,
-      body: {'database_name': 'itechsy_test', 'bil_id': billId.toString()},
+      body: {'database_name': CompanyCubit.comp.dataBase, 'bil_id': billId.toString()},
     );
 
     if (response.statusCode != 200) {
@@ -173,7 +173,7 @@ class BillServices {
   }) async {
     final url = Uri.parse(_urlFetchBillsWithDetailsFiltered);
     final Map<String, String> body = {
-      'database_name': 'itechsy_test',
+      'database_name': CompanyCubit.comp.dataBase,
       'date_from': dateFrom,
       'date_to': dateTo,
     };

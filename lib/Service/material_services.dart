@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:template/cubit/company%20cubit/company_cubit.dart';
 import 'package:template/models/material_model.dart';
 
 class MaterialServices {
@@ -20,7 +21,7 @@ class MaterialServices {
 
     final response = await http.post(
       url,
-      body: {'database_name': 'itechsy_test', 'source': 'material'},
+      body: {'database_name': CompanyCubit.comp.dataBase, 'source': 'material'},
     );
     try {
       List<dynamic> data = jsonDecode(response.body);
@@ -50,7 +51,7 @@ class MaterialServices {
     final url = Uri.parse(_urlDeleteMaterial);
     final response = await http.post(
       url,
-      body: {'database_name': 'itechsy_test', 'MAT_ID': id.toString()},
+      body: {'database_name': CompanyCubit.comp.dataBase, 'MAT_ID': id.toString()},
     );
     final json = jsonDecode(response.body);
     if (json['success'] == true) {

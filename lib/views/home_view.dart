@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:template/Service/setting_service.dart';
 import 'package:template/cubit/company%20cubit/company_cubit.dart';
+import 'package:template/cubit/setting%20cubit/setting_cubit.dart';
 import 'package:template/utils/constants.dart';
 import 'package:template/utils/font_style.dart';
 import 'package:template/utils/responsive_text.dart';
@@ -46,7 +50,7 @@ class _HomeViewState extends State<HomeView> {
       drawer: CustomDrawer(),
       appBar: AppBar(
         title: Text(
-          context.read<CompanyCubit>().comp.comName,
+          CompanyCubit.comp.comName,
           style: FontStyleApp.white18.copyWith(
             fontSize: getResponsiveText(context, 18),
           ),
@@ -54,8 +58,23 @@ class _HomeViewState extends State<HomeView> {
         backgroundColor: kBlueAccent,
         actions: [
           IconButton(
-            onPressed: ()  {
-              
+            onPressed: () async {
+              try {
+                // var x = await SettingService.fetchSettings();
+                // await SettingService.updateSettings(
+                //   databaseName: 'itechsy_test',
+                //   settingId: '1',
+                //   buyPrice: '1',
+                //   sellPrice: '1',
+                //   undoBuyPrice: '1',
+                //   undoSellPrice: '1',
+                //   mainAccount: '1',
+                // );
+                // log('message');
+                log(CompanyCubit.comp.dataBase.toString());
+              } catch (e) {
+                log(e.toString());
+              }
             },
             icon: Icon(Icons.more_vert_outlined),
           ),

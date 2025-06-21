@@ -76,7 +76,7 @@ class DevicesActivatedView extends StatelessWidget {
                           }
                           context.read<ImeiCubit>().deletDevice(
                             imei: state.devices[index],
-                            comId: context.read<CompanyCubit>().comp.comId,
+                            comId: CompanyCubit.comp.comId,
                             userName: state.users[index],
                           );
                         },

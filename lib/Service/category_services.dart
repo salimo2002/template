@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:template/cubit/company%20cubit/company_cubit.dart';
 import 'package:template/models/category_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +21,7 @@ class CategoryServices {
     try {
       final response = await http.post(
         uri,
-        body: {'database_name': 'itechsy_test', 'mat_id': matId},
+        body: {'database_name': CompanyCubit.comp.dataBase, 'mat_id': matId},
       );
 
       if (response.statusCode == 200) {
@@ -44,7 +45,7 @@ class CategoryServices {
     final response = await http.post(
       url,
       body: {
-        'database_name': 'itechsy_test',
+        'database_name': CompanyCubit.comp.dataBase,
         'mat_id': mat.matId.toString(),
         'mat_name': mat.matName,
       },
@@ -76,7 +77,7 @@ class CategoryServices {
 
     final response = await http.post(
       url,
-      body: {'database_name': 'itechsy_test', 'source': 'material'},
+      body: {'database_name': CompanyCubit.comp.dataBase, 'source': 'material'},
     );
     try {
       List<dynamic> data = jsonDecode(response.body);

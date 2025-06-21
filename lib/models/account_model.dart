@@ -1,3 +1,5 @@
+import 'package:template/cubit/company%20cubit/company_cubit.dart';
+
 class AccountModel {
   final int accNumber;
   final int? accID;
@@ -57,7 +59,7 @@ class AccountModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'database_name': 'itechsy_test',
+      'database_name': CompanyCubit.comp.dataBase,
       'ACC_ID': accID.toString(),
       'ACC_NUMBER': accNumber.toString(),
       'ACC_NAME': accName,

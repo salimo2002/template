@@ -5,7 +5,7 @@ import 'package:template/models/company_model.dart';
 
 class CompanyCubit extends Cubit<CompanyStatus> {
   CompanyCubit() : super(CompanyInitState());
-  late CompanyModel comp;
+  static late CompanyModel comp;
   String message = '';
   void verifyAndActivateDevice({
     required String companyName,

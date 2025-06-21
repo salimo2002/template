@@ -1,3 +1,5 @@
+import 'package:template/cubit/company%20cubit/company_cubit.dart';
+
 class CategoryModel {
   final int matId;
   final String matName;
@@ -26,7 +28,7 @@ class CategoryModel {
 
   Map<String, String> toMap() {
     return {
-      'database_name': 'itechsy_test',
+      'database_name': CompanyCubit.comp.dataBase,
       'mat_id': matId.toString(),
       'mat_number': matNumber,
       'mat_name': matName,

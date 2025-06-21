@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:template/cubit/company%20cubit/company_cubit.dart';
 
 class ParentAccountsService {
   static const String _accontsGetPerintIdZero =
@@ -10,7 +11,7 @@ class ParentAccountsService {
     final url = Uri.parse(_accontsGetPerintIdZero);
     final response = await http.post(
       url,
-      body: {'database_name': 'itechsy_test', 'source': 'account'},
+      body: {'database_name': CompanyCubit.comp.dataBase, 'source': 'account'},
     );
     try {
       List<dynamic> data = jsonDecode(response.body);

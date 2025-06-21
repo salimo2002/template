@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:template/cubit/company%20cubit/company_cubit.dart';
 import 'package:template/models/debit_model.dart';
 
 class DebitService {
@@ -13,6 +14,7 @@ class DebitService {
     final url = Uri.parse(_urlAddDebit);
 
     final body = {
+      'database_name': CompanyCubit.comp.dataBase,
       ...debit.toMap().map((key, value) => MapEntry(key, value.toString())),
     };
 
@@ -43,7 +45,7 @@ class DebitService {
   }) async {
     final url = Uri.parse(_urlGetDebits);
 
-    final body = {'database_name': 'itechsy_test'};
+    final body = {'database_name': CompanyCubit.comp.dataBase};
 
     if (dateFrom != null && dateTo != null) {
       body['date_from'] = dateFrom;
@@ -75,13 +77,13 @@ class DebitService {
     }
   }
 
-  static Future<void> deleteDebit({
-    required int debId,
-    String databaseName = 'itechsy_test',
-  }) async {
+  static Future<void> deleteDebit({required int debId}) async {
     final url = Uri.parse(_urlDeleteDebit);
 
-    final body = {'database_name': databaseName, 'deb_id': debId.toString()};
+    final body = {
+      'database_name': CompanyCubit.comp.dataBase,
+      'deb_id': debId.toString(),
+    };
 
     try {
       final response = await http.post(
@@ -114,7 +116,6 @@ class DebitService {
 
   static Future<void> updateDebit({
     required DebitModel debit,
-    String databaseName = 'itechsy_test',
   }) async {
     final url = Uri.parse(_urlUpdateDebit);
 
@@ -127,11 +128,10 @@ class DebitService {
     final body = {
       'deb_id': debit.debId.toString(),
 
-      'database_name': databaseName,
+      'database_name': CompanyCubit.comp.dataBase,
       ...mapData,
     };
     print('updateDebit body: $body');
-
 
     try {
       final response = await http.post(url, body: body);

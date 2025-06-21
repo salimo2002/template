@@ -27,7 +27,6 @@ class SplashViewState extends State<SplashView> {
   bool _materialsLoaded = false;
   bool _categoriesLoaded = false;
   bool _accountsLoaded = false;
-  // bool _billsLoaded = false;
   bool _videoInitialized = false;
   bool _devicesLoaded = false;
 
@@ -39,13 +38,7 @@ class SplashViewState extends State<SplashView> {
       log('✅ المواد تم تحميلها');
       checkAndNavigate();
     });
-    context.read<SettingCubit>().updateSetting(
-      buyPrice: '0',
-      sellPrice: '0',
-      undoBuyPrice: '0',
-      undoSellPrice: '0',
-      mainAccount: '1',
-    );
+    context.read<SettingCubit>().fetchSetting();
     context.read<CategoryCubit>().fetchCategory().then((_) {
       _categoriesLoaded = true;
       log('✅ التصنيفات تم تحميلها');
@@ -57,23 +50,17 @@ class SplashViewState extends State<SplashView> {
       log('✅ الحسابات تم تحميلها');
       checkAndNavigate();
     });
-        context.read<SettingCubit>().fetchSetting();
-
-
-    // context.read<BillCubit>().fetchBills().then((_) {
-    //   _billsLoaded = true;
-    //   log('✅ الفواتير تم تحميلها');
-    //   checkAndNavigate();
-    // });
-
+    context.read<SettingCubit>().fetchSetting();
     context
         .read<ImeiCubit>()
-        .getDevices(comId: context.read<CompanyCubit>().comp.comId)
+        .getDevices(comId: CompanyCubit.comp.comId)
         .then((_) {
           _devicesLoaded = true;
           log('✅ الأجهزة تم تحميلها');
           checkAndNavigate();
         });
+    context.read<SettingCubit>().fetchSetting;
+    ();
 
     _isMobile = Platform.isAndroid || Platform.isIOS;
 
@@ -105,7 +92,6 @@ class SplashViewState extends State<SplashView> {
     if (_materialsLoaded &&
         _categoriesLoaded &&
         _accountsLoaded &&
-        // _billsLoaded &&
         _devicesLoaded &&
         _videoInitialized) {
       Navigator.pushReplacementNamed(context, HomeView.id);
