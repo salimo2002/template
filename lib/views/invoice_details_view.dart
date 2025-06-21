@@ -126,6 +126,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
               parentId: 0,
             ),
       );
+
       nameAccount.text = account.accName;
       discount.text = billData.bilDiscount.toString();
       amountRecived.text = billData.bilPayment.toString();
@@ -191,7 +192,8 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
                         controller: nameAccount,
                         icon: IconButton(
                           onPressed: () {
-                            nameAccount.clear();
+                            print(note.text);
+                            // nameAccount.clear();
                           },
                           icon: Icon(Icons.close, color: kBlack),
                         ),
@@ -522,7 +524,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
           );
           return;
         }
-
+        print(note.text);
         final BillModel bill = BillModel(
           payType: RadioMenuButtons.payType,
           bilId: isNew ? 0 : billData.bilId,
