@@ -12,8 +12,33 @@ class SettingCubit extends Cubit<SettingState> {
       settingModel = SettingModel.fromJson(
         SettingService.fetchSettings(databaseName: 'itechsy_test'),
       );
-    } catch (e) {}
+      emit(SuccesSettingState());
+    } catch (e) {
+      emit(FaliureSettingState());
+    }
   }
 
-  void updateSetting() {}
+  void updateSetting({
+    required String databaseName,
+    required String buyPrice,
+    required String sellPrice,
+    required String undoBuyPrice,
+    required String undoSellPrice,
+    required String mainAccount,
+  }) {
+    try {
+      emit(LoadingtSettingState());
+      SettingService.updateSettings(
+        databaseName: databaseName,
+        buyPrice: buyPrice,
+        sellPrice: sellPrice,
+        undoBuyPrice: undoBuyPrice,
+        undoSellPrice: undoSellPrice,
+        mainAccount: mainAccount,
+      );
+      emit(SuccesSettingState());
+    } catch (e) {
+      emit(FaliureSettingState());
+    }
+  }
 }
