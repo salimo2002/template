@@ -139,10 +139,13 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
 
       note.text = billData.bilNote ?? '';
     } else {
-   
       final now = DateTime.now();
-      date.text = now.toString().split(' ')[0];
-      hour.text = formatTimeTo12Hour(now);
+      if (date.text.isEmpty) {
+        date.text = now.toString().split(' ')[0];
+      }
+      if (hour.text.isEmpty) {
+        hour.text = formatTimeTo12Hour(now);
+      }
     }
 
     calculateTotals();
@@ -607,6 +610,7 @@ class _InvoiceDetailsViewState extends State<InvoiceDetailsView> {
     int year = int.parse(dateParts[0]);
     int month = int.parse(dateParts[1]);
     int day = int.parse(dateParts[2]);
+    print('DATE VALUE: ${date.text}');
 
     return DateTime(year, month, day, hourNum, minuteNum);
   }
