@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:template/cubit/account%20cubit/accounts_cubit.dart';
+import 'package:template/cubit/setting%20cubit/setting_cubit.dart';
+import 'package:template/cubit/setting%20cubit/setting_state.dart';
 import 'package:template/models/account_model.dart';
+import 'package:template/utils/constants.dart';
 import 'package:template/utils/custom_app_bar.dart';
+import 'package:template/utils/custom_snack_bar.dart';
+import 'package:template/widgets/log%20in%20view/main_button.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/container_fields.dart';
 import 'package:template/widgets/new%20item%20view%20widgets/custom_text_field.dart';
 
@@ -67,10 +72,11 @@ class _SettingViewState extends State<SettingView> {
                   CustomTextField(
                     canRead: true,
                     suffixIcon: InkWell(
-                      onTapDown: (details) => showPrice(details, priceBuyInvoice),
+                      onTapDown:
+                          (details) => showPrice(details, priceBuyInvoice),
                       child: Icon(Icons.arrow_drop_down, size: 30),
                     ),
-          
+
                     hintText: 'سعر فاتورة المشتريات',
                     controller: priceBuyInvoice,
                     focusNode: buyInvoice,
@@ -91,50 +97,80 @@ class _SettingViewState extends State<SettingView> {
               SizedBox(height: 12),
               ContainerFields(
                 children: [
-                  CustomTextField(onChanged: (p0) => searchAccount(p0),
+                  CustomTextField(
+                    onChanged: (p0) => searchAccount(p0),
                     hintText: 'الصندوق الرئيسي',
                     controller: mainBoxController,
                     focusNode: mainBox,
                   ),
                 ],
-              ), if (isSearching)
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: SizedBox(height: MediaQuery.sizeOf(context).height*.3,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      // ignore: deprecated_member_use
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 3,
-                                      offset: const Offset(0, 2),
-                                    ),
-                                  ],
-                                ),
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: searchResults.length,
-                                  itemBuilder: (context, index) {
-                                    final account = searchResults[index];
-                                    return ListTile(
-                                      title: Text(account.accName),
-                                      subtitle: Text(account.accKind.toString()),
-                                      onTap: () {
-                                        setState(() {
-                                          mainBoxController.text = account.accName;
-                                          isSearching = false;
-                                        });
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
+              ),
+              if (isSearching)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: SizedBox(
+                    height: MediaQuery.sizeOf(context).height * .3,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            // ignore: deprecated_member_use
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 3,
+                            offset: const Offset(0, 2),
                           ),
+                        ],
+                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: searchResults.length,
+                        itemBuilder: (context, index) {
+                          final account = searchResults[index];
+                          return ListTile(
+                            title: Text(account.accName),
+                            subtitle: Text(account.accKind.toString()),
+                            onTap: () {
+                              setState(() {
+                                mainBoxController.text = account.accName;
+                                isSearching = false;
+                              });
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              SizedBox(height: 20),
+              BlocConsumer<SettingCubit, SettingState>(
+                listener: (context, state) {
+                  if (state is SuccesSettingState) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      customSnackBar(context, 'تم تحديث البيانات', kBlueAccent),
+                    );
+                    Navigator.pop(context);
+                  }
+                },
+                builder: (context, state) {
+                  return MainButton(
+                    onTap: () {
+                      context.read<SettingCubit>().updateSetting(
+                        databaseName: 'databaseName',
+                        buyPrice: priceBuyInvoice.text,
+                        sellPrice: priceSellInvoice.text,
+                        undoBuyPrice: priceUndobuyInvoice.text,
+                        undoSellPrice: priceUndosellInvoice.text,
+                        mainAccount: mainBoxController.text,
+                      );
+                    },
+                    color: kBlueAccent,
+                    label: 'حفظ',
+                  );
+                },
+              ),
             ],
           ),
         ),
