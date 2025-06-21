@@ -38,21 +38,38 @@ static Future<void> addDebit({required DebitModel debit}) async {
     throw Exception("فشل العملية: $e");
   }
 }
-
-static Future<List<DebitModel>> fetchDebits() async {
+static Future<List<DebitModel>> fetchDebits({
+  String? dateFrom,
+  String? dateTo,
+}) async {
   final url = Uri.parse(_urlGetDebits);
+
+  final body = {
+    'database_name': 'itechsy_test',
+  };
+
+  if (dateFrom != null && dateTo != null) {
+    body['date_from'] = dateFrom;
+    body['date_to'] = dateTo;
+  }
 
   try {
     final response = await http.post(
       url,
-      headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: {'database_name': 'itechsy_test'},
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: body,
     );
 
-
     if (response.statusCode == 200) {
-      final List<dynamic> jsonResponse = jsonDecode(response.body);
-      return jsonResponse.map((json) => DebitModel.fromJson(json)).toList();
+      final decoded = jsonDecode(response.body);
+
+      if (decoded is List) {
+        return decoded.map((json) => DebitModel.fromJson(json)).toList();
+      } else if (decoded is Map && decoded.containsKey('error')) {
+        throw Exception('خطأ: ${decoded['error']}');
+      } else {
+        throw Exception('بيانات غير متوقعة من الخادم');
+      }
     } else {
       throw Exception('فشل في جلب البيانات: ${response.statusCode}');
     }
